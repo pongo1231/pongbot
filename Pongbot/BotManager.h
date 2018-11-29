@@ -11,10 +11,9 @@ public:
 	bool KickBot(edict_t *edict);
 private:
 	BotManager();
-	std::vector<Bot*> _Bots;
 // Hooks
 private:
-	void _OnThink(bool running);
+	void _OnGameFrame(bool simulation);
 };
 
 extern BotManager *_BotManager;

@@ -2,7 +2,7 @@
 #include <metamod/ISmmPlugin.h>
 #include <metamod/sourcehook.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
-#include <string>
+#include <iostream>
 
 extern IVEngineServer *Engine;
 extern IBotManager *IIBotManager;
@@ -14,27 +14,26 @@ extern PluginId g_PLID;
 
 BotManager *_BotManager;
 
-std::vector<Bot*> _Bots;
+static std::vector<Bot> _Bots;
 
-SH_DECL_HOOK1_void(IServerGameDLL, Think, SH_NOATTRIB, 0, bool);
+SH_DECL_HOOK1_void(IServerGameDLL, GameFrame, SH_NOATTRIB, 0, bool);
 
 void BotManager::Init() {
 	Assert(!_BotManager);
-
 	_BotManager = new BotManager();
-	SH_ADD_HOOK(IServerGameDLL, Think, Server, SH_MEMBER(_BotManager, &BotManager::_OnThink), true);
 }
 
 void BotManager::Destroy() {
 	Assert(_BotManager);
 
-	SH_REMOVE_HOOK(IServerGameDLL, Think, Server, SH_MEMBER(_BotManager, &BotManager::_OnThink), true);
+	//SH_REMOVE_HOOK(IServerGameDLL, GameFrame, Server, SH_MEMBER(_BotManager, &BotManager::_OnGameFrame), true);
 	delete _BotManager;
 }
 
 BotManager::BotManager() {
 	g_pCVar = (ICvar*)((g_SMAPI->GetEngineFactory())(CVAR_INTERFACE_VERSION, nullptr));
 	ConVar_Register(0, this);
+	SH_ADD_HOOK(IServerGameDLL, GameFrame, Server, SH_MEMBER(this, &BotManager::_OnGameFrame), true);
 }
 
 bool BotManager::RegisterConCommandBase(ConCommandBase *cVar) {
@@ -43,13 +42,12 @@ bool BotManager::RegisterConCommandBase(ConCommandBase *cVar) {
 
 bool BotManager::KickBot(edict_t *edict) {
 	for (int i = _Bots.size() - 1; i > -1; i--) {
-		edict_t *botEdict = _Bots[i]->GetEdict();
+		edict_t *botEdict = _Bots[i].GetEdict();
 		if (edict == botEdict) {
 			int userId = Engine->GetPlayerUserId(botEdict);
 			char command[64];
 			sprintf_s(command, "kickid %d Bot kicked", userId);
 			Engine->ServerCommand(command);
-			delete _Bots[i];
 			_Bots.erase(_Bots.begin() + i);
 			return true;
 		}
@@ -57,14 +55,14 @@ bool BotManager::KickBot(edict_t *edict) {
 	return false;
 }
 
-void BotManager::_OnThink(bool running) {
-	if (running)
-		for (Bot *bot : _Bots) {
-			edict_t *botEdict = bot->GetEdict();
+void BotManager::_OnGameFrame(bool simulation) {
+	if (simulation)
+		for (int i = _Bots.size() - 1; i > -1; i--) {
+			edict_t *botEdict = _Bots[i].GetEdict();
 			if (!botEdict)
 				KickBot(botEdict);
 			else
-				bot->Think();
+				_Bots[i].Think();
 		}
 }
 
@@ -72,5 +70,5 @@ CON_COMMAND(pongbot_createbot, "Creates a new pongbot") {
 	edict_t *botEdict = IIBotManager->CreateBot("Dummy");
 	Assert(botEdict);
 
-	_Bots.push_back(new Bot(botEdict, "Dummy"));
+	_Bots.emplace_back(botEdict, "Dummy");
 }

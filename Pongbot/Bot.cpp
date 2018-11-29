@@ -18,7 +18,6 @@ Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict) {
 	_IIPlayerInfo = IIPlayerInfoManager->GetPlayerInfo(edict);
 
 	_IIPlayerInfo->ChangeTeam(2);
-	IIServerPluginHelpers->ClientCommand(edict, "say Ready to kick some ass!");
 	IIServerPluginHelpers->ClientCommand(edict, "joinclass pyro");
 }
 
@@ -27,5 +26,10 @@ edict_t *Bot::GetEdict() {
 }
 
 void Bot::Think() {
-	
+	CBotCmd cmd;
+	cmd.forwardmove = 40.0;
+	if (++cmd.mousedx == 255)
+		cmd.mousedx = 0;
+	cmd.upmove = 5.0;
+	_IIBotController->RunPlayerMove(&cmd);
 }
