@@ -7,23 +7,28 @@ class BotHelper;
 
 class Bot {
 public:
+	const char *Name;
+public:
 	Bot(edict_t *edict, const char *name);
 	~Bot();
-	const char *Name;
-	const edict_t *GetEdict() const;
+public:
+	void Think();
+	edict_t *GetEdict() const;
 	bool Exists() const;
 	Vector GetOrigin() const;
 	QAngle GetAngles() const;
 	TFClass GetClass() const;
-	void Think();
+public:
+	void ChangeClass(TFClass tfClass);
 private:
-	const edict_t *_Edict;
+	edict_t *_Edict;
 	IBotController *_IIBotController;
 	IPlayerInfo *_IIPlayerInfo;
 	BotHelper *_BotHelper;
-	TFClass _CurrentClass;
 private:
-	void _ChangeClass(TFClass tfClass);
-	void _RandomClass();
+	TFClass _CurrentClass;
+	bool _IsShooting;
+private:
+	void _ResetAttributes();
 };
 

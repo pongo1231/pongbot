@@ -13,12 +13,56 @@ QAngle BotHelper::GetLookAtAngle(Vector lookAtPos) {
 	return angle;
 }
 
-void BotHelper::GetIdealMoveSpeeds(Vector targetPos, vec_t &forth, vec_t &side) {
+Vector2D BotHelper::GetIdealMoveSpeeds(Vector targetPos) {
 	Vector2D sins;
 	SinCos(DEG2RAD(_GetYawAngle(targetPos)), &sins.y, &sins.x);
 	sins = sins / sins.Length() * TF2Helper::GetClassSpeed(_Bot->GetClass());
-	forth = sins.x;
-	side = sins.y;
+	return sins;
+}
+
+void BotHelper::TFClassToJoinName(TFClass tfClass, char *tfClassName) {
+	switch (tfClass) {
+	case SCOUT:
+		strcpy(tfClassName, "scout");
+		break;
+	case SOLDIER:
+		strcpy(tfClassName, "soldier");
+		break;
+	case PYRO:
+		strcpy(tfClassName, "pyro");
+		break;
+	case DEMO:
+		strcpy(tfClassName, "demoman");
+		break;
+	case HEAVY:
+		strcpy(tfClassName, "heavyweapons");
+		break;
+	case ENGI:
+		strcpy(tfClassName, "engineer");
+		break;
+	case MED:
+		strcpy(tfClassName, "medic");
+		break;
+	case SNIPER:
+		strcpy(tfClassName, "sniper");
+		break;
+	case SPY:
+		strcpy(tfClassName, "spy");
+		break;
+	}
+}
+
+CBotCmd BotHelper::ConstructBotCmd(QAngle viewAngle, Vector2D movement, int buttons) {
+	CBotCmd cmd;
+	cmd.viewangles = viewAngle;
+	cmd.forwardmove = movement.x;
+	cmd.sidemove = movement.y;
+	cmd.buttons = buttons;
+	return cmd;
+}
+
+void BotHelper::RandomClass() {
+	_Bot->ChangeClass(TFClass(Util::RandomInt(0, 8)));
 }
 
 vec_t BotHelper::_CorrectAngle(vec_t angle) {

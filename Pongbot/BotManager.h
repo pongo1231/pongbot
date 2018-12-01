@@ -9,6 +9,7 @@ class BotManager : public IConCommandBaseAccessor {
 public:
 	static void Init();
 	static void Destroy();
+public:
 	vector<Bot*> *GetAllBots();
 	void KickBot(Bot *bot);
 	void KickAllBots();
