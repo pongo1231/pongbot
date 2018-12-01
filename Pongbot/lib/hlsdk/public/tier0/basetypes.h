@@ -396,6 +396,6 @@ protected:
 	inline Type  operator++( Type &a, int ) { Type t = a; ++a; return t; } \
 	inline Type  operator--( Type &a, int ) { Type t = a; --a; return t; }
 
-#include "tier0/valve_on.h"
+#include "hlsdk/public/tier0/valve_on.h"
 
 #endif // BASETYPES_H

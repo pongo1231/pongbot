@@ -17,13 +17,13 @@
 #include <float.h>
 
 // For vec_t, put this somewhere else?
-#include "tier0/basetypes.h"
+#include "hlsdk/public/tier0/basetypes.h"
 
 // For rand(). We really need a library!
 #include <stdlib.h>
 
-#include "tier0/dbg.h"
-#include "mathlib/math_pfns.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/mathlib/math_pfns.h"
 
 //=========================================================
 // 2D Vector2D

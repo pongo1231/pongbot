@@ -8,12 +8,12 @@
 #define MATH_LIB_H
 
 #include <math.h>
-#include "tier0/basetypes.h"
-#include "mathlib/vector.h"
-#include "mathlib/vector2d.h"
-#include "tier0/dbg.h"
+#include "hlsdk/public/tier0/basetypes.h"
+#include "hlsdk/public/mathlib/vector.h"
+#include "hlsdk/public/mathlib/vector2d.h"
+#include "hlsdk/public/tier0/dbg.h"
 
-#include "mathlib/math_pfns.h"
+#include "hlsdk/public/mathlib/math_pfns.h"
 
 // plane_t structure
 // !!! if this is changed, it must be changed in asm code too !!!

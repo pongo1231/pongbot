@@ -30,6 +30,15 @@
     <ClCompile Include="Bot.cpp">
       <Filter>Quelldateien\Bot</Filter>
     </ClCompile>
+    <ClCompile Include="TF2Helper.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Util.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="BotHelper.cpp">
+      <Filter>Quelldateien\Bot</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">
@@ -43,6 +52,15 @@
     </ClInclude>
     <ClInclude Include="Bot.h">
       <Filter>Headerdateien\Bot</Filter>
+    </ClInclude>
+    <ClInclude Include="Util.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="BotHelper.h">
+      <Filter>Headerdateien\Bot</Filter>
+    </ClInclude>
+    <ClInclude Include="TF2Helper.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

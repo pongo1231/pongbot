@@ -1029,7 +1029,7 @@ inline const char *GetPlatformExt( void )
 //-----------------------------------------------------------------------------
 // Include additional dependant header components.
 //-----------------------------------------------------------------------------
-#include "tier0/fasttimer.h"
+#include "hlsdk/public/tier0/fasttimer.h"
 
 #if defined( _X360 )
 #include "xbox/xbox_core.h"
@@ -1222,6 +1222,6 @@ private:
 
 //-----------------------------------------------------------------------------
 
-#include "tier0/valve_on.h"
+#include "hlsdk/public/tier0/valve_on.h"
 
 #endif /* PLATFORM_H */

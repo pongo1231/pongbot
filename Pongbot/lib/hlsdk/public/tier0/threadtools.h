@@ -11,9 +11,9 @@
 
 #include <limits.h>
 
-#include "tier0/platform.h"
-#include "tier0/dbg.h"
-#include "tier0/vcrmode.h"
+#include "hlsdk/public/tier0/platform.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/tier0/vcrmode.h"
 
 #if defined _LINUX || defined __APPLE__
 #include <pthread.h>

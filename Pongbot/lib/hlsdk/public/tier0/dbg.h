@@ -567,7 +567,7 @@ private:
 // Purpose: Inline string formatter
 //
 
-#include "tier0/valve_off.h"
+#include "hlsdk/public/tier0/valve_off.h"
 class CDbgFmtMsg
 {
 public:
@@ -590,7 +590,7 @@ public:
 private:
 	tchar m_szBuf[256];
 };
-#include "tier0/valve_on.h"
+#include "hlsdk/public/tier0/valve_on.h"
 
 //-----------------------------------------------------------------------------
 //

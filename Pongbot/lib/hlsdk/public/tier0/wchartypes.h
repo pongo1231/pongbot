@@ -18,7 +18,7 @@
 #endif
 
 // Temporarily turn off Valve defines
-#include "tier0/valve_off.h"
+#include "hlsdk/public/tier0/valve_off.h"
 
 #if defined _WIN32 && !defined _WCHAR_T_DEFINED
 typedef unsigned short wchar_t;
@@ -96,7 +96,7 @@ typedef char tchar;
 #endif
 
 // Turn valve defines back on
-#include "tier0/valve_on.h"
+#include "hlsdk/public/tier0/valve_on.h"
 
 
 #endif // WCHARTYPES

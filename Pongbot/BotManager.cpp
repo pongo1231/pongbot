@@ -14,61 +14,65 @@ extern PluginId g_PLID;
 
 BotManager *_BotManager;
 
-static std::vector<Bot> _Bots;
+static vector<Bot*> _Bots;
 
 SH_DECL_HOOK1_void(IServerGameDLL, GameFrame, SH_NOATTRIB, 0, bool);
 
 void BotManager::Init() {
 	Assert(!_BotManager);
 	_BotManager = new BotManager();
+
+	g_pCVar = (ICvar*)((g_SMAPI->GetEngineFactory())(CVAR_INTERFACE_VERSION, nullptr));
+	ConVar_Register(0, _BotManager);
+	SH_ADD_HOOK(IServerGameDLL, GameFrame, Server, SH_MEMBER(_BotManager, &BotManager::_OnGameFrame), true);
 }
 
 void BotManager::Destroy() {
 	Assert(_BotManager);
+	SH_REMOVE_HOOK(IServerGameDLL, GameFrame, Server, SH_MEMBER(_BotManager, &BotManager::_OnGameFrame), true);
+	_BotManager->KickAllBots();
 
-	//SH_REMOVE_HOOK(IServerGameDLL, GameFrame, Server, SH_MEMBER(_BotManager, &BotManager::_OnGameFrame), true);
 	delete _BotManager;
 }
 
-BotManager::BotManager() {
-	g_pCVar = (ICvar*)((g_SMAPI->GetEngineFactory())(CVAR_INTERFACE_VERSION, nullptr));
-	ConVar_Register(0, this);
-	SH_ADD_HOOK(IServerGameDLL, GameFrame, Server, SH_MEMBER(this, &BotManager::_OnGameFrame), true);
-}
+BotManager::BotManager() {}
 
 bool BotManager::RegisterConCommandBase(ConCommandBase *cVar) {
 	return META_REGCVAR(cVar);
 }
 
-bool BotManager::KickBot(edict_t *edict) {
-	for (int i = _Bots.size() - 1; i > -1; i--) {
-		edict_t *botEdict = _Bots[i].GetEdict();
-		if (edict == botEdict) {
-			int userId = Engine->GetPlayerUserId(botEdict);
-			char command[64];
-			sprintf_s(command, "kickid %d Bot kicked", userId);
-			Engine->ServerCommand(command);
-			_Bots.erase(_Bots.begin() + i);
-			return true;
-		}
-	}
-	return false;
+vector<Bot*> *BotManager::GetAllBots() {
+	return &_Bots;
+}
+
+void BotManager::KickBot(Bot *bot) {
+	int userId = Engine->GetPlayerUserId(bot->GetEdict());
+	char command[64];
+	sprintf_s(command, "kickid %d Bot Removed\n", userId);
+	Engine->ServerCommand(command);
+}
+
+void BotManager::KickAllBots() {
+	for (Bot *bot : _Bots)
+		KickBot(bot);
 }
 
 void BotManager::_OnGameFrame(bool simulation) {
-	if (simulation)
-		for (int i = _Bots.size() - 1; i > -1; i--) {
-			edict_t *botEdict = _Bots[i].GetEdict();
-			if (!botEdict)
-				KickBot(botEdict);
-			else
-				_Bots[i].Think();
-		}
+	for (uint8_t i = 0; i < _Bots.size(); i++) {
+		if (!_Bots[i]->Exists()) {
+			delete _Bots[i];
+			_Bots.erase(_Bots.begin() + i);
+		} else
+			_Bots[i]->Think();
+	}
 }
 
-CON_COMMAND(pongbot_createbot, "Creates a new pongbot") {
+CON_COMMAND(pongbot_createbot, "Creates a new bot") {
 	edict_t *botEdict = IIBotManager->CreateBot("Dummy");
 	Assert(botEdict);
+	_Bots.push_back(new Bot(botEdict, "Dummy"));
+};
 
-	_Bots.emplace_back(botEdict, "Dummy");
-}
+CON_COMMAND(pongbot_kickbots, "Kicks all bots") {
+	_BotManager->KickAllBots();
+};
