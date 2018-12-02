@@ -1,8 +1,6 @@
 #include "WaypointManager.h"
 #include "Util.h"
 #include <metamod/ISmmPlugin.h>
-#include <hlsdk/public/edict.h>
-#include <hlsdk/public/game/server/iplayerinfo.h>
 
 extern IVEngineServer *Engine;
 extern IPlayerInfoManager *IIPlayerInfoManager;
@@ -10,6 +8,7 @@ extern IPlayerInfoManager *IIPlayerInfoManager;
 WaypointManager *_WaypointManager;
 
 static vector<WaypointNode*> _WaypointNodes;
+static WaypointNode *_SelectedNode;
 
 void WaypointManager::Init() {
 	Assert(!_WaypointManager);
@@ -35,26 +34,70 @@ WaypointNode *WaypointManager::GetRandomWaypointNode() const {
 }
 
 WaypointNode *WaypointManager::GetClosestWaypointNode(Vector pos) const {
-	WaypointNode *closestNode;
-	float closestDistance;
-	for (WaypointNode *waypointNode : _WaypointNodes) {
-		float distance = closestDistance > waypointNode->Pos.DistTo(pos);
-		if (!closestDistance || closestDistance > distance) {
-			closestNode = waypointNode;
+	WaypointNode *closestNode = nullptr;
+	float closestDistance = 9999999999999999; // Just something insanely high
+	for (WaypointNode *node : _WaypointNodes) {
+		float distance = node->Pos.DistTo(pos);
+		if (closestDistance > distance) {
+			closestNode = node;
 			closestDistance = distance;
 		}
 	}
 	return closestNode;
 }
 
-CON_COMMAND(pongbot_createwaypoint, "Creates a waypoint wherever the first player is standing") {
+bool WaypointManager::GetWaypointNodeQueueToTargetNode(WaypointNode *startNode,
+	WaypointNode *targetNode, stack<WaypointNode*> *waypointNodeQueue) {
+	if (startNode == targetNode)
+		return true;
+	else {
+		bool isConnected = false;
+		for (WaypointNode *node : *startNode->GetConnectedNodes())
+			if (GetWaypointNodeQueueToTargetNode(node, targetNode, waypointNodeQueue)) {
+				isConnected = true;
+				waypointNodeQueue->push(targetNode);
+			}
+		return isConnected;
+	}
+}
+
+static IPlayerInfo *_CheckCommandTargetPlayerExists() {
 	edict_t *playerEdict = Engine->PEntityOfEntIndex(1);
 	IPlayerInfo *playerInfo = IIPlayerInfoManager->GetPlayerInfo(playerEdict);
-	if (!playerEdict || !playerInfo || !playerInfo->IsPlayer())
+	if (!playerEdict || !playerInfo || !playerInfo->IsPlayer()) {
 		Util::Log("No player found!");
-	else {
+		return nullptr;
+	}
+	return playerInfo;
+}
+
+CON_COMMAND(pongbot_createwaypoint, "Creates a waypoint wherever the first player is standing") {
+	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
+	if (playerInfo) {
 		unsigned int id = _WaypointNodes.size();
 		_WaypointNodes.push_back(new WaypointNode(id, playerInfo->GetAbsOrigin()));
 		Util::Log("Created waypoint #%d", id);
+	}
+}
+
+CON_COMMAND(pongbot_connectnode1, "Selects nearest node for connection with another node") {
+	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
+	if (playerInfo) {
+		_SelectedNode = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
+		Util::Log("Node #%d selected", _SelectedNode->GetID());
+	}
+}
+
+CON_COMMAND(pongbot_connectnode2, "Connects previously selected node with nearest node") {
+	if (!_SelectedNode)
+		Util::Log("Select a node via pongbot_connectnode1 first");
+	else {
+		IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
+		if (playerInfo) {
+			WaypointNode *currentNode = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
+			_SelectedNode->ConnectNode(currentNode);
+			Util::Log("Connect node #%d with node #%d", _SelectedNode->GetID(), currentNode->GetID());
+			_SelectedNode = nullptr;
+		}
 	}
 }

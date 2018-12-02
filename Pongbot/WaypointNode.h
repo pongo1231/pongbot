@@ -10,6 +10,7 @@ public:
 public:
 	const Vector Pos;
 public:
+	int GetID();
 	vector<WaypointNode*> *GetConnectedNodes();
 	void ConnectNode(WaypointNode *node);
 private:

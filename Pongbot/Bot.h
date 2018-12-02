@@ -4,6 +4,7 @@
 #include <hlsdk/public/edict.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <cstdint>
+#include <stack>
 
 class BotHelper;
 
@@ -32,7 +33,7 @@ private:
 	TFClass _CurrentClass;
 	Vector _LastPos;
 	uint8_t _PosStuckTime;
-	WaypointNode *_TargetNode;
+	stack<WaypointNode*> _WaypointNodeStack;
 // Button states
 private:
 	bool _IsShooting;
@@ -41,6 +42,6 @@ private:
 private:
 	void _ResetStates();
 	int _ConstructButtonsState();
-	void _UpdateNewTargetNode();
+	void _UpdateNewTargetWaypointNode();
 };
 

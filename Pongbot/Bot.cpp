@@ -28,7 +28,7 @@ BotHelper *_BotHelper;
 TFClass _CurrentClass;
 Vector _LastPos;
 uint8_t _PosStuckTime;
-WaypointNode *_TargetNode;
+stack<WaypointNode*> _WaypointNodeStack;
 
 bool _IsShooting;
 bool _IsJumping;
@@ -55,7 +55,7 @@ void Bot::Think() {
 		_PosStuckTime++;
 		if (_PosStuckTime > 120) {
 			_PosStuckTime = 0;
-			_UpdateNewTargetNode();
+			_UpdateNewTargetWaypointNode();
 		} else if (_PosStuckTime > 60) {
 			_IsJumping = true;
 			_IsCrouching = true;
@@ -65,14 +65,14 @@ void Bot::Think() {
 		_LastPos = currentPos;
 	}
 
-	if (!_TargetNode)
-		_UpdateNewTargetNode();
+	if (_WaypointNodeStack.empty())
+		_UpdateNewTargetWaypointNode();
 	else {
-		Vector nodePos = _TargetNode->Pos;
+		Vector nodePos = _WaypointNodeStack.top()->Pos;
+		if (currentPos.DistTo(nodePos) < WAYPOINTNODE_TOUCHED_RADIUS)
+			_WaypointNodeStack.pop();
 		Vector currentEarPos;
 		IIServerGameClients->ClientEarPosition(_Edict, &currentEarPos);
-		if (currentPos.DistTo(nodePos) < WAYPOINTNODE_TOUCHED_RADIUS)
-			_UpdateNewTargetNode();
 		_IIBotController->RunPlayerMove(&_BotHelper->ConstructBotCmd(
 			// Look at normal height instead of onto node directly
 			_BotHelper->GetLookAtAngle(Vector(nodePos.x, nodePos.y, nodePos.z + currentEarPos.z - currentPos.z)),
@@ -136,6 +136,9 @@ int Bot::_ConstructButtonsState() {
 	return buttons;
 }
 
-void Bot::_UpdateNewTargetNode() {
-	_TargetNode = _WaypointManager->GetRandomWaypointNode();
+void Bot::_UpdateNewTargetWaypointNode() {
+	_WaypointNodeStack = stack<WaypointNode*>();
+	_WaypointManager->GetWaypointNodeQueueToTargetNode(
+		_WaypointManager->GetClosestWaypointNode(_IIPlayerInfo->GetAbsOrigin()),
+		_WaypointManager->GetRandomWaypointNode(), &_WaypointNodeStack);
 }
