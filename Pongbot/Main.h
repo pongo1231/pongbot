@@ -24,5 +24,6 @@ extern IBotManager *IIBotManager;
 extern IServerGameDLL *Server;
 extern IPlayerInfoManager *IIPlayerInfoManager;
 extern IServerPluginHelpers *IIServerPluginHelpers;
+extern IServerGameClients *IIServerGameClients;
 
 PLUGIN_GLOBALVARS();

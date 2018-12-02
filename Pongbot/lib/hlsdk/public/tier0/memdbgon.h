@@ -77,7 +77,7 @@
 	#endif // defined(_LINUX)
 #endif
 
-#include "tier0/memdbgoff.h"
+#include "hlsdk/public/tier0/memdbgoff.h"
 
 // --------------------------------------------------------
 // Debug/non-debug agnostic elements

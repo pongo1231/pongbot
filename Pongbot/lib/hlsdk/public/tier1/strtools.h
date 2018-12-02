@@ -9,7 +9,7 @@
 #ifndef TIER1_STRTOOLS_H
 #define TIER1_STRTOOLS_H
 
-#include "tier0/platform.h"
+#include "hlsdk/public/tier0/platform.h"
 
 #ifdef _WIN32
 #pragma once

@@ -17,12 +17,12 @@
 
 
 #include <string.h>
-#include "tier0/platform.h"
-#include "tier0/dbg.h"
-#include "tier0/threadtools.h"
-#include "tier1/utlmemory.h"
-#include "tier1/utlblockmemory.h"
-#include "tier1/strtools.h"
+#include "hlsdk/public/tier0/platform.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/tier0/threadtools.h"
+#include "hlsdk/public/tier1/utlmemory.h"
+#include "hlsdk/public/tier1/utlblockmemory.h"
+#include "hlsdk/public/tier1/strtools.h"
 
 #define FOR_EACH_VEC( vecName, iteratorName ) \
 	for ( int iteratorName = 0; iteratorName < vecName.Count(); iteratorName++ )

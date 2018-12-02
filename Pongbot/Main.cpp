@@ -1,6 +1,7 @@
 #include "Main.h"
 #include "Info.h"
 #include "BotManager.h"
+#include "WaypointManager.h"
 
 Main _Main;
 IVEngineServer *Engine;
@@ -8,6 +9,7 @@ IBotManager *IIBotManager;
 IServerGameDLL *Server;
 IPlayerInfoManager *IIPlayerInfoManager;
 IServerPluginHelpers *IIServerPluginHelpers;
+IServerGameClients *IIServerGameClients;
 
 PLUGIN_EXPOSE(Main, _Main);
 
@@ -18,13 +20,16 @@ bool Main::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bool lat
 	GET_V_IFACE_CURRENT(GetServerFactory, Server, IServerGameDLL, INTERFACEVERSION_SERVERGAMEDLL);
 	GET_V_IFACE_CURRENT(GetServerFactory, IIPlayerInfoManager, IPlayerInfoManager, INTERFACEVERSION_PLAYERINFOMANAGER);
 	GET_V_IFACE_CURRENT(GetEngineFactory, IIServerPluginHelpers, IServerPluginHelpers, INTERFACEVERSION_ISERVERPLUGINHELPERS);
+	GET_V_IFACE_CURRENT(GetServerFactory, IIServerGameClients, IServerGameClients, INTERFACEVERSION_SERVERGAMECLIENTS);
 
 	BotManager::Init();
+	WaypointManager::Init();
 	return true;
 }
 
 bool Main::Unload(char *error, size_t len) {
 	BotManager::Destroy();
+	WaypointManager::Destroy();
 	return true;
 }
 

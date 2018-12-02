@@ -19,6 +19,12 @@
     <Filter Include="Headerdateien\Bot">
       <UniqueIdentifier>{bbd23451-6e91-400f-8359-8b952a0e7335}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\Waypoint">
+      <UniqueIdentifier>{b2e17b7a-2d8d-4436-83f5-23fbef1bb839}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Waypoint">
+      <UniqueIdentifier>{7f4cb74e-d589-4efc-989f-f69f8f729627}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -38,6 +44,15 @@
     </ClCompile>
     <ClCompile Include="BotHelper.cpp">
       <Filter>Quelldateien\Bot</Filter>
+    </ClCompile>
+    <ClCompile Include="WaypointNode.cpp">
+      <Filter>Quelldateien\Waypoint</Filter>
+    </ClCompile>
+    <ClCompile Include="WaypointManager.cpp">
+      <Filter>Quelldateien\Waypoint</Filter>
+    </ClCompile>
+    <ClCompile Include="ConVarBase.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +75,15 @@
       <Filter>Headerdateien\Bot</Filter>
     </ClInclude>
     <ClInclude Include="TF2Helper.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="WaypointNode.h">
+      <Filter>Headerdateien\Waypoint</Filter>
+    </ClInclude>
+    <ClInclude Include="WaypointManager.h">
+      <Filter>Headerdateien\Waypoint</Filter>
+    </ClInclude>
+    <ClInclude Include="ConVarBase.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

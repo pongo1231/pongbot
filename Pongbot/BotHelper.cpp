@@ -7,7 +7,7 @@ const Bot *_Bot;
 BotHelper::BotHelper(Bot *bot) : _Bot(bot) {}
 
 QAngle BotHelper::GetLookAtAngle(Vector lookAtPos) {
-	Vector vectorAngle = lookAtPos - _Bot->GetOrigin();
+	Vector vectorAngle = lookAtPos - _Bot->GetEarPos();
 	QAngle angle;
 	VectorAngles(vectorAngle / vectorAngle.Length(), angle);
 	return angle;
@@ -16,7 +16,7 @@ QAngle BotHelper::GetLookAtAngle(Vector lookAtPos) {
 Vector2D BotHelper::GetIdealMoveSpeeds(Vector targetPos) {
 	Vector2D sins;
 	SinCos(DEG2RAD(_GetYawAngle(targetPos)), &sins.y, &sins.x);
-	sins = sins / sins.Length() * TF2Helper::GetClassSpeed(_Bot->GetClass());
+	sins = sins / sins.Length() * TF2Helper::GetClassSpeed(_Bot->GetClass()) * 3;
 	return sins;
 }
 
@@ -75,5 +75,5 @@ vec_t BotHelper::_CorrectAngle(vec_t angle) {
 
 vec_t BotHelper::_GetYawAngle(Vector targetPos) {
 	QAngle newAngle = GetLookAtAngle(targetPos);
-	return _CorrectAngle(_Bot->GetAngles().y - _CorrectAngle(newAngle.y));
+	return _CorrectAngle(_Bot->GetAngle().y - _CorrectAngle(newAngle.y));
 }

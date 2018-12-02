@@ -1,4 +1,5 @@
 #include "BotManager.h"
+#include "Util.h"
 #include <metamod/ISmmPlugin.h>
 #include <metamod/sourcehook.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
@@ -37,10 +38,6 @@ void BotManager::Destroy() {
 
 BotManager::BotManager() {}
 
-bool BotManager::RegisterConCommandBase(ConCommandBase *cVar) {
-	return META_REGCVAR(cVar);
-}
-
 vector<Bot*> *BotManager::GetAllBots() {
 	return &_Bots;
 }
@@ -69,8 +66,10 @@ void BotManager::_OnGameFrame(bool simulation) {
 
 CON_COMMAND(pongbot_createbot, "Creates a new bot") {
 	edict_t *botEdict = IIBotManager->CreateBot("Dummy");
-	Assert(botEdict);
-	_Bots.push_back(new Bot(botEdict, "Dummy"));
+	if (!botEdict)
+		Util::Log("Error while creating bot!");
+	else
+		_Bots.push_back(new Bot(botEdict, "Dummy"));
 };
 
 CON_COMMAND(pongbot_kickbots, "Kicks all bots") {

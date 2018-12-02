@@ -128,11 +128,17 @@
   <ItemGroup>
     <ClCompile Include="Bot.cpp" />
     <ClCompile Include="BotHelper.cpp" />
+    <ClCompile Include="ConVarBase.cpp" />
     <ClCompile Include="TF2Helper.cpp" />
+    <ClCompile Include="WaypointManager.cpp" />
+    <ClCompile Include="WaypointNode.cpp" />
+    <ClInclude Include="ConVarBase.h" />
     <ClInclude Include="TF2Helper.h" />
     <ClCompile Include="BotManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Util.cpp" />
+    <ClInclude Include="WaypointManager.h" />
+    <ClInclude Include="WaypointNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bot.h" />

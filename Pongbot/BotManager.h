@@ -1,23 +1,22 @@
 #pragma once
 #include "Bot.h"
-#include <hlsdk/public/tier1/convar.h>
+#include "ConVarBase.h"
 #include <vector>
 
 using namespace std;
 
-class BotManager : public IConCommandBaseAccessor {
+class BotManager : public ConVarBase {
 public:
 	static void Init();
 	static void Destroy();
+private:
+	BotManager();
 public:
 	vector<Bot*> *GetAllBots();
 	void KickBot(Bot *bot);
 	void KickAllBots();
-private:
-	BotManager();
 // Hooks
 private:
-	bool RegisterConCommandBase(ConCommandBase *pVar);
 	void _OnGameFrame(bool simulation);
 };
 

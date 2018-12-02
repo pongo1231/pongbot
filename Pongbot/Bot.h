@@ -1,7 +1,9 @@
 #pragma once
 #include "TF2Helper.h"
+#include "WaypointNode.h"
 #include <hlsdk/public/edict.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
+#include <cstdint>
 
 class BotHelper;
 
@@ -15,8 +17,9 @@ public:
 	void Think();
 	edict_t *GetEdict() const;
 	bool Exists() const;
-	Vector GetOrigin() const;
-	QAngle GetAngles() const;
+	Vector GetPos() const;
+	Vector GetEarPos() const;
+	QAngle GetAngle() const;
 	TFClass GetClass() const;
 public:
 	void ChangeClass(TFClass tfClass);
@@ -27,8 +30,17 @@ private:
 	BotHelper *_BotHelper;
 private:
 	TFClass _CurrentClass;
-	bool _IsShooting;
+	Vector _LastPos;
+	uint8_t _PosStuckTime;
+	WaypointNode *_TargetNode;
+// Button states
 private:
-	void _ResetAttributes();
+	bool _IsShooting;
+	bool _IsJumping;
+	bool _IsCrouching;
+private:
+	void _ResetStates();
+	int _ConstructButtonsState();
+	void _UpdateNewTargetNode();
 };
 

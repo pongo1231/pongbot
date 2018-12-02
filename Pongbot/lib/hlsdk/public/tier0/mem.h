@@ -13,7 +13,7 @@
 #endif
 
 #include <stddef.h>
-#include "tier0/platform.h"
+#include "hlsdk/public/tier0/platform.h"
 
 #if !defined(STATIC_TIER0) && !defined(_STATIC_LINKED)
 

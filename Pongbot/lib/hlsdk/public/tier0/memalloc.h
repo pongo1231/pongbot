@@ -35,7 +35,7 @@
 #include <malloc/malloc.h>
 #endif
 
-#include "tier0/mem.h"
+#include "hlsdk/public/tier0/mem.h"
 
 #if !defined(STEAM) && !defined(NO_MALLOC_OVERRIDE)
 
