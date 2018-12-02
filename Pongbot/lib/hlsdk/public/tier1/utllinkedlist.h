@@ -13,11 +13,11 @@
 #pragma once
 #endif
 
-#include "tier0/basetypes.h"
+#include "hlsdk/public/tier0/basetypes.h"
 #include "utlmemory.h"
 #include "utlfixedmemory.h"
 #include "utlblockmemory.h"
-#include "tier0/dbg.h"
+#include "hlsdk/public/tier0/dbg.h"
 
 
 // This is a useful macro to iterate from head to tail in a linked list.

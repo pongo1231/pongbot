@@ -9,7 +9,7 @@
 #define SENDPROXY_H
 
 
-#include "dt_send.h"
+#include "hlsdk/public/dt_send.h"
 
 
 class DVariant;

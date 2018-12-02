@@ -12,10 +12,10 @@
 #pragma once
 #endif
 
-#include "basetypes.h"
-#include "mathlib/vector.h"
-#include "interface.h"
-#include "ipredictionsystem.h"
+#include "hlsdk/public/tier0/basetypes.h"
+#include "hlsdk/public/mathlib/vector.h"
+#include "hlsdk/public/tier1/interface.h"
+#include "hlsdk/game/shared/ipredictionsystem.h"
 
 //-----------------------------------------------------------------------------
 // Forward declarations

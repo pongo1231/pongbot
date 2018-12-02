@@ -12,9 +12,9 @@
 #endif
 
 // For introspection
-#include "tier0/platform.h"
-#include "predictioncopy.h"
-#include "shared_classnames.h"
+#include "hlsdk/public/tier0/platform.h"
+#include "hlsdk/game/shared/predictioncopy.h"
+#include "hlsdk/game/shared/shared_classnames.h"
 
 #ifndef NO_ENTITY_PREDICTION
 #define UsePrediction() 1
@@ -33,7 +33,7 @@ class SendTable;
 // Game DLL includes
 #else
 
-#include "sendproxy.h"
+#include "hlsdk/game/server/sendproxy.h"
 
 #endif  // !CLIENT_DLL
 

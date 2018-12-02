@@ -11,10 +11,10 @@
 #endif
 
 
-#include "const.h"
-#include "basehandle.h"
-#include "utllinkedlist.h"
-#include "ihandleentity.h"
+#include "hlsdk/public/const.h"
+#include "hlsdk/public/basehandle.h"
+#include "hlsdk/public/tier1/utllinkedlist.h"
+#include "hlsdk/public/ihandleentity.h"
 
 
 class CEntInfo

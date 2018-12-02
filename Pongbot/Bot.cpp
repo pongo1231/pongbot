@@ -3,23 +3,22 @@
 #include "Util.h"
 #include "BotHelper.h"
 #include "WaypointManager.h"
+#include "WaypointNode.h"
 #include <metamod/ISmmPlugin.h>
 #include <hlsdk/game/shared/in_buttons.h>
 #include <string>
 
 #define POS_STUCK_RADIUS 0.2
-#define POS_STUCK_STARTPANICTIME 60
-#define POS_STUCK_GIVEUPTIME 120
+#define POS_STUCK_STARTPANICTIME 120
+#define POS_STUCK_GIVEUPTIME 180
 #define WAYPOINTNODE_TOUCHED_RADIUS 5
-
-using namespace std;
 
 extern IVEngineServer *Engine;
 extern IBotManager *IIBotManager;
 extern IPlayerInfoManager *IIPlayerInfoManager;
 extern IServerPluginHelpers *IIServerPluginHelpers;
-extern WaypointManager *_WaypointManager;
 extern IServerGameClients *IIServerGameClients;
+extern WaypointManager *_WaypointManager;
 
 const char *Name;
 edict_t *_Edict; // Not const for convenience reasons

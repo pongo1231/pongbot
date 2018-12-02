@@ -12,9 +12,9 @@
 #endif
 
 #include <memory.h>
-#include "datamap.h"
-#include "ehandle.h"
-#include "tier1/utlstring.h"
+#include "hlsdk/public/datamap.h"
+#include "hlsdk/game/shared/ehandle.h"
+#include "hlsdk/public/tier1/utlstring.h"
 
 #if defined( CLIENT_DLL )
 class C_BaseEntity;

@@ -54,6 +54,9 @@
     <ClCompile Include="ConVarBase.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="GameFramable.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">
@@ -84,6 +87,9 @@
       <Filter>Headerdateien\Waypoint</Filter>
     </ClInclude>
     <ClInclude Include="ConVarBase.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFramable.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

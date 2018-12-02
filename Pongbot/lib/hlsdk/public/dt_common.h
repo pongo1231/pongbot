@@ -13,9 +13,9 @@
 #pragma once
 #endif	
 
-#include "basetypes.h"
-#include "tier0/dbg.h"
-#include "tier1/strtools.h"
+#include "hlsdk/public/tier0/basetypes.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/tier1/strtools.h"
 #include <stddef.h>
 
 // Max number of properties in a datatable and its children.

@@ -1,11 +1,13 @@
 #pragma once
-#include "Bot.h"
 #include "ConVarBase.h"
+#include "GameFramable.h"
 #include <vector>
 
 using namespace std;
 
-class BotManager : public ConVarBase {
+class Bot;
+
+class BotManager : public ConVarBase, public GameFramable {
 public:
 	static void Init();
 	static void Destroy();
@@ -15,9 +17,8 @@ public:
 	vector<Bot*> *GetAllBots();
 	void KickBot(Bot *bot);
 	void KickAllBots();
-// Hooks
-private:
-	void _OnGameFrame(bool simulation);
+public:
+	void OnGameFrame();
 };
 
 extern BotManager *_BotManager;

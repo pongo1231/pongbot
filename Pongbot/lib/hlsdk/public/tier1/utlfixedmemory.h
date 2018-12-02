@@ -14,11 +14,11 @@
 #pragma once
 #endif
 
-#include "tier0/dbg.h"
-#include "tier0/platform.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/tier0/platform.h"
 
-#include "tier0/memalloc.h"
-#include "tier0/memdbgon.h"
+#include "hlsdk/public/tier0/memalloc.h"
+#include "hlsdk/public/tier0/memdbgon.h"
 
 #ifdef _MSC_VER
 #pragma warning (disable:4100)
@@ -353,6 +353,6 @@ void CUtlFixedMemory<T>::Purge()
 	m_nAllocationCount = 0;
 }
 
-#include "tier0/memdbgoff.h"
+#include "hlsdk/public/tier0/memdbgoff.h"
 
 #endif // UTLFIXEDMEMORY_H

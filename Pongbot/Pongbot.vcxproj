@@ -115,7 +115,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>legacy_stdio_definitions.lib;tier0.lib;tier1.lib;vstdlib.lib;mathlib.lib</AdditionalDependencies>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;tier0.lib;tier1.lib;tier2.lib;tier3.lib;vstdlib.lib;mathlib.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>lib/hlsdk/lib</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -151,10 +151,12 @@
     <ClCompile Include="Bot.cpp" />
     <ClCompile Include="BotHelper.cpp" />
     <ClCompile Include="ConVarBase.cpp" />
+    <ClCompile Include="GameFramable.cpp" />
     <ClCompile Include="TF2Helper.cpp" />
     <ClCompile Include="WaypointManager.cpp" />
     <ClCompile Include="WaypointNode.cpp" />
     <ClInclude Include="ConVarBase.h" />
+    <ClInclude Include="GameFramable.h" />
     <ClInclude Include="TF2Helper.h" />
     <ClCompile Include="BotManager.cpp" />
     <ClCompile Include="Main.cpp" />

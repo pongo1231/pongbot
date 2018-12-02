@@ -1,6 +1,8 @@
 #include "WaypointManager.h"
 #include "Util.h"
+#include "WaypointNode.h"
 #include <metamod/ISmmPlugin.h>
+#include <metamod/sourcehook.h>
 
 extern IVEngineServer *Engine;
 extern IPlayerInfoManager *IIPlayerInfoManager;
@@ -73,6 +75,19 @@ bool WaypointManager::GetWaypointNodeQueueToTargetNode(WaypointNode *startNode,
 	return false;
 }
 
+void WaypointManager::OnGameFrame() {
+	// Draw beams for each waypoint & their connections
+	for (WaypointNode *node : _WaypointNodes) {
+		Vector startPos = node->Pos;
+		Vector endPos = startPos;
+		endPos.z += 75;
+		Util::DrawBeam(startPos, endPos, 0, 255, 0);
+
+		for (WaypointNode *connectedNode : *node->GetConnectedNodes())
+			Util::DrawBeam(endPos, connectedNode->Pos, 255, 255, 255);
+	}
+}
+
 static IPlayerInfo *_CheckCommandTargetPlayerExists() {
 	edict_t *playerEdict = Engine->PEntityOfEntIndex(1);
 	IPlayerInfo *playerInfo = IIPlayerInfoManager->GetPlayerInfo(playerEdict);
@@ -96,7 +111,10 @@ CON_COMMAND(pongbot_connectnode1, "Selects nearest waypoint node for connection 
 	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
 	if (playerInfo) {
 		_SelectedNode = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
-		Util::Log("Waypoint node #%d selected", _SelectedNode->GetID());
+		if (!_SelectedNode)
+			Util::Log("No waypoint node found!");
+		else
+			Util::Log("Waypoint node #%d selected", _SelectedNode->GetID());
 	}
 }
 

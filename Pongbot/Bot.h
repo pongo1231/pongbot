@@ -1,12 +1,14 @@
 #pragma once
 #include "TF2Helper.h"
-#include "WaypointNode.h"
 #include <hlsdk/public/edict.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
-#include <cstdint>
+#include <vector>
 #include <stack>
 
+using namespace std;
+
 class BotHelper;
+class WaypointNode;
 
 class Bot {
 public:

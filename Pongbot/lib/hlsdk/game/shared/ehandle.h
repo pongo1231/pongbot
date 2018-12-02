@@ -12,14 +12,14 @@
 #endif
 
 #if defined( _DEBUG ) && defined( GAME_DLL )
-#include "tier0/dbg.h"
-#include "cbase.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/cbase.h"
 #endif
 
 
-#include "const.h"
-#include "basehandle.h"
-#include "entitylist_base.h"
+#include "hlsdk/public/const.h"
+#include "hlsdk/public/basehandle.h"
+#include "hlsdk/game/shared/entitylist_base.h"
 
 
 class IHandleEntity;
