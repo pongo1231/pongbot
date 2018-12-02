@@ -57,6 +57,9 @@
     <ClCompile Include="GameFramable.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="WaypointFileManager.cpp">
+      <Filter>Quelldateien\Waypoint</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">
@@ -91,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="GameFramable.h">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="WaypointFileManager.h">
+      <Filter>Headerdateien\Waypoint</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

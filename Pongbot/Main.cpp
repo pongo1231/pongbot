@@ -2,6 +2,7 @@
 #include "Info.h"
 #include "BotManager.h"
 #include "WaypointManager.h"
+#include "WaypointFileManager.h"
 #include "GameFramable.h"
 #include <hlsdk/game/shared/IEffects.h>
 #include <hlsdk/public/eiface.h>
@@ -35,12 +36,14 @@ bool Main::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bool lat
 
 	BotManager::Init();
 	WaypointManager::Init();
+	WaypointFileManager::Init();
 	return true;
 }
 
 bool Main::Unload(char *error, size_t len) {
 	BotManager::Destroy();
 	WaypointManager::Destroy();
+	WaypointFileManager::Destroy();
 
 	SH_REMOVE_HOOK(IServerGameDLL, GameFrame, Server, SH_MEMBER(this, &Main::_OnGameFrame), true);
 	return true;
