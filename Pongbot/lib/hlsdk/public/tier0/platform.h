@@ -26,7 +26,7 @@
 #undef _XBOX
 #endif
 
-#include "wchartypes.h"
+#include "hlsdk/public/tier0/wchartypes.h"
 #include "hlsdk/public/tier0/valve_off.h"
 
 #ifdef _WIN32
@@ -338,7 +338,7 @@ typedef void * HINSTANCE;
 
 
 // Pull in the /analyze code annotations.
-#include "annotations.h"
+#include "hlsdk/public/tier0/annotations.h"
 
 // Linux had a few areas where it didn't construct objects in the same order that Windows does.
 // So when CVProfile::CVProfile() would access g_pMemAlloc, it would crash because the allocator wasn't initalized yet.

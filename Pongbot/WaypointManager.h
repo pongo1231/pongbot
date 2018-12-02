@@ -19,7 +19,8 @@ public:
 	WaypointNode *GetRandomWaypointNode() const;
 	WaypointNode *GetClosestWaypointNode(Vector pos) const;
 	bool GetWaypointNodeQueueToTargetNode(WaypointNode *startNode, WaypointNode *targetNode,
-		stack<WaypointNode*> *waypointNodeQueue);
+		stack<WaypointNode*> *waypointNodesStack,
+		vector<WaypointNode*> *_alreadyTraversedWaypointNodesStack = nullptr);
 };
 
 extern WaypointManager *_WaypointManager;

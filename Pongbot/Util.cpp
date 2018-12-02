@@ -1,5 +1,6 @@
 #include "Util.h"
 #include <metamod/ISmmAPI.h>
+#include <hlsdk/public/mathlib/vector.h>
 #include <cstdlib>
 
 extern ISmmAPI *g_SMAPI;
@@ -19,5 +20,9 @@ namespace Util {
 		va_end(args);
 		sprintf_s(prefixedText, "[Pongbot] %s\n", fullText);
 		g_SMAPI->ConPrintf(prefixedText);
+	}
+
+	float DistanceToNoZ(Vector a, Vector b) {
+		return abs((a.x + a.y) - (b.x + b.y));
 	}
 }

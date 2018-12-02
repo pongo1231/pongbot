@@ -10,8 +10,8 @@ class BotHelper {
 public:
 	BotHelper(Bot *bot);
 public:
-	QAngle GetLookAtAngle(Vector lookAtPos);
-	Vector2D GetIdealMoveSpeeds(Vector targetPos);
+	QAngle GetLookAtAngleForPos(Vector lookAtPos);
+	Vector2D GetIdealMoveSpeedsToPos(Vector targetPos);
 	void TFClassToJoinName(TFClass tfClass, char *tfClassName);
 	CBotCmd ConstructBotCmd(QAngle viewAngle, Vector2D movement, int buttons);
 	void RandomClass();

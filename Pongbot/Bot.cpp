@@ -7,7 +7,9 @@
 #include <hlsdk/game/shared/in_buttons.h>
 #include <string>
 
-#define POS_STUCK_RADIUS 0.1
+#define POS_STUCK_RADIUS 0.2
+#define POS_STUCK_STARTPANICTIME 60
+#define POS_STUCK_GIVEUPTIME 120
 #define WAYPOINTNODE_TOUCHED_RADIUS 5
 
 using namespace std;
@@ -29,18 +31,16 @@ TFClass _CurrentClass;
 Vector _LastPos;
 uint8_t _PosStuckTime;
 stack<WaypointNode*> _WaypointNodeStack;
-
-bool _IsShooting;
-bool _IsJumping;
-bool _IsCrouching;
+int _PressedButtons;
+WaypointNode *_ClosestWaypointNode;
 
 Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
 	_IIBotController(IIBotManager->GetBotController(edict)),
 	_IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(edict)),
 	_BotHelper(new BotHelper(this)) {
 	_IIPlayerInfo->ChangeTeam(2);
-	_ResetStates();
 	_BotHelper->RandomClass();
+	_ResetState();
 }
 
 Bot::~Bot() {
@@ -48,38 +48,45 @@ Bot::~Bot() {
 }
 
 void Bot::Think() {
-	_ResetStates();
+	_PressedButtons = 0;
 
-	Vector currentPos = _IIPlayerInfo->GetAbsOrigin();
-	if (currentPos.DistTo(_LastPos) < POS_STUCK_RADIUS) {
+	Vector currentPos = GetPos();
+	if (Util::DistanceToNoZ(currentPos, _LastPos) < POS_STUCK_RADIUS) {
 		_PosStuckTime++;
-		if (_PosStuckTime > 120) {
+		if (_PosStuckTime > POS_STUCK_GIVEUPTIME) {
 			_PosStuckTime = 0;
-			_UpdateNewTargetWaypointNode();
-		} else if (_PosStuckTime > 60) {
-			_IsJumping = true;
-			_IsCrouching = true;
+			_UpdateNewWaypointNodeStack();
+		} else if (_PosStuckTime > POS_STUCK_STARTPANICTIME) {
+			_PressedButtons |= IN_JUMP;
+			_PressedButtons |= IN_DUCK;
 		}
-	} else {
+	}
+	else {
 		_PosStuckTime = 0;
 		_LastPos = currentPos;
+		_UpdateClosestWaypointNode();
 	}
 
+	QAngle lookAtPos;
+	Vector2D movement;
+
 	if (_WaypointNodeStack.empty())
-		_UpdateNewTargetWaypointNode();
+		_UpdateNewWaypointNodeStack();
 	else {
 		Vector nodePos = _WaypointNodeStack.top()->Pos;
-		if (currentPos.DistTo(nodePos) < WAYPOINTNODE_TOUCHED_RADIUS)
+		if (currentPos.DistTo(nodePos) <= WAYPOINTNODE_TOUCHED_RADIUS)
 			_WaypointNodeStack.pop();
+		else
+			movement = _BotHelper->GetIdealMoveSpeedsToPos(nodePos);
 		Vector currentEarPos;
 		IIServerGameClients->ClientEarPosition(_Edict, &currentEarPos);
-		_IIBotController->RunPlayerMove(&_BotHelper->ConstructBotCmd(
-			// Look at normal height instead of onto node directly
-			_BotHelper->GetLookAtAngle(Vector(nodePos.x, nodePos.y, nodePos.z + currentEarPos.z - currentPos.z)),
-			_BotHelper->GetIdealMoveSpeeds(nodePos),
-			_ConstructButtonsState()
-		));
+		// Look at normal height instead of onto node directly
+		lookAtPos = _BotHelper->GetLookAtAngleForPos(
+			Vector(nodePos.x, nodePos.y, nodePos.z + currentEarPos.z - currentPos.z));
 	}
+
+	_IIBotController->RunPlayerMove(
+		&_BotHelper->ConstructBotCmd(lookAtPos, movement, _PressedButtons));
 }
 
 edict_t *Bot::GetEdict() const {
@@ -117,28 +124,23 @@ void Bot::ChangeClass(TFClass tfClass) {
 	_CurrentClass = tfClass;
 }
 
-void Bot::_ResetStates() {
-	_IsShooting = false;
-	_IsJumping = false;
-	_IsCrouching = false;
+void Bot::_ResetState() {
+	_PressedButtons = 0;
+	_ClosestWaypointNode = nullptr;
 }
 
-int Bot::_ConstructButtonsState() {
-	int buttons = 0;
-	if (_IsShooting)
-		buttons |= IN_ATTACK;
-	if (_IsJumping)
-		buttons |= IN_JUMP;
-	if (_IsCrouching)
-		buttons |= IN_DUCK;
-	buttons |= IN_SPEED;
-	buttons |= IN_RUN;
-	return buttons;
+void Bot::_UpdateNewWaypointNodeStack() {
+	if (!_ClosestWaypointNode)
+		_UpdateClosestWaypointNode();
+	// If still nullptr, no waypoint nodes exist
+	if (_ClosestWaypointNode) {
+		if (!_WaypointNodeStack.empty())
+			_WaypointNodeStack = stack<WaypointNode*>();
+		_WaypointManager->GetWaypointNodeQueueToTargetNode(_ClosestWaypointNode,
+			_WaypointManager->GetRandomWaypointNode(), &_WaypointNodeStack);
+	}
 }
 
-void Bot::_UpdateNewTargetWaypointNode() {
-	_WaypointNodeStack = stack<WaypointNode*>();
-	_WaypointManager->GetWaypointNodeQueueToTargetNode(
-		_WaypointManager->GetClosestWaypointNode(_IIPlayerInfo->GetAbsOrigin()),
-		_WaypointManager->GetRandomWaypointNode(), &_WaypointNodeStack);
+void Bot::_UpdateClosestWaypointNode() {
+	_ClosestWaypointNode = _WaypointManager->GetClosestWaypointNode(_LastPos);
 }

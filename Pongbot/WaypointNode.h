@@ -12,7 +12,8 @@ public:
 public:
 	int GetID();
 	vector<WaypointNode*> *GetConnectedNodes();
-	void ConnectNode(WaypointNode *node);
+	bool ConnectToNode(WaypointNode *node, bool bidirectional = false);
+	bool IsConnectedToNode(WaypointNode *node, bool directly = true);
 private:
 	int _ID;
 	vector<WaypointNode*> _ConnectedNodes;

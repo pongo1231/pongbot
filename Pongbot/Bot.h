@@ -34,14 +34,11 @@ private:
 	Vector _LastPos;
 	uint8_t _PosStuckTime;
 	stack<WaypointNode*> _WaypointNodeStack;
-// Button states
+	int _PressedButtons;
+	WaypointNode *_ClosestWaypointNode;
 private:
-	bool _IsShooting;
-	bool _IsJumping;
-	bool _IsCrouching;
-private:
-	void _ResetStates();
-	int _ConstructButtonsState();
-	void _UpdateNewTargetWaypointNode();
+	void _ResetState();
+	void _UpdateNewWaypointNodeStack();
+	void _UpdateClosestWaypointNode();
 };
 
