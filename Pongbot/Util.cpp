@@ -33,12 +33,12 @@ namespace Util {
 
 	void DrawBeam(Vector startPos, Vector endPos, uint8_t r, uint8_t g, uint8_t b) {
 		IIEffects->Beam(startPos, endPos, Engine->PrecacheModel("sprites/lgtning.vmt"),
-			0, 0, 1, 1, 1.5, 1.5, 255, 1, r, g, b, 255, 10);
+			0, 0, 1, 1, 1, 1, 255, 1, r, g, b, 255, 10);
 	}
 
 	vector<IPlayerInfo*> GetAllPlayers() {
 		vector<IPlayerInfo*> players;
-		for (int i = 1; i < 33; i++) {
+		for (uint8_t i = 1; i < 33; i++) {
 			edict_t *edict = Engine->PEntityOfEntIndex(i);
 			if (edict) {
 				IPlayerInfo *playerInfo = IIPlayerInfoManager->GetPlayerInfo(edict);

@@ -1,13 +1,23 @@
 #include "WaypointNode.h"
 
-unsigned int _ID;
+const unsigned int Id = 0;
 const Vector Pos;
 vector<WaypointNode*> _ConnectedNodes;
 
-WaypointNode::WaypointNode(unsigned int id, Vector pos) : _ID(id), Pos(pos) {}
+WaypointNode::WaypointNode(uint8_t id, Vector pos) : Id(id), Pos(pos) {}
 
-int WaypointNode::GetID() {
-	return _ID;
+WaypointNode::~WaypointNode() {
+	// Remove all connections to this node on delete
+	for (WaypointNode *connectedNode : _ConnectedNodes) {
+		vector<WaypointNode*> *connectedNodeConnectedNodes = connectedNode->GetConnectedNodes();
+		for (uint8_t i = 0; i < connectedNodeConnectedNodes->size(); i++)
+			if ((*connectedNodeConnectedNodes)[i] == this)
+				connectedNodeConnectedNodes->erase(connectedNodeConnectedNodes->begin() + i);
+	}
+}
+
+vector<WaypointNode*> *WaypointNode::GetConnectedNodes() {
+	return &_ConnectedNodes;
 }
 
 bool WaypointNode::ConnectToNode(WaypointNode *node, bool bidirectional) {
@@ -30,10 +40,6 @@ bool WaypointNode::ConnectToNode(WaypointNode *node, bool bidirectional) {
 	}
 
 	return true;
-}
-
-vector<WaypointNode*> *WaypointNode::GetConnectedNodes() {
-	return &_ConnectedNodes;
 }
 
 bool WaypointNode::IsConnectedToNode(WaypointNode *node, bool directly) {

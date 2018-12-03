@@ -28,7 +28,7 @@ BotHelper *_BotHelper;
 
 TFClass _CurrentClass;
 Vector _LastPos;
-uint8_t _PosStuckTime;
+unsigned int _PosStuckTime;
 stack<WaypointNode*> _WaypointNodeStack;
 int _PressedButtons;
 WaypointNode *_ClosestWaypointNode;
@@ -135,7 +135,7 @@ void Bot::_UpdateNewWaypointNodeStack() {
 	if (_ClosestWaypointNode) {
 		if (!_WaypointNodeStack.empty())
 			_WaypointNodeStack = stack<WaypointNode*>();
-		_WaypointManager->GetWaypointNodeQueueToTargetNode(_ClosestWaypointNode,
+		_WaypointManager->GetWaypointNodeStackToTargetNode(_ClosestWaypointNode,
 			_WaypointManager->GetRandomWaypointNode(), &_WaypointNodeStack);
 	}
 }

@@ -34,7 +34,7 @@ private:
 private:
 	TFClass _CurrentClass;
 	Vector _LastPos;
-	uint8_t _PosStuckTime;
+	unsigned int _PosStuckTime;
 	stack<WaypointNode*> _WaypointNodeStack;
 	int _PressedButtons;
 	WaypointNode *_ClosestWaypointNode;

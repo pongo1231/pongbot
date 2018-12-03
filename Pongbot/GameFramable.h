@@ -5,5 +5,5 @@ public:
 	GameFramable();
 	~GameFramable();
 public:
-	virtual void OnGameFrame();
+	virtual void OnGameFrame() = 0;
 };

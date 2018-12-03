@@ -10,7 +10,3 @@ GameFramable::GameFramable() {
 GameFramable::~GameFramable() {
 	_Main.UnregisterGameFramable(this);
 }
-
-void GameFramable::OnGameFrame() {
-
-}
