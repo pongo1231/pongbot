@@ -16,51 +16,78 @@ extern PluginId g_PLID;
 
 WaypointFileManager *_WaypointFileManager;
 
+static std::vector<WaypointNode*> *_WaypointNodes;
+
 char _CurrentMapName[32];
-vector<WaypointNode*> *_WaypointNodes;
 
 SH_DECL_HOOK6(IServerGameDLL, LevelInit, SH_NOATTRIB, 0, bool, char const *, char const *,
 	char const *, char const *, bool, bool);
 
-void WaypointFileManager::Init(vector<WaypointNode*> *waypointNodes) {
+void WaypointFileManager::Init(std::vector<WaypointNode*> *waypointNodes) {
 	Assert(!_WaypointFileManager);
-	_WaypointFileManager = new WaypointFileManager(waypointNodes);
+	_WaypointFileManager = new WaypointFileManager();
+	_WaypointNodes = waypointNodes;
+
 	SH_ADD_HOOK(IServerGameDLL, LevelInit, Server,
 		SH_MEMBER(_WaypointFileManager, &WaypointFileManager::_OnLevelInit), true);
 }
 
 void WaypointFileManager::Destroy() {
 	Assert(_WaypointFileManager);
+
 	SH_REMOVE_HOOK(IServerGameDLL, LevelInit, Server,
 		SH_MEMBER(_WaypointFileManager, &WaypointFileManager::_OnLevelInit), true);
+
 	delete _WaypointFileManager;
 }
 
-WaypointFileManager::WaypointFileManager(vector<WaypointNode*> *waypointNodes)
-	: _WaypointNodes(waypointNodes) {}
+WaypointFileManager::WaypointFileManager() {}
 
 void WaypointFileManager::Read() {
 	char fileName[64];
 	if (_CheckDir(fileName)) {
-		ifstream file(fileName);
-		char buffer[512];
-		istream *stream = &file.getline(buffer, sizeof(buffer));
-		do {
-			char lineBuffer[256][8];
-			char *context = nullptr;
-			char *token = strtok_s(buffer, ":", &context);
-			unsigned int i = 0;
-			do {
-				strcpy_s(lineBuffer[i++], token);
-			} while ((token = strtok_s(nullptr, ":", &context)) != nullptr);
+		_WaypointNodes->clear();
 
-			WaypointNode *node = new WaypointNode(atoi(lineBuffer[0]),
-				Vector(atof(lineBuffer[1]), atof(lineBuffer[2]), atof(lineBuffer[3])));
-			/*for (uint8_t i = 4; i < 256; i++) {
-				char lineBuffer[]
-			}*/
-			_WaypointNodes->push_back(node);
-		} while (stream = &stream->getline(buffer, sizeof(buffer)));
+		std::ifstream file(fileName);
+		char fileBuffer[512];
+		int connectedNodeIds[256][256];
+		// Fill with -1 to not confuse with node id 0 instead
+		memset(connectedNodeIds, -1, sizeof(connectedNodeIds));
+		uint8_t i = 0;
+		while (file.getline(fileBuffer, sizeof(fileBuffer))) {
+			char lineBuffer[256][16];
+			char *context = nullptr;
+			uint8_t j = 0;
+			char *token = strtok_s(fileBuffer, ":", &context);
+			do
+				strcpy_s(lineBuffer[j++], token);
+			while ((token = strtok_s(nullptr, ":", &context)) != nullptr);
+
+			_WaypointNodes->push_back(new WaypointNode(atoi(lineBuffer[0]),
+				Vector(atof(lineBuffer[1]), atof(lineBuffer[2]), atof(lineBuffer[3]))));
+
+			// Store connected node ids for reference
+			for (uint8_t k = 4; k < 256; k++)
+				if (strcmp(lineBuffer[k], "\0") == 0) // End of file
+					break;
+				else if (strcmp(lineBuffer[k], "end") == 0) // End of line
+					continue;
+				else
+					connectedNodeIds[i][k - 4] = atoi(lineBuffer[i]);
+
+			i++;
+		}
+
+		// Now handle the node connections
+		for (uint8_t i = 0; i < _WaypointNodes->size(); i++)
+			for (uint8_t j = 0; j < 256; j++)
+				if (connectedNodeIds[i][j] == -1)
+					break;
+				else
+					for (WaypointNode *nodeToConnect : *_WaypointNodes)
+						if (nodeToConnect->Id == connectedNodeIds[i][j])
+							(*_WaypointNodes)[i]->ConnectToNode(nodeToConnect);
+
 		file.close();
 		Util::Log("Waypoint loaded!");
 	}
@@ -69,7 +96,7 @@ void WaypointFileManager::Read() {
 void WaypointFileManager::Write() {
 	char fileName[64];
 	if (_CheckDir(fileName)) {
-		ofstream file(fileName);
+		std::ofstream file(fileName);
 		// Write all nodes to file
 		for (WaypointNode *node : *_WaypointNodes) {
 			Vector pos = node->Pos;
@@ -80,7 +107,7 @@ void WaypointFileManager::Write() {
 				// Don't write previously deleted nodes though
 				if (connectedNode)
 					file << ":" << connectedNode->Id;
-			file << endl;
+			file << ":end" << std::endl;
 		}
 		file.close();
 		Util::Log("Waypoint saved!");

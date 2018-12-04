@@ -16,7 +16,7 @@ IServerPluginHelpers *IIServerPluginHelpers;
 IServerGameClients *IIServerGameClients;
 IEffects *IIEffects;
 
-vector<GameFramable*> _GameFramables;
+std::vector<GameFramable*> _GameFramables;
 
 PLUGIN_EXPOSE(Main, _Main);
 SH_DECL_HOOK1_void(IServerGameDLL, GameFrame, SH_NOATTRIB, 0, bool);

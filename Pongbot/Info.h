@@ -1,4 +1,5 @@
 #pragma once
+
 namespace Info {
 	const char *Author = "pongo1231";
 	const char *Name = "Pongbot";

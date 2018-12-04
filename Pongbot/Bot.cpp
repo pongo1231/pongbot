@@ -29,7 +29,7 @@ BotHelper *_BotHelper;
 TFClass _CurrentClass;
 Vector _LastPos;
 unsigned int _PosStuckTime;
-stack<WaypointNode*> _WaypointNodeStack;
+std::stack<WaypointNode*> _WaypointNodeStack;
 int _PressedButtons;
 WaypointNode *_ClosestWaypointNode;
 
@@ -55,7 +55,8 @@ void Bot::Think() {
 		if (_PosStuckTime > POS_STUCK_GIVEUPTIME) {
 			_PosStuckTime = 0;
 			_UpdateNewWaypointNodeStack();
-		} else if (_PosStuckTime > POS_STUCK_STARTPANICTIME) {
+		}
+		else if (_PosStuckTime > POS_STUCK_STARTPANICTIME) {
 			_PressedButtons |= IN_JUMP;
 			_PressedButtons |= IN_DUCK;
 		}
@@ -134,7 +135,7 @@ void Bot::_UpdateNewWaypointNodeStack() {
 	// If still nullptr, no waypoint nodes exist
 	if (_ClosestWaypointNode) {
 		if (!_WaypointNodeStack.empty())
-			_WaypointNodeStack = stack<WaypointNode*>();
+			_WaypointNodeStack = std::stack<WaypointNode*>();
 		_WaypointManager->GetWaypointNodeStackToTargetNode(_ClosestWaypointNode,
 			_WaypointManager->GetRandomWaypointNode(), &_WaypointNodeStack);
 	}

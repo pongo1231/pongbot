@@ -5,8 +5,6 @@
 #include <hlsdk/game/shared/IEffects.h>
 #include <vector>
 
-using namespace std;
-
 class GameFramable;
 
 class Main : public ISmmPlugin {
@@ -26,7 +24,7 @@ public:
 	void RegisterGameFramable(GameFramable *framable);
 	void UnregisterGameFramable(GameFramable *framable);
 private:
-	vector<GameFramable*> _GameFramables;
+	std::vector<GameFramable*> _GameFramables;
 // Hooks
 private:
 	void _OnGameFrame(bool simulation);

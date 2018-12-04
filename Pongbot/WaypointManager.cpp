@@ -10,7 +10,7 @@ extern IPlayerInfoManager *IIPlayerInfoManager;
 
 WaypointManager *_WaypointManager;
 
-static vector<WaypointNode*> _WaypointNodes;
+static std::vector<WaypointNode*> _WaypointNodes;
 static WaypointNode *_SelectedNode;
 
 void WaypointManager::Init() {
@@ -51,30 +51,28 @@ WaypointNode *WaypointManager::GetClosestWaypointNode(Vector pos) const {
 }
 
 bool WaypointManager::GetWaypointNodeStackToTargetNode(WaypointNode *startNode,
-	WaypointNode *targetNode, stack<WaypointNode*> *waypointNodesStack,
-	vector<WaypointNode*> *_alreadyTraversedWaypointNodesStack) {
+	WaypointNode *targetNode, std::stack<WaypointNode*> *waypointNodesStack,
+	std::vector<WaypointNode*> *_alreadyTraversedWaypointNodesStack) {
 	if (!startNode || !targetNode || !waypointNodesStack)
 		return false;
 	if (startNode == targetNode) {
 		waypointNodesStack->push(startNode);
 		return true;
 	}
-	else {
-		// Check if this node was already traversed to avoid infinite recursive calls
-		if (!_alreadyTraversedWaypointNodesStack)
-			_alreadyTraversedWaypointNodesStack = &vector<WaypointNode*>();
-		for (WaypointNode *node : *_alreadyTraversedWaypointNodesStack)
-			if (node == startNode)
-				return false;
-		_alreadyTraversedWaypointNodesStack->push_back(startNode);
 
-		for (WaypointNode *node : *startNode->GetConnectedNodes())
-			if (GetWaypointNodeStackToTargetNode(node, targetNode, waypointNodesStack,
-				_alreadyTraversedWaypointNodesStack)) {
-				waypointNodesStack->push(startNode);
-				return true;
-			}
-	}
+	// Check if this node was already traversed to avoid infinite recursive calls
+	for (WaypointNode *node : *_alreadyTraversedWaypointNodesStack)
+		if (node == startNode)
+			return false;
+	_alreadyTraversedWaypointNodesStack->push_back(startNode);
+
+	for (WaypointNode *node : *startNode->GetConnectedNodes())
+		if (GetWaypointNodeStackToTargetNode(node, targetNode, waypointNodesStack,
+			_alreadyTraversedWaypointNodesStack)) {
+			waypointNodesStack->push(startNode);
+			return true;
+		}
+
 	return false;
 }
 
@@ -149,10 +147,9 @@ CON_COMMAND(pongbot_connectnode2, "Connects previously selected waypoint node wi
 }
 
 CON_COMMAND(pongbot_clearnodes, "Removes all waypoint nodes") {
-	// Delete all nodes first to prevent memory leaks
 	for (WaypointNode *node : _WaypointNodes)
 		delete node;
-	_WaypointNodes = vector<WaypointNode*>();
+	_WaypointNodes.clear();
 	Util::Log("All waypoint nodes cleared!");
 }
 
@@ -165,8 +162,10 @@ CON_COMMAND(pongbot_removenode, "Removes the nearest node") {
 		else {
 			// Delete from list first before deleting completely
 			for (uint8_t i = 0; i < _WaypointNodes.size(); i++)
-				if (_WaypointNodes[i] == node)
+				if (_WaypointNodes[i] == node) {
+					delete _WaypointNodes[i];
 					_WaypointNodes.erase(_WaypointNodes.begin() + i);
+				}
 			delete node;
 			Util::Log("Removed nearest node!");
 		}

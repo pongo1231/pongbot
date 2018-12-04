@@ -11,7 +11,7 @@ extern IBotManager *IIBotManager;
 
 BotManager *_BotManager;
 
-static vector<Bot*> _Bots;
+static std::vector<Bot*> _Bots;
 
 void BotManager::Init() {
 	Assert(!_BotManager);
@@ -27,14 +27,9 @@ void BotManager::Destroy() {
 
 BotManager::BotManager() {}
 
-vector<Bot*> *BotManager::GetAllBots() {
-	return &_Bots;
-}
-
 void BotManager::KickBot(Bot *bot) {
-	int userId = Engine->GetPlayerUserId(bot->GetEdict());
 	char command[64];
-	sprintf_s(command, "kickid %d Bot Removed\n", userId);
+	sprintf_s(command, "kickid %d Bot Removed\n", Engine->GetPlayerUserId(bot->GetEdict()));
 	Engine->ServerCommand(command);
 }
 
@@ -45,11 +40,13 @@ void BotManager::KickAllBots() {
 
 void BotManager::OnGameFrame() {
 	for (uint8_t i = 0; i < _Bots.size(); i++) {
-		if (!_Bots[i]->Exists()) {
-			delete _Bots[i];
+		Bot *bot = _Bots[i];
+		if (!bot->Exists()) {
+			delete bot;
 			_Bots.erase(_Bots.begin() + i);
-		} else
-			_Bots[i]->Think();
+		}
+		else
+			bot->Think();
 	}
 }
 

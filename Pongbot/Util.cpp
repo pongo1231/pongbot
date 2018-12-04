@@ -36,8 +36,8 @@ namespace Util {
 			0, 0, 1, 1, 1, 1, 255, 1, r, g, b, 255, 10);
 	}
 
-	vector<IPlayerInfo*> GetAllPlayers() {
-		vector<IPlayerInfo*> players;
+	std::vector<IPlayerInfo*> GetAllPlayers() {
+		std::vector<IPlayerInfo*> players;
 		for (uint8_t i = 1; i < 33; i++) {
 			edict_t *edict = Engine->PEntityOfEntIndex(i);
 			if (edict) {

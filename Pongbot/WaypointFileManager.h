@@ -3,22 +3,19 @@
 #include <iostream>
 #include <vector>
 
-using namespace std;
-
 class WaypointNode;
 
 class WaypointFileManager : public ConVarBase {
 public:
-	static void Init(vector<WaypointNode*> *waypointNodes);
+	static void Init(std::vector<WaypointNode*> *waypointNodes);
 	static void Destroy();
 private:
-	WaypointFileManager(vector<WaypointNode*> *waypointNodes);
+	WaypointFileManager();
 public:
 	void Read();
 	void Write();
 private:
 	char _CurrentMapName[32];
-	vector<WaypointNode*> *_WaypointNodes;
 private:
 	bool _CheckDir(char *fileName);
 // Hooks

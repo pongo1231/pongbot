@@ -7,8 +7,6 @@
 #include <vector>
 #include <stack>
 
-using namespace std;
-
 class WaypointNode;
 
 class WaypointManager : public ConVarBase, public GameFramable {
@@ -21,8 +19,8 @@ public:
 	WaypointNode *GetRandomWaypointNode() const;
 	WaypointNode *GetClosestWaypointNode(Vector pos) const;
 	bool GetWaypointNodeStackToTargetNode(WaypointNode *startNode, WaypointNode *targetNode,
-		stack<WaypointNode*> *waypointNodesStack,
-		vector<WaypointNode*> *_alreadyTraversedWaypointNodesStack = nullptr);
+		std::stack<WaypointNode*> *waypointNodesStack,
+		std::vector<WaypointNode*> *_alreadyTraversedWaypointNodesStack = nullptr);
 public:
 	void OnGameFrame();
 };

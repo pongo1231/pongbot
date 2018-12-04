@@ -5,8 +5,6 @@
 #include <vector>
 #include <stack>
 
-using namespace std;
-
 class BotHelper;
 class WaypointNode;
 
@@ -35,7 +33,7 @@ private:
 	TFClass _CurrentClass;
 	Vector _LastPos;
 	unsigned int _PosStuckTime;
-	stack<WaypointNode*> _WaypointNodeStack;
+	std::stack<WaypointNode*> _WaypointNodeStack;
 	int _PressedButtons;
 	WaypointNode *_ClosestWaypointNode;
 private:

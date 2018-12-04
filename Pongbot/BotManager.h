@@ -3,8 +3,6 @@
 #include "GameFramable.h"
 #include <vector>
 
-using namespace std;
-
 class Bot;
 
 class BotManager : public ConVarBase, public GameFramable {
@@ -14,7 +12,6 @@ public:
 private:
 	BotManager();
 public:
-	vector<Bot*> *GetAllBots();
 	void KickBot(Bot *bot);
 	void KickAllBots();
 public:

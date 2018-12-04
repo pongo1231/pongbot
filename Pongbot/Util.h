@@ -2,8 +2,6 @@
 #include <cstdint>
 #include <vector>
 
-using namespace std;
-
 class Vector;
 class IPlayerInfo;
 
@@ -12,6 +10,6 @@ namespace Util {
 	void Log(const char *text, ...);
 	float DistanceToNoZ(Vector a, Vector b);
 	void DrawBeam(Vector startPos, Vector endPos, uint8_t r, uint8_t g, uint8_t b);
-	vector<IPlayerInfo*> GetAllPlayers();
+	std::vector<IPlayerInfo*> GetAllPlayers();
 }
 
