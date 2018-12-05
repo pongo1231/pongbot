@@ -64,6 +64,8 @@ bool WaypointManager::GetWaypointNodeStackToTargetNode(WaypointNode *startNode,
 		waypointNodesStack->push(startNode);
 		return true;
 	}
+	if (!_alreadyTraversedWaypointNodesStack)
+		_alreadyTraversedWaypointNodesStack = &std::vector<WaypointNode*>();
 
 	// Check if this node was already traversed to avoid infinite recursive calls
 	for (WaypointNode *node : *_alreadyTraversedWaypointNodesStack)
@@ -90,8 +92,7 @@ void WaypointManager::OnGameFrame() {
 	// Draw beams for each waypoint & their connections
 	for (WaypointNode *node : _WaypointNodes) {
 		Vector startPos = node->Pos;
-		Vector endPos = startPos;
-		endPos.z += 75;
+		Vector endPos = Vector(startPos.x, startPos.y, startPos.z + 75);
 		Util::DrawBeam(startPos, endPos, 0, 255, 0);
 
 		for (WaypointNode *connectedNode : *node->GetConnectedNodes())

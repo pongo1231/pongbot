@@ -149,15 +149,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bot.cpp" />
-    <ClCompile Include="BotHelper.cpp" />
     <ClCompile Include="ConVarBase.cpp" />
     <ClCompile Include="GameFramable.cpp" />
+    <ClCompile Include="BotTask.cpp" />
+    <ClCompile Include="BotTaskHandler.cpp" />
+    <ClCompile Include="BotTaskRoamAround.cpp" />
     <ClCompile Include="TF2Helper.cpp" />
     <ClCompile Include="WaypointFileManager.cpp" />
     <ClCompile Include="WaypointManager.cpp" />
     <ClCompile Include="WaypointNode.cpp" />
+    <ClInclude Include="BotTaskCollection.h" />
     <ClInclude Include="ConVarBase.h" />
     <ClInclude Include="GameFramable.h" />
+    <ClInclude Include="BotTask.h" />
+    <ClInclude Include="BotTaskHandler.h" />
+    <ClInclude Include="BotTaskRoamAround.h" />
     <ClInclude Include="TF2Helper.h" />
     <ClCompile Include="BotManager.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -168,7 +174,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bot.h" />
-    <ClInclude Include="BotHelper.h" />
     <ClInclude Include="BotManager.h" />
     <ClInclude Include="Info.h" />
     <ClInclude Include="Main.h" />

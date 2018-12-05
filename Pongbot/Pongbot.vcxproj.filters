@@ -25,6 +25,12 @@
     <Filter Include="Quelldateien\Waypoint">
       <UniqueIdentifier>{7f4cb74e-d589-4efc-989f-f69f8f729627}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\Bot\Task">
+      <UniqueIdentifier>{bb1e4772-b98b-41cd-9747-86c102d2097b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Bot\Task">
+      <UniqueIdentifier>{6f956cba-2bfd-4b11-9515-ca61c20c7ec6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -42,9 +48,6 @@
     <ClCompile Include="Util.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="BotHelper.cpp">
-      <Filter>Quelldateien\Bot</Filter>
-    </ClCompile>
     <ClCompile Include="WaypointNode.cpp">
       <Filter>Quelldateien\Waypoint</Filter>
     </ClCompile>
@@ -59,6 +62,15 @@
     </ClCompile>
     <ClCompile Include="WaypointFileManager.cpp">
       <Filter>Quelldateien\Waypoint</Filter>
+    </ClCompile>
+    <ClCompile Include="BotTask.cpp">
+      <Filter>Quelldateien\Bot\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="BotTaskRoamAround.cpp">
+      <Filter>Quelldateien\Bot\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="BotTaskHandler.cpp">
+      <Filter>Quelldateien\Bot\Task</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,9 +89,6 @@
     <ClInclude Include="Util.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="BotHelper.h">
-      <Filter>Headerdateien\Bot</Filter>
-    </ClInclude>
     <ClInclude Include="TF2Helper.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -97,6 +106,18 @@
     </ClInclude>
     <ClInclude Include="WaypointFileManager.h">
       <Filter>Headerdateien\Waypoint</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTask.h">
+      <Filter>Headerdateien\Bot\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskRoamAround.h">
+      <Filter>Headerdateien\Bot\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskHandler.h">
+      <Filter>Headerdateien\Bot\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskCollection.h">
+      <Filter>Headerdateien\Bot\Task</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

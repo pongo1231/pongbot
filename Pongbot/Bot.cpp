@@ -1,92 +1,52 @@
 #include "Bot.h"
 #include "BotManager.h"
 #include "Util.h"
-#include "BotHelper.h"
-#include "WaypointManager.h"
-#include "WaypointNode.h"
+#include "BotTaskHandler.h"
 #include <metamod/ISmmPlugin.h>
 #include <hlsdk/game/shared/in_buttons.h>
 #include <string>
-
-#define POS_STUCK_RADIUS 0.2
-#define POS_STUCK_STARTPANICTIME 120
-#define POS_STUCK_GIVEUPTIME 180
-#define WAYPOINTNODE_TOUCHED_RADIUS 5
 
 extern IVEngineServer *Engine;
 extern IBotManager *IIBotManager;
 extern IPlayerInfoManager *IIPlayerInfoManager;
 extern IServerPluginHelpers *IIServerPluginHelpers;
 extern IServerGameClients *IIServerGameClients;
-extern WaypointManager *_WaypointManager;
 
 const char *Name;
-edict_t *_Edict; // Not const for convenience reasons
+edict_t *_Edict;
 IBotController *_IIBotController;
 IPlayerInfo *_IIPlayerInfo;
-BotHelper *_BotHelper;
+BotTaskHandler *_BotTaskHandler;
 
 TFClass _CurrentClass;
-Vector _LastPos;
-unsigned int _PosStuckTime;
-std::stack<WaypointNode*> _WaypointNodeStack;
-int _PressedButtons;
-WaypointNode *_ClosestWaypointNode;
 
 Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
 	_IIBotController(IIBotManager->GetBotController(edict)),
 	_IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(edict)),
-	_BotHelper(new BotHelper(this)) {
+	_BotTaskHandler(new BotTaskHandler(this)) {
 	_IIPlayerInfo->ChangeTeam(2);
-	_BotHelper->RandomClass();
-	_ResetState();
+	_RandomClass();
 }
 
 Bot::~Bot() {
-	delete _BotHelper;
+	delete _BotTaskHandler;
 }
 
 void Bot::Think() {
-	_PressedButtons = 0;
+	int pressedButtons = 0;
+	Vector2D *movement = nullptr;
+	QAngle *lookAt = nullptr;
+	_BotTaskHandler->OnTick(&pressedButtons, movement, lookAt);
 
-	Vector currentPos = GetPos();
-	if (Util::DistanceToNoZ(currentPos, _LastPos) < POS_STUCK_RADIUS) {
-		_PosStuckTime++;
-		if (_PosStuckTime > POS_STUCK_GIVEUPTIME) {
-			_PosStuckTime = 0;
-			_UpdateNewWaypointNodeStack();
-		}
-		else if (_PosStuckTime > POS_STUCK_STARTPANICTIME) {
-			_PressedButtons |= IN_JUMP;
-			_PressedButtons |= IN_DUCK;
-		}
-	}
-	else {
-		_PosStuckTime = 0;
-		_LastPos = currentPos;
-		_UpdateClosestWaypointNode();
-	}
+	CBotCmd cmd;
+	cmd.buttons = pressedButtons;
+	cmd.forwardmove = movement->x;
+	cmd.sidemove = movement->y;
+	cmd.viewangles = *lookAt;
+	_IIBotController->RunPlayerMove(&cmd);
 
-	QAngle lookAtPos;
-	Vector2D movement;
-
-	if (_WaypointNodeStack.empty())
-		_UpdateNewWaypointNodeStack();
-	else {
-		Vector nodePos = _WaypointNodeStack.top()->Pos;
-		if (currentPos.DistTo(nodePos) <= WAYPOINTNODE_TOUCHED_RADIUS)
-			_WaypointNodeStack.pop();
-		else
-			movement = _BotHelper->GetIdealMoveSpeedsToPos(nodePos);
-		Vector currentEarPos;
-		IIServerGameClients->ClientEarPosition(_Edict, &currentEarPos);
-		// Look at normal height instead of onto node directly
-		lookAtPos = _BotHelper->GetLookAtAngleForPos(
-			Vector(nodePos.x, nodePos.y, nodePos.z + currentEarPos.z - currentPos.z));
-	}
-
-	_IIBotController->RunPlayerMove(
-		&_BotHelper->ConstructBotCmd(lookAtPos, movement, _PressedButtons));
+	delete movement;
+	delete lookAt;
 }
 
 edict_t *Bot::GetEdict() const {
@@ -117,29 +77,45 @@ TFClass Bot::GetClass() const {
 
 void Bot::ChangeClass(TFClass tfClass) {
 	char newClass[16];
-	_BotHelper->TFClassToJoinName(tfClass, newClass);
+	_TFClassToJoinName(tfClass, newClass);
 	char cmd[32];
 	sprintf_s(cmd, "joinclass %s", newClass);
 	IIServerPluginHelpers->ClientCommand(_Edict, cmd);
 	_CurrentClass = tfClass;
 }
 
-void Bot::_ResetState() {
-	_PressedButtons = 0;
-	_ClosestWaypointNode = nullptr;
-}
-
-void Bot::_UpdateNewWaypointNodeStack() {
-	if (!_ClosestWaypointNode)
-		_UpdateClosestWaypointNode();
-	// If still nullptr, no waypoint nodes exist
-	if (_ClosestWaypointNode) {
-		_WaypointNodeStack = std::stack<WaypointNode*>();
-		_WaypointManager->GetWaypointNodeStackToTargetNode(_ClosestWaypointNode,
-			_WaypointManager->GetRandomWaypointNode(), &_WaypointNodeStack);
+void Bot::_TFClassToJoinName(TFClass tfClass, char *tfClassName) {
+	switch (tfClass) {
+	case SCOUT:
+		strcpy(tfClassName, "scout");
+		break;
+	case SOLDIER:
+		strcpy(tfClassName, "soldier");
+		break;
+	case PYRO:
+		strcpy(tfClassName, "pyro");
+		break;
+	case DEMO:
+		strcpy(tfClassName, "demoman");
+		break;
+	case HEAVY:
+		strcpy(tfClassName, "heavyweapons");
+		break;
+	case ENGI:
+		strcpy(tfClassName, "engineer");
+		break;
+	case MED:
+		strcpy(tfClassName, "medic");
+		break;
+	case SNIPER:
+		strcpy(tfClassName, "sniper");
+		break;
+	case SPY:
+		strcpy(tfClassName, "spy");
+		break;
 	}
 }
 
-void Bot::_UpdateClosestWaypointNode() {
-	_ClosestWaypointNode = _WaypointManager->GetClosestWaypointNode(_LastPos);
+void Bot::_RandomClass() {
+	ChangeClass(TFClass(Util::RandomInt(0, 8)));
 }

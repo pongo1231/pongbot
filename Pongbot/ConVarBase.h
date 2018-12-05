@@ -4,6 +4,7 @@
 class ConVarBase : public IConCommandBaseAccessor {
 public:
 	ConVarBase();
+
 private:
 	bool RegisterConCommandBase(ConCommandBase *pVar);
 };

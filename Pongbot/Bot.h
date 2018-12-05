@@ -2,19 +2,18 @@
 #include "TF2Helper.h"
 #include <hlsdk/public/edict.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
-#include <vector>
-#include <stack>
 
 class BotHelper;
+class BotTaskHandler;
 class WaypointNode;
 
 class Bot {
 public:
 	const char *Name;
-public:
+
 	Bot(edict_t *edict, const char *name);
 	~Bot();
-public:
+
 	void Think();
 	edict_t *GetEdict() const;
 	bool Exists() const;
@@ -22,23 +21,18 @@ public:
 	Vector GetEarPos() const;
 	QAngle GetAngle() const;
 	TFClass GetClass() const;
-public:
+
 	void ChangeClass(TFClass tfClass);
+
 private:
 	edict_t *_Edict;
 	IBotController *_IIBotController;
 	IPlayerInfo *_IIPlayerInfo;
-	BotHelper *_BotHelper;
-private:
+	BotTaskHandler *_BotTaskHandler;
+
 	TFClass _CurrentClass;
-	Vector _LastPos;
-	unsigned int _PosStuckTime;
-	std::stack<WaypointNode*> _WaypointNodeStack;
-	int _PressedButtons;
-	WaypointNode *_ClosestWaypointNode;
-private:
-	void _ResetState();
-	void _UpdateNewWaypointNodeStack();
-	void _UpdateClosestWaypointNode();
+
+	void _TFClassToJoinName(TFClass tfClass, char *tfClassName);
+	void _RandomClass();
 };
 

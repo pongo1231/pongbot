@@ -6,15 +6,15 @@
 class Bot;
 
 class BotManager : public ConVarBase, public GameFramable {
+private:
+	BotManager();
+
 public:
 	static void Init();
 	static void Destroy();
-private:
-	BotManager();
-public:
+
 	void KickBot(Bot *bot);
 	void KickAllBots();
-public:
 	void OnGameFrame();
 };
 

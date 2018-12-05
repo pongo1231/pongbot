@@ -4,6 +4,6 @@ class GameFramable {
 public:
 	GameFramable();
 	~GameFramable();
-public:
+
 	virtual void OnGameFrame() = 0;
 };
