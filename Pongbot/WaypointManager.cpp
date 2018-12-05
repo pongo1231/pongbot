@@ -12,9 +12,14 @@ WaypointManager *_WaypointManager;
 
 static std::vector<WaypointNode*> _WaypointNodes;
 static WaypointNode *_SelectedNode;
+static bool _NodeBiConnect;
 
 void WaypointManager::Init() {
 	Assert(!_WaypointManager);
+	_WaypointNodes.clear();
+	_SelectedNode = nullptr;
+	_NodeBiConnect = false;
+
 	_WaypointManager = new WaypointManager();
 	WaypointFileManager::Init(&_WaypointNodes);
 }
@@ -77,6 +82,11 @@ bool WaypointManager::GetWaypointNodeStackToTargetNode(WaypointNode *startNode,
 }
 
 void WaypointManager::OnGameFrame() {
+	static float waitTime;
+	if (waitTime > Engine->Time())
+		return;
+	waitTime = Engine->Time() + 1;
+
 	// Draw beams for each waypoint & their connections
 	for (WaypointNode *node : _WaypointNodes) {
 		Vector startPos = node->Pos;
@@ -135,7 +145,7 @@ CON_COMMAND(pongbot_connectnode2, "Connects previously selected waypoint node wi
 			else {
 				int selectedNodeID = _SelectedNode->Id;
 				int currentNodeID = currentNode->Id;
-				if (!_SelectedNode->ConnectToNode(currentNode, true)) // Connect bidirectional
+				if (!_SelectedNode->ConnectToNode(currentNode, _NodeBiConnect))
 					Util::Log("Node #%d and #%d were already connected!", selectedNodeID, currentNodeID);
 				else {
 					Util::Log("Connected waypoint node #%d with node #%d", selectedNodeID, currentNodeID);
@@ -144,6 +154,14 @@ CON_COMMAND(pongbot_connectnode2, "Connects previously selected waypoint node wi
 			}
 		}
 	}
+}
+
+CON_COMMAND(pongbot_biconnect, "Toggles automatic node bidirectional connections") {
+	_NodeBiConnect = !_NodeBiConnect;
+	if (_NodeBiConnect)
+		Util::Log("Bidirectional node connections enabled!");
+	else
+		Util::Log("Bidirectional node connections disabled!");
 }
 
 CON_COMMAND(pongbot_clearnodes, "Removes all waypoint nodes") {
@@ -168,6 +186,21 @@ CON_COMMAND(pongbot_removenode, "Removes the nearest node") {
 				}
 			delete node;
 			Util::Log("Removed nearest node!");
+		}
+	}
+}
+
+CON_COMMAND(pongbot_clearnodeconnections, "Clears all connections to other nodes from node") {
+	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
+	if (playerInfo) {
+		WaypointNode *node = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
+		if (!node)
+			Util::Log("No waypoint node found!");
+		else {
+			std::vector<WaypointNode*> *connectedNodes = node->GetConnectedNodes();
+			for (uint8_t i = 0; i < connectedNodes->size(); i++)
+				connectedNodes->erase(connectedNodes->begin() + i);
+			Util::Log("Cleared node connections of closest node!");
 		}
 	}
 }

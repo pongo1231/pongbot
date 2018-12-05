@@ -134,8 +134,7 @@ void Bot::_UpdateNewWaypointNodeStack() {
 		_UpdateClosestWaypointNode();
 	// If still nullptr, no waypoint nodes exist
 	if (_ClosestWaypointNode) {
-		if (!_WaypointNodeStack.empty())
-			_WaypointNodeStack = std::stack<WaypointNode*>();
+		_WaypointNodeStack = std::stack<WaypointNode*>();
 		_WaypointManager->GetWaypointNodeStackToTargetNode(_ClosestWaypointNode,
 			_WaypointManager->GetRandomWaypointNode(), &_WaypointNodeStack);
 	}

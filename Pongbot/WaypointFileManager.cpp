@@ -25,9 +25,9 @@ SH_DECL_HOOK6(IServerGameDLL, LevelInit, SH_NOATTRIB, 0, bool, char const *, cha
 
 void WaypointFileManager::Init(std::vector<WaypointNode*> *waypointNodes) {
 	Assert(!_WaypointFileManager);
-	_WaypointFileManager = new WaypointFileManager();
 	_WaypointNodes = waypointNodes;
 
+	_WaypointFileManager = new WaypointFileManager();
 	SH_ADD_HOOK(IServerGameDLL, LevelInit, Server,
 		SH_MEMBER(_WaypointFileManager, &WaypointFileManager::_OnLevelInit), true);
 }
@@ -67,19 +67,20 @@ void WaypointFileManager::Read() {
 				Vector(atof(lineBuffer[1]), atof(lineBuffer[2]), atof(lineBuffer[3]))));
 
 			// Store connected node ids for reference
-			for (uint8_t k = 4; k < 256; k++)
-				if (strcmp(lineBuffer[k], "\0") == 0) // End of file
+			for (uint8_t k = 4; k < 256; k++) {
+				char *content = lineBuffer[k];
+				// End of file / line
+				if (strcmp(content, "\0") == 0 || strcmp(content, "end") == 0)
 					break;
-				else if (strcmp(lineBuffer[k], "end") == 0) // End of line
-					continue;
 				else
-					connectedNodeIds[i][k - 4] = atoi(lineBuffer[i]);
+					connectedNodeIds[i][k - 4] = atoi(content);
+			}
 
 			i++;
 		}
 
 		// Now handle the node connections
-		for (uint8_t i = 0; i < _WaypointNodes->size(); i++)
+		for (i = 0; i < _WaypointNodes->size(); i++)
 			for (uint8_t j = 0; j < 256; j++)
 				if (connectedNodeIds[i][j] == -1)
 					break;
@@ -135,6 +136,7 @@ bool WaypointFileManager::_CheckDir(char *fileName) {
 bool WaypointFileManager::_OnLevelInit(const char *pMapName, char const *pMapEntities,
 	char const *pOldLevel, char const *pLandmarkName, bool loadGame, bool background) {
 	strcpy(_CurrentMapName, pMapName);
+	_WaypointFileManager->Read();
 	return true;
 }
 

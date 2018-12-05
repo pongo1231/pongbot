@@ -18,12 +18,12 @@ namespace Util {
 	}
 
 	void Log(const char *text, ...) {
-		char fullText[64], prefixedText[128];
+		char userText[64], prefixedText[128];
 		va_list args;
 		va_start(args, text);
-		vsnprintf_s(fullText, sizeof(fullText), text, args);
+		vsnprintf_s(userText, sizeof(userText), text, args);
 		va_end(args);
-		sprintf_s(prefixedText, "[Pongbot] %s\n", fullText);
+		sprintf_s(prefixedText, "[Pongbot] %s\n", userText);
 		g_SMAPI->ConPrintf(prefixedText);
 	}
 
