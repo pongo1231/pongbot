@@ -13,8 +13,8 @@
 #pragma once
 #endif
 
-#include "tier0/dbg.h"
-#include "utlrbtree.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/tier1/utlrbtree.h"
 
 //-----------------------------------------------------------------------------
 //

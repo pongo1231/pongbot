@@ -17,15 +17,15 @@
 #include <float.h>
 
 // For vec_t, put this somewhere else?
-#include "basetypes.h"
+#include "hlsdk/public/tier0/basetypes.h"
 
 // For rand(). We really need a library!
 #include <stdlib.h>
 
-#include "tier0/dbg.h"
-#include "mathlib/vector.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/mathlib/vector.h"
 
-#include "mathlib/mathlib.h"
+#include "hlsdk/public/mathlib/mathlib.h"
 
 #if defined( _X360 )
 #pragma bitfield_order( push, lsb_to_msb )

@@ -12,8 +12,8 @@
 #endif
 
 
-#include "ehandle.h"
-#include "mathlib/vmatrix.h"
+#include "hlsdk/game/shared/ehandle.h"
+#include "hlsdk/public/mathlib/vmatrix.h"
 
 class CBaseEntity;
 

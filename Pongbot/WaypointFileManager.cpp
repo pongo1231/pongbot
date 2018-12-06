@@ -23,11 +23,15 @@ char _CurrentMapName[32];
 SH_DECL_HOOK6(IServerGameDLL, LevelInit, SH_NOATTRIB, 0, bool, char const *, char const *,
 	char const *, char const *, bool, bool);
 
+WaypointFileManager::WaypointFileManager() {}
+
 void WaypointFileManager::Init(std::vector<WaypointNode*> *waypointNodes) {
 	Assert(!_WaypointFileManager);
+
 	_WaypointNodes = waypointNodes;
 
 	_WaypointFileManager = new WaypointFileManager();
+
 	SH_ADD_HOOK(IServerGameDLL, LevelInit, Server,
 		SH_MEMBER(_WaypointFileManager, &WaypointFileManager::_OnLevelInit), true);
 }
@@ -40,8 +44,6 @@ void WaypointFileManager::Destroy() {
 
 	delete _WaypointFileManager;
 }
-
-WaypointFileManager::WaypointFileManager() {}
 
 void WaypointFileManager::Read() {
 	char fileName[64];

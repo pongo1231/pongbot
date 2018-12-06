@@ -4,10 +4,10 @@
 #include "BotTaskCollection.h"
 #include "Util.h"
 
-Bot *__Bot;
+Bot *_ABot;
 BotTask *_BotTask;
 
-BotTaskHandler::BotTaskHandler(Bot *bot) : __Bot(bot) {
+BotTaskHandler::BotTaskHandler(Bot *bot) : _ABot(bot) {
 	_BotTask = new BotTaskRoamAround(bot);
 }
 
@@ -15,9 +15,9 @@ BotTaskHandler::~BotTaskHandler() {
 	delete _BotTask;
 }
 
-void BotTaskHandler::OnTick(int *pressedButtons, Vector2D *&movement, QAngle *&lookAt) {
+void BotTaskHandler::OnThink(int *pressedButtons, Vector2D *&movement, QAngle *&lookAt) {
 	if (_BotTask)
-		_BotTask->OnTick(pressedButtons, movement, lookAt);
+		_BotTask->OnThink(pressedButtons, movement, lookAt);
 
 	if (!movement)
 		movement = new Vector2D();

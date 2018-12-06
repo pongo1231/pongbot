@@ -6,6 +6,6 @@ namespace Info {
 	const char *Description = "A WIP TF2 bot";
 	const char *URL = "None"; // ...yet
 	const char *License = "AGPLv3";
-	const char *Version = "0.1";
+	const char *Version = "v0.0.3";
 	const char *Date = "Lorem Ipsum"; // TODO
 }

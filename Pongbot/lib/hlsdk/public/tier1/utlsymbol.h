@@ -13,10 +13,10 @@
 #pragma once
 #endif
 
-#include "tier0/threadtools.h"
-#include "tier1/utlrbtree.h"
-#include "tier1/utlvector.h"
-#include "tier1/stringpool.h"
+#include "hlsdk/public/tier0/threadtools.h"
+#include "hlsdk/public/tier1/utlrbtree.h"
+#include "hlsdk/public/tier1/utlvector.h"
+#include "hlsdk/public/tier1/stringpool.h"
 
 
 //-----------------------------------------------------------------------------

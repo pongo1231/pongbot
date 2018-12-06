@@ -11,10 +11,10 @@
 #pragma once
 #endif
 
-#include "interface.h"
-#include "mathlib/vector.h"
-#include "utlvector.h"
-#include "basehandle.h"
+#include "hlsdk/public/tier1/interface.h"
+#include "hlsdk/public/mathlib/vector.h"
+#include "hlsdk/public/tier1/utlvector.h"
+#include "hlsdk/public/basehandle.h"
 
 
 struct vcollide_t;

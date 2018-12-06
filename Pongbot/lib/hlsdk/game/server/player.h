@@ -10,13 +10,13 @@
 #pragma once
 #endif
 
-#include "basecombatcharacter.h"
-#include "usercmd.h"
-#include "playerlocaldata.h"
-#include "PlayerState.h"
-#include "game/server/iplayerinfo.h"
-#include "hintsystem.h"
-#include "SoundEmitterSystem/isoundemittersystembase.h"
+#include "hlsdk/game/server/basecombatcharacter.h"
+#include "hlsdk/game/shared/usercmd.h"
+#include "hlsdk/game/server/playerlocaldata.h"
+#include "hlsdk/public/PlayerState.h"
+#include "hlsdk/public/game/server/iplayerinfo.h"
+#include "hlsdk/game/shared/hintsystem.h"
+#include "hlsdk/public/SoundEmitterSystem/isoundemittersystembase.h"
 
 // For queuing and processing usercmds
 class CCommandContext

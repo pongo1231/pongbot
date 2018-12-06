@@ -30,34 +30,34 @@
 #include <stdio.h>
 
 // tier 0
-#include "tier0/dbg.h"
-#include "tier0/platform.h"
-#include "basetypes.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/tier0/platform.h"
+#include "hlsdk/public/tier0/basetypes.h"
 
 // tier 1
-#include "tier1/strtools.h"
-#include "utlvector.h"
-#include "mathlib/vmatrix.h"
+#include "hlsdk/public/tier1/strtools.h"
+#include "hlsdk/public/tier1/utlvector.h"
+#include "hlsdk/public/mathlib/vmatrix.h"
 
 // tier 2
-#include "string_t.h"
+#include "hlsdk/public/string_t.h"
 
 // tier 3
-#include "vphysics_interface.h"
+#include "hlsdk/public/vphysics_interface.h"
 
 // Shared engine/DLL constants
-#include "const.h"
-#include "edict.h"
+#include "hlsdk/public/const.h"
+#include "hlsdk/public/edict.h"
 
 // Shared header describing protocol between engine and DLLs
-#include "eiface.h"
-#include "iserverentity.h"
+#include "hlsdk/public/eiface.h"
+#include "hlsdk/public/iserverentity.h"
 
-#include "dt_send.h"
+#include "hlsdk/public/dt_send.h"
 
 // Shared header between the client DLL and the game DLLs
-#include "shareddefs.h"
-#include "ehandle.h"
+#include "hlsdk/game/shared/shareddefs.h"
+#include "hlsdk/game/shared/ehandle.h"
 
 // app
 #if defined(_X360)
@@ -65,21 +65,21 @@
 #endif
 
 
-#include "datamap.h"
-#include "util.h"
-#include "predictable_entity.h"
-#include "predictableid.h"
-#include "variant_t.h"
-#include "takedamageinfo.h"
-#include "utllinkedlist.h"
-#include "touchlink.h"
-#include "groundlink.h"
-#include "base_transmit_proxy.h"
-#include "soundflags.h"
-#include "networkvar.h"
-#include "baseentity_shared.h"
-#include "basetoggle.h"
-#include "igameevents.h"
+#include "hlsdk/public/datamap.h"
+#include "hlsdk/game/server/util.h"
+#include "hlsdk/game/shared/predictable_entity.h"
+#include "hlsdk/game/shared/predictableid.h"
+#include "hlsdk/game/server/variant_t.h"
+#include "hlsdk/game/shared/takedamageinfo.h"
+#include "hlsdk/public/tier1/utllinkedlist.h"
+#include "hlsdk/game/shared/touchlink.h"
+#include "hlsdk/game/shared/groundlink.h"
+#include "hlsdk/game/server/base_transmit_proxy.h"
+#include "hlsdk/public/soundflags.h"
+#include "hlsdk/public/networkvar.h"
+#include "hlsdk/game/shared/baseentity_shared.h"
+#include "hlsdk/game/server/basetoggle.h"
+#include "hlsdk/public/igameevents.h"
 
 // saverestore.h declarations
 class ISave;
@@ -138,17 +138,17 @@ class CSound;
 // This is kind of ugly in that it adds a bunch of dependency where it isn't needed.
 // But on balance, the compile time is much lower (even incrementally) once the precompiled
 // headers contain these headers.
-#include "precache_register.h"
-#include "baseanimating.h"
-#include "basecombatweapon.h"
-#include "basecombatcharacter.h"
-#include "gamerules.h"
-#include "entitylist.h"
-#include "basetempentity.h"
-#include "player.h"
-#include "te.h"
-#include "physics.h"
-#include "ndebugoverlay.h"
-#include "recipientfilter.h"
+#include "hlsdk/game/shared/precache_register.h"
+#include "hlsdk/game/server/baseanimating.h"
+#include "hlsdk/game/server/basecombatweapon.h"
+#include "hlsdk/game/server/basecombatcharacter.h"
+#include "hlsdk/game/shared/gamerules.h"
+#include "hlsdk/game/server/entitylist.h"
+#include "hlsdk/game/server/basetempentity.h"
+#include "hlsdk/game/server/player.h"
+#include "hlsdk/game/server/te.h"
+#include "hlsdk/game/server/physics.h"
+#include "hlsdk/game/server/ndebugoverlay.h"
+#include "hlsdk/game/server/recipientfilter.h"
 
 #endif // CBASE_H

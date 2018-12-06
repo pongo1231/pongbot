@@ -8,8 +8,8 @@
 #ifndef LIGHTDESC_H
 #define LIGHTDESC_H
 
-#include <mathlib/ssemath.h>
-#include <mathlib/vector.h>
+#include "hlsdk/public/mathlib/ssemath.h"
+#include "hlsdk/public/mathlib/vector.h"
 
 //-----------------------------------------------------------------------------
 // Light structure

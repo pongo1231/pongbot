@@ -12,8 +12,8 @@
 #include <xmmintrin.h>
 #endif
 
-#include <mathlib/vector.h>
-#include <mathlib/mathlib.h>
+#include "hlsdk/public/mathlib/vector.h"
+#include "hlsdk/public/mathlib/mathlib.h"
 
 #if defined(_LINUX) || defined(__APPLE__)
 #define USE_STDC_FOR_SIMD 0

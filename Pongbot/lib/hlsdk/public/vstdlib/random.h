@@ -9,10 +9,10 @@
 #ifndef VSTDLIB_RANDOM_H
 #define VSTDLIB_RANDOM_H
 
-#include "vstdlib/vstdlib.h"
-#include "tier0/basetypes.h"
-#include "tier0/threadtools.h"
-#include "tier1/interface.h"
+#include "hlsdk/public/vstdlib/vstdlib.h"
+#include "hlsdk/public/tier0/basetypes.h"
+#include "hlsdk/public/tier0/threadtools.h"
+#include "hlsdk/public/tier1/interface.h"
 
 #define NTAB 32
 

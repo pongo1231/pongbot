@@ -36,7 +36,7 @@ void Bot::Think() {
 	int pressedButtons = 0;
 	Vector2D *movement = nullptr;
 	QAngle *lookAt = nullptr;
-	_BotTaskHandler->OnTick(&pressedButtons, movement, lookAt);
+	_BotTaskHandler->OnThink(&pressedButtons, movement, lookAt);
 
 	CBotCmd cmd;
 	cmd.buttons = pressedButtons;

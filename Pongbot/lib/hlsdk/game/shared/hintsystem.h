@@ -13,10 +13,10 @@
 #ifdef CLIENT_DLL
 	#include "c_baseplayer.h"
 #else
-	#include "player.h"
+	#include "hlsdk/game/server/player.h"
 #endif
 
-#include "bitvec.h"
+#include "hlsdk/public/bitvec.h"
 
 class CHintMessageQueue;
 class CHintMessageTimers;

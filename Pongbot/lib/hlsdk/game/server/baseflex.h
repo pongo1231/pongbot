@@ -12,10 +12,10 @@
 #endif
 
 
-#include "BaseAnimatingOverlay.h"
-#include "utlvector.h"
-#include "utlrbtree.h"
-#include "sceneentity_shared.h"
+#include "hlsdk/game/server/BaseAnimatingOverlay.h"
+#include "hlsdk/public/tier1/utlvector.h"
+#include "hlsdk/public/tier1/utlrbtree.h"
+#include "hlsdk/game/shared/sceneentity_shared.h"
 
 struct flexsettinghdr_t;
 struct flexsetting_t;

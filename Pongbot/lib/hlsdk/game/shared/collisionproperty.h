@@ -11,10 +11,10 @@
 #pragma once
 #endif
 
-#include "networkvar.h"
-#include "engine/ICollideable.h"
-#include "mathlib/vector.h"
-#include "ispatialpartition.h"
+#include "hlsdk/public/networkvar.h"
+#include "hlsdk/public/engine/ICollideable.h"
+#include "hlsdk/public/mathlib/vector.h"
+#include "hlsdk/public/ispatialpartition.h"
 
 
 //-----------------------------------------------------------------------------

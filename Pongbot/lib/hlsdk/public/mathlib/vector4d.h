@@ -19,9 +19,9 @@
 #if !defined( _X360 )
 #include <xmmintrin.h>	// For SSE
 #endif
-#include "basetypes.h"	// For vec_t, put this somewhere else?
-#include "tier0/dbg.h"
-#include "mathlib/math_pfns.h"
+#include "hlsdk/public/tier0/basetypes.h"	// For vec_t, put this somewhere else?
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/mathlib/math_pfns.h"
 
 // forward declarations
 class Vector;

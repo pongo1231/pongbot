@@ -9,9 +9,9 @@
 #ifndef UTLRBTREE_H
 #define UTLRBTREE_H
 
-#include "tier1/utlmemory.h"
-#include "tier1/utlfixedmemory.h"
-#include "tier1/utlblockmemory.h"
+#include "hlsdk/public/tier1/utlmemory.h"
+#include "hlsdk/public/tier1/utlfixedmemory.h"
+#include "hlsdk/public/tier1/utlblockmemory.h"
 
 //-----------------------------------------------------------------------------
 // Tool to generate a default compare function for any type that implements

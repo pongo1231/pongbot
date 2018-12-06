@@ -8,7 +8,7 @@ class BotTaskRoamAround : public BotTask {
 public:
 	BotTaskRoamAround(Bot *bot);
 
-	void OnTick(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt);
+	void OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt);
 
 private:
 	Vector _LastPos;

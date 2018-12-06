@@ -12,7 +12,8 @@
 #endif
 
 
-#include "networkvar.h" // todo: change this when DECLARE_CLASS is moved into a better location.
+#include "hlsdk/public/networkvar.h" // todo: change this when DECLARE_CLASS is moved into a better location.
+									 // Half a decade later...
 
 // Used to initialize m_flBaseDamage to something that we know pretty much for sure
 // hasn't been modified by a user. 

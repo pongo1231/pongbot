@@ -11,10 +11,10 @@
 #pragma once
 #endif
 
-#include "irecipientfilter.h"
-#include "const.h"
-#include "player.h"
-#include "bitvec.h"
+#include "hlsdk/public/irecipientfilter.h"
+#include "hlsdk/public/const.h"
+#include "hlsdk/game/server/player.h"
+#include "hlsdk/public/bitvec.h"
 
 //-----------------------------------------------------------------------------
 // Purpose: A generic filter for determining whom to send message/sounds etc. to and

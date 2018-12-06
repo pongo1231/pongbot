@@ -679,7 +679,7 @@ struct ModelWidthScale
 	float		m_flModelWidthScaleStartTime;
 };
 
-#include "soundflags.h"
+#include "hlsdk/public/soundflags.h"
 
 struct CSoundParameters;
 typedef short HSOUNDSCRIPTHANDLE;

@@ -11,7 +11,7 @@
 #endif
 
 
-#include "utlpriorityqueue.h"
+#include "hlsdk/public/tier1/utlpriorityqueue.h"
 
 
 //

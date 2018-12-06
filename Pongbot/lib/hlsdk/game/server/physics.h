@@ -17,7 +17,7 @@
 #pragma once
 #endif
 
-#include "physics_shared.h"
+#include "hlsdk/game/shared/physics_shared.h"
 
 class CBaseEntity;
 class IPhysicsMaterial;

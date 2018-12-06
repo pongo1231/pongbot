@@ -9,7 +9,7 @@
 #define BASECOMBATCHARACTER_H
 
 #include <limits.h>
-#include "weapon_proficiency.h"
+#include "hlsdk/game/shared/weapon_proficiency.h"
 
 #ifdef _WIN32
 #pragma once
@@ -21,13 +21,13 @@
 #define POWERUP_THINK_CONTEXT	"PowerupThink"
 #endif
 
-#include "cbase.h"
-#include "baseentity.h"
-#include "baseflex.h"
-#include "damagemodifier.h"
-#include "utllinkedlist.h"
-#include "ai_hull.h"
-#include "physics_impact_damage.h"
+#include "hlsdk/game/server/cbase.h"
+#include "hlsdk/game/server/baseentity.h"
+#include "hlsdk/game/server/baseflex.h"
+#include "hlsdk/game/server/damagemodifier.h"
+#include "hlsdk/public/tier1/utllinkedlist.h"
+#include "hlsdk/game/server/ai_hull.h"
+#include "hlsdk/game/server/physics_impact_damage.h"
 
 class CScriptedTarget;
 typedef CHandle<CBaseCombatWeapon> CBaseCombatWeaponHandle;

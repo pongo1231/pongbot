@@ -11,7 +11,7 @@
 #endif
 
 
-#include "ehandle.h"
+#include "hlsdk/game/shared/ehandle.h"
 
 
 class CBaseEntity;

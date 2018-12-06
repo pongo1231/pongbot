@@ -13,9 +13,9 @@
 #pragma once
 #endif
 
-#include "interface.h"
-#include "mathlib/mathlib.h"
-#include "istudiorender.h"
+#include "hlsdk/public/tier1/interface.h"
+#include "hlsdk/public/mathlib/mathlib.h"
+#include "hlsdk/public/istudiorender.h"
 
 //-----------------------------------------------------------------------------
 // forward declarations

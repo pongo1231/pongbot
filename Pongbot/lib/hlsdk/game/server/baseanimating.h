@@ -10,11 +10,11 @@
 #pragma once
 #endif
 
-#include "baseentity.h"
-#include "entityoutput.h"
-#include "studio.h"
-#include "datacache/idatacache.h"
-#include "tier0/threadtools.h"
+#include "hlsdk/game/server/baseentity.h"
+#include "hlsdk/game/server/entityoutput.h"
+#include "hlsdk/public/studio.h"
+#include "hlsdk/public/datacache/idatacache.h"
+#include "hlsdk/public/tier0/threadtools.h"
 
 
 struct animevent_t;

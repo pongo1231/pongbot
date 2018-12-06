@@ -31,10 +31,10 @@
 #endif
 
 #include <string.h>
-#include "mathlib/vector.h"
-#include "mathlib/vplane.h"
-#include "mathlib/vector4d.h"
-#include "mathlib/mathlib.h"
+#include "hlsdk/public/mathlib/vector.h"
+#include "hlsdk/public/mathlib/vplane.h"
+#include "hlsdk/public/mathlib/vector4d.h"
+#include "hlsdk/public/mathlib/mathlib.h"
 
 struct cplane_t;
 

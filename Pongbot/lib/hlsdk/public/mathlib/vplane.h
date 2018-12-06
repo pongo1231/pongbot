@@ -14,7 +14,7 @@
 #pragma once
 #endif
 
-#include "mathlib/vector.h"
+#include "hlsdk/public/mathlib/vector.h"
 
 typedef int SideType;
 

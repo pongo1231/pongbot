@@ -13,9 +13,9 @@
 #pragma once
 #endif
 
-#include "edict.h"
-#include "tier1/interface.h"
-#include "tier1/KeyValues.h"
+#include "hlsdk/public/edict.h"
+#include "hlsdk/public/tier1/interface.h"
+#include "hlsdk/public/tier1/KeyValues.h"
 
 class CCommand;
 

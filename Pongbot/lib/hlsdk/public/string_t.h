@@ -1,3 +1,5 @@
+#include <stddef.h> // Fix to have NULL work
+
 //========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Defines the more complete set of operations on the string_t defined

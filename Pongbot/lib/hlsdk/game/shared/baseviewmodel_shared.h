@@ -11,10 +11,10 @@
 #pragma once
 #endif
 
-#include "predictable_entity.h"
-#include "utlvector.h"
-#include "baseplayer_shared.h"
-#include "shared_classnames.h"
+#include "hlsdk/game/shared/predictable_entity.h"
+#include "hlsdk/public/tier1/utlvector.h"
+#include "hlsdk/game/shared/baseplayer_shared.h"
+#include "hlsdk/game/shared/shared_classnames.h"
 
 class CBaseCombatWeapon;
 class CBaseCombatCharacter;

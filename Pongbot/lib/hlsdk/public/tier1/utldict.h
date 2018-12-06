@@ -13,13 +13,13 @@
 #pragma once
 #endif
 
-#include "tier0/dbg.h"
-#include "tier1/utlmap.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/tier1/utlmap.h"
 
 // Include this because tons of code was implicitly getting utlsymbol or utlvector via utldict.h
-#include "tier1/utlsymbol.h"
+#include "hlsdk/public/tier1/utlsymbol.h"
 
-#include "tier0/memdbgon.h"
+#include "hlsdk/public/tier0/memdbgon.h"
 
 enum EDictCompareType
 {
@@ -315,6 +315,6 @@ I CUtlDict<T, I>::Next( I i ) const
 	return m_Elements.NextInorder(i);
 }
 
-#include "tier0/memdbgoff.h"
+#include "hlsdk/public/tier0/memdbgoff.h"
 
 #endif // UTLDICT_H

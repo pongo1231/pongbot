@@ -12,9 +12,9 @@
 #pragma once
 #endif
 
-#include "basehandle.h"
-#include "utlvector.h" //need CUtlVector for IEngineTrace::GetBrushesIn*()
-#include "mathlib/vector4d.h"
+#include "hlsdk/public/basehandle.h"
+#include "hlsdk/public/tier1/utlvector.h" //need CUtlVector for IEngineTrace::GetBrushesIn*()
+#include "hlsdk/public/mathlib/vector4d.h"
 
 class Vector;
 class IHandleEntity;

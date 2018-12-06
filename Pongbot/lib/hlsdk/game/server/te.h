@@ -12,6 +12,6 @@
 #pragma once
 #endif
 
-#include "itempents.h"
+#include "hlsdk/game/shared/itempents.h"
 
 #endif // TE_H

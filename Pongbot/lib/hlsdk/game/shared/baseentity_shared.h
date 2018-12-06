@@ -60,7 +60,7 @@ enum InvalidatePhysicsBits_t
 #include "c_baseentity.h"
 #include "c_baseanimating.h"
 #else
-#include "baseentity.h"
+#include "hlsdk/game/server/baseentity.h"
 
 #ifdef HL2_EPISODIC
 	#include "info_darknessmode_lightsource.h"

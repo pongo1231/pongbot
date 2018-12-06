@@ -9,9 +9,9 @@ public:
 	BotTaskHandler(Bot *bot);
 	~BotTaskHandler();
 
-	void OnTick(int *pressedButtons, Vector2D *&movement, QAngle *&lookAt);
+	void OnThink(int *pressedButtons, Vector2D *&movement, QAngle *&lookAt);
 
 private:
-	Bot *__Bot; // Avoid conflicts with BotTask's _Bot
+	Bot *_ABot; // Avoid conflicts with BotTask's _Bot
 	BotTask *_BotTask;
 };

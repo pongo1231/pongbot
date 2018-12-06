@@ -13,19 +13,19 @@
 #pragma once
 #endif
 
-#include "basetypes.h"
-#include "mathlib/vector2d.h"
-#include "mathlib/vector.h"
-#include "mathlib/vector4d.h"
-#include "mathlib/compressed_vector.h"
-#include "tier0/dbg.h"
-#include "tier0/threadtools.h"
-#include "mathlib/mathlib.h"
-#include "utlvector.h"
-#include "utlhash.h"
-#include "datamap.h"
-#include "generichash.h"
-#include "localflexcontroller.h"
+#include "hlsdk/public/tier0/basetypes.h"
+#include "hlsdk/public/mathlib/vector2d.h"
+#include "hlsdk/public/mathlib/vector.h"
+#include "hlsdk/public/mathlib/vector4d.h"
+#include "hlsdk/public/mathlib/compressed_vector.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/tier0/threadtools.h"
+#include "hlsdk/public/mathlib/mathlib.h"
+#include "hlsdk/public/tier1/utlvector.h"
+#include "hlsdk/public/tier1/utlhash.h"
+#include "hlsdk/public/datamap.h"
+#include "hlsdk/public/tier1/generichash.h"
+#include "hlsdk/public/localflexcontroller.h"
 
 
 #define STUDIO_ENABLE_PERF_COUNTERS

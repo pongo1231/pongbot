@@ -13,12 +13,12 @@
 
 #define TEAMNUM_NUM_BITS	6
 
-#include "entitylist.h"
-#include "entityoutput.h"
-#include "networkvar.h"
-#include "collisionproperty.h"
-#include "ServerNetworkProperty.h"
-#include "shareddefs.h"
+#include "hlsdk/game/server/entitylist.h"
+#include "hlsdk/game/server/entityoutput.h"
+#include "hlsdk/public/networkvar.h"
+#include "hlsdk/game/shared/collisionproperty.h"
+#include "hlsdk/game/server/ServerNetworkProperty.h"
+#include "hlsdk/game/shared/shareddefs.h"
 
 class CDamageModifier;
 

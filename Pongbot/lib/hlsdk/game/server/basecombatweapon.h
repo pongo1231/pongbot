@@ -12,8 +12,8 @@
 #pragma once
 #endif
 
-#include "entityoutput.h"
-#include "basecombatweapon_shared.h"
+#include "hlsdk/game/server/entityoutput.h"
+#include "hlsdk/game/shared/basecombatweapon_shared.h"
 
 //-----------------------------------------------------------------------------
 // Bullet types

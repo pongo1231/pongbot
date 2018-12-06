@@ -12,10 +12,10 @@
 #endif
 
 
-#include "tier1/utldict.h"
-#include "soundflags.h"
-#include "mathlib/compressed_vector.h"
-#include "appframework/IAppSystem.h"
+#include "hlsdk/public/tier1/utldict.h"
+#include "hlsdk/public/soundflags.h"
+#include "hlsdk/public/mathlib/compressed_vector.h"
+#include "hlsdk/public/appframework/IAppSystem.h"
 
 #define SOUNDEMITTERSYSTEM_INTERFACE_VERSION	"VSoundEmitter002"
 

@@ -12,9 +12,9 @@
 #pragma once
 #endif
 
-#include "ipredictionsystem.h"
-#include "shattersurfacetypes.h"
-#include "irecipientfilter.h"
+#include "hlsdk/game/shared/ipredictionsystem.h"
+#include "hlsdk/public/shattersurfacetypes.h"
+#include "hlsdk/public/irecipientfilter.h"
 
 class CEffectData;
 class KeyValues;

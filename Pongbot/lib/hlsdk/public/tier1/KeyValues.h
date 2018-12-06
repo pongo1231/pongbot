@@ -22,8 +22,8 @@
 #endif
 #endif
 
-#include "utlvector.h"
-#include "Color.h"
+#include "hlsdk/public/tier1/utlvector.h"
+#include "hlsdk/public/Color.h"
 
 #define FOR_EACH_SUBKEY( kvRoot, kvSubKey ) \
 	for ( KeyValues * kvSubKey = kvRoot->GetFirstSubKey(); kvSubKey != NULL; kvSubKey = kvSubKey->GetNextKey() )

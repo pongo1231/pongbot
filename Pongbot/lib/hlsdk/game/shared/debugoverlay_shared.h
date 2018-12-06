@@ -10,8 +10,8 @@
 #pragma once
 #endif
 
-#include "engine/ivdebugoverlay.h"
-#include "mathlib/vector.h"
+#include "hlsdk/public/engine/ivdebugoverlay.h"
+#include "hlsdk/public/mathlib/vector.h"
 
 //=============================================================================
 // NDebugOverlay

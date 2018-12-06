@@ -11,10 +11,10 @@
 #pragma once
 #endif
 
-#include "iservernetworkable.h"
-#include "server_class.h"
-#include "edict.h"
-#include "timedeventmgr.h"
+#include "hlsdk/public/iservernetworkable.h"
+#include "hlsdk/public/server_class.h"
+#include "hlsdk/public/edict.h"
+#include "hlsdk/game/server/timedeventmgr.h"
 
 //
 // Lightweight base class for networkable data on the server.

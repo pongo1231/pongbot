@@ -12,9 +12,9 @@
 #endif
 
 
-#include "playernet_vars.h"
-#include "networkvar.h"
-#include "fogcontroller.h"
+#include "hlsdk/game/shared/playernet_vars.h"
+#include "hlsdk/public/networkvar.h"
+#include "hlsdk/game/server/fogcontroller.h"
 
 //-----------------------------------------------------------------------------
 // Purpose: Player specific data ( sent only to local player, too )

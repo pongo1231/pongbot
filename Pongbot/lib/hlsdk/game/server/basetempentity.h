@@ -16,7 +16,7 @@
 #pragma once
 #endif
 
-#include "edict.h"
+#include "hlsdk/public/edict.h"
 
 // This is the base class for TEMP ENTITIES that use the 
 //  event system to propagate

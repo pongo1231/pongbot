@@ -1,6 +1,7 @@
 #include "BotManager.h"
 #include "Util.h"
 #include "Bot.h"
+#include "BotVisiblesProvider.h"
 #include <metamod/ISmmAPI.h>
 #include <metamod/sourcehook.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
@@ -13,21 +14,27 @@ BotManager *_BotManager;
 
 static std::vector<Bot*> _Bots;
 
+BotManager::BotManager() {}
+
 void BotManager::Init() {
 	Assert(!_BotManager);
+
 	_Bots.clear();
+
+	BotVisiblesProvider::Init();
 
 	_BotManager = new BotManager();
 }
 
 void BotManager::Destroy() {
 	Assert(_BotManager);
+
+	BotVisiblesProvider::Destroy();
+
 	_BotManager->KickAllBots();
 
 	delete _BotManager;
 }
-
-BotManager::BotManager() {}
 
 void BotManager::KickBot(Bot *bot) {
 	char command[64];

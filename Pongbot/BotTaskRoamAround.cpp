@@ -17,7 +17,7 @@ WaypointNode *_ClosestWaypointNode;
 
 BotTaskRoamAround::BotTaskRoamAround(Bot *bot) : BotTask(bot) {}
 
-void BotTaskRoamAround::OnTick(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt) {
+void BotTaskRoamAround::OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt) {
 	Vector currentPos = _Bot->GetPos();
 	if (Util::DistanceToNoZ(currentPos, _LastPos) < POS_STUCK_RADIUS) {
 		_PosStuckTime++;

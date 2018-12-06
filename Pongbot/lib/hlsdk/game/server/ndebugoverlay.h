@@ -11,7 +11,7 @@
 #pragma once
 #endif
 
-#include "debugoverlay_shared.h"
+#include "hlsdk/game/shared/debugoverlay_shared.h"
 
 // An overlay line
 struct OverlayLine_t 

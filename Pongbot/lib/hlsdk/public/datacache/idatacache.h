@@ -15,8 +15,8 @@
 #endif
 
 
-#include "tier0/dbg.h"
-#include "appframework/IAppSystem.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/appframework/IAppSystem.h"
 
 class IDataCache;
 

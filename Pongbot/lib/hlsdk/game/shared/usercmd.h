@@ -11,10 +11,10 @@
 #pragma once
 #endif
 
-#include "mathlib/vector.h"
-#include "utlvector.h"
-#include "imovehelper.h"
-#include "checksum_crc.h"
+#include "hlsdk/public/mathlib/vector.h"
+#include "hlsdk/public/tier1/utlvector.h"
+#include "hlsdk/game/shared/imovehelper.h"
+#include "hlsdk/public/tier1/checksum_crc.h"
 
 
 class bf_read;

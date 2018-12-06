@@ -12,8 +12,8 @@
 #endif
 
 
-#include "iserverunknown.h"
-#include "string_t.h"
+#include "hlsdk/public/iserverunknown.h"
+#include "hlsdk/public/string_t.h"
 
 
 

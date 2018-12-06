@@ -1,123 +1,121 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Quelldateien">
+    <Filter Include="src">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Headerdateien">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Ressourcendateien">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Quelldateien\Bot">
+    <Filter Include="src\Bot">
       <UniqueIdentifier>{2d645178-317e-44bd-9e28-5497720c56b9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headerdateien\Bot">
-      <UniqueIdentifier>{bbd23451-6e91-400f-8359-8b952a0e7335}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\Waypoint">
-      <UniqueIdentifier>{b2e17b7a-2d8d-4436-83f5-23fbef1bb839}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\Waypoint">
-      <UniqueIdentifier>{7f4cb74e-d589-4efc-989f-f69f8f729627}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\Bot\Task">
+    <Filter Include="src\Bot\Task">
       <UniqueIdentifier>{bb1e4772-b98b-41cd-9747-86c102d2097b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headerdateien\Bot\Task">
-      <UniqueIdentifier>{6f956cba-2bfd-4b11-9515-ca61c20c7ec6}</UniqueIdentifier>
+    <Filter Include="src\Bot\Visibles">
+      <UniqueIdentifier>{af10c782-3bc1-423c-a235-e6950f8719d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Waypoint">
+      <UniqueIdentifier>{7f4cb74e-d589-4efc-989f-f69f8f729627}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="BotManager.cpp">
-      <Filter>Quelldateien\Bot</Filter>
+      <Filter>src\Bot</Filter>
     </ClCompile>
     <ClCompile Include="Bot.cpp">
-      <Filter>Quelldateien\Bot</Filter>
+      <Filter>src\Bot</Filter>
     </ClCompile>
     <ClCompile Include="TF2Helper.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="Util.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="WaypointNode.cpp">
-      <Filter>Quelldateien\Waypoint</Filter>
+      <Filter>src\Waypoint</Filter>
     </ClCompile>
     <ClCompile Include="WaypointManager.cpp">
-      <Filter>Quelldateien\Waypoint</Filter>
+      <Filter>src\Waypoint</Filter>
     </ClCompile>
     <ClCompile Include="ConVarBase.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="GameFramable.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="WaypointFileManager.cpp">
-      <Filter>Quelldateien\Waypoint</Filter>
+      <Filter>src\Waypoint</Filter>
     </ClCompile>
     <ClCompile Include="BotTask.cpp">
-      <Filter>Quelldateien\Bot\Task</Filter>
+      <Filter>src\Bot\Task</Filter>
     </ClCompile>
     <ClCompile Include="BotTaskRoamAround.cpp">
-      <Filter>Quelldateien\Bot\Task</Filter>
+      <Filter>src\Bot\Task</Filter>
     </ClCompile>
     <ClCompile Include="BotTaskHandler.cpp">
-      <Filter>Quelldateien\Bot\Task</Filter>
+      <Filter>src\Bot\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="BotVisibles.cpp">
+      <Filter>src\Bot\Visibles</Filter>
+    </ClCompile>
+    <ClCompile Include="BotVisiblesProvider.cpp">
+      <Filter>src\Bot\Visibles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Main.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Info.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="BotManager.h">
-      <Filter>Headerdateien\Bot</Filter>
-    </ClInclude>
-    <ClInclude Include="Bot.h">
-      <Filter>Headerdateien\Bot</Filter>
-    </ClInclude>
     <ClInclude Include="Util.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="TF2Helper.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="WaypointNode.h">
-      <Filter>Headerdateien\Waypoint</Filter>
-    </ClInclude>
-    <ClInclude Include="WaypointManager.h">
-      <Filter>Headerdateien\Waypoint</Filter>
+      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="ConVarBase.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="GameFramable.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Info.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Main.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="TF2Helper.h">
+      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="WaypointFileManager.h">
-      <Filter>Headerdateien\Waypoint</Filter>
+      <Filter>src\Waypoint</Filter>
+    </ClInclude>
+    <ClInclude Include="WaypointManager.h">
+      <Filter>src\Waypoint</Filter>
+    </ClInclude>
+    <ClInclude Include="WaypointNode.h">
+      <Filter>src\Waypoint</Filter>
     </ClInclude>
     <ClInclude Include="BotTask.h">
-      <Filter>Headerdateien\Bot\Task</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskRoamAround.h">
-      <Filter>Headerdateien\Bot\Task</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskHandler.h">
-      <Filter>Headerdateien\Bot\Task</Filter>
+      <Filter>src\Bot\Task</Filter>
     </ClInclude>
     <ClInclude Include="BotTaskCollection.h">
-      <Filter>Headerdateien\Bot\Task</Filter>
+      <Filter>src\Bot\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskHandler.h">
+      <Filter>src\Bot\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskRoamAround.h">
+      <Filter>src\Bot\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="BotVisibles.h">
+      <Filter>src\Bot\Visibles</Filter>
+    </ClInclude>
+    <ClInclude Include="BotVisiblesProvider.h">
+      <Filter>src\Bot\Visibles</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot.h">
+      <Filter>src\Bot</Filter>
+    </ClInclude>
+    <ClInclude Include="BotManager.h">
+      <Filter>src\Bot</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

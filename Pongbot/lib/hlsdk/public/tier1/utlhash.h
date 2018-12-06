@@ -13,12 +13,12 @@
 
 #include <assert.h>
 #include <limits.h>
-#include "utlmemory.h"
-#include "utlvector.h"
-#include "utllinkedlist.h"
-#include "utllinkedlist.h"
-#include "commonmacros.h"
-#include "generichash.h"
+#include "hlsdk/public/tier1/utlmemory.h"
+#include "hlsdk/public/tier1/utlvector.h"
+#include "hlsdk/public/tier1/utllinkedlist.h"
+#include "hlsdk/public/tier1/utllinkedlist.h"
+#include "hlsdk/public/tier0/commonmacros.h"
+#include "hlsdk/public/tier1/generichash.h"
 
 typedef unsigned int UtlHashHandle_t;
 

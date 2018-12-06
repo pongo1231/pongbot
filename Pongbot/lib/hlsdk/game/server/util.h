@@ -11,25 +11,25 @@
 #pragma once
 #endif
 
-#include "ai_activity.h"
-#include "enginecallback.h"
-#include "basetypes.h"
-#include "tempentity.h"
-#include "string_t.h"
-#include "gamestringpool.h"
-#include "engine/IEngineTrace.h"
-#include "worldsize.h"
-#include "dt_send.h"
-#include "server_class.h"
-#include "shake.h"
+#include "hlsdk/game/shared/ai_activity.h"
+#include "hlsdk/game/server/enginecallback.h"
+#include "hlsdk/public/tier0/basetypes.h"
+#include "hlsdk/game/shared/tempentity.h"
+#include "hlsdk/public/string_t.h"
+#include "hlsdk/game/shared/gamestringpool.h"
+#include "hlsdk/public/engine/IEngineTrace.h"
+#include "hlsdk/public/worldsize.h"
+#include "hlsdk/public/dt_send.h"
+#include "hlsdk/public/server_class.h"
+#include "hlsdk/public/shake.h"
 
-#include "vstdlib/random.h"
+#include "hlsdk/public/vstdlib/random.h"
 #include <string.h>
 
-#include "utlvector.h"
-#include "util_shared.h"
-#include "shareddefs.h"
-#include "networkvar.h"
+#include "hlsdk/public/tier1/utlvector.h"
+#include "hlsdk/game/shared/util_shared.h"
+#include "hlsdk/game/shared/shareddefs.h"
+#include "hlsdk/public/networkvar.h"
 
 struct levellist_t;
 class IServerNetworkable;
@@ -43,7 +43,7 @@ class IEntityFactory;
 #endif
 
 
-#include "tier0/memdbgon.h"
+#include "hlsdk/public/tier0/memdbgon.h"
 
 CBaseEntity *CreateEntityByName(const char *className, int iForceEdictIndex);
 
@@ -57,7 +57,7 @@ T *_CreateEntityTemplate( T *newEnt, const char *className )
 	return newEnt;
 }
 
-#include "tier0/memdbgoff.h"
+#include "hlsdk/public/tier0/memdbgoff.h"
 
 // creates an entity by name, and ensure it's correctness
 // does not spawn the entity

@@ -11,8 +11,8 @@
 #endif
 
 
-#include "tier0/dbg.h"
-#include "convar.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/tier1/convar.h"
 
 #if defined( CLIENT_DLL ) || defined( GAME_DLL )
 	#include "basehandle.h"

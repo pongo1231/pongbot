@@ -11,11 +11,11 @@
 #pragma once
 #endif
 
-#include "mathlib/mathlib.h"
-#include "interface.h"
-#include "iclientunknown.h"
-#include "client_render_handle.h"
-#include "engine/ivmodelrender.h"
+#include "hlsdk/public/mathlib/mathlib.h"
+#include "hlsdk/public/tier1/interface.h"
+#include "hlsdk/public/iclientunknown.h"
+#include "hlsdk/public/client_render_handle.h"
+#include "hlsdk/public/engine/ivmodelrender.h"
 
 struct model_t;
 struct matrix3x4_t;

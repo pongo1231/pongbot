@@ -13,7 +13,7 @@
 #pragma once
 #endif
 
-#include "tier0/platform.h"
+#include "hlsdk/public/tier0/platform.h"
 
 //-----------------------------------------------------------------------------
 // dll export stuff

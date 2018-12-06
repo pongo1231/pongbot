@@ -10,13 +10,13 @@
 #pragma once
 #endif
 
-#include "mathlib/vector.h"
-#include "cmodel.h"
-#include "utlvector.h"
-#include "networkvar.h"
-#include "engine/IEngineTrace.h"
-#include "engine/IStaticPropMgr.h"
-#include "shared_classnames.h"
+#include "hlsdk/public/mathlib/vector.h"
+#include "hlsdk/public/cmodel.h"
+#include "hlsdk/public/tier1/utlvector.h"
+#include "hlsdk/public/networkvar.h"
+#include "hlsdk/public/engine/IEngineTrace.h"
+#include "hlsdk/public/engine/IStaticPropMgr.h"
+#include "hlsdk/game/shared/shared_classnames.h"
 
 #ifdef CLIENT_DLL
 #include "cdll_client_int.h"

@@ -15,28 +15,33 @@ static WaypointNode *_SelectedNode;
 static bool _NodeBiConnect;
 static bool _DrawBeams;
 
+WaypointManager::WaypointManager() {}
+
 void WaypointManager::Init() {
 	Assert(!_WaypointManager);
+
 	_WaypointNodes.clear();
+
+	WaypointFileManager::Init(&_WaypointNodes);
 
 	_SelectedNode = nullptr;
 	_NodeBiConnect = false;
 	_DrawBeams = false;
 	_WaypointManager = new WaypointManager();
-	WaypointFileManager::Init(&_WaypointNodes);
 }
 
 void WaypointManager::Destroy() {
 	Assert(_WaypointManager);
+
 	WaypointFileManager::Destroy();
+
 	for (uint8_t i = 0; i < _WaypointNodes.size(); i++) {
 		delete _WaypointNodes[i];
 		_WaypointNodes.erase(_WaypointNodes.begin() + i);
 	}
+
 	delete _WaypointManager;
 }
-
-WaypointManager::WaypointManager() {}
 
 WaypointNode *WaypointManager::GetRandomWaypointNode() const {
 	if (_WaypointNodes.empty())
@@ -91,9 +96,10 @@ void WaypointManager::OnGameFrame() {
 		return;
 
 	static float waitTime;
-	if (waitTime > Engine->Time())
+	float currentTime = Engine->Time();
+	if (waitTime > currentTime)
 		return;
-	waitTime = Engine->Time() + 1;
+	waitTime = currentTime + 1;
 
 	// Draw beams for each waypoint & their connections
 	for (WaypointNode *node : _WaypointNodes) {

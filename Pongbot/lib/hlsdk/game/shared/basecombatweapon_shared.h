@@ -10,12 +10,12 @@
 #pragma once
 #endif
 
-#include "vphysics_interface.h"
-#include "predictable_entity.h"
-#include "soundflags.h"
-#include "weapon_parse.h"
-#include "baseviewmodel_shared.h"
-#include "weapon_proficiency.h"
+#include "hlsdk/public/vphysics_interface.h"
+#include "hlsdk/game/shared/predictable_entity.h"
+#include "hlsdk/public/soundflags.h"
+#include "hlsdk/game/shared/weapon_parse.h"
+#include "hlsdk/game/shared/baseviewmodel_shared.h"
+#include "hlsdk/game/shared/weapon_proficiency.h"
 
 #if defined( CLIENT_DLL )
 #define CBaseCombatWeapon C_BaseCombatWeapon
