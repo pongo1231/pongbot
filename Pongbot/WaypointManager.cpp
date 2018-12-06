@@ -13,13 +13,15 @@ WaypointManager *_WaypointManager;
 static std::vector<WaypointNode*> _WaypointNodes;
 static WaypointNode *_SelectedNode;
 static bool _NodeBiConnect;
+static bool _DrawBeams;
 
 void WaypointManager::Init() {
 	Assert(!_WaypointManager);
 	_WaypointNodes.clear();
+
 	_SelectedNode = nullptr;
 	_NodeBiConnect = false;
-
+	_DrawBeams = false;
 	_WaypointManager = new WaypointManager();
 	WaypointFileManager::Init(&_WaypointNodes);
 }
@@ -83,7 +85,11 @@ bool WaypointManager::GetWaypointNodeStackToTargetNode(WaypointNode *startNode,
 	return false;
 }
 
+// Debug
 void WaypointManager::OnGameFrame() {
+	if (!_DrawBeams)
+		return;
+
 	static float waitTime;
 	if (waitTime > Engine->Time())
 		return;
@@ -110,7 +116,7 @@ static IPlayerInfo *_CheckCommandTargetPlayerExists() {
 	return playerInfo;
 }
 
-CON_COMMAND(pongbot_createnode, "Creates a waypoint node wherever the first player is standing") {
+CON_COMMAND(pongbot_waypoint_createnode, "Creates a waypoint node wherever the first player is standing") {
 	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
 	if (playerInfo) {
 		uint8_t id = _WaypointNodes.size();
@@ -123,7 +129,7 @@ CON_COMMAND(pongbot_createnode, "Creates a waypoint node wherever the first play
 	}
 }
 
-CON_COMMAND(pongbot_connectnode1, "Selects nearest waypoint node for connection with another node") {
+CON_COMMAND(pongbot_waypoint_connectnode1, "Selects nearest waypoint node for connection with another node") {
 	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
 	if (playerInfo) {
 		_SelectedNode = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
@@ -134,7 +140,7 @@ CON_COMMAND(pongbot_connectnode1, "Selects nearest waypoint node for connection 
 	}
 }
 
-CON_COMMAND(pongbot_connectnode2, "Connects previously selected waypoint node with nearest node") {
+CON_COMMAND(pongbot_waypoint_connectnode2, "Connects previously selected waypoint node with nearest node") {
 	if (!_SelectedNode)
 		Util::Log("Select a node via pongbot_connectnode1 first");
 	else {
@@ -157,7 +163,7 @@ CON_COMMAND(pongbot_connectnode2, "Connects previously selected waypoint node wi
 	}
 }
 
-CON_COMMAND(pongbot_biconnect, "Toggles automatic node bidirectional connections") {
+CON_COMMAND(pongbot_waypoint_biconnect, "Toggles automatic node bidirectional connections") {
 	_NodeBiConnect = !_NodeBiConnect;
 	if (_NodeBiConnect)
 		Util::Log("Bidirectional node connections enabled!");
@@ -165,14 +171,14 @@ CON_COMMAND(pongbot_biconnect, "Toggles automatic node bidirectional connections
 		Util::Log("Bidirectional node connections disabled!");
 }
 
-CON_COMMAND(pongbot_clearnodes, "Removes all waypoint nodes") {
+CON_COMMAND(pongbot_waypoint_clearnodes, "Removes all waypoint nodes") {
 	for (WaypointNode *node : _WaypointNodes)
 		delete node;
 	_WaypointNodes.clear();
 	Util::Log("All waypoint nodes cleared!");
 }
 
-CON_COMMAND(pongbot_removenode, "Removes the nearest node") {
+CON_COMMAND(pongbot_waypoint_clearnode, "Removes the nearest node") {
 	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
 	if (playerInfo) {
 		WaypointNode *node = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
@@ -191,7 +197,7 @@ CON_COMMAND(pongbot_removenode, "Removes the nearest node") {
 	}
 }
 
-CON_COMMAND(pongbot_clearnodeconnections, "Clears all connections to other nodes from node") {
+CON_COMMAND(pongbot_waypoint_clearnodeto, "Clears all connections to other nodes from node") {
 	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
 	if (playerInfo) {
 		WaypointNode *node = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
@@ -204,4 +210,12 @@ CON_COMMAND(pongbot_clearnodeconnections, "Clears all connections to other nodes
 			Util::Log("Cleared node connections of closest node!");
 		}
 	}
+}
+
+CON_COMMAND(pongbot_waypoint_debug, "Toggle beams to visualize nodes & their connections") {
+	_DrawBeams = !_DrawBeams;
+	if (_DrawBeams)
+		Util::Log("Waypoint Debugging enabled!");
+	else
+		Util::Log("Waypoint Debugging disabled!");
 }

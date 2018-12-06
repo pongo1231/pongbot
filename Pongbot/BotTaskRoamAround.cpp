@@ -39,13 +39,18 @@ void BotTaskRoamAround::OnTick(int *&pressedButtons, Vector2D *&movement, QAngle
 	if (_WaypointNodeStack.empty())
 		_UpdateNewWaypointNodeStack();
 	else {
-		Vector nodePos = _WaypointNodeStack.top()->Pos;
-		if (currentPos.DistTo(nodePos) <= WAYPOINTNODE_TOUCHED_RADIUS)
+		WaypointNode *node = _WaypointNodeStack.top();
+		if (!node) // Pop if node doesn't exist anymore
 			_WaypointNodeStack.pop();
-		else
-			movement = new Vector2D(_GetIdealMoveSpeedsToPos(nodePos));
+		else {
+			Vector nodePos = node->Pos;
+			if (currentPos.DistTo(nodePos) <= WAYPOINTNODE_TOUCHED_RADIUS)
+				_WaypointNodeStack.pop();
+			else
+				movement = new Vector2D(_GetIdealMoveSpeedsToPos(nodePos));
 
-		lookAt = new QAngle(_GetLookAtAngleForPos(Vector(nodePos.x, nodePos.y, _Bot->GetEarPos().z)));
+			lookAt = new QAngle(_GetLookAtAngleForPos(Vector(nodePos.x, nodePos.y, _Bot->GetEarPos().z)));
+		}
 	}
 }
 
