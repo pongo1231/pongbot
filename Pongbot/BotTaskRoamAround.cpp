@@ -2,6 +2,7 @@
 #include "Util.h"
 #include "WaypointNode.h"
 #include "WaypointManager.h"
+#include "BotVisibles.h"
 
 #define POS_STUCK_RADIUS 0.2
 #define POS_STUCK_STARTPANICTIME 120
@@ -49,7 +50,16 @@ void BotTaskRoamAround::OnThink(int *&pressedButtons, Vector2D *&movement, QAngl
 			else
 				movement = new Vector2D(Util::GetIdealMoveSpeedsToPos(_Bot, nodePos));
 
-			lookAt = new QAngle(Util::GetLookAtAngleForPos(_Bot, Vector(nodePos.x, nodePos.y, _Bot->GetEarPos().z)));
+			//lookAt = new QAngle(Util::GetLookAtAngleForPos(_Bot, Vector(nodePos.x, nodePos.y, _Bot->GetEarPos().z)));
+			// TEMP!!!
+			if (!lookAt) {
+				std::vector<edict_t*> visibleEdicts = _Bot->GetBotVisibles()->GetVisibleEdicts();
+				if (visibleEdicts.size() > 0) {
+					lookAt = new QAngle(Util::GetLookAtAngleForPos(_Bot, Util::GetEdictOrigin(
+						visibleEdicts[Util::RandomInt(0, visibleEdicts.size() - 1)])));
+					*pressedButtons |= IN_ATTACK;
+				}
+			}
 		}
 	}
 }

@@ -3,6 +3,7 @@
 #include "Util.h"
 #include "BotTaskMaster.h"
 #include "BotVisibles.h"
+#include "BotTaskMasterCollection.h"
 #include <metamod/ISmmPlugin.h>
 #include <string>
 
@@ -38,7 +39,10 @@ void Bot::Think() {
 	int pressedButtons = 0;
 	Vector2D *movement = nullptr;
 	QAngle *lookAt = nullptr;
-	_BotTaskMaster->OnThink(&pressedButtons, movement, lookAt);
+
+	if (_BotTaskMaster)
+		_BotTaskMaster->OnThink(&pressedButtons, movement, lookAt);
+
 	if (!movement)
 		movement = new Vector2D();
 	if (!lookAt)
@@ -49,6 +53,7 @@ void Bot::Think() {
 	cmd.forwardmove = movement->x;
 	cmd.sidemove = movement->y;
 	cmd.viewangles = *lookAt;
+
 	_IIBotController->RunPlayerMove(&cmd);
 
 	delete movement;
@@ -88,10 +93,35 @@ BotVisibles *Bot::GetBotVisibles() const {
 void Bot::ChangeClass(TFClass tfClass) {
 	char newClass[16];
 	_TFClassToJoinName(tfClass, newClass);
+
 	char cmd[32];
 	sprintf_s(cmd, "joinclass %s", newClass);
 	IIServerPluginHelpers->ClientCommand(_Edict, cmd);
+
 	_CurrentClass = tfClass;
+	
+	// Update bot task master
+	delete _BotTaskMaster;
+	switch (tfClass) {
+	case SCOUT:
+		_BotTaskMaster = new BotTaskMasterScout(this);
+	case SOLDIER:
+		_BotTaskMaster = new BotTaskMasterSoldier(this);
+	case PYRO:
+		_BotTaskMaster = new BotTaskMasterPyro(this);
+	case DEMO:
+		_BotTaskMaster = new BotTaskMasterDemo(this);
+	case HEAVY:
+		_BotTaskMaster = new BotTaskMasterHeavy(this);
+	case ENGI:
+		_BotTaskMaster = new BotTaskMasterEngi(this);
+	case MED:
+		_BotTaskMaster = new BotTaskMasterMed(this);
+	case SNIPER:
+		_BotTaskMaster = new BotTaskMasterSniper(this);
+	case SPY:
+		_BotTaskMaster = new BotTaskMasterSpy(this);
+	}
 }
 
 void Bot::_TFClassToJoinName(TFClass tfClass, char *tfClassName) {

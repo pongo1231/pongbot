@@ -14,9 +14,6 @@
     <Filter Include="src\Bot\Visibles">
       <UniqueIdentifier>{af10c782-3bc1-423c-a235-e6950f8719d7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Waypoint">
-      <UniqueIdentifier>{7f4cb74e-d589-4efc-989f-f69f8f729627}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Bot\Task\Tasks">
       <UniqueIdentifier>{929e1436-91b3-4234-9d77-80ec45bc4502}</UniqueIdentifier>
     </Filter>
@@ -47,6 +44,12 @@
     <Filter Include="src\Bot\Task\Tasks\Scout">
       <UniqueIdentifier>{c8467509-ec15-40b9-bd6c-389c0a95cdde}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Waypoint">
+      <UniqueIdentifier>{7f4cb74e-d589-4efc-989f-f69f8f729627}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\TF2Util">
+      <UniqueIdentifier>{22828df5-eb3e-4c44-bd2d-953a97a10c58}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -57,9 +60,6 @@
     </ClCompile>
     <ClCompile Include="Bot.cpp">
       <Filter>src\Bot</Filter>
-    </ClCompile>
-    <ClCompile Include="TF2Helper.cpp">
-      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="Util.cpp">
       <Filter>src</Filter>
@@ -91,8 +91,35 @@
     <ClCompile Include="BotTaskRoamAround.cpp">
       <Filter>src\Bot\Task\Tasks</Filter>
     </ClCompile>
-    <ClCompile Include="BotTaskMaster.cpp">
-      <Filter>src\Bot\Task</Filter>
+    <ClCompile Include="TF2Util.cpp">
+      <Filter>src\TF2Util</Filter>
+    </ClCompile>
+    <ClCompile Include="BotTaskMasterDemo.cpp">
+      <Filter>src\Bot\Task\Tasks\Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="BotTaskMasterEngi.cpp">
+      <Filter>src\Bot\Task\Tasks\Engi</Filter>
+    </ClCompile>
+    <ClCompile Include="BotTaskMasterHeavy.cpp">
+      <Filter>src\Bot\Task\Tasks\Heavy</Filter>
+    </ClCompile>
+    <ClCompile Include="BotTaskMasterMed.cpp">
+      <Filter>src\Bot\Task\Tasks\Med</Filter>
+    </ClCompile>
+    <ClCompile Include="BotTaskMasterPyro.cpp">
+      <Filter>src\Bot\Task\Tasks\Pyro</Filter>
+    </ClCompile>
+    <ClCompile Include="BotTaskMasterScout.cpp">
+      <Filter>src\Bot\Task\Tasks\Scout</Filter>
+    </ClCompile>
+    <ClCompile Include="BotTaskMasterSniper.cpp">
+      <Filter>src\Bot\Task\Tasks\Sniper</Filter>
+    </ClCompile>
+    <ClCompile Include="BotTaskMasterSoldier.cpp">
+      <Filter>src\Bot\Task\Tasks\Soldier</Filter>
+    </ClCompile>
+    <ClCompile Include="BotTaskMasterSpy.cpp">
+      <Filter>src\Bot\Task\Tasks\Spy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,9 +136,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="Main.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="TF2Helper.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="WaypointFileManager.h">
@@ -148,6 +172,45 @@
       <Filter>src\Bot\Task\Tasks</Filter>
     </ClInclude>
     <ClInclude Include="BotTaskMaster.h">
+      <Filter>src\Bot\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="TFClass.h">
+      <Filter>src\TF2Util</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityData.h">
+      <Filter>src\TF2Util</Filter>
+    </ClInclude>
+    <ClInclude Include="TF2Util.h">
+      <Filter>src\TF2Util</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskMasterDemo.h">
+      <Filter>src\Bot\Task\Tasks\Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskMasterEngi.h">
+      <Filter>src\Bot\Task\Tasks\Engi</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskMasterHeavy.h">
+      <Filter>src\Bot\Task\Tasks\Heavy</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskMasterMed.h">
+      <Filter>src\Bot\Task\Tasks\Med</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskMasterPyro.h">
+      <Filter>src\Bot\Task\Tasks\Pyro</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskMasterScout.h">
+      <Filter>src\Bot\Task\Tasks\Scout</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskMasterSniper.h">
+      <Filter>src\Bot\Task\Tasks\Sniper</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskMasterSoldier.h">
+      <Filter>src\Bot\Task\Tasks\Soldier</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskMasterSpy.h">
+      <Filter>src\Bot\Task\Tasks\Spy</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskMasterCollection.h">
       <Filter>src\Bot\Task</Filter>
     </ClInclude>
   </ItemGroup>

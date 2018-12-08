@@ -1,5 +1,6 @@
 #include "Util.h"
 #include "Bot.h"
+#include "TF2Util.h"
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/mathlib/mathlib.h>
 #include <hlsdk/game/shared/IEffects.h>
@@ -64,7 +65,7 @@ namespace Util {
 	Vector2D GetIdealMoveSpeedsToPos(Bot *bot, Vector targetPos) {
 		Vector2D sins;
 		SinCos(DEG2RAD(_GetYawAngle(bot, targetPos)), &sins.y, &sins.x);
-		sins = sins / sins.Length() * TF2Helper::GetClassSpeed(bot->GetClass()) * 3;
+		sins = sins / sins.Length() * TF2Util::GetClassSpeed(bot->GetClass()) * 3;
 		return sins;
 	}
 
