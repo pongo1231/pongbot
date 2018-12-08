@@ -17,6 +17,36 @@
     <Filter Include="src\Waypoint">
       <UniqueIdentifier>{7f4cb74e-d589-4efc-989f-f69f8f729627}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Bot\Task\Tasks">
+      <UniqueIdentifier>{929e1436-91b3-4234-9d77-80ec45bc4502}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Bot\Task\Tasks\Demo">
+      <UniqueIdentifier>{945db397-c54d-43db-8774-b3d45d005b36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Bot\Task\Tasks\Heavy">
+      <UniqueIdentifier>{13c09650-2162-4860-9802-7505a1f5265c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Bot\Task\Tasks\Engi">
+      <UniqueIdentifier>{02744ce0-4f4d-4fef-8431-9c0b9e86753d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Bot\Task\Tasks\Med">
+      <UniqueIdentifier>{e9ea1ac9-6344-4336-988e-c2f4518bc798}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Bot\Task\Tasks\Spy">
+      <UniqueIdentifier>{315482ff-d166-49fb-8f0f-ac79a652a562}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Bot\Task\Tasks\Sniper">
+      <UniqueIdentifier>{c88eff61-9274-4ec6-b8b7-15d94af9eff1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Bot\Task\Tasks\Pyro">
+      <UniqueIdentifier>{b28bfd53-5352-42a2-bc01-e19de29259f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Bot\Task\Tasks\Soldier">
+      <UniqueIdentifier>{c7307e81-85a4-4359-bd4d-712cdacfa716}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Bot\Task\Tasks\Scout">
+      <UniqueIdentifier>{c8467509-ec15-40b9-bd6c-389c0a95cdde}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -52,17 +82,17 @@
     <ClCompile Include="BotTask.cpp">
       <Filter>src\Bot\Task</Filter>
     </ClCompile>
-    <ClCompile Include="BotTaskRoamAround.cpp">
-      <Filter>src\Bot\Task</Filter>
-    </ClCompile>
-    <ClCompile Include="BotTaskHandler.cpp">
-      <Filter>src\Bot\Task</Filter>
-    </ClCompile>
     <ClCompile Include="BotVisibles.cpp">
       <Filter>src\Bot\Visibles</Filter>
     </ClCompile>
     <ClCompile Include="BotVisiblesProvider.cpp">
       <Filter>src\Bot\Visibles</Filter>
+    </ClCompile>
+    <ClCompile Include="BotTaskRoamAround.cpp">
+      <Filter>src\Bot\Task\Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="BotTaskMaster.cpp">
+      <Filter>src\Bot\Task</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -99,12 +129,6 @@
     <ClInclude Include="BotTaskCollection.h">
       <Filter>src\Bot\Task</Filter>
     </ClInclude>
-    <ClInclude Include="BotTaskHandler.h">
-      <Filter>src\Bot\Task</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskRoamAround.h">
-      <Filter>src\Bot\Task</Filter>
-    </ClInclude>
     <ClInclude Include="BotVisibles.h">
       <Filter>src\Bot\Visibles</Filter>
     </ClInclude>
@@ -116,6 +140,15 @@
     </ClInclude>
     <ClInclude Include="BotManager.h">
       <Filter>src\Bot</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskFlags.h">
+      <Filter>src\Bot\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskRoamAround.h">
+      <Filter>src\Bot\Task\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskMaster.h">
+      <Filter>src\Bot\Task</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

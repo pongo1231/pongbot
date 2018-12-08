@@ -47,9 +47,9 @@ void BotTaskRoamAround::OnThink(int *&pressedButtons, Vector2D *&movement, QAngl
 			if (currentPos.DistTo(nodePos) <= WAYPOINTNODE_TOUCHED_RADIUS)
 				_WaypointNodeStack.pop();
 			else
-				movement = new Vector2D(_GetIdealMoveSpeedsToPos(nodePos));
+				movement = new Vector2D(Util::GetIdealMoveSpeedsToPos(_Bot, nodePos));
 
-			lookAt = new QAngle(_GetLookAtAngleForPos(Vector(nodePos.x, nodePos.y, _Bot->GetEarPos().z)));
+			lookAt = new QAngle(Util::GetLookAtAngleForPos(_Bot, Vector(nodePos.x, nodePos.y, _Bot->GetEarPos().z)));
 		}
 	}
 }

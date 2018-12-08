@@ -4,7 +4,7 @@ extern IVEngineServer *Engine;
 
 BotVisiblesProvider *_BotVisiblesProvider;
 
-std::vector<CBaseEntity*> _Entities;
+std::vector<edict_t*> _Edicts;
 
 BotVisiblesProvider::BotVisiblesProvider() {}
 
@@ -18,8 +18,8 @@ void BotVisiblesProvider::Destroy() {
 	delete _BotVisiblesProvider;
 }
 
-std::vector<CBaseEntity*> BotVisiblesProvider::GetEntities() {
-	return _Entities;
+std::vector<edict_t*> BotVisiblesProvider::GetAllEdicts() const {
+	return _Edicts;
 }
 
 void BotVisiblesProvider::OnGameFrame() {
@@ -27,20 +27,13 @@ void BotVisiblesProvider::OnGameFrame() {
 	float currentTime = Engine->Time();
 	if (waitTime > currentTime)
 		return;
-	waitTime = currentTime + 10;
+	waitTime = currentTime + 5;
 
-	_Entities.clear();
+	_Edicts.clear();
 
-	for (unsigned int i = 1; i < (unsigned int) Engine->GetEntityCount(); i++) {
+	for (int i = 1; i < Engine->GetEntityCount(); i++) {
 		edict_t *edict = Engine->PEntityOfEntIndex(i);
-		if (edict) {
-			IServerEntity *serverEntity = edict->GetIServerEntity();
-			if (serverEntity) {
-				CBaseEntity *entity = serverEntity->GetBaseEntity();
-				entity->
-				if (entity)
-					_Entities.push_back(entity);
-			}
-		}
+		if (edict)
+			_Edicts.push_back(edict);
 	}
 }

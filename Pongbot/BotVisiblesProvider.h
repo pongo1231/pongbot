@@ -1,7 +1,7 @@
 #pragma once
 #include "GameFramable.h"
 #include <metamod/ISmmAPI.h>
-#include <hlsdk/public/iserverunknown.h>
+#include <hlsdk/public/edict.h>
 #include <vector>
 
 class BotVisiblesProvider : public GameFramable {
@@ -12,11 +12,11 @@ public:
 	static void Init();
 	static void Destroy();
 
-	std::vector<CBaseEntity*> GetEntities();
+	std::vector<edict_t*> GetAllEdicts() const;
 	void OnGameFrame();
 
 private:
-	std::vector<CBaseEntity*> _Entities;
+	std::vector<edict_t*> _Edicts;
 };
 
 extern BotVisiblesProvider *_BotVisiblesProvider;

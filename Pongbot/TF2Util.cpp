@@ -1,6 +1,6 @@
-#include "TF2Helper.h"
+#include "TF2Util.h"
 
-namespace TF2Helper {
+namespace TF2Util {
 	int GetClassSpeed(TFClass tfClass) {
 		switch (tfClass) {
 			case SCOUT: return 133;

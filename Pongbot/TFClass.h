@@ -11,7 +11,3 @@ enum TFClass {
 	SNIPER,
 	SPY
 };
-
-namespace TF2Helper {
-	int GetClassSpeed(TFClass tfClass);
-}

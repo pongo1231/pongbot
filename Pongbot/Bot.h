@@ -1,10 +1,11 @@
 #pragma once
-#include "TF2Helper.h"
+#include "TFClass.h"
 #include <hlsdk/public/edict.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 
 class BotHelper;
-class BotTaskHandler;
+class BotTaskMaster;
+class BotVisibles;
 class WaypointNode;
 
 class Bot {
@@ -21,6 +22,7 @@ public:
 	Vector GetEarPos() const;
 	QAngle GetAngle() const;
 	TFClass GetClass() const;
+	BotVisibles *GetBotVisibles() const;
 
 	void ChangeClass(TFClass tfClass);
 
@@ -28,7 +30,8 @@ private:
 	edict_t *_Edict;
 	IBotController *_IIBotController;
 	IPlayerInfo *_IIPlayerInfo;
-	BotTaskHandler *_BotTaskHandler;
+	BotTaskMaster *_BotTaskMaster;
+	BotVisibles *_BotVisibles;
 
 	TFClass _CurrentClass;
 

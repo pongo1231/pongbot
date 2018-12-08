@@ -1,9 +1,9 @@
 #include "Bot.h"
 #include "BotManager.h"
 #include "Util.h"
-#include "BotTaskHandler.h"
+#include "BotTaskMaster.h"
+#include "BotVisibles.h"
 #include <metamod/ISmmPlugin.h>
-#include <hlsdk/game/shared/in_buttons.h>
 #include <string>
 
 extern IVEngineServer *Engine;
@@ -16,27 +16,33 @@ const char *Name;
 edict_t *_Edict;
 IBotController *_IIBotController;
 IPlayerInfo *_IIPlayerInfo;
-BotTaskHandler *_BotTaskHandler;
+BotTaskMaster *_BotTaskMaster;
+BotVisibles *_BotVisibles;
 
 TFClass _CurrentClass;
 
 Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
 	_IIBotController(IIBotManager->GetBotController(edict)),
 	_IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(edict)),
-	_BotTaskHandler(new BotTaskHandler(this)) {
+	_BotVisibles(new BotVisibles(this)) {
 	_IIPlayerInfo->ChangeTeam(2);
 	_RandomClass();
 }
 
 Bot::~Bot() {
-	delete _BotTaskHandler;
+	delete _BotTaskMaster;
+	delete _BotVisibles;
 }
 
 void Bot::Think() {
 	int pressedButtons = 0;
 	Vector2D *movement = nullptr;
 	QAngle *lookAt = nullptr;
-	_BotTaskHandler->OnThink(&pressedButtons, movement, lookAt);
+	_BotTaskMaster->OnThink(&pressedButtons, movement, lookAt);
+	if (!movement)
+		movement = new Vector2D();
+	if (!lookAt)
+		lookAt = new QAngle();
 
 	CBotCmd cmd;
 	cmd.buttons = pressedButtons;
@@ -73,6 +79,10 @@ QAngle Bot::GetAngle() const {
 
 TFClass Bot::GetClass() const {
 	return _CurrentClass;
+}
+
+BotVisibles *Bot::GetBotVisibles() const {
+	return _BotVisibles;
 }
 
 void Bot::ChangeClass(TFClass tfClass) {

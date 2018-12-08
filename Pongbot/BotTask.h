@@ -11,11 +11,4 @@ public:
 
 protected:
 	Bot *_Bot;
-
-	QAngle _GetLookAtAngleForPos(Vector lookAtPos);
-	Vector2D _GetIdealMoveSpeedsToPos(Vector targetPos);
-
-private:
-	vec_t _CorrectAngle(vec_t angle);
-	vec_t _GetYawAngle(Vector targetPos);
 };

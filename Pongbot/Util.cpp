@@ -1,6 +1,7 @@
 #include "Util.h"
+#include "Bot.h"
 #include <metamod/ISmmAPI.h>
-#include <hlsdk/public/mathlib/vector.h>
+#include <hlsdk/public/mathlib/mathlib.h>
 #include <hlsdk/game/shared/IEffects.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <cstdlib>
@@ -47,5 +48,35 @@ namespace Util {
 			}
 		}
 		return players;
+	}
+
+	Vector GetEdictOrigin(edict_t *edict) {
+		return edict->GetCollideable()->GetCollisionOrigin();
+	}
+
+	QAngle GetLookAtAngleForPos(Bot *bot, Vector lookAtPos) {
+		Vector vectorAngle = lookAtPos - bot->GetEarPos();
+		QAngle angle;
+		VectorAngles(vectorAngle / vectorAngle.Length(), angle);
+		return angle;
+	}
+
+	Vector2D GetIdealMoveSpeedsToPos(Bot *bot, Vector targetPos) {
+		Vector2D sins;
+		SinCos(DEG2RAD(_GetYawAngle(bot, targetPos)), &sins.y, &sins.x);
+		sins = sins / sins.Length() * TF2Helper::GetClassSpeed(bot->GetClass()) * 3;
+		return sins;
+	}
+
+	static vec_t _CorrectAngle(vec_t angle) {
+		if (angle > 180)
+			angle -= 360;
+		else if (angle < -180)
+			angle += 360;
+		return angle;
+	}
+
+	static vec_t _GetYawAngle(Bot *bot, Vector targetPos) {
+		return _CorrectAngle(bot->GetAngle().y - _CorrectAngle(GetLookAtAngleForPos(bot, targetPos).y));
 	}
 }
