@@ -21,14 +21,14 @@ void BotVisibles::OnGameFrame() {
 	float currentTime = Engine->Time();
 	if (waitTime > currentTime)
 		return;
-	waitTime = currentTime + 1;
+	waitTime = currentTime + 0.2;
 
 	_VisibleEdicts.clear();
 
 	edict_t *botEdict = _MBot->GetEdict();
 	for (edict_t *edict : _BotVisiblesProvider->GetAllEdicts()) {
-		// TODO
-		if (strcmp(edict->GetClassName(), "player") == 0 && edict != botEdict)
+		// TODO: raycasting and shit
+		if (edict != botEdict)
 			_VisibleEdicts.push_back(edict);
 	}
 }

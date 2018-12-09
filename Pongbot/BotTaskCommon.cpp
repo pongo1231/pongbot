@@ -1,4 +1,4 @@
-#include "BotTaskRoamAround.h"
+#include "BotTaskCommon.h"
 #include "Util.h"
 #include "WaypointNode.h"
 #include "WaypointManager.h"
@@ -16,12 +16,15 @@ unsigned int _PosStuckTime;
 std::stack<WaypointNode*> _WaypointNodeStack;
 WaypointNode *_ClosestWaypointNode;
 
-BotTaskRoamAround::BotTaskRoamAround(Bot *bot) : BotTask(bot) {}
+BotTaskCommon::BotTaskCommon(Bot *bot) : BotTask(bot) {}
 
-void BotTaskRoamAround::OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt) {
-	Vector currentPos = _Bot->GetPos();
+void BotTaskCommon::OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt, int *&taskFlags) {
+	Bot *bot = _GetBot();
+	Vector currentPos = bot->GetPos();
+
 	if (Util::DistanceToNoZ(currentPos, _LastPos) < POS_STUCK_RADIUS) {
 		_PosStuckTime++;
+
 		if (_PosStuckTime > POS_STUCK_GIVEUPTIME) {
 			_PosStuckTime = 0;
 			_UpdateNewWaypointNodeStack();
@@ -41,22 +44,26 @@ void BotTaskRoamAround::OnThink(int *&pressedButtons, Vector2D *&movement, QAngl
 		_UpdateNewWaypointNodeStack();
 	else {
 		WaypointNode *node = _WaypointNodeStack.top();
+
 		if (!node) // Pop if node doesn't exist anymore
 			_WaypointNodeStack.pop();
 		else {
 			Vector nodePos = node->Pos;
+
 			if (currentPos.DistTo(nodePos) <= WAYPOINTNODE_TOUCHED_RADIUS)
 				_WaypointNodeStack.pop();
 			else
-				movement = new Vector2D(Util::GetIdealMoveSpeedsToPos(_Bot, nodePos));
+				movement = new Vector2D(Util::GetIdealMoveSpeedsToPos(bot, nodePos));
 
 			//lookAt = new QAngle(Util::GetLookAtAngleForPos(_Bot, Vector(nodePos.x, nodePos.y, _Bot->GetEarPos().z)));
 			// TEMP!!!
 			if (!lookAt) {
-				std::vector<edict_t*> visibleEdicts = _Bot->GetBotVisibles()->GetVisibleEdicts();
+				std::vector<edict_t*> visibleEdicts = bot->GetBotVisibles()->GetVisibleEdicts();
+
 				if (visibleEdicts.size() > 0) {
-					lookAt = new QAngle(Util::GetLookAtAngleForPos(_Bot, Util::GetEdictOrigin(
+					lookAt = new QAngle(Util::GetLookAtAngleForPos(bot, Util::GetEdictOrigin(
 						visibleEdicts[Util::RandomInt(0, visibleEdicts.size() - 1)])));
+
 					*pressedButtons |= IN_ATTACK;
 				}
 			}
@@ -64,7 +71,7 @@ void BotTaskRoamAround::OnThink(int *&pressedButtons, Vector2D *&movement, QAngl
 	}
 }
 
-void BotTaskRoamAround::_UpdateNewWaypointNodeStack() {
+void BotTaskCommon::_UpdateNewWaypointNodeStack() {
 	if (!_ClosestWaypointNode)
 		_UpdateClosestWaypointNode();
 	if (_ClosestWaypointNode) { // If still nullptr, no waypoint nodes exist
@@ -74,6 +81,6 @@ void BotTaskRoamAround::_UpdateNewWaypointNodeStack() {
 	}
 }
 
-void BotTaskRoamAround::_UpdateClosestWaypointNode() {
+void BotTaskCommon::_UpdateClosestWaypointNode() {
 	_ClosestWaypointNode = _WaypointManager->GetClosestWaypointNode(_LastPos);
 }

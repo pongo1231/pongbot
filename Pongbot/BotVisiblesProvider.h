@@ -17,6 +17,8 @@ public:
 
 private:
 	std::vector<edict_t*> _Edicts;
+
+	bool _IsEdictRelevant(edict_t *edict);
 };
 
 extern BotVisiblesProvider *_BotVisiblesProvider;

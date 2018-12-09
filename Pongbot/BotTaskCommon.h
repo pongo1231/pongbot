@@ -4,11 +4,12 @@
 
 class WaypointNode;
 
-class BotTaskRoamAround : public BotTask {
+class BotTaskCommon : public BotTask {
 public:
-	BotTaskRoamAround(Bot *bot);
+	BotTaskCommon(Bot *bot);
 
-	void OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt);
+public:
+	void OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt, int *&taskFlags);
 
 private:
 	Vector _LastPos;

@@ -4,7 +4,7 @@
 #include <vector>
 
 class IPlayerInfo;
-class edict_t;
+struct edict_t;
 class Bot;
 
 namespace Util {

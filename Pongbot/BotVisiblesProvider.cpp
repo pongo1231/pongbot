@@ -27,13 +27,19 @@ void BotVisiblesProvider::OnGameFrame() {
 	float currentTime = Engine->Time();
 	if (waitTime > currentTime)
 		return;
-	waitTime = currentTime + 5;
+	waitTime = currentTime + 1;
 
 	_Edicts.clear();
 
 	for (int i = 1; i < Engine->GetEntityCount(); i++) {
 		edict_t *edict = Engine->PEntityOfEntIndex(i);
-		if (edict)
+		if (edict && _IsEdictRelevant(edict))
 			_Edicts.push_back(edict);
 	}
+}
+
+bool BotVisiblesProvider::_IsEdictRelevant(edict_t *edict) {
+	// TODO: more filters
+	const char *className = edict->GetClassName();
+	return strcmp(className, "player") == 0;
 }

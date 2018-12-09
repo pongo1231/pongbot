@@ -10,10 +10,11 @@ class WaypointNode;
 
 class Bot {
 public:
-	const char *Name;
-
 	Bot(edict_t *edict, const char *name);
 	~Bot();
+
+public:
+	const char *Name;
 
 	void Think();
 	edict_t *GetEdict() const;
@@ -23,7 +24,6 @@ public:
 	QAngle GetAngle() const;
 	TFClass GetClass() const;
 	BotVisibles *GetBotVisibles() const;
-
 	void ChangeClass(TFClass tfClass);
 
 private:

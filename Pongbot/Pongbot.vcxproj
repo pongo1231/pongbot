@@ -149,6 +149,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bot.cpp" />
+    <ClCompile Include="BotTask.cpp" />
+    <ClCompile Include="BotTaskMaster.cpp" />
     <ClCompile Include="BotTaskMasterDemo.cpp" />
     <ClCompile Include="BotTaskMasterEngi.cpp" />
     <ClCompile Include="BotTaskMasterHeavy.cpp" />
@@ -162,8 +164,7 @@
     <ClCompile Include="BotVisiblesProvider.cpp" />
     <ClCompile Include="ConVarBase.cpp" />
     <ClCompile Include="GameFramable.cpp" />
-    <ClCompile Include="BotTask.cpp" />
-    <ClCompile Include="BotTaskRoamAround.cpp" />
+    <ClCompile Include="BotTaskCommon.cpp" />
     <ClCompile Include="TF2Util.cpp" />
     <ClCompile Include="WaypointFileManager.cpp" />
     <ClCompile Include="WaypointManager.cpp" />
@@ -187,7 +188,7 @@
     <ClInclude Include="EntityData.h" />
     <ClInclude Include="GameFramable.h" />
     <ClInclude Include="BotTask.h" />
-    <ClInclude Include="BotTaskRoamAround.h" />
+    <ClInclude Include="BotTaskCommon.h" />
     <ClInclude Include="TF2Util.h" />
     <ClCompile Include="BotManager.cpp" />
     <ClCompile Include="Main.cpp" />

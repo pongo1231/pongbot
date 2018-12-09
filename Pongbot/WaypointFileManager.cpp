@@ -142,10 +142,10 @@ bool WaypointFileManager::_OnLevelInit(const char *pMapName, char const *pMapEnt
 	return true;
 }
 
-CON_COMMAND(pongbot_savewaypoint, "Saves current waypoint to file") {
+CON_COMMAND(pongbot_waypoint_save, "Saves current waypoint to file") {
 	_WaypointFileManager->Write();
 }
 
-CON_COMMAND(pongbot_loadwaypoint, "Loads waypoint from file") {
+CON_COMMAND(pongbot_waypoint_load, "Loads waypoint from file") {
 	_WaypointFileManager->Read();
 }
