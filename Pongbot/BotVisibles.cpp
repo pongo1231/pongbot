@@ -3,6 +3,7 @@
 #include "BotVisiblesProvider.h"
 #include "Util.h"
 #include <metamod/ISmmAPI.h>
+#include <hlsdk/public/raytrace.h>
 
 extern IVEngineServer *Engine;
 extern BotVisiblesProvider *_BotVisiblesProvider;
@@ -25,10 +26,22 @@ void BotVisibles::OnGameFrame() {
 
 	_VisibleEdicts.clear();
 
-	edict_t *botEdict = _MBot->GetEdict();
+	Vector botRayTracePos = _MBot->GetEarPos();
+	botRayTracePos.z += 100;
+
 	for (edict_t *edict : _BotVisiblesProvider->GetAllEdicts()) {
-		// TODO: raycasting and shit
-		if (edict != botEdict)
-			_VisibleEdicts.push_back(edict);
+		// TODO: raytracing and shit
+		if (edict != _MBot->GetEdict()) {
+			Vector edictPos = Util::GetEdictOrigin(edict);
+
+			RayStream rayStream = RayStream();
+			RayTracingSingleResult rayTraceResult;
+			RayTracingEnvironment().AddToRayStream(rayStream, botRayTracePos, edictPos, &rayTraceResult);
+
+			Util::DrawBeam(botRayTracePos, edictPos, 255, 255, 255, 0.2);
+			Util::Log("%d %f %f %f", rayTraceResult.HitID, rayTraceResult.ray_length, rayTraceResult.HitDistance, edictPos.DistToSqr(botRayTracePos));
+			if (rayTraceResult.HitDistance == edictPos.DistToSqr(botRayTracePos))
+				_VisibleEdicts.push_back(edict);
+		}
 	}
 }

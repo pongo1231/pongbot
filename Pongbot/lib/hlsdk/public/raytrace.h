@@ -3,14 +3,14 @@
 #ifndef RAYTRACE_H
 #define RAYTRACE_H
 
-#include <tier0/platform.h>
-#include <mathlib/vector.h>
-#include <mathlib/ssemath.h>
-#include <mathlib/lightdesc.h>
+#include <hlsdk/public/tier0/platform.h>
+#include <hlsdk/public/mathlib/vector.h>
+#include <hlsdk/public/mathlib/ssemath.h>
+#include <hlsdk/public/mathlib/lightdesc.h>
 #include <assert.h>
-#include <tier1/utlvector.h>
-#include <mathlib/mathlib.h>
-#include <bspfile.h>
+#include <hlsdk/public/tier1/utlvector.h>
+#include <hlsdk/public/mathlib/mathlib.h>
+#include <hlsdk/public/bspfile.h>
 
 // fast SSE-ONLY ray tracing module. Based upon various "real time ray tracing" research.
 //#define DEBUG_RAYTRACE 1
@@ -334,7 +334,8 @@ public:
 	void AddToRayStream(RayStream &s,
 						Vector const &start,Vector const &end,RayTracingSingleResult *rslt_out);
 
-	inline void RayTracingEnvironment::FlushStreamEntry(RayStream &s,int msk);
+	// Commented this out
+	//inline void RayTracingEnvironment::FlushStreamEntry(RayStream &s,int msk);
 
 	/// call this when you are done. handles all cleanup. After this is called, all rslt ptrs
 	/// previously passed to AddToRaySteam will have been filled in.

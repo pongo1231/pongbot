@@ -33,9 +33,9 @@ namespace Util {
 		return abs((a.x + a.y) - (b.x + b.y));
 	}
 
-	void DrawBeam(Vector startPos, Vector endPos, uint8_t r, uint8_t g, uint8_t b) {
+	void DrawBeam(Vector startPos, Vector endPos, uint8_t r, uint8_t g, uint8_t b, float lifeTime) {
 		IIEffects->Beam(startPos, endPos, Engine->PrecacheModel("sprites/lgtning.vmt"),
-			0, 0, 1, 1, 1, 1, 255, 1, r, g, b, 255, 10);
+			0, 0, 1, lifeTime, 1, 1, 255, 1, r, g, b, 255, 10);
 	}
 
 	std::vector<IPlayerInfo*> GetAllPlayers() {

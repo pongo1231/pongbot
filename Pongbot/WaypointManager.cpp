@@ -90,7 +90,8 @@ bool WaypointManager::GetWaypointNodeStackToTargetNode(WaypointNode *startNode,
 	return false;
 }
 
-// Debug
+/// Debug
+/// Draw beams for each waypoint & their connections
 void WaypointManager::OnGameFrame() {
 	if (!_DrawBeams)
 		return;
@@ -99,16 +100,15 @@ void WaypointManager::OnGameFrame() {
 	float currentTime = Engine->Time();
 	if (waitTime > currentTime)
 		return;
-	waitTime = currentTime + 1;
+	waitTime = currentTime + 2;
 
-	// Draw beams for each waypoint & their connections
 	for (WaypointNode *node : _WaypointNodes) {
 		Vector startPos = node->Pos;
 		Vector endPos = Vector(startPos.x, startPos.y, startPos.z + 75);
-		Util::DrawBeam(startPos, endPos, 0, 255, 0);
+		Util::DrawBeam(startPos, endPos, 0, 255, 0, 2);
 
 		for (WaypointNode *connectedNode : *node->GetConnectedNodes())
-			Util::DrawBeam(endPos, connectedNode->Pos, 255, 255, 255);
+			Util::DrawBeam(endPos, connectedNode->Pos, 255, 255, 255, 2);
 	}
 }
 
