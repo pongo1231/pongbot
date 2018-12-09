@@ -9,7 +9,7 @@
 #define ENGINECALLBACK_H
 
 #ifndef EIFACE_H
-#include "eiface.h"
+#include "hlsdk/public/eiface.h"
 #endif
 
 #if defined _LINUX || defined __APPLE__

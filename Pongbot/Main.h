@@ -1,11 +1,16 @@
 #pragma once
 #include <metamod/ISmmPlugin.h>
-#include <hlsdk/public/game/server/iplayerinfo.h>
-#include <hlsdk/public/eiface.h>
-#include <hlsdk/game/shared/IEffects.h>
 #include <vector>
 
 class GameFramable;
+class IVEngineServer;
+class IBotManager;
+class IServerGameDLL;
+class IPlayerInfoManager;
+class IServerPluginHelpers;
+class IServerGameClients;
+class IEffects;
+class IEngineTrace;
 
 class Main : public ISmmPlugin {
 public:
@@ -37,5 +42,6 @@ extern IPlayerInfoManager *IIPlayerInfoManager;
 extern IServerPluginHelpers *IIServerPluginHelpers;
 extern IServerGameClients *IIServerGameClients;
 extern IEffects *IIEffects;
+extern IEngineTrace *IIEngineTrace;
 
 PLUGIN_GLOBALVARS();

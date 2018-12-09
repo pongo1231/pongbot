@@ -2,14 +2,20 @@
 #include "Bot.h"
 #include "BotVisiblesProvider.h"
 #include "Util.h"
+#include "TraceFilters.h"
 #include <metamod/ISmmAPI.h>
-#include <hlsdk/public/raytrace.h>
+
+#define BOT_VISIBILITY_TICK 0.2
 
 extern IVEngineServer *Engine;
+extern IEngineTrace *IIEngineTrace;
 extern BotVisiblesProvider *_BotVisiblesProvider;
+
+static bool _DrawDebugBeams = false;
 
 Bot *_MBot;
 std::vector<edict_t*> _VisibleEdicts;
+float _TickTime;
 
 BotVisibles::BotVisibles(Bot *bot) : _MBot(bot) {}
 
@@ -17,31 +23,62 @@ std::vector<edict_t*> BotVisibles::GetVisibleEdicts() const {
 	return _VisibleEdicts;
 }
 
-void BotVisibles::OnGameFrame() {
-	static float waitTime;
+void BotVisibles::OnThink() {
 	float currentTime = Engine->Time();
-	if (waitTime > currentTime)
+
+	if (_TickTime > currentTime)
 		return;
-	waitTime = currentTime + 0.2;
+
+	_TickTime = currentTime + BOT_VISIBILITY_TICK;
 
 	_VisibleEdicts.clear();
 
-	Vector botRayTracePos = _MBot->GetEarPos();
-	botRayTracePos.z += 100;
+	Vector botPos = _MBot->GetEarPos();
+	edict_t *botEdict = _MBot->GetEdict();
+	IHandleEntity *botPassEntity = botEdict->GetIServerEntity();
 
 	for (edict_t *edict : _BotVisiblesProvider->GetAllEdicts()) {
-		// TODO: raytracing and shit
-		if (edict != _MBot->GetEdict()) {
-			Vector edictPos = Util::GetEdictOrigin(edict);
+		if (edict == botEdict)
+			continue;
 
-			RayStream rayStream = RayStream();
-			RayTracingSingleResult rayTraceResult;
-			RayTracingEnvironment().AddToRayStream(rayStream, botRayTracePos, edictPos, &rayTraceResult);
+		Vector edictPos = Util::GetEdictOrigin(edict);
 
-			Util::DrawBeam(botRayTracePos, edictPos, 255, 255, 255, 0.2);
-			Util::Log("%d %f %f %f", rayTraceResult.HitID, rayTraceResult.ray_length, rayTraceResult.HitDistance, edictPos.DistToSqr(botRayTracePos));
-			if (rayTraceResult.HitDistance == edictPos.DistToSqr(botRayTracePos))
+		Ray_t traceLine;
+		traceLine.Init(botPos, edictPos);
+
+		trace_t traceResult;
+
+		IIEngineTrace->TraceRay(traceLine, MASK_SOLID, &TraceFilterSimple(botPassEntity, 
+			edict->GetIServerEntity(), COLLISION_GROUP_NONE), &traceResult);
+
+		bool traceHit = traceResult.DidHit();
+
+		if (_DrawDebugBeams)
+			Util::DrawBeam(botPos, edictPos, traceHit ? 255 : 0, traceHit ? 0 : 255, 0, BOT_VISIBILITY_TICK);
+
+		if (!traceHit) {
+			// Insert according to distance bot <-> edict
+			vec_t edictBotDistance = edictPos.DistTo(botPos);
+
+			if (_VisibleEdicts.size() == 0)
 				_VisibleEdicts.push_back(edict);
+			else
+				for (uint8_t i = 0; i < _VisibleEdicts.size(); i++) {
+					if (Util::GetEdictOrigin(_VisibleEdicts[i]).DistTo(botPos) >= edictBotDistance) {
+						_VisibleEdicts.insert(_VisibleEdicts.begin() + i, edict);
+
+						break;
+					}
+				}
 		}
 	}
+}
+
+CON_COMMAND(pongbot_bot_visibility_debug, "Toggle debug visibility raytracing beams") {
+	_DrawDebugBeams = !_DrawDebugBeams;
+
+	if (_DrawDebugBeams)
+		Util::Log("Enabled debug visibility raytracing beams");
+	else
+		Util::Log("Disabled debug visibility raytracing beams");
 }

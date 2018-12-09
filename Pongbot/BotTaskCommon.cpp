@@ -5,8 +5,8 @@
 #include "BotVisibles.h"
 
 #define POS_STUCK_RADIUS 0.2
-#define POS_STUCK_STARTPANICTIME 120
-#define POS_STUCK_GIVEUPTIME 180
+#define POS_STUCK_STARTPANICTIME 120 // Bot starts crouch jumping
+#define POS_STUCK_GIVEUPTIME 180 // Bot searches new path
 #define WAYPOINTNODE_TOUCHED_RADIUS 5
 
 extern WaypointManager *_WaypointManager;
@@ -20,6 +20,13 @@ BotTaskCommon::BotTaskCommon(Bot *bot) : BotTask(bot) {}
 
 void BotTaskCommon::OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt, int *&taskFlags) {
 	Bot *bot = _GetBot();
+
+	_DoMovement(pressedButtons, movement);
+	_DoLooking(pressedButtons, lookAt);
+}
+
+void BotTaskCommon::_DoMovement(int *&pressedButtons, Vector2D *&movement) {
+	Bot *bot = _GetBot();
 	Vector currentPos = bot->GetPos();
 
 	if (Util::DistanceToNoZ(currentPos, _LastPos) < POS_STUCK_RADIUS) {
@@ -27,6 +34,7 @@ void BotTaskCommon::OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&
 
 		if (_PosStuckTime > POS_STUCK_GIVEUPTIME) {
 			_PosStuckTime = 0;
+
 			_UpdateNewWaypointNodeStack();
 		}
 		else if (_PosStuckTime > POS_STUCK_STARTPANICTIME) {
@@ -37,6 +45,7 @@ void BotTaskCommon::OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&
 	else {
 		_PosStuckTime = 0;
 		_LastPos = currentPos;
+
 		_UpdateClosestWaypointNode();
 	}
 
@@ -45,7 +54,7 @@ void BotTaskCommon::OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&
 	else {
 		WaypointNode *node = _WaypointNodeStack.top();
 
-		if (!node) // Pop if node doesn't exist anymore
+		if (!node)
 			_WaypointNodeStack.pop();
 		else {
 			Vector nodePos = node->Pos;
@@ -54,19 +63,27 @@ void BotTaskCommon::OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&
 				_WaypointNodeStack.pop();
 			else
 				movement = new Vector2D(Util::GetIdealMoveSpeedsToPos(bot, nodePos));
+		}
+	}
+}
 
-			//lookAt = new QAngle(Util::GetLookAtAngleForPos(_Bot, Vector(nodePos.x, nodePos.y, _Bot->GetEarPos().z)));
-			// TEMP!!!
-			if (!lookAt) {
-				std::vector<edict_t*> visibleEdicts = bot->GetBotVisibles()->GetVisibleEdicts();
+void BotTaskCommon::_DoLooking(int *&pressedButtons, QAngle *&lookAt) {
+	Bot *bot = _GetBot();
 
-				if (visibleEdicts.size() > 0) {
-					lookAt = new QAngle(Util::GetLookAtAngleForPos(bot, Util::GetEdictOrigin(
-						visibleEdicts[Util::RandomInt(0, visibleEdicts.size() - 1)])));
+	std::vector<edict_t*> visibleEdicts = bot->GetBotVisibles()->GetVisibleEdicts();
 
-					*pressedButtons |= IN_ATTACK;
-				}
-			}
+	if (visibleEdicts.size() > 0) {
+		lookAt = new QAngle(Util::GetLookAtAngleForPos(bot, Util::GetEdictOrigin(visibleEdicts[0])));
+
+		*pressedButtons |= IN_ATTACK;
+	}
+	else if (_WaypointNodeStack.size() > 0) {
+		WaypointNode *node = _WaypointNodeStack.top();
+
+		if (node) {
+			Vector nodePos = node->Pos;
+
+			lookAt = new QAngle(Util::GetLookAtAngleForPos(bot, Vector(nodePos.x, nodePos.y, bot->GetEarPos().z)));
 		}
 	}
 }

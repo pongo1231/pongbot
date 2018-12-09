@@ -3,8 +3,10 @@
 #include "BotManager.h"
 #include "WaypointManager.h"
 #include "GameFramable.h"
+#include "TraceHeaders.h"
 #include <hlsdk/game/shared/IEffects.h>
 #include <hlsdk/public/eiface.h>
+#include <hlsdk/public/game/server/iplayerinfo.h>
 #include <cstdlib>
 
 Main _Main;
@@ -15,6 +17,7 @@ IPlayerInfoManager *IIPlayerInfoManager;
 IServerPluginHelpers *IIServerPluginHelpers;
 IServerGameClients *IIServerGameClients;
 IEffects *IIEffects;
+IEngineTrace *IIEngineTrace;
 
 std::vector<GameFramable*> _GameFramables;
 
@@ -30,6 +33,7 @@ bool Main::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bool lat
 	GET_V_IFACE_CURRENT(GetEngineFactory, IIServerPluginHelpers, IServerPluginHelpers, INTERFACEVERSION_ISERVERPLUGINHELPERS);
 	GET_V_IFACE_CURRENT(GetServerFactory, IIServerGameClients, IServerGameClients, INTERFACEVERSION_SERVERGAMECLIENTS);
 	GET_V_IFACE_CURRENT(GetServerFactory, IIEffects, IEffects, IEFFECTS_INTERFACE_VERSION);
+	GET_V_IFACE_CURRENT(GetEngineFactory, IIEngineTrace, IEngineTrace, INTERFACEVERSION_ENGINETRACE_SERVER);
 
 	SH_ADD_HOOK(IServerGameDLL, GameFrame, Server, SH_MEMBER(this, &Main::_OnGameFrame), true);
 

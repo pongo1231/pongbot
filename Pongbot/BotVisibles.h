@@ -5,16 +5,17 @@
 
 class Bot;
 
-class BotVisibles : public GameFramable {
+class BotVisibles {
 public:
 	BotVisibles(Bot *bot);
 
 public:
 	std::vector<edict_t*> GetVisibleEdicts() const;
 
-	void OnGameFrame();
+	void OnThink();
 
 private:
 	Bot *_MBot;
 	std::vector<edict_t*> _VisibleEdicts;
+	float _TickTime;
 };

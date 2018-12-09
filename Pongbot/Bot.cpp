@@ -19,7 +19,6 @@ IBotController *_IIBotController;
 IPlayerInfo *_IIPlayerInfo;
 BotTaskMaster *_BotTaskMaster;
 BotVisibles *_BotVisibles;
-
 TFClass _CurrentClass;
 
 Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
@@ -36,6 +35,8 @@ Bot::~Bot() {
 }
 
 void Bot::Think() {
+	_BotVisibles->OnThink();
+
 	int pressedButtons = 0;
 	Vector2D *movement = nullptr;
 	QAngle *lookAt = nullptr;
