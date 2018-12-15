@@ -195,6 +195,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClInclude Include="TFClass.h" />
+    <ClInclude Include="TFTeam.h" />
     <ClInclude Include="TraceFilters.h" />
     <ClInclude Include="TraceHeaders.h" />
     <ClInclude Include="WaypointFileManager.h" />

@@ -225,5 +225,8 @@
     <ClInclude Include="TraceHeaders.h">
       <Filter>src\TF2Util</Filter>
     </ClInclude>
+    <ClInclude Include="TFTeam.h">
+      <Filter>src\TF2Util</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 #include "BotVisiblesProvider.h"
+#include "TFTeam.h"
 #include <hlsdk/public/game/server/iplayerinfo.h>
 
 extern IVEngineServer *Engine;
@@ -48,6 +49,6 @@ bool BotVisiblesProvider::_IsEdictRelevant(edict_t *edict) {
 	const char *className = edict->GetClassName();
 
 	// Don't add spectators to visibles
-	if ((strcmp(className, "player") != 0 || IIPlayerInfoManager->GetPlayerInfo(edict)->GetTeamIndex() != 1))
+	if ((strcmp(className, "player") != 0 || IIPlayerInfoManager->GetPlayerInfo(edict)->GetTeamIndex() != TFTeam::SPECTATOR))
 		return strcmp(className, "player") == 0;
 }

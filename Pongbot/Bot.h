@@ -1,5 +1,4 @@
 #pragma once
-#include "TFClass.h"
 #include <hlsdk/public/edict.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 
@@ -7,6 +6,8 @@ class BotHelper;
 class BotTaskMaster;
 class BotVisibles;
 class WaypointNode;
+enum TFClass;
+enum TFTeam;
 
 class Bot {
 public:
@@ -23,7 +24,9 @@ public:
 	Vector GetEarPos() const;
 	QAngle GetAngle() const;
 	TFClass GetClass() const;
+	TFTeam GetTeam() const;
 	BotVisibles *GetBotVisibles() const;
+	bool IsDead() const;
 	void ChangeClass(TFClass tfClass);
 
 private:

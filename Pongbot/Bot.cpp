@@ -4,6 +4,8 @@
 #include "BotTaskMaster.h"
 #include "BotVisibles.h"
 #include "BotTaskMasterCollection.h"
+#include "TFTeam.h"
+#include "TFClass.h"
 #include <metamod/ISmmPlugin.h>
 #include <string>
 
@@ -87,8 +89,16 @@ TFClass Bot::GetClass() const {
 	return _CurrentClass;
 }
 
+TFTeam Bot::GetTeam() const {
+	return (TFTeam) _IIPlayerInfo->GetTeamIndex();
+}
+
 BotVisibles *Bot::GetBotVisibles() const {
 	return _BotVisibles;
+}
+
+bool Bot::IsDead() const {
+	return _IIPlayerInfo->IsDead();
 }
 
 void Bot::ChangeClass(TFClass tfClass) {

@@ -3,6 +3,7 @@
 #include "BotVisiblesProvider.h"
 #include "Util.h"
 #include "TraceFilters.h"
+#include "TFTeam.h"
 #include <metamod/ISmmAPI.h>
 
 #define BOT_VISIBILITY_TICK 0.2
@@ -24,6 +25,9 @@ std::vector<edict_t*> BotVisibles::GetVisibleEdicts() const {
 }
 
 void BotVisibles::OnThink() {
+	if (_MBot->GetTeam() == TFTeam::SPECTATOR || _MBot->IsDead())
+		return;
+
 	float currentTime = Engine->Time();
 
 	if (_TickTime > currentTime)
