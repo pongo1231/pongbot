@@ -47,8 +47,5 @@ void BotVisiblesProvider::OnGameFrame() {
 bool BotVisiblesProvider::_IsEdictRelevant(edict_t *edict) {
 	// TODO: more filters
 	const char *className = edict->GetClassName();
-
-	// Don't add spectators to visibles
-	if ((strcmp(className, "player") != 0 || IIPlayerInfoManager->GetPlayerInfo(edict)->GetTeamIndex() != TFTeam::SPECTATOR))
-		return strcmp(className, "player") == 0;
+	return (strcmp(className, "player") == 0 && !IIPlayerInfoManager->GetPlayerInfo(edict)->IsDead());
 }

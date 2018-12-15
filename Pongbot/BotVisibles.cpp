@@ -25,14 +25,12 @@ std::vector<edict_t*> BotVisibles::GetVisibleEdicts() const {
 }
 
 void BotVisibles::OnThink() {
-	if (_MBot->GetTeam() == TFTeam::SPECTATOR || _MBot->IsDead())
+	if (_MBot->IsDead())
 		return;
 
 	float currentTime = Engine->Time();
-
 	if (_TickTime > currentTime)
 		return;
-
 	_TickTime = currentTime + BOT_VISIBILITY_TICK;
 
 	_VisibleEdicts.clear();
@@ -40,7 +38,6 @@ void BotVisibles::OnThink() {
 	Vector botPos = _MBot->GetEarPos();
 	edict_t *botEdict = _MBot->GetEdict();
 	IHandleEntity *botPassEntity = botEdict->GetIServerEntity();
-
 	for (edict_t *edict : _BotVisiblesProvider->GetAllEdicts()) {
 		if (edict == botEdict)
 			continue;
@@ -49,12 +46,9 @@ void BotVisibles::OnThink() {
 
 		Ray_t traceLine;
 		traceLine.Init(botPos, edictPos);
-
 		trace_t traceResult;
-
 		IIEngineTrace->TraceRay(traceLine, MASK_SOLID, &TraceFilterSimple(botPassEntity, 
 			edict->GetIServerEntity(), COLLISION_GROUP_NONE), &traceResult);
-
 		bool traceHit = traceResult.DidHit();
 
 		if (_DrawDebugBeams)
@@ -63,14 +57,12 @@ void BotVisibles::OnThink() {
 		if (!traceHit) {
 			// Insert according to distance bot <-> edict
 			vec_t edictBotDistance = edictPos.DistTo(botPos);
-
 			if (_VisibleEdicts.size() == 0)
 				_VisibleEdicts.push_back(edict);
 			else
 				for (uint8_t i = 0; i < _VisibleEdicts.size(); i++) {
 					if (Util::GetEdictOrigin(_VisibleEdicts[i]).DistTo(botPos) >= edictBotDistance) {
 						_VisibleEdicts.insert(_VisibleEdicts.begin() + i, edict);
-
 						break;
 					}
 				}

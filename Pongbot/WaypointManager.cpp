@@ -105,18 +105,14 @@ void WaypointManager::OnGameFrame() {
 
 	static float waitTime;
 	float currentTime = Engine->Time();
-
 	if (waitTime > currentTime)
 		return;
-
 	waitTime = currentTime + WAYPOINT_NODE_BEAM_TICK;
 
 	for (WaypointNode *node : _WaypointNodes) {
 		Vector startPos = node->Pos;
 		Vector endPos = Vector(startPos.x, startPos.y, startPos.z + 75);
-
 		Util::DrawBeam(startPos, endPos, 0, 255, 0, WAYPOINT_NODE_BEAM_TICK);
-
 		for (WaypointNode *connectedNode : *node->GetConnectedNodes())
 			Util::DrawBeam(endPos, connectedNode->Pos, 255, 255, 255, WAYPOINT_NODE_BEAM_TICK);
 	}
@@ -125,22 +121,17 @@ void WaypointManager::OnGameFrame() {
 static IPlayerInfo *_CheckCommandTargetPlayerExists() {
 	edict_t *playerEdict = Engine->PEntityOfEntIndex(1);
 	IPlayerInfo *playerInfo = IIPlayerInfoManager->GetPlayerInfo(playerEdict);
-
 	if (!playerEdict || !playerInfo || !playerInfo->IsPlayer()) {
 		Util::Log("No player found!");
-
 		return nullptr;
 	}
-
 	return playerInfo;
 }
 
 CON_COMMAND(pongbot_waypoint_createnode, "Creates a waypoint node wherever the first player is standing") {
 	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
-
 	if (playerInfo) {
 		uint8_t id = _WaypointNodes.size();
-
 		if (id == 256) // Above max size of 8 bit (255)
 			Util::Log("Max amount of waypoint nodes reached (255)!");
 		else {
@@ -153,10 +144,8 @@ CON_COMMAND(pongbot_waypoint_createnode, "Creates a waypoint node wherever the f
 
 CON_COMMAND(pongbot_waypoint_connectnode1, "Selects nearest waypoint node for connection with another node") {
 	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
-
 	if (playerInfo) {
 		_SelectedNode = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
-
 		if (!_SelectedNode)
 			Util::Log("No waypoint node found!");
 		else
@@ -169,10 +158,8 @@ CON_COMMAND(pongbot_waypoint_connectnode2, "Connects previously selected waypoin
 		Util::Log("Select a node via pongbot_connectnode1 first");
 	else {
 		IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
-
 		if (playerInfo) {
 			WaypointNode *currentNode = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
-
 			if (_SelectedNode == currentNode)
 				Util::Log("Can't connect waypoint node to itself!");
 			else {
@@ -183,7 +170,6 @@ CON_COMMAND(pongbot_waypoint_connectnode2, "Connects previously selected waypoin
 					Util::Log("Node #%d and #%d were already connected!", selectedNodeID, currentNodeID);
 				else {
 					Util::Log("Connected waypoint node #%d with node #%d", selectedNodeID, currentNodeID);
-
 					_SelectedNode = nullptr;
 				}
 			}
@@ -193,7 +179,6 @@ CON_COMMAND(pongbot_waypoint_connectnode2, "Connects previously selected waypoin
 
 CON_COMMAND(pongbot_waypoint_biconnect, "Toggles automatic node bidirectional connections") {
 	_NodeBiConnect = !_NodeBiConnect;
-
 	if (_NodeBiConnect)
 		Util::Log("Bidirectional node connections enabled!");
 	else
@@ -204,16 +189,13 @@ CON_COMMAND(pongbot_waypoint_clearnodes, "Removes all waypoint nodes") {
 	for (WaypointNode *node : _WaypointNodes)
 		delete node;
 	_WaypointNodes.clear();
-
 	Util::Log("All waypoint nodes cleared!");
 }
 
 CON_COMMAND(pongbot_waypoint_clearnode, "Removes the nearest node") {
 	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
-
 	if (playerInfo) {
 		WaypointNode *node = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
-
 		if (!node)
 			Util::Log("No waypoint node found!");
 		else {
@@ -232,15 +214,12 @@ CON_COMMAND(pongbot_waypoint_clearnode, "Removes the nearest node") {
 
 CON_COMMAND(pongbot_waypoint_clearnodeto, "Clears all connections to other nodes from node") {
 	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
-
 	if (playerInfo) {
 		WaypointNode *node = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
-
 		if (!node)
 			Util::Log("No waypoint node found!");
 		else {
 			std::vector<WaypointNode*> *connectedNodes = node->GetConnectedNodes();
-
 			for (uint8_t i = 0; i < connectedNodes->size(); i++)
 				connectedNodes->erase(connectedNodes->begin() + i);
 
@@ -251,7 +230,6 @@ CON_COMMAND(pongbot_waypoint_clearnodeto, "Clears all connections to other nodes
 
 CON_COMMAND(pongbot_waypoint_debug, "Toggle beams to visualize nodes & their connections") {
 	_DrawBeams = !_DrawBeams;
-
 	if (_DrawBeams)
 		Util::Log("Waypoint Debugging enabled!");
 	else
