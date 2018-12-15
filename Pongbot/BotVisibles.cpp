@@ -11,17 +11,18 @@
 extern IVEngineServer *Engine;
 extern IEngineTrace *IIEngineTrace;
 extern BotVisiblesProvider *_BotVisiblesProvider;
+extern IServerGameClients *IIServerGameClients;
 
 static bool _DrawDebugBeams = false;
 
 Bot *_MBot;
-std::vector<edict_t*> _VisibleEdicts;
+std::vector<BotVisibleTarget*> _VisibleTargets;
 float _TickTime;
 
 BotVisibles::BotVisibles(Bot *bot) : _MBot(bot) {}
 
-std::vector<edict_t*> BotVisibles::GetVisibleEdicts() const {
-	return _VisibleEdicts;
+std::vector<BotVisibleTarget*> BotVisibles::GetVisibleTargets() const {
+	return _VisibleTargets;
 }
 
 void BotVisibles::OnThink() {
@@ -33,7 +34,9 @@ void BotVisibles::OnThink() {
 		return;
 	_TickTime = currentTime + BOT_VISIBILITY_TICK;
 
-	_VisibleEdicts.clear();
+	for (BotVisibleTarget *visibleTarget : _VisibleTargets)
+		delete visibleTarget;
+	_VisibleTargets.clear();
 
 	Vector botPos = _MBot->GetEarPos();
 	edict_t *botEdict = _MBot->GetEdict();
@@ -51,28 +54,35 @@ void BotVisibles::OnThink() {
 			edict->GetIServerEntity(), COLLISION_GROUP_NONE), &traceResult);
 		bool traceHit = traceResult.DidHit();
 
-		if (_DrawDebugBeams)
-			Util::DrawBeam(botPos, edictPos, traceHit ? 255 : 0, traceHit ? 0 : 255, 0, BOT_VISIBILITY_TICK);
-
 		if (!traceHit) {
 			// Insert according to distance bot <-> edict
+			uint8_t insertIndex = 0;
 			vec_t edictBotDistance = edictPos.DistTo(botPos);
-			if (_VisibleEdicts.size() == 0)
-				_VisibleEdicts.push_back(edict);
-			else
-				for (uint8_t i = 0; i < _VisibleEdicts.size(); i++) {
-					if (Util::GetEdictOrigin(_VisibleEdicts[i]).DistTo(botPos) >= edictBotDistance) {
-						_VisibleEdicts.insert(_VisibleEdicts.begin() + i, edict);
-						break;
-					}
+			for (uint8_t i = 0; i < _VisibleTargets.size(); i++) {
+				if (_VisibleTargets[i]->Pos.DistTo(botPos) >= edictBotDistance) {
+					insertIndex = i;
+					break;
 				}
+			}
+
+			// Target center instead of feet if edict is player
+			Vector earPos = Vector();
+			IIServerGameClients->ClientEarPosition(edict, &earPos);
+			if (!earPos.IsZero())
+				edictPos.z = (edictPos.z + earPos.z) / 2;
+
+			// TODO: Target Priorities
+			_VisibleTargets.insert(_VisibleTargets.begin() + insertIndex,
+				new BotVisibleTarget(edictPos, BotTargetPriority::NORMAL));
 		}
+
+		if (_DrawDebugBeams)
+				Util::DrawBeam(botPos, edictPos, traceHit ? 255 : 0, traceHit ? 0 : 255, 0, BOT_VISIBILITY_TICK);
 	}
 }
 
 CON_COMMAND(pongbot_bot_visibility_debug, "Toggle debug visibility raytracing beams") {
 	_DrawDebugBeams = !_DrawDebugBeams;
-
 	if (_DrawDebugBeams)
 		Util::Log("Enabled debug visibility raytracing beams");
 	else

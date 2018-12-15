@@ -64,12 +64,11 @@ void BotTaskCommon::_DoMovement(int *&pressedButtons, Vector2D *&movement) {
 
 void BotTaskCommon::_DoLooking(int *&pressedButtons, QAngle *&lookAt) {
 	Bot *bot = _GetBot();
-	std::vector<edict_t*> visibleEdicts = bot->GetBotVisibles()->GetVisibleEdicts();
+	std::vector<BotVisibleTarget*> visibleTargets = bot->GetBotVisibles()->GetVisibleTargets();
 
-	if (visibleEdicts.size() > 0) {
-		Vector shootAtPos = Util::GetEdictOrigin(visibleEdicts[0]);
-		shootAtPos.z += 10;
-		lookAt = new QAngle(Util::GetLookAtAngleForPos(bot, shootAtPos));
+	if (visibleTargets.size() > 0) {
+		// TODO: Target Priorities
+		lookAt = new QAngle(Util::GetLookAtAngleForPos(bot, visibleTargets[0]->Pos));
 		*pressedButtons |= IN_ATTACK;
 	}
 	else if (_WaypointNodeStack.size() > 0) {

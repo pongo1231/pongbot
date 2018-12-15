@@ -184,6 +184,7 @@
     <ClInclude Include="BotTaskMasterSpy.h" />
     <ClInclude Include="BotVisibles.h" />
     <ClInclude Include="BotVisiblesProvider.h" />
+    <ClInclude Include="BotVisibleTarget.h" />
     <ClInclude Include="ConVarBase.h" />
     <ClInclude Include="EntityData.h" />
     <ClInclude Include="GameFramable.h" />

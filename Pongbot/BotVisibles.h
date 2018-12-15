@@ -1,5 +1,6 @@
 #pragma once
 #include "GameFramable.h"
+#include "BotVisibleTarget.h"
 #include <hlsdk/public/edict.h>
 #include <vector>
 
@@ -10,12 +11,12 @@ public:
 	BotVisibles(Bot *bot);
 
 public:
-	std::vector<edict_t*> GetVisibleEdicts() const;
+	std::vector<BotVisibleTarget*> GetVisibleTargets() const;
 
 	void OnThink();
 
 private:
 	Bot *_MBot;
-	std::vector<edict_t*> _VisibleEdicts;
+	std::vector<BotVisibleTarget*> _VisibleTargets;
 	float _TickTime;
 };

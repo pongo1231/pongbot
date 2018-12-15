@@ -225,5 +225,8 @@
     <ClInclude Include="BotTaskMaster.h">
       <Filter>src\Bot\Task\Tasks</Filter>
     </ClInclude>
+    <ClInclude Include="BotVisibleTarget.h">
+      <Filter>src\Bot\Visibles</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
