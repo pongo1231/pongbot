@@ -56,7 +56,6 @@ void Bot::Think() {
 	cmd.forwardmove = movement->x;
 	cmd.sidemove = movement->y;
 	cmd.viewangles = *lookAt;
-
 	_IIBotController->RunPlayerMove(&cmd);
 
 	delete movement;
