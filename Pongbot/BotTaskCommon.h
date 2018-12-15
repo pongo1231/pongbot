@@ -9,7 +9,7 @@ public:
 	BotTaskCommon(Bot *bot);
 
 public:
-	void OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt, int *&taskFlags);
+	void OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt);
 
 private:
 	Vector _LastPos;

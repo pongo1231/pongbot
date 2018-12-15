@@ -6,17 +6,21 @@
 
 class BotTaskMaster {
 public:
+	BotTaskMaster(Bot *bot);
 	~BotTaskMaster();
 
 public:
-	virtual void OnThink(int *pressedButtons, Vector2D *&movement, QAngle *&lookAt) = 0;
+	void OnThink(int *pressedButtons, Vector2D *&movement, QAngle *&lookAt);
 
 protected:
+	Bot *_GetBot() const;
 	BotTask *_GetBotTask() const;
 	void _UpdateBotTask(BotTask *newTask);
-	void _BotTaskThink(int *pressedButtons, Vector2D *&movement, QAngle *&lookAt, int *taskFlags);
 
 private:
+	Bot *_ABot;
 	BotTask *_BotTask;
+
+	virtual void _OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt) = 0;
 };
 

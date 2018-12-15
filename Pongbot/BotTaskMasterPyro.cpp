@@ -1,10 +1,5 @@
 #include "BotTaskMasterPyro.h"
 
-BotTaskMasterPyro::BotTaskMasterPyro(Bot *bot) {
-	_UpdateBotTask(new BotTaskCommon(bot));
-}
+BotTaskMasterPyro::BotTaskMasterPyro(Bot *bot) : BotTaskMaster(bot) {}
 
-void BotTaskMasterPyro::OnThink(int *pressedButtons, Vector2D *&movement, QAngle *&lookAt) {
-	int botTaskFlags;
-	_BotTaskThink(pressedButtons, movement, lookAt, &botTaskFlags);
-}
+void BotTaskMasterPyro::_OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt) {}

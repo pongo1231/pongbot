@@ -1,10 +1,5 @@
 #include "BotTaskMasterHeavy.h"
 
-BotTaskMasterHeavy::BotTaskMasterHeavy(Bot *bot) {
-	_UpdateBotTask(new BotTaskCommon(bot));
-}
+BotTaskMasterHeavy::BotTaskMasterHeavy(Bot *bot) : BotTaskMaster(bot) {}
 
-void BotTaskMasterHeavy::OnThink(int *pressedButtons, Vector2D *&movement, QAngle *&lookAt) {
-	int botTaskFlags;
-	_BotTaskThink(pressedButtons, movement, lookAt, &botTaskFlags);
-}
+void BotTaskMasterHeavy::_OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt) {}

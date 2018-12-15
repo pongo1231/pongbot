@@ -1,10 +1,5 @@
 #include "BotTaskMasterSpy.h"
 
-BotTaskMasterSpy::BotTaskMasterSpy(Bot *bot) {
-	_UpdateBotTask(new BotTaskCommon(bot));
-}
+BotTaskMasterSpy::BotTaskMasterSpy(Bot *bot) : BotTaskMaster(bot) {}
 
-void BotTaskMasterSpy::OnThink(int *pressedButtons, Vector2D *&movement, QAngle *&lookAt) {
-	int botTaskFlags;
-	_BotTaskThink(pressedButtons, movement, lookAt, &botTaskFlags);
-}
+void BotTaskMasterSpy::_OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt) {}

@@ -118,14 +118,14 @@
     <ClCompile Include="BotTaskCommon.cpp">
       <Filter>src\Bot\Task\Tasks</Filter>
     </ClCompile>
-    <ClCompile Include="BotTaskMaster.cpp">
-      <Filter>src\Bot\Task</Filter>
-    </ClCompile>
     <ClCompile Include="BotTask.cpp">
       <Filter>src\Bot\Task</Filter>
     </ClCompile>
     <ClCompile Include="TraceFilters.cpp">
       <Filter>src\TF2Util</Filter>
+    </ClCompile>
+    <ClCompile Include="BotTaskMaster.cpp">
+      <Filter>src\Bot\Task\Tasks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -170,12 +170,6 @@
     </ClInclude>
     <ClInclude Include="BotManager.h">
       <Filter>src\Bot</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskFlags.h">
-      <Filter>src\Bot\Task</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskMaster.h">
-      <Filter>src\Bot\Task</Filter>
     </ClInclude>
     <ClInclude Include="TFClass.h">
       <Filter>src\TF2Util</Filter>
@@ -227,6 +221,9 @@
     </ClInclude>
     <ClInclude Include="TFTeam.h">
       <Filter>src\TF2Util</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskMaster.h">
+      <Filter>src\Bot\Task\Tasks</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

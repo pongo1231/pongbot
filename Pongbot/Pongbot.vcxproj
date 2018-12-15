@@ -171,7 +171,6 @@
     <ClCompile Include="WaypointManager.cpp" />
     <ClCompile Include="WaypointNode.cpp" />
     <ClInclude Include="BotTaskCollection.h" />
-    <ClInclude Include="BotTaskFlags.h" />
     <ClInclude Include="BotTaskMaster.h" />
     <ClInclude Include="BotTaskMasterCollection.h" />
     <ClInclude Include="BotTaskMasterDemo.h" />

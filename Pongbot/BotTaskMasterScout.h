@@ -5,6 +5,6 @@ class BotTaskMasterScout : public BotTaskMaster {
 public:
 	BotTaskMasterScout(Bot *bot);
 
-public:
-	void OnThink(int *pressedButtons, Vector2D *&movement, QAngle *&lookAt);
+private:
+	void _OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt);
 };

@@ -1,10 +1,5 @@
 #include "BotTaskMasterSoldier.h"
 
-BotTaskMasterSoldier::BotTaskMasterSoldier(Bot *bot) {
-	_UpdateBotTask(new BotTaskCommon(bot));
-}
+BotTaskMasterSoldier::BotTaskMasterSoldier(Bot *bot) : BotTaskMaster(bot) {}
 
-void BotTaskMasterSoldier::OnThink(int *pressedButtons, Vector2D *&movement, QAngle *&lookAt) {
-	int botTaskFlags;
-	_BotTaskThink(pressedButtons, movement, lookAt, &botTaskFlags);
-}
+void BotTaskMasterSoldier::_OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt) {}

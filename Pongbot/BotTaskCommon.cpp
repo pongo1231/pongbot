@@ -18,7 +18,7 @@ WaypointNode *_ClosestWaypointNode;
 
 BotTaskCommon::BotTaskCommon(Bot *bot) : BotTask(bot) {}
 
-void BotTaskCommon::OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt, int *&taskFlags) {
+void BotTaskCommon::OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt) {
 	Bot *bot = _GetBot();
 
 	_DoMovement(pressedButtons, movement);

@@ -1,10 +1,5 @@
 #include "BotTaskMasterDemo.h"
 
-BotTaskMasterDemo::BotTaskMasterDemo(Bot *bot) {
-	_UpdateBotTask(new BotTaskCommon(bot));
-}
+BotTaskMasterDemo::BotTaskMasterDemo(Bot *bot) : BotTaskMaster(bot) {}
 
-void BotTaskMasterDemo::OnThink(int *pressedButtons, Vector2D *&movement, QAngle *&lookAt) {
-	int botTaskFlags;
-	_BotTaskThink(pressedButtons, movement, lookAt, &botTaskFlags);
-}
+void BotTaskMasterDemo::_OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt) {}

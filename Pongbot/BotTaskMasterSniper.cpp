@@ -1,10 +1,5 @@
 #include "BotTaskMasterSniper.h"
 
-BotTaskMasterSniper::BotTaskMasterSniper(Bot *bot) {
-	_UpdateBotTask(new BotTaskCommon(bot));
-}
+BotTaskMasterSniper::BotTaskMasterSniper(Bot *bot) : BotTaskMaster(bot) {}
 
-void BotTaskMasterSniper::OnThink(int *pressedButtons, Vector2D *&movement, QAngle *&lookAt) {
-	int botTaskFlags;
-	_BotTaskThink(pressedButtons, movement, lookAt, &botTaskFlags);
-}
+void BotTaskMasterSniper::_OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt) {}
