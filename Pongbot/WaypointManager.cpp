@@ -201,10 +201,8 @@ CON_COMMAND(pongbot_waypoint_clearnode, "Removes the nearest node") {
 		else {
 			// Delete from list first before deleting completely
 			for (uint8_t i = 0; i < _WaypointNodes.size(); i++)
-				if (_WaypointNodes[i] == node) {
-					delete _WaypointNodes[i];
+				if (_WaypointNodes[i] == node) 
 					_WaypointNodes.erase(_WaypointNodes.begin() + i);
-				}
 			delete node;
 
 			Util::Log("Removed nearest node!");
