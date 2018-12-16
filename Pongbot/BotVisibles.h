@@ -18,5 +18,4 @@ public:
 private:
 	Bot *_MBot;
 	std::vector<BotVisibleTarget*> _VisibleTargets;
-	float _TickTime;
 };

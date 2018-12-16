@@ -163,6 +163,8 @@
     <ClCompile Include="BotVisibles.cpp" />
     <ClCompile Include="BotVisiblesProvider.cpp" />
     <ClCompile Include="ConVarBase.cpp" />
+    <ClCompile Include="EdictsProvider.cpp" />
+    <ClCompile Include="EntityData.cpp" />
     <ClCompile Include="GameFramable.cpp" />
     <ClCompile Include="BotTaskCommon.cpp" />
     <ClCompile Include="TF2Util.cpp" />
@@ -186,6 +188,7 @@
     <ClInclude Include="BotVisiblesProvider.h" />
     <ClInclude Include="BotVisibleTarget.h" />
     <ClInclude Include="ConVarBase.h" />
+    <ClInclude Include="EdictsProvider.h" />
     <ClInclude Include="EntityData.h" />
     <ClInclude Include="GameFramable.h" />
     <ClInclude Include="BotTask.h" />

@@ -1,4 +1,6 @@
 #pragma once
+#include <hlsdk/public/edict.h>
+#include <hlsdk/public/server_class.h>
 
 // Thanks to Cheeseh (RCBot2)
 enum EntityData {
@@ -150,3 +152,7 @@ enum EntityData {
 	TF2DESIREDCLASS, //Jrob
 	GET_PROPDATA_MAX
 };
+
+namespace EntityDataFetcher {
+	SendProp *FetchFromEdict(edict_t *edict, int data);
+}

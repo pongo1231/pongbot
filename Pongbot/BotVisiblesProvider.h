@@ -1,6 +1,5 @@
 #pragma once
 #include "GameFramable.h"
-#include <metamod/ISmmAPI.h>
 #include <hlsdk/public/edict.h>
 #include <vector>
 
@@ -12,7 +11,7 @@ public:
 	static void Init();
 	static void Destroy();
 
-	std::vector<edict_t*> GetAllEdicts() const;
+	std::vector<edict_t*> GetVisibleEdicts() const;
 	void OnGameFrame();
 
 private:

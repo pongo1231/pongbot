@@ -50,6 +50,9 @@
     <Filter Include="src\TF2Util">
       <UniqueIdentifier>{22828df5-eb3e-4c44-bd2d-953a97a10c58}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Bot\Task\Tasks\Common">
+      <UniqueIdentifier>{2a20c762-4df6-44ec-b4b5-dac3f8db3168}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -115,17 +118,23 @@
     <ClCompile Include="BotTaskMasterSpy.cpp">
       <Filter>src\Bot\Task\Tasks\Spy</Filter>
     </ClCompile>
-    <ClCompile Include="BotTaskCommon.cpp">
-      <Filter>src\Bot\Task\Tasks</Filter>
-    </ClCompile>
     <ClCompile Include="BotTask.cpp">
       <Filter>src\Bot\Task</Filter>
     </ClCompile>
     <ClCompile Include="TraceFilters.cpp">
       <Filter>src\TF2Util</Filter>
     </ClCompile>
+    <ClCompile Include="EdictsProvider.cpp">
+      <Filter>src\TF2Util</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityData.cpp">
+      <Filter>src\TF2Util</Filter>
+    </ClCompile>
+    <ClCompile Include="BotTaskCommon.cpp">
+      <Filter>src\Bot\Task\Tasks\Common</Filter>
+    </ClCompile>
     <ClCompile Include="BotTaskMaster.cpp">
-      <Filter>src\Bot\Task\Tasks</Filter>
+      <Filter>src\Bot\Task\Tasks\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -210,9 +219,6 @@
     <ClInclude Include="BotTaskMasterCollection.h">
       <Filter>src\Bot\Task</Filter>
     </ClInclude>
-    <ClInclude Include="BotTaskCommon.h">
-      <Filter>src\Bot\Task\Tasks</Filter>
-    </ClInclude>
     <ClInclude Include="TraceFilters.h">
       <Filter>src\TF2Util</Filter>
     </ClInclude>
@@ -222,11 +228,17 @@
     <ClInclude Include="TFTeam.h">
       <Filter>src\TF2Util</Filter>
     </ClInclude>
-    <ClInclude Include="BotTaskMaster.h">
-      <Filter>src\Bot\Task\Tasks</Filter>
-    </ClInclude>
     <ClInclude Include="BotVisibleTarget.h">
       <Filter>src\Bot\Visibles</Filter>
+    </ClInclude>
+    <ClInclude Include="EdictsProvider.h">
+      <Filter>src\TF2Util</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskCommon.h">
+      <Filter>src\Bot\Task\Tasks\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskMaster.h">
+      <Filter>src\Bot\Task\Tasks\Common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

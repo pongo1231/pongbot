@@ -3,6 +3,7 @@
 #include "WaypointNode.h"
 #include "WaypointManager.h"
 #include "BotVisibles.h"
+#include "EdictsProvider.h"
 
 #define POS_STUCK_RADIUS 0.2
 #define POS_STUCK_STARTPANICTIME 120 // Bot starts crouch jumping
@@ -10,6 +11,7 @@
 #define WAYPOINTNODE_TOUCHED_RADIUS 5
 
 extern WaypointManager *_WaypointManager;
+extern EdictsProvider *_EdictsProvider;
 
 Vector _LastPos;
 unsigned int _PosStuckTime;
@@ -85,8 +87,14 @@ void BotTaskCommon::_UpdateNewWaypointNodeStack() {
 		_UpdateClosestWaypointNode();
 	if (_ClosestWaypointNode) { // If still nullptr, no waypoint nodes exist
 		_WaypointNodeStack = std::stack<WaypointNode*>();
+
+		std::vector<edict_t*> itemFlags = _EdictsProvider->SearchEdictsByClassname("item_teamflag");
+		WaypointNode *targetNode = itemFlags.size() > 0
+			? _WaypointManager->GetClosestWaypointNode(Util::GetEdictOrigin(itemFlags[0]))
+			: _WaypointManager->GetRandomWaypointNode();
+
 		_WaypointManager->GetWaypointNodeStackToTargetNode(_ClosestWaypointNode,
-			_WaypointManager->GetRandomWaypointNode(), &_WaypointNodeStack);
+			targetNode, &_WaypointNodeStack);
 	}
 }
 

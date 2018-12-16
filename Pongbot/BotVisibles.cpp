@@ -17,7 +17,6 @@ static bool _DrawDebugBeams = false;
 
 Bot *_MBot;
 std::vector<BotVisibleTarget*> _VisibleTargets;
-float _TickTime;
 
 BotVisibles::BotVisibles(Bot *bot) : _MBot(bot) {}
 
@@ -29,10 +28,11 @@ void BotVisibles::OnThink() {
 	if (_MBot->IsDead())
 		return;
 
+	static float tickTime;
 	float currentTime = Engine->Time();
-	if (_TickTime > currentTime)
+	if (tickTime > currentTime)
 		return;
-	_TickTime = currentTime + BOT_VISIBILITY_TICK;
+	tickTime = currentTime + BOT_VISIBILITY_TICK;
 
 	for (BotVisibleTarget *visibleTarget : _VisibleTargets)
 		delete visibleTarget;
@@ -41,7 +41,7 @@ void BotVisibles::OnThink() {
 	Vector botPos = _MBot->GetEarPos();
 	edict_t *botEdict = _MBot->GetEdict();
 	IHandleEntity *botPassEntity = botEdict->GetIServerEntity();
-	for (edict_t *edict : _BotVisiblesProvider->GetAllEdicts()) {
+	for (edict_t *edict : _BotVisiblesProvider->GetVisibleEdicts()) {
 		if (edict == botEdict)
 			continue;
 
