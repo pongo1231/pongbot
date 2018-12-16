@@ -59,25 +59,39 @@ namespace Util {
 		Vector vectorAngle = lookAtPos - bot->GetEarPos();
 		QAngle angle;
 		VectorAngles(vectorAngle / vectorAngle.Length(), angle);
-		return angle;
+		return CorrectViewAngle(angle);
 	}
 
 	Vector2D GetIdealMoveSpeedsToPos(Bot *bot, Vector targetPos) {
 		Vector2D sins;
-		SinCos(DEG2RAD(_GetYawAngle(bot, targetPos)), &sins.y, &sins.x);
+		SinCos(DEG2RAD(_ClampAngle(bot->GetAngle().y -
+			_ClampAngle(GetLookAtAngleForPos(bot, targetPos).y, false), false)), &sins.y, &sins.x);
 		sins = sins / sins.Length() * TF2Util::GetClassSpeed(bot->GetClass()) * 3;
 		return sins;
 	}
 
-	static vec_t _CorrectAngle(vec_t angle) {
-		if (angle > 180)
-			angle -= 360;
-		else if (angle < -180)
-			angle += 360;
-		return angle;
+	QAngle CorrectViewAngle(QAngle viewAngle) {
+		// Normalize first
+		while (viewAngle.x > 89)
+			viewAngle.x -= 180;
+		while (viewAngle.x < -89)
+			viewAngle.x += 180;
+		while (viewAngle.y > 180)
+			viewAngle.y -= 360;
+		while (viewAngle.y < -180)
+			viewAngle.y += 360;
+
+		viewAngle.x = _ClampAngle(viewAngle.x, true);
+		viewAngle.y = _ClampAngle(viewAngle.y, false);
+		viewAngle.z = 0;
+		return viewAngle;
 	}
 
-	static vec_t _GetYawAngle(Bot *bot, Vector targetPos) {
-		return _CorrectAngle(bot->GetAngle().y - _CorrectAngle(GetLookAtAngleForPos(bot, targetPos).y));
+	static vec_t _ClampAngle(vec_t angle, bool isPitch) {
+		if (angle > (isPitch ? 89 : 180))
+			angle = isPitch ? 89 : 180;
+		else if (angle < (isPitch ? -89 : -180))
+			angle = isPitch ? -89 : -180;
+		return angle;
 	}
 }

@@ -9,6 +9,8 @@
 #include <metamod/ISmmPlugin.h>
 #include <string>
 
+#define BOT_AIM_SENSITIVITY 3
+
 extern IVEngineServer *Engine;
 extern IBotManager *IIBotManager;
 extern IPlayerInfoManager *IIPlayerInfoManager;
@@ -41,18 +43,10 @@ void Bot::Think() {
 
 	int pressedButtons = 0;
 	Vector2D *movement = nullptr;
-	QAngle *lookAt = nullptr;
-
+	QAngle *targetLookAt = nullptr;
 	if (_BotTaskMaster)
-		_BotTaskMaster->OnThink(&pressedButtons, movement, lookAt);
-
-	// Smooth look at
-	QAngle currentLookAt = GetAngle();
-	if (lookAt && *lookAt != currentLookAt) {
-		QAngle newLookAt = currentLookAt + (*lookAt - currentLookAt) / 20;
-		delete lookAt;
-		lookAt = new QAngle(newLookAt);
-	}
+		_BotTaskMaster->OnThink(&pressedButtons, movement, targetLookAt);
+	_HandleAiming(targetLookAt);
 
 	CBotCmd cmd;
 	cmd.buttons = pressedButtons;
@@ -60,12 +54,23 @@ void Bot::Think() {
 		cmd.forwardmove = movement->x;
 		cmd.sidemove = movement->y;
 	}
-	if (lookAt)
-		cmd.viewangles = *lookAt;
+	cmd.viewangles = _LookAt;
 	_IIBotController->RunPlayerMove(&cmd);
 
 	delete movement;
-	delete lookAt;
+	delete targetLookAt;
+}
+
+void Bot::_HandleAiming(QAngle *targetLookAt) {
+	if (targetLookAt) {
+		static QAngle previousLookAt;
+		if (*targetLookAt != previousLookAt) {
+			previousLookAt = *targetLookAt;
+			_LookAt = *targetLookAt;
+		}
+	}
+	QAngle currentLookAt = GetAngle();
+	_LookAt = currentLookAt + (_LookAt - currentLookAt) / BOT_AIM_SENSITIVITY;
 }
 
 edict_t *Bot::GetEdict() const {
@@ -138,6 +143,10 @@ void Bot::ChangeClass(TFClass tfClass) {
 	case SPY:
 		_BotTaskMaster = new BotTaskMasterSpy(this);
 	}
+}
+
+void Bot::ExecClientCommand(const char *command) const {
+	IIServerPluginHelpers->ClientCommand(_Edict, command);
 }
 
 void Bot::_TFClassToJoinName(TFClass tfClass, char *tfClassName) {

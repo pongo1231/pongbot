@@ -17,7 +17,7 @@ namespace Util {
 
 	QAngle GetLookAtAngleForPos(Bot *bot, Vector lookAtPos);
 	Vector2D GetIdealMoveSpeedsToPos(Bot *bot, Vector targetPos);
-	static vec_t _CorrectAngle(vec_t angle);
-	static vec_t _GetYawAngle(Bot *bot, Vector targetPos);
+	QAngle CorrectViewAngle(QAngle viewAngle);
+	static vec_t _ClampAngle(vec_t angle, bool isPitch);
 }
 

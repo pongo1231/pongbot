@@ -28,6 +28,7 @@ public:
 	BotVisibles *GetBotVisibles() const;
 	bool IsDead() const;
 	void ChangeClass(TFClass tfClass);
+	void ExecClientCommand(const char *command) const;
 
 private:
 	edict_t *_Edict;
@@ -36,7 +37,9 @@ private:
 	BotTaskMaster *_BotTaskMaster;
 	BotVisibles *_BotVisibles;
 	TFClass _CurrentClass;
+	QAngle _LookAt;
 
+	void _HandleAiming(QAngle *targetLookAt);
 	void _TFClassToJoinName(TFClass tfClass, char *tfClassName);
 	void _RandomClass();
 };
