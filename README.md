@@ -13,6 +13,8 @@ Afterwards follow these steps to set the project up properly:
 - Open C/C++ -> General and add "lib" to Additional Include Directories
 - Open Linker and do the following:
 	- In General, add "lib/hlsdk/lib" to Additional Library Directories
-	- In Input, add the following to Additional Dependencies: "legacy_stdio_definitions.lib;tier0.lib;tier1.lib;tier2.lib;tier3.lib;vstdlib.lib;mathlib.lib;raytrace.lib"
+	- In Input, add the following to Additional Dependencies: "legacy_stdio_definitions.lib;tier0.lib;tier1.lib;tier2.lib;tier3.lib;vstdlib.lib;mathlib.lib"
 ```
 And everything should be ready to go!
+
+[Steam Group](https://steamcommunity.com/groups/pongbot)
