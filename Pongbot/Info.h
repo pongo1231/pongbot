@@ -7,5 +7,5 @@ namespace Info {
 	const char *URL = "None"; // ...yet
 	const char *License = "AGPLv3";
 	const char *Version = "v0.0.4";
-	const char *Date = "Lorem Ipsum"; // TODO
+	const char *Date = "16/12/2018";
 }
