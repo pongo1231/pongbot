@@ -35,7 +35,6 @@ private:
 	IPlayerInfo *_IIPlayerInfo;
 	BotTaskMaster *_BotTaskMaster;
 	BotVisibles *_BotVisibles;
-
 	TFClass _CurrentClass;
 
 	void _TFClassToJoinName(TFClass tfClass, char *tfClassName);

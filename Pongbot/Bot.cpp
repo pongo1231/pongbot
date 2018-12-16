@@ -46,16 +46,22 @@ void Bot::Think() {
 	if (_BotTaskMaster)
 		_BotTaskMaster->OnThink(&pressedButtons, movement, lookAt);
 
-	if (!movement)
-		movement = new Vector2D();
-	if (!lookAt)
-		lookAt = new QAngle();
+	// Smooth look at
+	QAngle currentLookAt = GetAngle();
+	if (lookAt && *lookAt != currentLookAt) {
+		QAngle newLookAt = currentLookAt + (*lookAt - currentLookAt) / 20;
+		delete lookAt;
+		lookAt = new QAngle(newLookAt);
+	}
 
 	CBotCmd cmd;
 	cmd.buttons = pressedButtons;
-	cmd.forwardmove = movement->x;
-	cmd.sidemove = movement->y;
-	cmd.viewangles = *lookAt;
+	if (movement) {
+		cmd.forwardmove = movement->x;
+		cmd.sidemove = movement->y;
+	}
+	if (lookAt)
+		cmd.viewangles = *lookAt;
 	_IIBotController->RunPlayerMove(&cmd);
 
 	delete movement;
