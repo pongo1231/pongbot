@@ -60,11 +60,11 @@ void BotManager::OnGameFrame() {
 }
 
 CON_COMMAND(pongbot_bot_add, "Adds a new bot") {
-	edict_t *botEdict = IIBotManager->CreateBot("Dummy");
+	edict_t *botEdict = IIBotManager->CreateBot("Pongbot");
 	if (!botEdict)
 		Util::Log("Error while creating bot!");
 	else
-		_Bots.push_back(new Bot(botEdict, "Dummy"));
+		_Bots.push_back(new Bot(botEdict, "Pongbot"));
 };
 
 CON_COMMAND(pongbot_bot_kickall, "Kicks all bots") {
