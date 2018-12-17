@@ -5,7 +5,7 @@
 #include <metamod/ISmmPlugin.h>
 #include <metamod/sourcehook.h>
 
-#define WAYPOINT_NODE_BEAM_TICK 2
+#define WAYPOINT_NODE_BEAM_TICK 1
 
 extern IVEngineServer *Engine;
 extern IPlayerInfoManager *IIPlayerInfoManager;
