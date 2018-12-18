@@ -73,12 +73,6 @@
     <ClCompile Include="WaypointManager.cpp">
       <Filter>src\Waypoint</Filter>
     </ClCompile>
-    <ClCompile Include="ConVarBase.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="GameFramable.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="WaypointFileManager.cpp">
       <Filter>src\Waypoint</Filter>
     </ClCompile>
@@ -136,15 +130,15 @@
     <ClCompile Include="EntityProvider.cpp">
       <Filter>src\TF2Util</Filter>
     </ClCompile>
+    <ClCompile Include="IConVarBase.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="IGameFramable.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Util.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="ConVarBase.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="GameFramable.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="Info.h">
@@ -239,6 +233,12 @@
     </ClInclude>
     <ClInclude Include="EntityProvider.h">
       <Filter>src\TF2Util</Filter>
+    </ClInclude>
+    <ClInclude Include="IConVarBase.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameFramable.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

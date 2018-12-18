@@ -2,7 +2,7 @@
 #include "Info.h"
 #include "BotManager.h"
 #include "WaypointManager.h"
-#include "GameFramable.h"
+#include "IGameFramable.h"
 #include "TraceHeaders.h"
 #include "EntityProvider.h"
 #include <hlsdk/game/shared/IEffects.h>
@@ -20,7 +20,7 @@ IServerGameClients *IIServerGameClients;
 IEffects *IIEffects;
 IEngineTrace *IIEngineTrace;
 
-std::vector<GameFramable*> _GameFramables;
+std::vector<IGameFramable*> _IGameFramables;
 
 PLUGIN_EXPOSE(Main, _Main);
 SH_DECL_HOOK1_void(IServerGameDLL, GameFrame, SH_NOATTRIB, 0, bool);
@@ -95,24 +95,24 @@ const char *Main::GetLogTag()
 	return Info::Name;
 }
 
-void Main::RegisterGameFramable(GameFramable *framable)
+void Main::RegisterIGameFramable(IGameFramable *framable)
 {
 	// Check if not already registered
-	for (GameFramable *registeredFramable : _GameFramables)
+	for (IGameFramable *registeredFramable : _IGameFramables)
 		if (registeredFramable == framable)
 			return;
-	_GameFramables.push_back(framable);
+	_IGameFramables.push_back(framable);
 }
 
-void Main::UnregisterGameFramable(GameFramable *framable)
+void Main::UnregisterIGameFramable(IGameFramable *framable)
 {
-	for (uint8_t i = 0; i < _GameFramables.size(); i++)
-		if (_GameFramables[i] == framable)
-			_GameFramables.erase(_GameFramables.begin() + i);
+	for (uint8_t i = 0; i < _IGameFramables.size(); i++)
+		if (_IGameFramables[i] == framable)
+			_IGameFramables.erase(_IGameFramables.begin() + i);
 }
 
 void Main::_OnGameFrame(bool simulation)
 {
-	for (GameFramable *framable : _GameFramables)
+	for (IGameFramable *framable : _IGameFramables)
 		framable->OnGameFrame();
 }

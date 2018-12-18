@@ -1,11 +1,11 @@
 #pragma once
-#include "ConVarBase.h"
-#include "GameFramable.h"
+#include "IConVarBase.h"
+#include "IGameFramable.h"
 #include <vector>
 
 class Bot;
 
-class BotManager : public ConVarBase, public GameFramable
+class BotManager : public IConVarBase, public IGameFramable
 {
 private:
 	BotManager();

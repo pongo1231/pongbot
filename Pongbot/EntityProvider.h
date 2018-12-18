@@ -1,9 +1,9 @@
 #pragma once
-#include "GameFramable.h"
+#include "IGameFramable.h"
 #include <hlsdk/public/edict.h>
 #include <vector>
 
-class EntityProvider : public GameFramable {
+class EntityProvider : public IGameFramable {
 private:
 	EntityProvider();
 

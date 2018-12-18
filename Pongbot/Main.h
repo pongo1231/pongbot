@@ -2,7 +2,7 @@
 #include <metamod/ISmmPlugin.h>
 #include <vector>
 
-class GameFramable;
+class IGameFramable;
 class IVEngineServer;
 class IBotManager;
 class IServerGameDLL;
@@ -26,11 +26,11 @@ public:
 	const char *GetVersion();
 	const char *GetDate();
 	const char *GetLogTag();
-	void RegisterGameFramable(GameFramable *framable);
-	void UnregisterGameFramable(GameFramable *framable);
+	void RegisterIGameFramable(IGameFramable *framable);
+	void UnregisterIGameFramable(IGameFramable *framable);
 
 private:
-	std::vector<GameFramable*> _GameFramables;
+	std::vector<IGameFramable*> _IGameFramables;
 
 	void _OnGameFrame(bool simulation);
 };

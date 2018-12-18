@@ -1,10 +1,10 @@
 #pragma once
 
-class GameFramable
+class IGameFramable
 {
 public:
-	GameFramable();
-	~GameFramable();
+	IGameFramable();
+	~IGameFramable();
 
 	virtual void OnGameFrame() = 0;
 };

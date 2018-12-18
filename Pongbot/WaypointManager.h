@@ -1,6 +1,6 @@
 #pragma once
-#include "ConVarBase.h"
-#include "GameFramable.h"
+#include "IConVarBase.h"
+#include "IGameFramable.h"
 #include <hlsdk/public/mathlib/mathlib.h>
 #include <hlsdk/public/edict.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
@@ -9,7 +9,7 @@
 
 class WaypointNode;
 
-class WaypointManager : public ConVarBase, public GameFramable
+class WaypointManager : public IConVarBase, public IGameFramable
 {
 private:
 	WaypointManager();

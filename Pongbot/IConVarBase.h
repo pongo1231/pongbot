@@ -1,10 +1,10 @@
 #pragma once
 #include <hlsdk/public/tier1/convar.h>
 
-class ConVarBase : public IConCommandBaseAccessor
+class IConVarBase : public IConCommandBaseAccessor
 {
 public:
-	ConVarBase();
+	IConVarBase();
 
 private:
 	bool RegisterConCommandBase(ConCommandBase *pVar);

@@ -1,11 +1,11 @@
 #pragma once
-#include "ConVarBase.h"
+#include "IConVarBase.h"
 #include <iostream>
 #include <vector>
 
 class WaypointNode;
 
-class WaypointFileManager : public ConVarBase
+class WaypointFileManager : public IConVarBase
 {
 private:
 	WaypointFileManager();

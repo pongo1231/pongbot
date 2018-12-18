@@ -162,10 +162,10 @@
     <ClCompile Include="BotTaskMasterSpy.cpp" />
     <ClCompile Include="BotVisibles.cpp" />
     <ClCompile Include="BotVisiblesProvider.cpp" />
-    <ClCompile Include="ConVarBase.cpp" />
+    <ClCompile Include="IConVarBase.cpp" />
     <ClCompile Include="EntityProvider.cpp" />
     <ClCompile Include="EntityData.cpp" />
-    <ClCompile Include="GameFramable.cpp" />
+    <ClCompile Include="IGameFramable.cpp" />
     <ClCompile Include="BotTaskCommon.cpp" />
     <ClCompile Include="TF2Util.cpp" />
     <ClCompile Include="TraceFilters.cpp" />
@@ -187,10 +187,10 @@
     <ClInclude Include="BotVisibles.h" />
     <ClInclude Include="BotVisiblesProvider.h" />
     <ClInclude Include="BotVisibleTarget.h" />
-    <ClInclude Include="ConVarBase.h" />
+    <ClInclude Include="IConVarBase.h" />
     <ClInclude Include="EntityProvider.h" />
     <ClInclude Include="EntityData.h" />
-    <ClInclude Include="GameFramable.h" />
+    <ClInclude Include="IGameFramable.h" />
     <ClInclude Include="BotTask.h" />
     <ClInclude Include="BotTaskCommon.h" />
     <ClInclude Include="TF2Util.h" />

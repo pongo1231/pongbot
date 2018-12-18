@@ -1,5 +1,5 @@
 #pragma once
-#include "GameFramable.h"
+#include "IGameFramable.h"
 #include "BotVisibleTarget.h"
 #include <hlsdk/public/edict.h>
 #include <vector>
