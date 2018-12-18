@@ -4,8 +4,9 @@
 #include "WaypointManager.h"
 #include "BotVisibles.h"
 #include "EdictsProvider.h"
+#include "EntityData.h"
 
-#define POS_STUCK_RADIUS 0.2
+#define POS_STUCK_RADIUS .2
 #define POS_STUCK_STARTPANICTIME 120 // Bot starts crouch jumping
 #define POS_STUCK_GIVEUPTIME 180 // Bot searches new path
 #define WAYPOINTNODE_TOUCHED_RADIUS 5

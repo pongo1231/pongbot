@@ -81,10 +81,7 @@ namespace Util {
 		while (viewAngle.y < -180)
 			viewAngle.y += 360;
 
-		viewAngle.x = _ClampAngle(viewAngle.x, true);
-		viewAngle.y = _ClampAngle(viewAngle.y, false);
-		viewAngle.z = 0;
-		return viewAngle;
+		return QAngle(_ClampAngle(viewAngle.x, true), _ClampAngle(viewAngle.y, false), 0);
 	}
 
 	static vec_t _ClampAngle(vec_t angle, bool isPitch) {

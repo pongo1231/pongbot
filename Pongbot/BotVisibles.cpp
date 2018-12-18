@@ -6,7 +6,7 @@
 #include "TFTeam.h"
 #include <metamod/ISmmAPI.h>
 
-#define BOT_VISIBILITY_TICK 0.2
+#define BOT_VISIBILITY_TICK .2
 
 extern IVEngineServer *Engine;
 extern IEngineTrace *IIEngineTrace;
@@ -69,7 +69,7 @@ void BotVisibles::OnThink() {
 			Vector earPos = Vector();
 			IIServerGameClients->ClientEarPosition(edict, &earPos);
 			if (!earPos.IsZero())
-				edictPos.z = (edictPos.z + earPos.z) / 2;
+				edictPos += Vector(0, 0, (edictPos.z + earPos.z) / 2);
 
 			// TODO: Target Priorities
 			_VisibleTargets.insert(_VisibleTargets.begin() + insertIndex,

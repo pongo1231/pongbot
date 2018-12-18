@@ -5,7 +5,8 @@
 #include <metamod/ISmmPlugin.h>
 #include <metamod/sourcehook.h>
 
-#define WAYPOINT_NODE_BEAM_TICK 1
+#define WAYPOINT_NODE_BEAM_TICK .5
+#define WAYPOINT_NODE_BEAM_DRAWDIST 500
 
 extern IVEngineServer *Engine;
 extern IPlayerInfoManager *IIPlayerInfoManager;
@@ -109,12 +110,44 @@ void WaypointManager::OnGameFrame() {
 		return;
 	waitTime = currentTime + WAYPOINT_NODE_BEAM_TICK;
 
-	for (WaypointNode *node : _WaypointNodes) {
-		Vector startPos = node->Pos;
-		Vector endPos = Vector(startPos.x, startPos.y, startPos.z + 75);
-		Util::DrawBeam(startPos, endPos, 0, 255, 0, WAYPOINT_NODE_BEAM_TICK);
-		for (WaypointNode *connectedNode : *node->GetConnectedNodes())
-			Util::DrawBeam(endPos, connectedNode->Pos, 255, 255, 255, WAYPOINT_NODE_BEAM_TICK);
+	edict_t *drawPlayerEdict = Engine->PEntityOfEntIndex(1);
+	IPlayerInfo *drawPlayerInfo = IIPlayerInfoManager->GetPlayerInfo(drawPlayerEdict);
+	Vector playerPos = drawPlayerInfo->GetAbsOrigin();
+	if (drawPlayerEdict && drawPlayerInfo && drawPlayerInfo->IsPlayer()) {
+		std::vector<WaypointNode*> drawnNodes;
+		for (WaypointNode *node : _WaypointNodes) {
+			bool alreadyDrawn = false;
+			for (WaypointNode *drawnNode : drawnNodes)
+				if (drawnNode == node) {
+					alreadyDrawn = true;
+					break;
+				}
+			if (!alreadyDrawn) {
+				Vector startPos = node->Pos;
+				if (startPos.DistTo(playerPos) <= WAYPOINT_NODE_BEAM_DRAWDIST) {
+					Vector endPos = startPos + Vector(0, 0, 75);
+					Util::DrawBeam(startPos, endPos, 0, 255, 0, WAYPOINT_NODE_BEAM_TICK);
+					for (WaypointNode *connectedNode : *node->GetConnectedNodes()) {
+						Util::DrawBeam(endPos, connectedNode->Pos, 255, 255, 255, WAYPOINT_NODE_BEAM_TICK);
+
+						alreadyDrawn = false;
+						for (WaypointNode *drawnNode : drawnNodes)
+							if (drawnNode == connectedNode) {
+								alreadyDrawn = true;
+								break;
+							}
+						if (!alreadyDrawn) {
+							startPos = connectedNode->Pos;
+							Util::DrawBeam(startPos, startPos + Vector(0, 0, 75), 0, 255, 0, WAYPOINT_NODE_BEAM_TICK);
+
+							drawnNodes.push_back(node);
+						}
+					}
+
+					drawnNodes.push_back(node);
+				}
+			}
+		}
 	}
 }
 
