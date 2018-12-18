@@ -1,6 +1,6 @@
 #include "BotVisiblesProvider.h"
 #include "TFTeam.h"
-#include "EdictsProvider.h"
+#include "EntityProvider.h"
 #include "Util.h"
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
@@ -14,23 +14,28 @@ BotVisiblesProvider *_BotVisiblesProvider;
 
 std::vector<edict_t*> _VisibleEdicts;
 
-BotVisiblesProvider::BotVisiblesProvider() {}
+BotVisiblesProvider::BotVisiblesProvider()
+{}
 
-void BotVisiblesProvider::Init() {
+void BotVisiblesProvider::Init()
+{
 	Assert(!_BotVisiblesProvider);
 	_BotVisiblesProvider = new BotVisiblesProvider();
 }
 
-void BotVisiblesProvider::Destroy() {
+void BotVisiblesProvider::Destroy()
+{
 	Assert(_BotVisiblesProvider);
 	delete _BotVisiblesProvider;
 }
 
-std::vector<edict_t*> BotVisiblesProvider::GetVisibleEdicts() const {
+std::vector<edict_t*> BotVisiblesProvider::GetVisibleEdicts() const
+{
 	return _VisibleEdicts;
 }
 
-void BotVisiblesProvider::OnGameFrame() {
+void BotVisiblesProvider::OnGameFrame()
+{
 	static float tickTime;
 	float currentTime = Engine->Time();
 	if (tickTime > currentTime)
@@ -38,12 +43,13 @@ void BotVisiblesProvider::OnGameFrame() {
 	tickTime = currentTime + VISIBLES_PROVIDER_TICK;
 
 	_VisibleEdicts.clear();
-	for (edict_t *edict : _EdictsProvider->GetEdicts())
+	for (edict_t *edict : _EntityProvider->GetEdicts())
 		if (_IsEdictRelevant(edict))
 			_VisibleEdicts.push_back(edict);
 }
 
-bool BotVisiblesProvider::_IsEdictRelevant(edict_t *edict) {
+bool BotVisiblesProvider::_IsEdictRelevant(edict_t *edict)
+{
 	// TODO: more filters
 	const char *className = edict->GetClassName();
 	return (strcmp(className, "player") == 0 && !IIPlayerInfoManager->GetPlayerInfo(edict)->IsDead());

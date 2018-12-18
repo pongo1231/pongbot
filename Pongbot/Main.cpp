@@ -4,7 +4,7 @@
 #include "WaypointManager.h"
 #include "GameFramable.h"
 #include "TraceHeaders.h"
-#include "EdictsProvider.h"
+#include "EntityProvider.h"
 #include <hlsdk/game/shared/IEffects.h>
 #include <hlsdk/public/eiface.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
@@ -25,7 +25,8 @@ std::vector<GameFramable*> _GameFramables;
 PLUGIN_EXPOSE(Main, _Main);
 SH_DECL_HOOK1_void(IServerGameDLL, GameFrame, SH_NOATTRIB, 0, bool);
 
-bool Main::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bool late) {
+bool Main::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bool late)
+{
 	PLUGIN_SAVEVARS();
 	GET_V_IFACE_CURRENT(GetEngineFactory, Engine, IVEngineServer, INTERFACEVERSION_VENGINESERVER);
 	GET_V_IFACE_CURRENT(GetServerFactory, IIBotManager, IBotManager, INTERFACEVERSION_PLAYERBOTMANAGER);
@@ -40,52 +41,62 @@ bool Main::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bool lat
 
 	BotManager::Init();
 	WaypointManager::Init();
-	EdictsProvider::Init();
+	EntityProvider::Init();
 	return true;
 }
 
-bool Main::Unload(char *error, size_t len) {
+bool Main::Unload(char *error, size_t len)
+{
 	BotManager::Destroy();
 	WaypointManager::Destroy();
-	EdictsProvider::Destroy();
+	EntityProvider::Destroy();
 
 	SH_REMOVE_HOOK(IServerGameDLL, GameFrame, Server, SH_MEMBER(this, &Main::_OnGameFrame), true);
 	return true;
 }
 
-const char *Main::GetAuthor() {
+const char *Main::GetAuthor()
+{
 	return Info::Author;
 }
 
-const char *Main::GetName() {
+const char *Main::GetName()
+{
 	return Info::Name;
 }
 
-const char *Main::GetDescription() {
+const char *Main::GetDescription()
+{
 	return Info::Description;
 }
 
-const char *Main::GetURL() {
+const char *Main::GetURL()
+{
 	return Info::URL;
 }
 
-const char *Main::GetLicense() {
+const char *Main::GetLicense()
+{
 	return Info::License;
 }
 
-const char *Main::GetVersion() {
+const char *Main::GetVersion()
+{
 	return Info::Version;
 }
 
-const char *Main::GetDate() {
+const char *Main::GetDate()
+{
 	return Info::Date;
 }
 
-const char *Main::GetLogTag() {
+const char *Main::GetLogTag()
+{
 	return Info::Name;
 }
 
-void Main::RegisterGameFramable(GameFramable *framable) {
+void Main::RegisterGameFramable(GameFramable *framable)
+{
 	// Check if not already registered
 	for (GameFramable *registeredFramable : _GameFramables)
 		if (registeredFramable == framable)
@@ -93,13 +104,15 @@ void Main::RegisterGameFramable(GameFramable *framable) {
 	_GameFramables.push_back(framable);
 }
 
-void Main::UnregisterGameFramable(GameFramable *framable) {
+void Main::UnregisterGameFramable(GameFramable *framable)
+{
 	for (uint8_t i = 0; i < _GameFramables.size(); i++)
 		if (_GameFramables[i] == framable)
 			_GameFramables.erase(_GameFramables.begin() + i);
 }
 
-void Main::_OnGameFrame(bool simulation) {
+void Main::_OnGameFrame(bool simulation)
+{
 	for (GameFramable *framable : _GameFramables)
 		framable->OnGameFrame();
 }

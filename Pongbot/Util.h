@@ -7,7 +7,8 @@ class IPlayerInfo;
 struct edict_t;
 class Bot;
 
-namespace Util {
+namespace Util
+{
 	int RandomInt(int min, int max);
 	void Log(const char *text, ...);
 	float DistanceToNoZ(Vector a, Vector b);

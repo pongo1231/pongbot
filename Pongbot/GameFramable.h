@@ -1,6 +1,7 @@
 #pragma once
 
-class GameFramable {
+class GameFramable
+{
 public:
 	GameFramable();
 	~GameFramable();

@@ -23,9 +23,11 @@ char _CurrentMapName[32];
 SH_DECL_HOOK6(IServerGameDLL, LevelInit, SH_NOATTRIB, 0, bool, char const *, char const *,
 	char const *, char const *, bool, bool);
 
-WaypointFileManager::WaypointFileManager() {}
+WaypointFileManager::WaypointFileManager()
+{}
 
-void WaypointFileManager::Init(std::vector<WaypointNode*> *waypointNodes) {
+void WaypointFileManager::Init(std::vector<WaypointNode*> *waypointNodes)
+{
 	Assert(!_WaypointFileManager);
 
 	_WaypointNodes = waypointNodes;
@@ -36,7 +38,8 @@ void WaypointFileManager::Init(std::vector<WaypointNode*> *waypointNodes) {
 		SH_MEMBER(_WaypointFileManager, &WaypointFileManager::_OnLevelInit), true);
 }
 
-void WaypointFileManager::Destroy() {
+void WaypointFileManager::Destroy()
+{
 	Assert(_WaypointFileManager);
 
 	SH_REMOVE_HOOK(IServerGameDLL, LevelInit, Server,
@@ -45,9 +48,11 @@ void WaypointFileManager::Destroy() {
 	delete _WaypointFileManager;
 }
 
-void WaypointFileManager::Read() {
+void WaypointFileManager::Read()
+{
 	char fileName[64];
-	if (_CheckDir(fileName)) {
+	if (_CheckDir(fileName))
+	{
 		_WaypointNodes->clear();
 
 		std::ifstream file(fileName);
@@ -56,7 +61,8 @@ void WaypointFileManager::Read() {
 		// Fill with -1 to not confuse with node id 0 instead
 		memset(connectedNodeIds, -1, sizeof(connectedNodeIds));
 		uint8_t i = 0;
-		while (file.getline(fileBuffer, sizeof(fileBuffer))) {
+		while (file.getline(fileBuffer, sizeof(fileBuffer)))
+		{
 			char lineBuffer[256][16];
 			char *context = nullptr;
 			uint8_t j = 0;
@@ -69,7 +75,8 @@ void WaypointFileManager::Read() {
 				Vector(atof(lineBuffer[1]), atof(lineBuffer[2]), atof(lineBuffer[3]))));
 
 			// Store connected node ids for reference
-			for (uint8_t k = 4; k < 256; k++) {
+			for (uint8_t k = 4; k < 256; k++)
+			{
 				char *content = lineBuffer[k];
 				// End of file / line
 				if (strcmp(content, "\0") == 0 || strcmp(content, "end") == 0)
@@ -96,12 +103,15 @@ void WaypointFileManager::Read() {
 	}
 }
 
-void WaypointFileManager::Write() {
+void WaypointFileManager::Write()
+{
 	char fileName[64];
-	if (_CheckDir(fileName)) {
+	if (_CheckDir(fileName))
+	{
 		std::ofstream file(fileName);
 		// Write all nodes to file
-		for (WaypointNode *node : *_WaypointNodes) {
+		for (WaypointNode *node : *_WaypointNodes)
+		{
 			Vector pos = node->Pos;
 			file << node->Id << ":" << pos.x << ":" << pos.y << ":"
 				<< pos.z;
@@ -120,10 +130,12 @@ void WaypointFileManager::Write() {
 bool WaypointFileManager::_CheckDir(char *fileName) {
 	struct stat info;
 	stat(FILE_DIR, &info);
-	if (~info.st_mode & S_IFDIR) {
+	if (~info.st_mode & S_IFDIR)
+	{
 		// Create dir
 		bool created = CreateDirectory(FILE_DIR, nullptr);
-		if (!created) {
+		if (!created)
+		{
 			Util::Log("Error while creating directory!");
 			return false;
 		}
@@ -136,16 +148,19 @@ bool WaypointFileManager::_CheckDir(char *fileName) {
 }
 
 bool WaypointFileManager::_OnLevelInit(const char *pMapName, char const *pMapEntities,
-	char const *pOldLevel, char const *pLandmarkName, bool loadGame, bool background) {
+	char const *pOldLevel, char const *pLandmarkName, bool loadGame, bool background)
+{
 	strcpy(_CurrentMapName, pMapName);
 	_WaypointFileManager->Read();
 	return true;
 }
 
-CON_COMMAND(pongbot_waypoint_save, "Saves current waypoint to file") {
+CON_COMMAND(pongbot_waypoint_save, "Saves current waypoint to file")
+{
 	_WaypointFileManager->Write();
 }
 
-CON_COMMAND(pongbot_waypoint_load, "Loads waypoint from file") {
+CON_COMMAND(pongbot_waypoint_load, "Loads waypoint from file")
+{
 	_WaypointFileManager->Read();
 }

@@ -3,9 +3,9 @@
 #include <hlsdk/public/edict.h>
 #include <vector>
 
-class EdictsProvider : public GameFramable {
+class EntityProvider : public GameFramable {
 private:
-	EdictsProvider();
+	EntityProvider();
 
 public:
 	static void Init();
@@ -20,4 +20,4 @@ private:
 	void OnGameFrame();
 };
 
-extern EdictsProvider *_EdictsProvider;
+extern EntityProvider *_EntityProvider;

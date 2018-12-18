@@ -5,7 +5,8 @@
 
 class WaypointNode;
 
-class WaypointFileManager : public ConVarBase {
+class WaypointFileManager : public ConVarBase
+{
 private:
 	WaypointFileManager();
 

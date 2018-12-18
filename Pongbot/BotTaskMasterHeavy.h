@@ -1,7 +1,8 @@
 #pragma once
 #include "BotTaskMaster.h"
 
-class BotTaskMasterHeavy : public BotTaskMaster {
+class BotTaskMasterHeavy : public BotTaskMaster
+{
 public:
 	BotTaskMasterHeavy(Bot *bot);
 

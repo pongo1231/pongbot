@@ -3,7 +3,8 @@
 #include <hlsdk/public/edict.h>
 #include <vector>
 
-class BotVisiblesProvider : public GameFramable {
+class BotVisiblesProvider : public GameFramable
+{
 private:
 	BotVisiblesProvider();
 

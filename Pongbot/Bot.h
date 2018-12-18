@@ -9,7 +9,8 @@ class WaypointNode;
 enum TFClass;
 enum TFTeam;
 
-class Bot {
+class Bot
+{
 public:
 	Bot(edict_t *edict, const char *name);
 	~Bot();

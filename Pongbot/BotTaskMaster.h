@@ -4,7 +4,8 @@
 #include "BotTaskCollection.h"
 #include <hlsdk/public/mathlib/mathlib.h>
 
-class BotTaskMaster {
+class BotTaskMaster
+{
 public:
 	BotTaskMaster(Bot *bot);
 	~BotTaskMaster();

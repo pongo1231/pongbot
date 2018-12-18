@@ -1,7 +1,8 @@
 #pragma once
 #include "BotTaskMaster.h"
 
-class BotTaskMasterPyro : public BotTaskMaster {
+class BotTaskMasterPyro : public BotTaskMaster
+{
 public:
 	BotTaskMasterPyro(Bot *bot);
 

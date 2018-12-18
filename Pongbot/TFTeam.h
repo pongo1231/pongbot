@@ -1,6 +1,7 @@
 #pragma once
 
-enum TFTeam {
+enum TFTeam
+{
 	SPECTATOR = 1,
 	RED,
 	BLUE

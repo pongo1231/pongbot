@@ -5,7 +5,8 @@
 
 class Bot;
 
-class BotManager : public ConVarBase, public GameFramable {
+class BotManager : public ConVarBase, public GameFramable
+{
 private:
 	BotManager();
 

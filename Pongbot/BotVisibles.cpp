@@ -18,13 +18,16 @@ static bool _DrawDebugBeams = false;
 Bot *_MBot;
 std::vector<BotVisibleTarget*> _VisibleTargets;
 
-BotVisibles::BotVisibles(Bot *bot) : _MBot(bot) {}
+BotVisibles::BotVisibles(Bot *bot) : _MBot(bot)
+{}
 
-std::vector<BotVisibleTarget*> BotVisibles::GetVisibleTargets() const {
+std::vector<BotVisibleTarget*> BotVisibles::GetVisibleTargets() const
+{
 	return _VisibleTargets;
 }
 
-void BotVisibles::OnThink() {
+void BotVisibles::OnThink()
+{
 	if (_MBot->IsDead())
 		return;
 
@@ -41,7 +44,8 @@ void BotVisibles::OnThink() {
 	Vector botPos = _MBot->GetEarPos();
 	edict_t *botEdict = _MBot->GetEdict();
 	IHandleEntity *botPassEntity = botEdict->GetIServerEntity();
-	for (edict_t *edict : _BotVisiblesProvider->GetVisibleEdicts()) {
+	for (edict_t *edict : _BotVisiblesProvider->GetVisibleEdicts())
+	{
 		if (edict == botEdict)
 			continue;
 
@@ -54,12 +58,15 @@ void BotVisibles::OnThink() {
 			edict->GetIServerEntity(), COLLISION_GROUP_NONE), &traceResult);
 		bool traceHit = traceResult.DidHit();
 
-		if (!traceHit) {
+		if (!traceHit)
+		{
 			// Insert according to distance bot <-> edict
 			uint8_t insertIndex = 0;
 			vec_t edictBotDistance = edictPos.DistTo(botPos);
-			for (uint8_t i = 0; i < _VisibleTargets.size(); i++) {
-				if (_VisibleTargets[i]->Pos.DistTo(botPos) >= edictBotDistance) {
+			for (uint8_t i = 0; i < _VisibleTargets.size(); i++)
+			{
+				if (_VisibleTargets[i]->Pos.DistTo(botPos) >= edictBotDistance)
+				{
 					insertIndex = i;
 					break;
 				}
@@ -81,7 +88,8 @@ void BotVisibles::OnThink() {
 	}
 }
 
-CON_COMMAND(pongbot_bot_visibility_debug, "Toggle debug visibility raytracing beams") {
+CON_COMMAND(pongbot_bot_visibility_debug, "Toggle debug visibility raytracing beams")
+{
 	_DrawDebugBeams = !_DrawDebugBeams;
 	if (_DrawDebugBeams)
 		Util::Log("Enabled debug visibility raytracing beams");

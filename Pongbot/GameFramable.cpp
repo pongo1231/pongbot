@@ -3,10 +3,12 @@
 
 extern Main _Main;
 
-GameFramable::GameFramable() {
+GameFramable::GameFramable()
+{
 	_Main.RegisterGameFramable(this);
 }
 
-GameFramable::~GameFramable() {
+GameFramable::~GameFramable()
+{
 	_Main.UnregisterGameFramable(this);
 }

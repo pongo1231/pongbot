@@ -124,9 +124,6 @@
     <ClCompile Include="TraceFilters.cpp">
       <Filter>src\TF2Util</Filter>
     </ClCompile>
-    <ClCompile Include="EdictsProvider.cpp">
-      <Filter>src\TF2Util</Filter>
-    </ClCompile>
     <ClCompile Include="EntityData.cpp">
       <Filter>src\TF2Util</Filter>
     </ClCompile>
@@ -135,6 +132,9 @@
     </ClCompile>
     <ClCompile Include="BotTaskMaster.cpp">
       <Filter>src\Bot\Task\Tasks\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityProvider.cpp">
+      <Filter>src\TF2Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -231,14 +231,14 @@
     <ClInclude Include="BotVisibleTarget.h">
       <Filter>src\Bot\Visibles</Filter>
     </ClInclude>
-    <ClInclude Include="EdictsProvider.h">
-      <Filter>src\TF2Util</Filter>
-    </ClInclude>
     <ClInclude Include="BotTaskCommon.h">
       <Filter>src\Bot\Task\Tasks\Common</Filter>
     </ClInclude>
     <ClInclude Include="BotTaskMaster.h">
       <Filter>src\Bot\Task\Tasks\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityProvider.h">
+      <Filter>src\TF2Util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,7 +6,8 @@
 
 class Bot;
 
-class BotVisibles {
+class BotVisibles
+{
 public:
 	BotVisibles(Bot *bot);
 

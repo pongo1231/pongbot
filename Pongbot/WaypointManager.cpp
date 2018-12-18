@@ -18,9 +18,11 @@ static WaypointNode *_SelectedNode;
 static bool _NodeBiConnect;
 static bool _DrawBeams;
 
-WaypointManager::WaypointManager() {}
+WaypointManager::WaypointManager()
+{}
 
-void WaypointManager::Init() {
+void WaypointManager::Init()
+{
 	Assert(!_WaypointManager);
 
 	_WaypointNodes.clear();
@@ -33,12 +35,14 @@ void WaypointManager::Init() {
 	_WaypointManager = new WaypointManager();
 }
 
-void WaypointManager::Destroy() {
+void WaypointManager::Destroy()
+{
 	Assert(_WaypointManager);
 
 	WaypointFileManager::Destroy();
 
-	for (uint8_t i = 0; i < _WaypointNodes.size(); i++) {
+	for (uint8_t i = 0; i < _WaypointNodes.size(); i++)
+	{
 		delete _WaypointNodes[i];
 		_WaypointNodes.erase(_WaypointNodes.begin() + i);
 	}
@@ -46,21 +50,25 @@ void WaypointManager::Destroy() {
 	delete _WaypointManager;
 }
 
-WaypointNode *WaypointManager::GetRandomWaypointNode() const {
+WaypointNode *WaypointManager::GetRandomWaypointNode() const
+{
 	if (_WaypointNodes.empty())
 		return nullptr;
 
 	return _WaypointNodes[Util::RandomInt(0, _WaypointNodes.size() - 1)];
 }
 
-WaypointNode *WaypointManager::GetClosestWaypointNode(Vector pos) const {
+WaypointNode *WaypointManager::GetClosestWaypointNode(Vector pos) const
+{
 	WaypointNode *closestNode = nullptr;
 	float closestDistance = 9999; // Just something insanely high
 
-	for (WaypointNode *node : _WaypointNodes) {
+	for (WaypointNode *node : _WaypointNodes)
+	{
 		float distance = node->Pos.DistTo(pos);
 
-		if (closestDistance > distance) {
+		if (closestDistance > distance)
+		{
 			closestNode = node;
 			closestDistance = distance;
 		}
@@ -71,10 +79,12 @@ WaypointNode *WaypointManager::GetClosestWaypointNode(Vector pos) const {
 
 bool WaypointManager::GetWaypointNodeStackToTargetNode(WaypointNode *startNode,
 	WaypointNode *targetNode, std::stack<WaypointNode*> *waypointNodesStack,
-	std::vector<WaypointNode*> *_alreadyTraversedWaypointNodesStack) {
+	std::vector<WaypointNode*> *_alreadyTraversedWaypointNodesStack)
+{
 	if (!startNode || !targetNode || !waypointNodesStack)
 		return false;
-	if (startNode == targetNode) {
+	if (startNode == targetNode)
+	{
 		waypointNodesStack->push(startNode);
 		return true;
 	}
@@ -89,7 +99,8 @@ bool WaypointManager::GetWaypointNodeStackToTargetNode(WaypointNode *startNode,
 
 	for (WaypointNode *node : *startNode->GetConnectedNodes())
 		if (GetWaypointNodeStackToTargetNode(node, targetNode, waypointNodesStack,
-			_alreadyTraversedWaypointNodesStack)) {
+			_alreadyTraversedWaypointNodesStack))
+		{
 			waypointNodesStack->push(startNode);
 
 			return true;
@@ -100,7 +111,8 @@ bool WaypointManager::GetWaypointNodeStackToTargetNode(WaypointNode *startNode,
 
 /// Debug
 /// Draw beams for each waypoint & their connections
-void WaypointManager::OnGameFrame() {
+void WaypointManager::OnGameFrame()
+{
 	if (!_DrawBeams)
 		return;
 
@@ -113,30 +125,38 @@ void WaypointManager::OnGameFrame() {
 	edict_t *drawPlayerEdict = Engine->PEntityOfEntIndex(1);
 	IPlayerInfo *drawPlayerInfo = IIPlayerInfoManager->GetPlayerInfo(drawPlayerEdict);
 	Vector playerPos = drawPlayerInfo->GetAbsOrigin();
-	if (drawPlayerEdict && drawPlayerInfo && drawPlayerInfo->IsPlayer()) {
+	if (drawPlayerEdict && drawPlayerInfo && drawPlayerInfo->IsPlayer())
+	{
 		std::vector<WaypointNode*> drawnNodes;
-		for (WaypointNode *node : _WaypointNodes) {
+		for (WaypointNode *node : _WaypointNodes)
+		{
 			bool alreadyDrawn = false;
 			for (WaypointNode *drawnNode : drawnNodes)
-				if (drawnNode == node) {
+				if (drawnNode == node)
+				{
 					alreadyDrawn = true;
 					break;
 				}
-			if (!alreadyDrawn) {
+			if (!alreadyDrawn)
+			{
 				Vector startPos = node->Pos;
-				if (startPos.DistTo(playerPos) <= WAYPOINT_NODE_BEAM_DRAWDIST) {
+				if (startPos.DistTo(playerPos) <= WAYPOINT_NODE_BEAM_DRAWDIST)
+				{
 					Vector endPos = startPos + Vector(0, 0, 75);
 					Util::DrawBeam(startPos, endPos, 0, 255, 0, WAYPOINT_NODE_BEAM_TICK);
-					for (WaypointNode *connectedNode : *node->GetConnectedNodes()) {
+					for (WaypointNode *connectedNode : *node->GetConnectedNodes())
+					{
 						Util::DrawBeam(endPos, connectedNode->Pos, 255, 255, 255, WAYPOINT_NODE_BEAM_TICK);
 
 						alreadyDrawn = false;
 						for (WaypointNode *drawnNode : drawnNodes)
-							if (drawnNode == connectedNode) {
+							if (drawnNode == connectedNode)
+							{
 								alreadyDrawn = true;
 								break;
 							}
-						if (!alreadyDrawn) {
+						if (!alreadyDrawn)
+						{
 							startPos = connectedNode->Pos;
 							Util::DrawBeam(startPos, startPos + Vector(0, 0, 75), 0, 255, 0, WAYPOINT_NODE_BEAM_TICK);
 
@@ -151,23 +171,28 @@ void WaypointManager::OnGameFrame() {
 	}
 }
 
-static IPlayerInfo *_CheckCommandTargetPlayerExists() {
+static IPlayerInfo *_CheckCommandTargetPlayerExists()
+{
 	edict_t *playerEdict = Engine->PEntityOfEntIndex(1);
 	IPlayerInfo *playerInfo = IIPlayerInfoManager->GetPlayerInfo(playerEdict);
-	if (!playerEdict || !playerInfo || !playerInfo->IsPlayer()) {
+	if (!playerEdict || !playerInfo || !playerInfo->IsPlayer())
+	{
 		Util::Log("No player found!");
 		return nullptr;
 	}
 	return playerInfo;
 }
 
-CON_COMMAND(pongbot_waypoint_createnode, "Creates a waypoint node wherever the first player is standing") {
+CON_COMMAND(pongbot_waypoint_createnode, "Creates a waypoint node wherever the first player is standing")
+{
 	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
-	if (playerInfo) {
+	if (playerInfo)
+	{
 		uint8_t id = _WaypointNodes.size();
 		if (id == 256) // Above max size of 8 bit (255)
 			Util::Log("Max amount of waypoint nodes reached (255)!");
-		else {
+		else
+		{
 			_WaypointNodes.push_back(new WaypointNode(id, playerInfo->GetAbsOrigin()));
 
 			Util::Log("Created waypoint node #%d", id);
@@ -175,9 +200,11 @@ CON_COMMAND(pongbot_waypoint_createnode, "Creates a waypoint node wherever the f
 	}
 }
 
-CON_COMMAND(pongbot_waypoint_connectnode1, "Selects nearest waypoint node for connection with another node") {
+CON_COMMAND(pongbot_waypoint_connectnode1, "Selects nearest waypoint node for connection with another node")
+{
 	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
-	if (playerInfo) {
+	if (playerInfo)
+	{
 		_SelectedNode = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
 		if (!_SelectedNode)
 			Util::Log("No waypoint node found!");
@@ -186,22 +213,27 @@ CON_COMMAND(pongbot_waypoint_connectnode1, "Selects nearest waypoint node for co
 	}
 }
 
-CON_COMMAND(pongbot_waypoint_connectnode2, "Connects previously selected waypoint node with nearest node") {
+CON_COMMAND(pongbot_waypoint_connectnode2, "Connects previously selected waypoint node with nearest node")
+{
 	if (!_SelectedNode)
 		Util::Log("Select a node via pongbot_connectnode1 first");
-	else {
+	else
+	{
 		IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
-		if (playerInfo) {
+		if (playerInfo)
+		{
 			WaypointNode *currentNode = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
 			if (_SelectedNode == currentNode)
 				Util::Log("Can't connect waypoint node to itself!");
-			else {
+			else
+			{
 				int selectedNodeID = _SelectedNode->Id;
 				int currentNodeID = currentNode->Id;
 
 				if (!_SelectedNode->ConnectToNode(currentNode, _NodeBiConnect))
 					Util::Log("Node #%d and #%d were already connected!", selectedNodeID, currentNodeID);
-				else {
+				else
+				{
 					Util::Log("Connected waypoint node #%d with node #%d", selectedNodeID, currentNodeID);
 					_SelectedNode = nullptr;
 				}
@@ -210,7 +242,8 @@ CON_COMMAND(pongbot_waypoint_connectnode2, "Connects previously selected waypoin
 	}
 }
 
-CON_COMMAND(pongbot_waypoint_biconnect, "Toggles automatic node bidirectional connections") {
+CON_COMMAND(pongbot_waypoint_biconnect, "Toggles automatic node bidirectional connections")
+{
 	_NodeBiConnect = !_NodeBiConnect;
 	if (_NodeBiConnect)
 		Util::Log("Bidirectional node connections enabled!");
@@ -218,20 +251,24 @@ CON_COMMAND(pongbot_waypoint_biconnect, "Toggles automatic node bidirectional co
 		Util::Log("Bidirectional node connections disabled!");
 }
 
-CON_COMMAND(pongbot_waypoint_clearnodes, "Removes all waypoint nodes") {
+CON_COMMAND(pongbot_waypoint_clearnodes, "Removes all waypoint nodes")
+{
 	for (WaypointNode *node : _WaypointNodes)
 		delete node;
 	_WaypointNodes.clear();
 	Util::Log("All waypoint nodes cleared!");
 }
 
-CON_COMMAND(pongbot_waypoint_clearnode, "Removes the nearest node") {
+CON_COMMAND(pongbot_waypoint_clearnode, "Removes the nearest node")
+{
 	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
-	if (playerInfo) {
+	if (playerInfo)
+	{
 		WaypointNode *node = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
 		if (!node)
 			Util::Log("No waypoint node found!");
-		else {
+		else
+		{
 			// Delete from list first before deleting completely
 			for (uint8_t i = 0; i < _WaypointNodes.size(); i++)
 				if (_WaypointNodes[i] == node) 
@@ -243,13 +280,16 @@ CON_COMMAND(pongbot_waypoint_clearnode, "Removes the nearest node") {
 	}
 }
 
-CON_COMMAND(pongbot_waypoint_clearnodeto, "Clears all connections to other nodes from node") {
+CON_COMMAND(pongbot_waypoint_clearnodeto, "Clears all connections to other nodes from node")
+{
 	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
-	if (playerInfo) {
+	if (playerInfo)
+	{
 		WaypointNode *node = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
 		if (!node)
 			Util::Log("No waypoint node found!");
-		else {
+		else
+		{
 			std::vector<WaypointNode*> *connectedNodes = node->GetConnectedNodes();
 			for (uint8_t i = 0; i < connectedNodes->size(); i++)
 				connectedNodes->erase(connectedNodes->begin() + i);
@@ -259,7 +299,8 @@ CON_COMMAND(pongbot_waypoint_clearnodeto, "Clears all connections to other nodes
 	}
 }
 
-CON_COMMAND(pongbot_waypoint_debug, "Toggle beams to visualize nodes & their connections") {
+CON_COMMAND(pongbot_waypoint_debug, "Toggle beams to visualize nodes & their connections")
+{
 	_DrawBeams = !_DrawBeams;
 	if (_DrawBeams)
 		Util::Log("Waypoint Debugging enabled!");

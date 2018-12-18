@@ -1,7 +1,8 @@
 #pragma once
 #include <hlsdk/public/tier1/convar.h>
 
-class ConVarBase : public IConCommandBaseAccessor {
+class ConVarBase : public IConCommandBaseAccessor
+{
 public:
 	ConVarBase();
 

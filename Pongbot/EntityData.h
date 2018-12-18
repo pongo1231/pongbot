@@ -3,7 +3,8 @@
 #include <hlsdk/public/server_class.h>
 
 // Thanks to Cheeseh (RCBot2)
-enum EntityData {
+enum EntityData
+{
 	UNDEF = -1,
 	TF2SCORE = 0,
 	ENTITY_FLAGS,
@@ -153,6 +154,7 @@ enum EntityData {
 	GET_PROPDATA_MAX
 };
 
-namespace EntityDataFetcher {
+namespace EntityDataFetcher
+{
 	SendProp *FetchFromEdict(edict_t *edict, int data);
 }

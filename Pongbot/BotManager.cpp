@@ -14,9 +14,11 @@ BotManager *_BotManager;
 
 static std::vector<Bot*> _Bots;
 
-BotManager::BotManager() {}
+BotManager::BotManager()
+{}
 
-void BotManager::Init() {
+void BotManager::Init()
+{
 	Assert(!_BotManager);
 
 	_Bots.clear();
@@ -26,7 +28,8 @@ void BotManager::Init() {
 	_BotManager = new BotManager();
 }
 
-void BotManager::Destroy() {
+void BotManager::Destroy()
+{
 	Assert(_BotManager);
 
 	BotVisiblesProvider::Destroy();
@@ -36,21 +39,26 @@ void BotManager::Destroy() {
 	delete _BotManager;
 }
 
-void BotManager::KickBot(Bot *bot) {
+void BotManager::KickBot(Bot *bot)
+{
 	char command[64];
 	sprintf_s(command, "kickid %d Bot Removed\n", Engine->GetPlayerUserId(bot->GetEdict()));
 	Engine->ServerCommand(command);
 }
 
-void BotManager::KickAllBots() {
+void BotManager::KickAllBots()
+{
 	for (Bot *bot : _Bots)
 		KickBot(bot);
 }
 
-void BotManager::OnGameFrame() {
-	for (uint8_t i = 0; i < _Bots.size(); i++) {
+void BotManager::OnGameFrame()
+{
+	for (uint8_t i = 0; i < _Bots.size(); i++)
+	{
 		Bot *bot = _Bots[i];
-		if (!bot->Exists()) {
+		if (!bot->Exists())
+		{
 			delete bot;
 			_Bots.erase(_Bots.begin() + i);
 		}
@@ -59,7 +67,8 @@ void BotManager::OnGameFrame() {
 	}
 }
 
-CON_COMMAND(pongbot_bot_add, "Adds a new bot") {
+CON_COMMAND(pongbot_bot_add, "Adds a new bot")
+{
 	edict_t *botEdict = IIBotManager->CreateBot("Pongbot");
 	if (!botEdict)
 		Util::Log("Error while creating bot!");
@@ -67,6 +76,7 @@ CON_COMMAND(pongbot_bot_add, "Adds a new bot") {
 		_Bots.push_back(new Bot(botEdict, "Pongbot"));
 };
 
-CON_COMMAND(pongbot_bot_kickall, "Kicks all bots") {
+CON_COMMAND(pongbot_bot_kickall, "Kicks all bots")
+{
 	_BotManager->KickAllBots();
 };

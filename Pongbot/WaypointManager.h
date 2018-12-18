@@ -9,7 +9,8 @@
 
 class WaypointNode;
 
-class WaypointManager : public ConVarBase, public GameFramable {
+class WaypointManager : public ConVarBase, public GameFramable
+{
 private:
 	WaypointManager();
 

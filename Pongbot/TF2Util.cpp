@@ -1,8 +1,11 @@
 #include "TF2Util.h"
 
-namespace TF2Util {
-	int GetClassSpeed(TFClass tfClass) {
-		switch (tfClass) {
+namespace TF2Util
+{
+	int GetClassSpeed(TFClass tfClass)
+	{
+		switch (tfClass)
+		{
 			case SCOUT: return 133;
 			case SOLDIER: return 80;
 			case PYRO: return 100;

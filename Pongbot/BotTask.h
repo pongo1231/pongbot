@@ -3,7 +3,8 @@
 #include <hlsdk/public/mathlib/mathlib.h>
 #include <hlsdk/game/shared/in_buttons.h>
 
-class BotTask {
+class BotTask
+{
 public:
 	BotTask(Bot *bot);
 

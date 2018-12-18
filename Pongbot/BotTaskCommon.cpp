@@ -3,7 +3,7 @@
 #include "WaypointNode.h"
 #include "WaypointManager.h"
 #include "BotVisibles.h"
-#include "EdictsProvider.h"
+#include "EntityProvider.h"
 #include "EntityData.h"
 
 #define POS_STUCK_RADIUS .2
@@ -12,38 +12,44 @@
 #define WAYPOINTNODE_TOUCHED_RADIUS 5
 
 extern WaypointManager *_WaypointManager;
-extern EdictsProvider *_EdictsProvider;
 
 Vector _LastPos;
 unsigned int _PosStuckTime;
 std::stack<WaypointNode*> _WaypointNodeStack;
 WaypointNode *_ClosestWaypointNode;
 
-BotTaskCommon::BotTaskCommon(Bot *bot) : BotTask(bot) {}
+BotTaskCommon::BotTaskCommon(Bot *bot) : BotTask(bot)
+{}
 
-void BotTaskCommon::OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt) {
+void BotTaskCommon::OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt)
+{
 	Bot *bot = _GetBot();
 
 	_DoMovement(pressedButtons, movement);
 	_DoLooking(pressedButtons, lookAt);
 }
 
-void BotTaskCommon::_DoMovement(int *&pressedButtons, Vector2D *&movement) {
+void BotTaskCommon::_DoMovement(int *&pressedButtons, Vector2D *&movement)
+{
 	Bot *bot = _GetBot();
 	Vector currentPos = bot->GetPos();
 
-	if (Util::DistanceToNoZ(currentPos, _LastPos) < POS_STUCK_RADIUS) {
+	if (Util::DistanceToNoZ(currentPos, _LastPos) < POS_STUCK_RADIUS)
+	{
 		_PosStuckTime++;
-		if (_PosStuckTime > POS_STUCK_GIVEUPTIME) {
+		if (_PosStuckTime > POS_STUCK_GIVEUPTIME)
+		{
 			_PosStuckTime = 0;
 			_UpdateNewWaypointNodeStack();
 		}
-		else if (_PosStuckTime > POS_STUCK_STARTPANICTIME) {
+		else if (_PosStuckTime > POS_STUCK_STARTPANICTIME)
+		{
 			*pressedButtons |= IN_JUMP;
 			*pressedButtons |= IN_DUCK;
 		}
 	}
-	else {
+	else
+	{
 		_PosStuckTime = 0;
 		_LastPos = currentPos;
 		_UpdateClosestWaypointNode();
@@ -51,11 +57,13 @@ void BotTaskCommon::_DoMovement(int *&pressedButtons, Vector2D *&movement) {
 
 	if (_WaypointNodeStack.empty())
 		_UpdateNewWaypointNodeStack();
-	else {
+	else
+	{
 		WaypointNode *node = _WaypointNodeStack.top();
 		if (!node)
 			_WaypointNodeStack.pop();
-		else {
+		else
+		{
 			Vector nodePos = node->Pos;
 			if (currentPos.DistTo(nodePos) <= WAYPOINTNODE_TOUCHED_RADIUS)
 				_WaypointNodeStack.pop();
@@ -65,16 +73,19 @@ void BotTaskCommon::_DoMovement(int *&pressedButtons, Vector2D *&movement) {
 	}
 }
 
-void BotTaskCommon::_DoLooking(int *&pressedButtons, QAngle *&lookAt) {
+void BotTaskCommon::_DoLooking(int *&pressedButtons, QAngle *&lookAt)
+{
 	Bot *bot = _GetBot();
 	std::vector<BotVisibleTarget*> visibleTargets = bot->GetBotVisibles()->GetVisibleTargets();
 
-	if (visibleTargets.size() > 0) {
+	if (visibleTargets.size() > 0)
+	{
 		// TODO: Target Priorities
 		lookAt = new QAngle(Util::GetLookAtAngleForPos(bot, visibleTargets[0]->Pos));
 		*pressedButtons |= IN_ATTACK;
 	}
-	else if (_WaypointNodeStack.size() > 0) {
+	else if (_WaypointNodeStack.size() > 0)
+	{
 		WaypointNode *node = _WaypointNodeStack.top();
 		if (node) {
 			Vector nodePos = node->Pos;
@@ -83,13 +94,15 @@ void BotTaskCommon::_DoLooking(int *&pressedButtons, QAngle *&lookAt) {
 	}
 }
 
-void BotTaskCommon::_UpdateNewWaypointNodeStack() {
+void BotTaskCommon::_UpdateNewWaypointNodeStack()
+{
 	if (!_ClosestWaypointNode)
 		_UpdateClosestWaypointNode();
-	if (_ClosestWaypointNode) { // If still nullptr, no waypoint nodes exist
+	if (_ClosestWaypointNode) // If still nullptr, no waypoint nodes exist
+	{
 		_WaypointNodeStack = std::stack<WaypointNode*>();
 
-		std::vector<edict_t*> itemFlags = _EdictsProvider->SearchEdictsByClassname("item_teamflag");
+		std::vector<edict_t*> itemFlags = _EntityProvider->SearchEdictsByClassname("item_teamflag");
 		WaypointNode *targetNode = itemFlags.size() > 0
 			? _WaypointManager->GetClosestWaypointNode(Util::GetEdictOrigin(itemFlags[0]))
 			: _WaypointManager->GetRandomWaypointNode();
@@ -99,6 +112,7 @@ void BotTaskCommon::_UpdateNewWaypointNodeStack() {
 	}
 }
 
-void BotTaskCommon::_UpdateClosestWaypointNode() {
+void BotTaskCommon::_UpdateClosestWaypointNode()
+{
 	_ClosestWaypointNode = _WaypointManager->GetClosestWaypointNode(_LastPos);
 }

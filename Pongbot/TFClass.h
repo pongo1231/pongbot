@@ -1,6 +1,7 @@
 #pragma once
 
-enum TFClass {
+enum TFClass
+{
 	SCOUT,
 	SOLDIER,
 	PYRO,

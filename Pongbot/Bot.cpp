@@ -28,17 +28,20 @@ TFClass _CurrentClass;
 Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
 	_IIBotController(IIBotManager->GetBotController(edict)),
 	_IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(edict)),
-	_BotVisibles(new BotVisibles(this)) {
+	_BotVisibles(new BotVisibles(this))
+{
 	_IIPlayerInfo->ChangeTeam(2);
 	_RandomClass();
 }
 
-Bot::~Bot() {
+Bot::~Bot()
+{
 	delete _BotTaskMaster;
 	delete _BotVisibles;
 }
 
-void Bot::Think() {
+void Bot::Think()
+{
 	_BotVisibles->OnThink();
 
 	int pressedButtons = 0;
@@ -50,7 +53,8 @@ void Bot::Think() {
 
 	CBotCmd cmd;
 	cmd.buttons = pressedButtons;
-	if (movement) {
+	if (movement)
+	{
 		cmd.forwardmove = movement->x;
 		cmd.sidemove = movement->y;
 	}
@@ -61,10 +65,12 @@ void Bot::Think() {
 	delete targetLookAt;
 }
 
-void Bot::_HandleAiming(QAngle *targetLookAt) {
+void Bot::_HandleAiming(QAngle *targetLookAt)
+{
 	if (targetLookAt) {
 		static QAngle previousLookAt;
-		if (*targetLookAt != previousLookAt) {
+		if (*targetLookAt != previousLookAt)
+		{
 			previousLookAt = *targetLookAt;
 			_LookAt = *targetLookAt;
 		}
@@ -73,45 +79,55 @@ void Bot::_HandleAiming(QAngle *targetLookAt) {
 	_LookAt = currentLookAt + (_LookAt - currentLookAt) / BOT_AIM_SENSITIVITY;
 }
 
-edict_t *Bot::GetEdict() const {
+edict_t *Bot::GetEdict() const
+{
 	return _Edict;
 }
 
-bool Bot::Exists() const {
+bool Bot::Exists() const
+{
 	return _IIPlayerInfo->IsConnected();
 }
 
-Vector Bot::GetPos() const {
+Vector Bot::GetPos() const
+{
 	return _IIPlayerInfo->GetAbsOrigin();
 }
 
-Vector Bot::GetEarPos() const {
+Vector Bot::GetEarPos() const
+{
 	Vector earPos;
 	IIServerGameClients->ClientEarPosition(_Edict, &earPos);
 	return earPos;
 }
 
-QAngle Bot::GetAngle() const {
+QAngle Bot::GetAngle() const
+{
 	return _IIPlayerInfo->GetAbsAngles();
 }
 
-TFClass Bot::GetClass() const {
+TFClass Bot::GetClass() const
+{
 	return _CurrentClass;
 }
 
-TFTeam Bot::GetTeam() const {
+TFTeam Bot::GetTeam() const
+{
 	return (TFTeam) _IIPlayerInfo->GetTeamIndex();
 }
 
-BotVisibles *Bot::GetBotVisibles() const {
+BotVisibles *Bot::GetBotVisibles() const
+{
 	return _BotVisibles;
 }
 
-bool Bot::IsDead() const {
+bool Bot::IsDead() const
+{
 	return _IIPlayerInfo->IsDead();
 }
 
-void Bot::ChangeClass(TFClass tfClass) {
+void Bot::ChangeClass(TFClass tfClass)
+{
 	char newClass[16];
 	_TFClassToJoinName(tfClass, newClass);
 
@@ -123,7 +139,8 @@ void Bot::ChangeClass(TFClass tfClass) {
 	
 	// Update bot task master
 	delete _BotTaskMaster;
-	switch (tfClass) {
+	switch (tfClass)
+	{
 	case SCOUT:
 		_BotTaskMaster = new BotTaskMasterScout(this);
 	case SOLDIER:
@@ -145,11 +162,13 @@ void Bot::ChangeClass(TFClass tfClass) {
 	}
 }
 
-void Bot::ExecClientCommand(const char *command) const {
+void Bot::ExecClientCommand(const char *command) const
+{
 	IIServerPluginHelpers->ClientCommand(_Edict, command);
 }
 
-void Bot::_TFClassToJoinName(TFClass tfClass, char *tfClassName) {
+void Bot::_TFClassToJoinName(TFClass tfClass, char *tfClassName)
+{
 	switch (tfClass) {
 	case SCOUT:
 		strcpy(tfClassName, "scout");
@@ -181,6 +200,7 @@ void Bot::_TFClassToJoinName(TFClass tfClass, char *tfClassName) {
 	}
 }
 
-void Bot::_RandomClass() {
+void Bot::_RandomClass()
+{
 	ChangeClass(TFClass(Util::RandomInt(0, 8)));
 }

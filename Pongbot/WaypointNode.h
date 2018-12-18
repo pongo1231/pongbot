@@ -3,7 +3,8 @@
 #include <vector>
 #include <cstdlib>
 
-class WaypointNode {
+class WaypointNode
+{
 public:
 	WaypointNode(uint8_t id, Vector pos);
 	~WaypointNode();

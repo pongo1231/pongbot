@@ -4,7 +4,8 @@
 
 class WaypointNode;
 
-class BotTaskCommon : public BotTask {
+class BotTaskCommon : public BotTask
+{
 public:
 	BotTaskCommon(Bot *bot);
 
