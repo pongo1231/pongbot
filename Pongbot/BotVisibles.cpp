@@ -12,11 +12,13 @@ extern IVEngineServer *Engine;
 extern IEngineTrace *IIEngineTrace;
 extern BotVisiblesProvider *_BotVisiblesProvider;
 extern IServerGameClients *IIServerGameClients;
+extern IPlayerInfoManager *IIPlayerInfoManager;
 
 static bool _DrawDebugBeams = false;
 
 Bot *_MBot;
 std::vector<BotVisibleTarget*> _VisibleTargets;
+float _TickTime;
 
 BotVisibles::BotVisibles(Bot *bot) : _MBot(bot)
 {}
@@ -26,16 +28,26 @@ std::vector<BotVisibleTarget*> BotVisibles::GetVisibleTargets() const
 	return _VisibleTargets;
 }
 
+BotVisibleTarget *BotVisibles::GetMostImportantTarget(Vector currentPos) const
+{
+	BotVisibleTarget *importantTarget = nullptr;
+	for (BotVisibleTarget *visibleTarget : _VisibleTargets)
+	{
+		BotTargetPriority targetPriority = visibleTarget->Priority;
+		if (targetPriority != FRIENDLY && (!importantTarget || targetPriority > importantTarget->Priority
+			|| visibleTarget->Pos.DistTo(currentPos) < importantTarget->Pos.DistTo(currentPos)))
+			importantTarget = visibleTarget;
+	}
+
+	return importantTarget;
+}
+
 void BotVisibles::OnThink()
 {
-	if (_MBot->IsDead())
-		return;
-
-	static float tickTime;
 	float currentTime = Engine->Time();
-	if (tickTime > currentTime)
+	if (_TickTime > currentTime)
 		return;
-	tickTime = currentTime + BOT_VISIBILITY_TICK;
+	_TickTime = currentTime + BOT_VISIBILITY_TICK;
 
 	for (BotVisibleTarget *visibleTarget : _VisibleTargets)
 		delete visibleTarget;
@@ -54,7 +66,7 @@ void BotVisibles::OnThink()
 		Ray_t traceLine;
 		traceLine.Init(botPos, edictPos);
 		trace_t traceResult;
-		IIEngineTrace->TraceRay(traceLine, MASK_SOLID, &TraceFilterSimple(botPassEntity, 
+		IIEngineTrace->TraceRay(traceLine, MASK_SOLID_BRUSHONLY, &TraceFilterSimple(botPassEntity, 
 			edict->GetIServerEntity(), COLLISION_GROUP_NONE), &traceResult);
 		bool traceHit = traceResult.DidHit();
 
@@ -78,14 +90,24 @@ void BotVisibles::OnThink()
 			if (!earPos.IsZero())
 				edictPos += Vector(0, 0, (edictPos.z + earPos.z) / 2);
 
-			// TODO: Target Priorities
-			_VisibleTargets.insert(_VisibleTargets.begin() + insertIndex,
-				new BotVisibleTarget(edictPos, BotTargetPriority::NORMAL));
+			_AddEntity(edict, edictPos, insertIndex);
 		}
 
 		if (_DrawDebugBeams)
 				Util::DrawBeam(botPos, edictPos, traceHit ? 255 : 0, traceHit ? 0 : 255, 0, BOT_VISIBILITY_TICK);
 	}
+}
+
+void BotVisibles::_AddEntity(edict_t *edict, Vector edictPos, uint8_t insertIndex)
+{
+	BotTargetPriority targetPriority = BotTargetPriority::FRIENDLY;
+
+	IPlayerInfo *playerInfo = IIPlayerInfoManager->GetPlayerInfo(edict);
+	if (playerInfo && playerInfo->IsPlayer() && playerInfo->GetTeamIndex() != _MBot->GetTeam())
+		targetPriority = BotTargetPriority::NORMAL;
+		
+	_VisibleTargets.insert(_VisibleTargets.begin() + insertIndex,
+		new BotVisibleTarget(edictPos, targetPriority));
 }
 
 CON_COMMAND(pongbot_bot_visibility_debug, "Toggle debug visibility raytracing beams")

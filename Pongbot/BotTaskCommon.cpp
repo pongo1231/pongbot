@@ -6,7 +6,7 @@
 #include "EntityProvider.h"
 #include "EntityData.h"
 
-#define POS_STUCK_RADIUS .2
+#define POS_STUCK_RADIUS 1
 #define POS_STUCK_STARTPANICTIME 120 // Bot starts crouch jumping
 #define POS_STUCK_GIVEUPTIME 180 // Bot searches new path
 #define WAYPOINTNODE_TOUCHED_RADIUS 5
@@ -76,12 +76,11 @@ void BotTaskCommon::_DoMovement(int *&pressedButtons, Vector2D *&movement)
 void BotTaskCommon::_DoLooking(int *&pressedButtons, QAngle *&lookAt)
 {
 	Bot *bot = _GetBot();
-	std::vector<BotVisibleTarget*> visibleTargets = bot->GetBotVisibles()->GetVisibleTargets();
+	BotVisibleTarget *enemyTarget = bot->GetBotVisibles()->GetMostImportantTarget(_LastPos);
 
-	if (visibleTargets.size() > 0)
+	if (enemyTarget)
 	{
-		// TODO: Target Priorities
-		lookAt = new QAngle(Util::GetLookAtAngleForPos(bot, visibleTargets[0]->Pos));
+		lookAt = new QAngle(Util::GetLookAtAngleForPos(bot, enemyTarget->Pos));
 		*pressedButtons |= IN_ATTACK;
 	}
 	else if (_WaypointNodeStack.size() > 0)

@@ -27,9 +27,10 @@ TFClass _CurrentClass;
 
 Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
 	_IIBotController(IIBotManager->GetBotController(edict)),
-	_IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(edict)),
-	_BotVisibles(new BotVisibles(this))
+	_IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(edict))
 {
+	_BotVisibles = new BotVisibles(this);
+
 	_IIPlayerInfo->ChangeTeam(2);
 	_RandomClass();
 }
@@ -42,6 +43,9 @@ Bot::~Bot()
 
 void Bot::Think()
 {
+	if (IsDead())
+		return;
+
 	_BotVisibles->OnThink();
 
 	int pressedButtons = 0;

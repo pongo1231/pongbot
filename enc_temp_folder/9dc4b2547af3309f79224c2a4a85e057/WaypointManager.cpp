@@ -98,9 +98,11 @@ bool WaypointManager::GetWaypointNodeStackToTargetNode(WaypointNode *startNode,
 	_alreadyTraversedWaypointNodesStack->push_back(startNode);
 
 	for (WaypointNode *node : *startNode->GetConnectedNodes())
-		if (GetWaypointNodeStackToTargetNode(node, targetNode, waypointNodesStack, _alreadyTraversedWaypointNodesStack))
+		if (GetWaypointNodeStackToTargetNode(node, targetNode, waypointNodesStack,
+			_alreadyTraversedWaypointNodesStack))
 		{
 			waypointNodesStack->push(startNode);
+
 			return true;
 		}
 
