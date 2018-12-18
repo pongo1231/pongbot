@@ -39,8 +39,10 @@ private:
 	BotVisibles *_BotVisibles;
 	TFClass _CurrentClass;
 	QAngle _LookAt;
+	bool _IsDead;
 
 	void _HandleAiming(QAngle *targetLookAt);
+	void _UpdateTaskMaster();
 	void _TFClassToJoinName(TFClass tfClass, char *tfClassName);
 	void _RandomClass();
 };

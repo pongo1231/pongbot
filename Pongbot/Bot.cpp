@@ -24,12 +24,14 @@ IPlayerInfo *_IIPlayerInfo;
 BotTaskMaster *_BotTaskMaster;
 BotVisibles *_BotVisibles;
 TFClass _CurrentClass;
+bool _IsDead;
 
 Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
 	_IIBotController(IIBotManager->GetBotController(edict)),
 	_IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(edict))
 {
 	_BotVisibles = new BotVisibles(this);
+	_IsDead = false;
 
 	_IIPlayerInfo->ChangeTeam(2);
 	_RandomClass();
@@ -43,8 +45,17 @@ Bot::~Bot()
 
 void Bot::Think()
 {
+	// Update Task Master on respawn
 	if (IsDead())
+	{
+		_IsDead = true;
 		return;
+	}
+	else if (_IsDead)
+	{
+		_UpdateTaskMaster();
+		_IsDead = false;
+	}
 
 	_BotVisibles->OnThink();
 
@@ -140,10 +151,18 @@ void Bot::ChangeClass(TFClass tfClass)
 	IIServerPluginHelpers->ClientCommand(_Edict, cmd);
 
 	_CurrentClass = tfClass;
-	
-	// Update bot task master
+	_UpdateTaskMaster();
+}
+
+void Bot::ExecClientCommand(const char *command) const
+{
+	IIServerPluginHelpers->ClientCommand(_Edict, command);
+}
+
+void Bot::_UpdateTaskMaster()
+{
 	delete _BotTaskMaster;
-	switch (tfClass)
+	switch (_CurrentClass)
 	{
 	case SCOUT:
 		_BotTaskMaster = new BotTaskMasterScout(this);
@@ -164,11 +183,6 @@ void Bot::ChangeClass(TFClass tfClass)
 	case SPY:
 		_BotTaskMaster = new BotTaskMasterSpy(this);
 	}
-}
-
-void Bot::ExecClientCommand(const char *command) const
-{
-	IIServerPluginHelpers->ClientCommand(_Edict, command);
 }
 
 void Bot::_TFClassToJoinName(TFClass tfClass, char *tfClassName)
