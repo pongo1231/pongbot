@@ -6,7 +6,7 @@
 #include "TFTeam.h"
 #include <metamod/ISmmAPI.h>
 
-#define BOT_VISIBILITY_TICK .1
+#define BOT_VISIBILITY_TICK .2f
 
 extern IVEngineServer *Engine;
 extern IEngineTrace *IIEngineTrace;
@@ -66,7 +66,7 @@ void BotVisibles::OnThink()
 		Vector earPos = Vector();
 		IIServerGameClients->ClientEarPosition(edict, &earPos);
 		if (!earPos.IsZero())
-			edictPos -= Vector(0, 0, (earPos.z - edictPos.z) / 2);
+			edictPos += Vector(0.f, 0.f, (earPos.z - edictPos.z) / 2.f);
 
 		Ray_t traceLine;
 		traceLine.Init(botPos, edictPos);

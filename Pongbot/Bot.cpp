@@ -9,7 +9,8 @@
 #include <metamod/ISmmPlugin.h>
 #include <string>
 
-#define BOT_AIM_SENSITIVITY 3
+#define BOT_AIM_SENSITIVITY_X .9f // 0.f lowest - 1.f highest
+#define BOT_AIM_SENSITIVITY_Y .3f // 0.f lowest - 1.f highest
 
 extern IVEngineServer *Engine;
 extern IBotManager *IIBotManager;
@@ -90,8 +91,11 @@ void Bot::_HandleAiming(QAngle *targetLookAt)
 			_LookAt = *targetLookAt;
 		}
 	}
+
 	QAngle currentLookAt = GetAngle();
-	_LookAt = currentLookAt + (_LookAt - currentLookAt) / BOT_AIM_SENSITIVITY;
+	QAngle targetAngleDistance = _LookAt - currentLookAt;
+	_LookAt = QAngle(currentLookAt.x + targetAngleDistance.x * BOT_AIM_SENSITIVITY_X,
+		currentLookAt.y + targetAngleDistance.y * BOT_AIM_SENSITIVITY_Y, 0);
 }
 
 edict_t *Bot::GetEdict() const

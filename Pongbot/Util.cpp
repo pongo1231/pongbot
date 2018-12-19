@@ -51,12 +51,9 @@ namespace Util
 		for (uint8_t i = 1; i < 33; i++)
 		{
 			edict_t *edict = Engine->PEntityOfEntIndex(i);
-			if (edict)
-			{
-				IPlayerInfo *playerInfo = IIPlayerInfoManager->GetPlayerInfo(edict);
-				if (playerInfo && playerInfo->IsPlayer())
-					players.push_back(playerInfo);
-			}
+			IPlayerInfo *playerInfo = IIPlayerInfoManager->GetPlayerInfo(edict);
+			if (edict && playerInfo && playerInfo->IsPlayer())
+				players.push_back(playerInfo);
 		}
 
 		return players;
@@ -81,19 +78,19 @@ namespace Util
 		Vector2D sins;
 		SinCos(DEG2RAD(bot->GetAngle().y - GetLookAtAngleForPos(bot, targetPos).y),
 			&sins.y, &sins.x);
-		sins = sins / sins.Length() * TF2Util::GetClassSpeed(bot->GetClass()) * 3;
+		sins = sins / sins.Length() * TF2Util::GetClassSpeed(bot->GetClass()) * 3.f;
 
 		return sins;
 	}
 
 	QAngle CorrectViewAngle(QAngle viewAngle)
 	{
-		return QAngle(_ClampAngle(_NormalizeAngle(viewAngle.x), -89, 89), _NormalizeAngle(viewAngle.y), 0);
+		return QAngle(_ClampAngle(_NormalizeAngle(viewAngle.x), -89.f, 89.f), _NormalizeAngle(viewAngle.y), 0.f);
 	}
 
 	static vec_t _NormalizeAngle(vec_t angle)
 	{
-		return std::remainderf(angle, 360);
+		return std::remainderf(angle, 360.f);
 	}
 
 	static vec_t _ClampAngle(vec_t angle, float min, float max)

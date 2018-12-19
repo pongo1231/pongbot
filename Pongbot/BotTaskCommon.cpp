@@ -6,10 +6,10 @@
 #include "EntityProvider.h"
 #include "EntityData.h"
 
-#define POS_STUCK_RADIUS 1
+#define POS_STUCK_RADIUS 1.f
 #define POS_STUCK_STARTPANICTIME 120 // Bot starts crouch jumping
 #define POS_STUCK_GIVEUPTIME 180 // Bot searches new path
-#define WAYPOINTNODE_TOUCHED_RADIUS 5
+#define WAYPOINTNODE_TOUCHED_RADIUS 5.f
 
 extern WaypointManager *_WaypointManager;
 
@@ -81,7 +81,6 @@ void BotTaskCommon::_DoLooking(int *&pressedButtons, QAngle *&lookAt)
 	if (enemyTarget)
 	{
 		lookAt = new QAngle(Util::GetLookAtAngleForPos(bot, enemyTarget->Pos));
-		Util::Log("%f", lookAt->x);
 		*pressedButtons |= IN_ATTACK;
 	}
 	else if (_WaypointNodeStack.size() > 0)
@@ -91,7 +90,7 @@ void BotTaskCommon::_DoLooking(int *&pressedButtons, QAngle *&lookAt)
 		{
 			Vector nodeLookPos = node->Pos;
 			// Don't look at the ground
-			nodeLookPos.z -= bot->GetEarPos().z - bot->GetPos().z;
+			nodeLookPos.z += bot->GetEarPos().z - bot->GetPos().z;
 			lookAt = new QAngle(Util::GetLookAtAngleForPos(bot, nodeLookPos));
 		}
 	}

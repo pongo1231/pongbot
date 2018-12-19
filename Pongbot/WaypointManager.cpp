@@ -5,8 +5,8 @@
 #include <metamod/ISmmPlugin.h>
 #include <metamod/sourcehook.h>
 
-#define WAYPOINT_NODE_BEAM_TICK .5
-#define WAYPOINT_NODE_BEAM_DRAWDIST 500
+#define WAYPOINT_NODE_BEAM_TICK .5f
+#define WAYPOINT_NODE_BEAM_DRAWDIST 500.f
 
 extern IVEngineServer *Engine;
 extern IPlayerInfoManager *IIPlayerInfoManager;
@@ -61,7 +61,7 @@ WaypointNode *WaypointManager::GetRandomWaypointNode() const
 WaypointNode *WaypointManager::GetClosestWaypointNode(Vector pos) const
 {
 	WaypointNode *closestNode = nullptr;
-	float closestDistance = 9999; // Just something insanely high
+	float closestDistance = 9999.f; // Just something insanely high
 
 	for (WaypointNode *node : _WaypointNodes)
 	{
@@ -140,7 +140,7 @@ void WaypointManager::OnGameFrame()
 				Vector startPos = node->Pos;
 				if (startPos.DistTo(playerPos) <= WAYPOINT_NODE_BEAM_DRAWDIST)
 				{
-					Vector endPos = startPos + Vector(0, 0, 75);
+					Vector endPos = startPos + Vector(0.f, 0.f, 75.f);
 					Util::DrawBeam(startPos, endPos, 0, 255, 0, WAYPOINT_NODE_BEAM_TICK);
 					for (WaypointNode *connectedNode : *node->GetConnectedNodes())
 					{
@@ -156,7 +156,7 @@ void WaypointManager::OnGameFrame()
 						if (!alreadyDrawn)
 						{
 							startPos = connectedNode->Pos;
-							Util::DrawBeam(startPos, startPos + Vector(0, 0, 75), 0, 255, 0, WAYPOINT_NODE_BEAM_TICK);
+							Util::DrawBeam(startPos, startPos + Vector(0.f, 0.f, 75.f), 0, 255, 0, WAYPOINT_NODE_BEAM_TICK);
 
 							drawnNodes.push_back(node);
 						}
