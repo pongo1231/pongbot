@@ -6,6 +6,7 @@
 #include <hlsdk/game/shared/IEffects.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <cstdlib>
+#include <algorithm>
 
 extern IVEngineServer *Engine;
 extern IPlayerInfoManager *IIPlayerInfoManager;
@@ -18,6 +19,7 @@ namespace Util
 	{
 		if (min >= max)
 			return min;
+
 		return rand() % (max - min + 1) + min;
 	}
 
@@ -56,6 +58,7 @@ namespace Util
 					players.push_back(playerInfo);
 			}
 		}
+
 		return players;
 	}
 
@@ -69,39 +72,32 @@ namespace Util
 		Vector vectorAngle = lookAtPos - bot->GetEarPos();
 		QAngle angle;
 		VectorAngles(vectorAngle / vectorAngle.Length(), angle);
+
 		return CorrectViewAngle(angle);
 	}
 
 	Vector2D GetIdealMoveSpeedsToPos(Bot *bot, Vector targetPos)
 	{
 		Vector2D sins;
-		SinCos(DEG2RAD(_ClampAngle(bot->GetAngle().y -
-			_ClampAngle(GetLookAtAngleForPos(bot, targetPos).y, false), false)), &sins.y, &sins.x);
+		SinCos(DEG2RAD(bot->GetAngle().y - GetLookAtAngleForPos(bot, targetPos).y),
+			&sins.y, &sins.x);
 		sins = sins / sins.Length() * TF2Util::GetClassSpeed(bot->GetClass()) * 3;
+
 		return sins;
 	}
 
 	QAngle CorrectViewAngle(QAngle viewAngle)
 	{
-		// Normalize first
-		while (viewAngle.x > 89)
-			viewAngle.x -= 180;
-		while (viewAngle.x < -89)
-			viewAngle.x += 180;
-		while (viewAngle.y > 180)
-			viewAngle.y -= 360;
-		while (viewAngle.y < -180)
-			viewAngle.y += 360;
-
-		return QAngle(_ClampAngle(viewAngle.x, true), _ClampAngle(viewAngle.y, false), 0);
+		return QAngle(_ClampAngle(_NormalizeAngle(viewAngle.x), -89, 89), _NormalizeAngle(viewAngle.y), 0);
 	}
 
-	static vec_t _ClampAngle(vec_t angle, bool isPitch)
+	static vec_t _NormalizeAngle(vec_t angle)
 	{
-		if (angle > (isPitch ? 89 : 180))
-			angle = isPitch ? 89 : 180;
-		else if (angle < (isPitch ? -89 : -180))
-			angle = isPitch ? -89 : -180;
-		return angle;
+		return std::remainderf(angle, 360);
+	}
+
+	static vec_t _ClampAngle(vec_t angle, float min, float max)
+	{
+		return std::max(min, std::min(angle, max));
 	}
 }

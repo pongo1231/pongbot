@@ -6,7 +6,7 @@
 #include "TFTeam.h"
 #include <metamod/ISmmAPI.h>
 
-#define BOT_VISIBILITY_TICK .2
+#define BOT_VISIBILITY_TICK .1
 
 extern IVEngineServer *Engine;
 extern IEngineTrace *IIEngineTrace;
@@ -62,6 +62,11 @@ void BotVisibles::OnThink()
 			continue;
 
 		Vector edictPos = Util::GetEdictOrigin(edict);
+		// Target center instead of feet if edict is player
+		Vector earPos = Vector();
+		IIServerGameClients->ClientEarPosition(edict, &earPos);
+		if (!earPos.IsZero())
+			edictPos -= Vector(0, 0, (earPos.z - edictPos.z) / 2);
 
 		Ray_t traceLine;
 		traceLine.Init(botPos, edictPos);
@@ -83,12 +88,6 @@ void BotVisibles::OnThink()
 					break;
 				}
 			}
-
-			// Target center instead of feet if edict is player
-			Vector earPos = Vector();
-			IIServerGameClients->ClientEarPosition(edict, &earPos);
-			if (!earPos.IsZero())
-				edictPos += Vector(0, 0, (edictPos.z + earPos.z) / 2);
 
 			_AddEntity(edict, edictPos, insertIndex);
 		}

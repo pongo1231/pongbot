@@ -81,14 +81,18 @@ void BotTaskCommon::_DoLooking(int *&pressedButtons, QAngle *&lookAt)
 	if (enemyTarget)
 	{
 		lookAt = new QAngle(Util::GetLookAtAngleForPos(bot, enemyTarget->Pos));
+		Util::Log("%f", lookAt->x);
 		*pressedButtons |= IN_ATTACK;
 	}
 	else if (_WaypointNodeStack.size() > 0)
 	{
 		WaypointNode *node = _WaypointNodeStack.top();
-		if (node) {
-			Vector nodePos = node->Pos;
-			lookAt = new QAngle(Util::GetLookAtAngleForPos(bot, Vector(nodePos.x, nodePos.y, bot->GetEarPos().z)));
+		if (node)
+		{
+			Vector nodeLookPos = node->Pos;
+			// Don't look at the ground
+			nodeLookPos.z -= bot->GetEarPos().z - bot->GetPos().z;
+			lookAt = new QAngle(Util::GetLookAtAngleForPos(bot, nodeLookPos));
 		}
 	}
 }
