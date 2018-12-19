@@ -13,11 +13,12 @@ BotTaskMaster::~BotTaskMaster()
 
 void BotTaskMaster::OnThink(int *pressedButtons, Vector2D *&movement, QAngle *&lookAt)
 {
+	_OnThink(pressedButtons, movement, lookAt);
+
 	if (!_GetBotTask())
 		_UpdateBotTask(new BotTaskCommon(_ABot));
 
 	_BotTask->OnThink(pressedButtons, movement, lookAt);
-	_OnThink(pressedButtons, movement, lookAt);
 }
 
 Bot *BotTaskMaster::_GetBot() const
