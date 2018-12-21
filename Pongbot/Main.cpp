@@ -5,6 +5,7 @@
 #include "IGameFramable.h"
 #include "TraceHeaders.h"
 #include "EntityProvider.h"
+#include "EntityDataProvider.h"
 #include <hlsdk/game/shared/IEffects.h>
 #include <hlsdk/public/eiface.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
@@ -42,6 +43,8 @@ bool Main::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bool lat
 	BotManager::Init();
 	WaypointManager::Init();
 	EntityProvider::Init();
+	EntityDataProvider::Init();
+
 	return true;
 }
 
@@ -50,8 +53,10 @@ bool Main::Unload(char *error, size_t len)
 	BotManager::Destroy();
 	WaypointManager::Destroy();
 	EntityProvider::Destroy();
+	EntityDataProvider::Destroy();
 
 	SH_REMOVE_HOOK(IServerGameDLL, GameFrame, Server, SH_MEMBER(this, &Main::_OnGameFrame), true);
+
 	return true;
 }
 

@@ -25,7 +25,7 @@ namespace Util
 
 	void Log(const char *text, ...)
 	{
-		char userText[64], prefixedText[128];
+		char userText[128], prefixedText[140];
 		va_list args;
 		va_start(args, text);
 		vsnprintf_s(userText, sizeof(userText), text, args);

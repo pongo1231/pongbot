@@ -53,6 +53,9 @@
     <Filter Include="src\Bot\Task\Tasks\Common">
       <UniqueIdentifier>{2a20c762-4df6-44ec-b4b5-dac3f8db3168}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\TF2Util\EntityData">
+      <UniqueIdentifier>{a76ad4c3-4f21-4ae2-b619-484bdf4c8cb2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -118,9 +121,6 @@
     <ClCompile Include="TraceFilters.cpp">
       <Filter>src\TF2Util</Filter>
     </ClCompile>
-    <ClCompile Include="EntityData.cpp">
-      <Filter>src\TF2Util</Filter>
-    </ClCompile>
     <ClCompile Include="BotTaskCommon.cpp">
       <Filter>src\Bot\Task\Tasks\Common</Filter>
     </ClCompile>
@@ -135,6 +135,12 @@
     </ClCompile>
     <ClCompile Include="IGameFramable.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityDataProvider.cpp">
+      <Filter>src\TF2Util\EntityData</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityData.cpp">
+      <Filter>src\TF2Util\EntityData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -175,9 +181,6 @@
       <Filter>src\Bot</Filter>
     </ClInclude>
     <ClInclude Include="TFClass.h">
-      <Filter>src\TF2Util</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityData.h">
       <Filter>src\TF2Util</Filter>
     </ClInclude>
     <ClInclude Include="TF2Util.h">
@@ -239,6 +242,15 @@
     </ClInclude>
     <ClInclude Include="IGameFramable.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityDataType.h">
+      <Filter>src\TF2Util\EntityData</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityDataProvider.h">
+      <Filter>src\TF2Util\EntityData</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityData.h">
+      <Filter>src\TF2Util\EntityData</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

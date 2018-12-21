@@ -4,6 +4,7 @@
 #include "Util.h"
 #include "TraceFilters.h"
 #include "TFTeam.h"
+#include "EntityDataProvider.h"
 #include <metamod/ISmmAPI.h>
 
 #define BOT_VISIBILITY_TICK .2f

@@ -20,7 +20,7 @@ void BotTaskMaster::OnThink(int *pressedButtons, Vector2D *&movement, QAngle *&l
 	if (_BotTask)
 		_BotTask->OnThink(pressedButtons, movement, lookAt);
 
-	// Do usual stuff in case movement or lookAt is null
+	// Do common stuff in case movement or lookAt is null
 	_BotTaskFallback->OnThink(pressedButtons, movement, lookAt);
 }
 
