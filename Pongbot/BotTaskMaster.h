@@ -21,6 +21,7 @@ protected:
 private:
 	Bot *_ABot;
 	BotTask *_BotTask;
+	BotTask *_BotTaskFallback;
 
 	virtual void _OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&lookAt) = 0;
 };

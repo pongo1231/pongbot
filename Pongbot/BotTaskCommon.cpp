@@ -25,8 +25,10 @@ void BotTaskCommon::OnThink(int *&pressedButtons, Vector2D *&movement, QAngle *&
 {
 	Bot *bot = _GetBot();
 
-	_DoMovement(pressedButtons, movement);
-	_DoLooking(pressedButtons, lookAt);
+	if (!movement)
+		_DoMovement(pressedButtons, movement);
+	if (!lookAt)
+		_DoLooking(pressedButtons, lookAt);
 }
 
 void BotTaskCommon::_DoMovement(int *&pressedButtons, Vector2D *&movement)
