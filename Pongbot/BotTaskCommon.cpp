@@ -4,7 +4,7 @@
 #include "WaypointManager.h"
 #include "BotVisibles.h"
 #include "EntityProvider.h"
-#include "EntityData.h"
+#include "EntityDataProvider.h"
 
 #define POS_STUCK_RADIUS 1.f
 #define POS_STUCK_STARTPANICTIME 120 // Bot starts crouch jumping
@@ -107,9 +107,30 @@ void BotTaskCommon::_UpdateNewWaypointNodeStack()
 		_WaypointNodeStack = std::stack<WaypointNode*>();
 
 		std::vector<edict_t*> itemFlags = _EntityProvider->SearchEdictsByClassname("item_teamflag");
-		WaypointNode *targetNode = itemFlags.size() > 0
-			? _WaypointManager->GetClosestWaypointNode(Util::GetEdictOrigin(itemFlags[0]))
-			: _WaypointManager->GetRandomWaypointNode();
+		WaypointNode *targetNode = nullptr;
+		if (itemFlags.size() > 0)
+		{
+			/* CTF stuff */
+			/* TODO: Waypoint Node Flags (way less expensive than getting closest node every time!!!) */
+			Bot *bot = _GetBot();
+			edict_t *allyFlag = nullptr;
+			edict_t *enemyFlag = nullptr;
+			for (edict_t *itemFlag : itemFlags)
+			{
+				if (_EntityDataProvider->GetDataFromEdict<int>(itemFlags[1], EntityDataType::TEAM) == bot->GetTeam())
+					allyFlag = itemFlag;
+				else
+					enemyFlag = itemFlag;
+			}
+
+			if (allyFlag && _EntityDataProvider->GetDataFromEdict<bool>(bot->GetEdict(), TF2_ISCARRYINGOBJ))
+				targetNode = _WaypointManager->GetClosestWaypointNode(Util::GetEdictOrigin(allyFlag));
+			else if (enemyFlag)
+				targetNode = _WaypointManager->GetClosestWaypointNode(Util::GetEdictOrigin(enemyFlag));
+		}
+
+		if (!targetNode)
+			targetNode = _WaypointManager->GetRandomWaypointNode();
 
 		_WaypointManager->GetWaypointNodeStackToTargetNode(_ClosestWaypointNode,
 			targetNode, &_WaypointNodeStack);

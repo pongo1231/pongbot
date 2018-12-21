@@ -6,7 +6,7 @@
 #include <metamod/sourcehook.h>
 
 #define WAYPOINT_NODE_BEAM_TICK .5f
-#define WAYPOINT_NODE_BEAM_DRAWDIST 500.f
+#define WAYPOINT_NODE_BEAM_DRAWDIST 1000.f
 
 extern IVEngineServer *Engine;
 extern IPlayerInfoManager *IIPlayerInfoManager;
