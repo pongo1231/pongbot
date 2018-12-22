@@ -22,3 +22,7 @@ And everything should be ready to go!
 ## Installation
 
 See [here](https://steamcommunity.com/groups/pongbot/discussions/0/3561682880008371471/)
+
+## Credits
+
+- [rcbotCheeseh](https://github.com/rcbotCheeseh) - Being much of a help and using parts of his RCBot2 as reference
