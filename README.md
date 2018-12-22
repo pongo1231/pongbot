@@ -18,3 +18,7 @@ Afterwards follow these steps to set the project up properly:
 	- In Input, add the following to Additional Dependencies: "legacy_stdio_definitions.lib;tier0.lib;tier1.lib;tier2.lib;tier3.lib;vstdlib.lib;mathlib.lib"
 ```
 And everything should be ready to go!
+
+## Installation
+
+See [here](https://steamcommunity.com/groups/pongbot/discussions/0/3561682880008371471/)
