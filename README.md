@@ -1,5 +1,7 @@
 # Pongbot
 
+<a href="https://discord.gg/BbxR5wY" title="Chat on Discord"><img alt="Discord Status" src="https://discordapp.com/api/guilds/323526874200276994/widget.png"></a>
+
 A new tf2 bot fully written from scratch.
 As of now, it is only working on Windows. Linux support being considered later on.
 
@@ -21,7 +23,7 @@ And everything should be ready to go!
 
 ## Installation
 
-See [here](https://steamcommunity.com/groups/pongbot/discussions/0/3561682880008371471/)
+See [here](https://steamcommunity.com/groups/pongbot/discussions/0/3561682880008371471/).
 
 ## Credits
 

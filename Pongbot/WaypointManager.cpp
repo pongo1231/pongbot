@@ -4,6 +4,7 @@
 #include "WaypointFileManager.h"
 #include <metamod/ISmmPlugin.h>
 #include <metamod/sourcehook.h>
+#include <map>
 
 #define WAYPOINT_NODE_BEAM_TICK .5f
 #define WAYPOINT_NODE_BEAM_DRAWDIST 1000.f
@@ -77,34 +78,51 @@ WaypointNode *WaypointManager::GetClosestWaypointNode(Vector pos) const
 	return closestNode;
 }
 
-bool WaypointManager::GetWaypointNodeStackToTargetNode(WaypointNode *startNode,
+vec_t WaypointManager::GetShortestWaypointNodeRouteToTargetNode(WaypointNode *startNode,
 	WaypointNode *targetNode, std::stack<WaypointNode*> *waypointNodesStack,
 	std::vector<WaypointNode*> *_alreadyTraversedWaypointNodesStack)
 {
 	if (!startNode || !targetNode || !waypointNodesStack)
-		return false;
+		return -1;
 	if (startNode == targetNode)
-	{
-		waypointNodesStack->push(startNode);
-		return true;
-	}
+		return 0.f;
 	if (!_alreadyTraversedWaypointNodesStack)
 		_alreadyTraversedWaypointNodesStack = &std::vector<WaypointNode*>();
 
 	// Check if this node was already traversed to avoid infinite recursive calls
 	for (WaypointNode *node : *_alreadyTraversedWaypointNodesStack)
 		if (node == startNode)
-			return false;
+			return -1;
 	_alreadyTraversedWaypointNodesStack->push_back(startNode);
 
+	std::map<WaypointNode*, vec_t> distances;
 	for (WaypointNode *node : *startNode->GetConnectedNodes())
-		if (GetWaypointNodeStackToTargetNode(node, targetNode, waypointNodesStack, _alreadyTraversedWaypointNodesStack))
-		{
-			waypointNodesStack->push(startNode);
-			return true;
-		}
+	{
+		vec_t distance = GetShortestWaypointNodeRouteToTargetNode(node, targetNode,
+			waypointNodesStack, _alreadyTraversedWaypointNodesStack);
+		// Distance under 0 = no connetion to target node
+		// Distance of 0 = Target Node
+		if (distance >= 0.f)
+			distances.insert(std::make_pair(node, distance));
+	}
 
-	return false;
+	if (!distances.empty())
+	{
+		/* Return path with shortest distance */
+		WaypointNode *closestDistanceNode = nullptr;
+		vec_t closestDistance = 99999999;
+		for (auto const& pair : distances)
+			if (pair.second /* distance */ < closestDistance)
+			{
+				closestDistanceNode = pair.first /* node */;
+				closestDistance = pair.second;
+			}
+
+		waypointNodesStack->push(closestDistanceNode);
+		return closestDistance + closestDistanceNode->Pos.DistTo(startNode->Pos);
+	}
+
+	return -1;
 }
 
 /// Debug
@@ -187,7 +205,7 @@ CON_COMMAND(pongbot_waypoint_createnode, "Creates a waypoint node wherever the f
 	if (playerInfo)
 	{
 		uint8_t id = _WaypointNodes.size();
-		if (id == 256) // Above max size of 8 bit (255)
+		if (id >= 256) // Above max size of 8 bit (255)
 			Util::Log("Max amount of waypoint nodes reached (255)!");
 		else
 		{
@@ -304,4 +322,19 @@ CON_COMMAND(pongbot_waypoint_debug, "Toggle beams to visualize nodes & their con
 		Util::Log("Waypoint Debugging enabled!");
 	else
 		Util::Log("Waypoint Debugging disabled!");
+}
+
+CON_COMMAND(pongbot_waypoint_getnodeid, "Outputs ID of closest node")
+{
+	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
+	if (playerInfo)
+	{
+		WaypointNode *node = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
+		if (!node)
+			Util::Log("No waypoint node found!");
+		else
+		{
+			Util::Log("Node ID: %d", node->Id);
+		}
+	}
 }

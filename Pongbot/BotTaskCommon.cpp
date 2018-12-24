@@ -132,7 +132,7 @@ void BotTaskCommon::_UpdateNewWaypointNodeStack()
 		if (!targetNode)
 			targetNode = _WaypointManager->GetRandomWaypointNode();
 
-		_WaypointManager->GetWaypointNodeStackToTargetNode(_ClosestWaypointNode,
+		_WaypointManager->GetShortestWaypointNodeRouteToTargetNode(_ClosestWaypointNode,
 			targetNode, &_WaypointNodeStack);
 	}
 }
