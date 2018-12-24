@@ -16,7 +16,6 @@ extern WaypointManager *_WaypointManager;
 Vector _LastPos;
 unsigned int _PosStuckTime;
 std::stack<WaypointNode*> _WaypointNodeStack;
-WaypointNode *_ClosestWaypointNode;
 
 BotTaskCommon::BotTaskCommon(Bot *bot) : BotTask(bot)
 {}
@@ -54,7 +53,6 @@ void BotTaskCommon::_DoMovement(int *&pressedButtons, Vector2D *&movement)
 	{
 		_PosStuckTime = 0;
 		_LastPos = currentPos;
-		_UpdateClosestWaypointNode();
 	}
 
 	if (_WaypointNodeStack.empty())
@@ -100,30 +98,30 @@ void BotTaskCommon::_DoLooking(int *&pressedButtons, QAngle *&lookAt)
 
 void BotTaskCommon::_UpdateNewWaypointNodeStack()
 {
-	if (!_ClosestWaypointNode)
-		_UpdateClosestWaypointNode();
-	if (_ClosestWaypointNode) // If still nullptr, no waypoint nodes exist
+	WaypointNode *closestNode = _WaypointManager->GetClosestWaypointNode(_LastPos);
+	if (closestNode)
 	{
 		_WaypointNodeStack = std::stack<WaypointNode*>();
-
-		std::vector<edict_t*> itemFlags = _EntityProvider->SearchEdictsByClassname("item_teamflag");
 		WaypointNode *targetNode = nullptr;
-		if (itemFlags.size() > 0)
+
+		/* CTF */
+		std::vector<edict_t*> itemFlags = _EntityProvider->SearchEdictsByClassname("item_teamflag");
+		if (!itemFlags.empty())
 		{
-			/* CTF stuff */
 			/* TODO: Waypoint Node Flags (way less expensive than getting closest node every time!!!) */
 			Bot *bot = _GetBot();
 			edict_t *allyFlag = nullptr;
 			edict_t *enemyFlag = nullptr;
 			for (edict_t *itemFlag : itemFlags)
 			{
-				if (_EntityDataProvider->GetDataFromEdict<int>(itemFlags[1], EntityDataType::TEAM) == bot->GetTeam())
+				if (_EntityDataProvider->GetDataFromEdict<int>(itemFlag, EntityDataType::TEAM) == bot->GetTeam())
 					allyFlag = itemFlag;
 				else
 					enemyFlag = itemFlag;
 			}
 
-			if (allyFlag && _EntityDataProvider->GetDataFromEdict<bool>(bot->GetEdict(), TF2_ISCARRYINGOBJ))
+			Util::Log("%d", _EntityDataProvider->GetDataFromEdict<int>(bot->GetEdict(), TF2_ISCARRYINGOBJ));
+			if (allyFlag && _EntityDataProvider->GetDataFromEdict<int>(bot->GetEdict(), TF2_ISCARRYINGOBJ))
 				targetNode = _WaypointManager->GetClosestWaypointNode(Util::GetEdictOrigin(allyFlag));
 			else if (enemyFlag)
 				targetNode = _WaypointManager->GetClosestWaypointNode(Util::GetEdictOrigin(enemyFlag));
@@ -132,12 +130,6 @@ void BotTaskCommon::_UpdateNewWaypointNodeStack()
 		if (!targetNode)
 			targetNode = _WaypointManager->GetRandomWaypointNode();
 
-		_WaypointManager->GetShortestWaypointNodeRouteToTargetNode(_ClosestWaypointNode,
-			targetNode, &_WaypointNodeStack);
+		_WaypointManager->GetShortestWaypointNodeRouteToTargetNode(closestNode, targetNode, &_WaypointNodeStack);
 	}
-}
-
-void BotTaskCommon::_UpdateClosestWaypointNode()
-{
-	_ClosestWaypointNode = _WaypointManager->GetClosestWaypointNode(_LastPos);
 }

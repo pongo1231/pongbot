@@ -285,6 +285,9 @@ CON_COMMAND(pongbot_waypoint_clearnode, "Removes the nearest node")
 			Util::Log("No waypoint node found!");
 		else
 		{
+			// IMPORTANT TODO: Also remove from other nodes' connected lists
+			// Otherwise there will be issues when saving!!!
+			
 			// Delete from list first before deleting completely
 			for (uint8_t i = 0; i < _WaypointNodes.size(); i++)
 				if (_WaypointNodes[i] == node) 

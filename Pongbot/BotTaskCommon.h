@@ -16,10 +16,8 @@ private:
 	Vector _LastPos;
 	unsigned int _PosStuckTime;
 	std::stack<WaypointNode*> _WaypointNodeStack;
-	WaypointNode *_ClosestWaypointNode;
 
 	void _DoMovement(int *&pressedButtons, Vector2D *&movement);
 	void _DoLooking(int *&pressedButtons, QAngle *&lookAt);
 	void _UpdateNewWaypointNodeStack();
-	void _UpdateClosestWaypointNode();
 };
