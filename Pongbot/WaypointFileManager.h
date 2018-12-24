@@ -1,6 +1,5 @@
 #pragma once
 #include "IConVarBase.h"
-#include <iostream>
 #include <vector>
 
 class WaypointNode;

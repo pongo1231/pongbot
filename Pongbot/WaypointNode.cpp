@@ -7,21 +7,9 @@ std::vector<WaypointNode*> _ConnectedNodes;
 WaypointNode::WaypointNode(uint8_t id, Vector pos) : Id(id), Pos(pos)
 {}
 
-WaypointNode::~WaypointNode()
+std::vector<WaypointNode*> WaypointNode::GetConnectedNodes() const
 {
-	// Remove all connections to this node on delete
-	for (WaypointNode *connectedNode : _ConnectedNodes)
-	{
-		std::vector<WaypointNode*> *connectedNodeConnectedNodes = connectedNode->GetConnectedNodes();
-		for (uint8_t i = 0; i < connectedNodeConnectedNodes->size(); i++)
-			if ((*connectedNodeConnectedNodes)[i] == this)
-				connectedNodeConnectedNodes->erase(connectedNodeConnectedNodes->begin() + i);
-	}
-}
-
-std::vector<WaypointNode*> *WaypointNode::GetConnectedNodes()
-{
-	return &_ConnectedNodes;
+	return _ConnectedNodes;
 }
 
 bool WaypointNode::ConnectToNode(WaypointNode *node, bool bidirectional)
@@ -38,7 +26,7 @@ bool WaypointNode::ConnectToNode(WaypointNode *node, bool bidirectional)
 	if (bidirectional)
 	{
 		// Also check if already connected on other node
-		for (WaypointNode *connectedNode : *node->GetConnectedNodes())
+		for (WaypointNode *connectedNode : node->GetConnectedNodes())
 			if (connectedNode == this)
 				return true; // This node connected to other node successfully previously so just return true anyways
 		node->ConnectToNode(this);
@@ -56,4 +44,20 @@ bool WaypointNode::IsConnectedToNode(WaypointNode *node, bool directly)
 			if (connectedNode == node || (!directly && connectedNode->IsConnectedToNode(node, directly)))
 				return true;
 	return false;
+}
+
+void WaypointNode::UnconnectNode(WaypointNode *node, bool bidirectional)
+{
+	if (bidirectional)
+		node->UnconnectNode(this);
+
+	for (uint8_t i = 0; i < _ConnectedNodes.size(); i++)
+		if (_ConnectedNodes[i] == node)
+			_ConnectedNodes.erase(_ConnectedNodes.begin() + i);
+}
+
+void WaypointNode::UnconnectAllNodes(bool bidirectional)
+{
+	for (WaypointNode *node : _ConnectedNodes)
+		UnconnectNode(node, bidirectional);
 }

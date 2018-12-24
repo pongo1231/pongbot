@@ -4,6 +4,9 @@
 #include "WaypointFileManager.h"
 #include <metamod/ISmmPlugin.h>
 #include <metamod/sourcehook.h>
+#include <hlsdk/public/mathlib/mathlib.h>
+#include <hlsdk/public/edict.h>
+#include <hlsdk/public/game/server/iplayerinfo.h>
 #include <map>
 
 #define WAYPOINT_NODE_BEAM_TICK .5f
@@ -25,9 +28,7 @@ WaypointManager::WaypointManager()
 void WaypointManager::Init()
 {
 	Assert(!_WaypointManager);
-
 	_WaypointNodes.clear();
-
 	WaypointFileManager::Init(&_WaypointNodes);
 
 	_SelectedNode = nullptr;
@@ -39,7 +40,6 @@ void WaypointManager::Init()
 void WaypointManager::Destroy()
 {
 	Assert(_WaypointManager);
-
 	WaypointFileManager::Destroy();
 
 	for (uint8_t i = 0; i < _WaypointNodes.size(); i++)
@@ -47,7 +47,6 @@ void WaypointManager::Destroy()
 		delete _WaypointNodes[i];
 		_WaypointNodes.erase(_WaypointNodes.begin() + i);
 	}
-
 	delete _WaypointManager;
 }
 
@@ -96,7 +95,7 @@ vec_t WaypointManager::GetShortestWaypointNodeRouteToTargetNode(WaypointNode *st
 	_alreadyTraversedWaypointNodesStack->push_back(startNode);
 
 	std::map<WaypointNode*, vec_t> distances;
-	for (WaypointNode *node : *startNode->GetConnectedNodes())
+	for (WaypointNode *node : startNode->GetConnectedNodes())
 	{
 		vec_t distance = GetShortestWaypointNodeRouteToTargetNode(node, targetNode,
 			waypointNodesStack, _alreadyTraversedWaypointNodesStack);
@@ -160,7 +159,7 @@ void WaypointManager::OnGameFrame()
 				{
 					Vector endPos = startPos + Vector(0.f, 0.f, 75.f);
 					Util::DrawBeam(startPos, endPos, 0, 255, 0, WAYPOINT_NODE_BEAM_TICK);
-					for (WaypointNode *connectedNode : *node->GetConnectedNodes())
+					for (WaypointNode *connectedNode : node->GetConnectedNodes())
 					{
 						Util::DrawBeam(endPos, connectedNode->Pos, 255, 255, 255, WAYPOINT_NODE_BEAM_TICK);
 
@@ -204,14 +203,25 @@ CON_COMMAND(pongbot_waypoint_createnode, "Creates a waypoint node wherever the f
 	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
 	if (playerInfo)
 	{
-		uint8_t id = _WaypointNodes.size();
-		if (id >= 256) // Above max size of 8 bit (255)
-			Util::Log("Max amount of waypoint nodes reached (255)!");
-		else
+		// Check for first empty id
+		for (uint8_t id = 0; id < 256; id++)
 		{
-			_WaypointNodes.push_back(new WaypointNode(id, playerInfo->GetAbsOrigin()));
+			bool isIdFree = true;
+			for (WaypointNode *node : _WaypointNodes)
+				if (node->Id == id)
+				{
+					isIdFree = false;
+					break;
+				}
 
-			Util::Log("Created waypoint node #%d", id);
+			if (isIdFree)
+			{
+				_WaypointNodes.push_back(new WaypointNode(id, playerInfo->GetAbsOrigin()));
+				Util::Log("Created waypoint node #%d", id);
+				break;
+			}
+			else if (id == 255 && !isIdFree)
+				Util::Log("Max amount of waypoint nodes reached (255)!");
 		}
 	}
 }
@@ -285,21 +295,29 @@ CON_COMMAND(pongbot_waypoint_clearnode, "Removes the nearest node")
 			Util::Log("No waypoint node found!");
 		else
 		{
-			// IMPORTANT TODO: Also remove from other nodes' connected lists
-			// Otherwise there will be issues when saving!!!
-			
-			// Delete from list first before deleting completely
+			// Delete from other nodes' connections and save target node's pos
+			uint8_t nodeIndex = 0;
 			for (uint8_t i = 0; i < _WaypointNodes.size(); i++)
-				if (_WaypointNodes[i] == node) 
-					_WaypointNodes.erase(_WaypointNodes.begin() + i);
+			{
+				WaypointNode *listNode = _WaypointNodes[i];
+				if (listNode == node)
+					nodeIndex = i;
+				else
+					listNode->UnconnectNode(node);
+			}
+			
+			// Delete from nodes list
+			_WaypointNodes.erase(_WaypointNodes.begin() + nodeIndex);
+
+			uint8_t nodeId = node->Id;
 			delete node;
 
-			Util::Log("Removed nearest node!");
+			Util::Log("Cleared nearest node #%d!", nodeId);
 		}
 	}
 }
 
-CON_COMMAND(pongbot_waypoint_clearnodeto, "Clears all connections to other nodes from node")
+CON_COMMAND(pongbot_waypoint_clearnodeconnections, "Clears all connections of node")
 {
 	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
 	if (playerInfo)
@@ -309,10 +327,7 @@ CON_COMMAND(pongbot_waypoint_clearnodeto, "Clears all connections to other nodes
 			Util::Log("No waypoint node found!");
 		else
 		{
-			std::vector<WaypointNode*> *connectedNodes = node->GetConnectedNodes();
-			for (uint8_t i = 0; i < connectedNodes->size(); i++)
-				connectedNodes->erase(connectedNodes->begin() + i);
-
+			node->UnconnectAllNodes(true);
 			Util::Log("Cleared node connections of closest node!");
 		}
 	}

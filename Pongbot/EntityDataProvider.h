@@ -1,7 +1,12 @@
 #pragma once
-#include "EntityDataType.h"
-#include "EntityData.h"
 #include <hlsdk/public/edict.h>
+#include <map>
+
+enum EntityDataType
+{
+	TEAM,
+	FLAG_OWNER
+};
 
 class EntityDataProvider
 {
@@ -15,15 +20,14 @@ public:
 	template<typename T>
 	T GetDataFromEdict(edict_t *edict, EntityDataType dataType)
 	{
-		int offset = _EntityDatas[dataType].GetOffset();
-		if (offset == 0)
-			return 0;
-
-		return (T) *((char*) edict->GetUnknown()->GetBaseEntity() + _EntityDatas[dataType].GetOffset());
+		return (T) *((char*) edict->GetUnknown()->GetBaseEntity() + _EntityOffsets[dataType]);
 	}
 
 private:
-	EntityData _EntityDatas[EntityDataType::ENUM_SIZE];
+	std::map<EntityDataType, unsigned int> _EntityOffsets = {
+		{TEAM, 516},
+		{FLAG_OWNER, 1648}
+	};
 };
 
 extern EntityDataProvider *_EntityDataProvider;

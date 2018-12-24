@@ -4,7 +4,6 @@
 #include <metamod/ISmmAPI.h>
 #include <metamod/sourcehook.h>
 #include <windows.h>
-#include <iostream>
 #include <fstream>
 
 #define FILE_DIR "tf/addons/pongbot/waypoints/"
@@ -58,8 +57,9 @@ void WaypointFileManager::Read()
 		std::ifstream file(fileName);
 		char fileBuffer[512];
 		int connectedNodeIds[256][256];
-		// Fill with -1 to not confuse with node id 0 instead
+		// Fill connectedNodeIds with -1 to not confuse with node id 0 instead
 		memset(connectedNodeIds, -1, sizeof(connectedNodeIds));
+
 		uint8_t i = 0;
 		while (file.getline(fileBuffer, sizeof(fileBuffer)))
 		{
@@ -115,13 +115,14 @@ void WaypointFileManager::Write()
 			Vector pos = node->Pos;
 			file << node->Id << ":" << pos.x << ":" << pos.y << ":"
 				<< pos.z;
+
 			// Also write IDs of saved nodes to file too
-			for (WaypointNode *connectedNode : *node->GetConnectedNodes())
-				// Don't write previously deleted nodes though
-				if (connectedNode)
-					file << ":" << connectedNode->Id;
+			for (WaypointNode *connectedNode : node->GetConnectedNodes())
+				file << ":" << connectedNode->Id;
+
 			file << ":end" << std::endl;
 		}
+
 		file.close();
 		Util::Log("Waypoint saved!");
 	}
@@ -144,6 +145,7 @@ bool WaypointFileManager::_CheckDir(char *fileName) {
 	char _fileName[64];
 	sprintf_s(_fileName, "%s%s.%s", FILE_DIR, _CurrentMapName, FILE_EXTENSION);
 	strcpy(fileName, _fileName);
+
 	return true;
 }
 
@@ -152,6 +154,7 @@ bool WaypointFileManager::_OnLevelInit(const char *pMapName, char const *pMapEnt
 {
 	strcpy(_CurrentMapName, pMapName);
 	_WaypointFileManager->Read();
+
 	return true;
 }
 

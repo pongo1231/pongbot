@@ -114,14 +114,13 @@ void BotTaskCommon::_UpdateNewWaypointNodeStack()
 			edict_t *enemyFlag = nullptr;
 			for (edict_t *itemFlag : itemFlags)
 			{
-				if (_EntityDataProvider->GetDataFromEdict<int>(itemFlag, EntityDataType::TEAM) == bot->GetTeam())
+				if (_EntityDataProvider->GetDataFromEdict<int>(itemFlag, TEAM) == bot->GetTeam())
 					allyFlag = itemFlag;
 				else
 					enemyFlag = itemFlag;
 			}
 
-			Util::Log("%d", _EntityDataProvider->GetDataFromEdict<int>(bot->GetEdict(), TF2_ISCARRYINGOBJ));
-			if (allyFlag && _EntityDataProvider->GetDataFromEdict<int>(bot->GetEdict(), TF2_ISCARRYINGOBJ))
+			if (allyFlag && _EntityDataProvider->GetDataFromEdict<int>(enemyFlag, FLAG_OWNER) != -1)
 				targetNode = _WaypointManager->GetClosestWaypointNode(Util::GetEdictOrigin(allyFlag));
 			else if (enemyFlag)
 				targetNode = _WaypointManager->GetClosestWaypointNode(Util::GetEdictOrigin(enemyFlag));

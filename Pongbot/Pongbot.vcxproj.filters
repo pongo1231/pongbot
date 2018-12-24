@@ -139,8 +139,8 @@
     <ClCompile Include="EntityDataProvider.cpp">
       <Filter>src\TF2Util\EntityData</Filter>
     </ClCompile>
-    <ClCompile Include="EntityData.cpp">
-      <Filter>src\TF2Util\EntityData</Filter>
+    <ClCompile Include="DebugCommands.cpp">
+      <Filter>src\TF2Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -243,13 +243,7 @@
     <ClInclude Include="IGameFramable.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="EntityDataType.h">
-      <Filter>src\TF2Util\EntityData</Filter>
-    </ClInclude>
     <ClInclude Include="EntityDataProvider.h">
-      <Filter>src\TF2Util\EntityData</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityData.h">
       <Filter>src\TF2Util\EntityData</Filter>
     </ClInclude>
   </ItemGroup>

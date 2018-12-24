@@ -20,9 +20,7 @@ BotManager::BotManager()
 void BotManager::Init()
 {
 	Assert(!_BotManager);
-
 	_Bots.clear();
-
 	BotVisiblesProvider::Init();
 
 	_BotManager = new BotManager();
@@ -31,11 +29,9 @@ void BotManager::Init()
 void BotManager::Destroy()
 {
 	Assert(_BotManager);
-
 	BotVisiblesProvider::Destroy();
 
 	_BotManager->KickAllBots();
-
 	delete _BotManager;
 }
 
