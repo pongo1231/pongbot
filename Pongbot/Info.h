@@ -8,5 +8,5 @@ namespace Info
 	const char *URL = "None"; // ...yet
 	const char *License = "AGPLv3";
 	const char *Version = "v0.0.5";
-	const char *Date = "x";
+	const char *Date = "24/12/18";
 }
