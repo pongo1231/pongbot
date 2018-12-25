@@ -136,11 +136,14 @@
     <ClCompile Include="IGameFramable.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="EntityDataProvider.cpp">
-      <Filter>src\TF2Util\EntityData</Filter>
-    </ClCompile>
     <ClCompile Include="DebugCommands.cpp">
       <Filter>src\TF2Util</Filter>
+    </ClCompile>
+    <ClCompile Include="WaypointNodeFlagsProvider.cpp">
+      <Filter>src\Waypoint</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityDataProvider.cpp">
+      <Filter>src\TF2Util\EntityData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -246,7 +249,10 @@
     <ClInclude Include="EntityDataProvider.h">
       <Filter>src\TF2Util\EntityData</Filter>
     </ClInclude>
-    <ClInclude Include="WaypointNodeFlags.h">
+    <ClInclude Include="WaypointNodeFlagsProvider.h">
+      <Filter>src\Waypoint</Filter>
+    </ClInclude>
+    <ClInclude Include="WaypointNodeFlagTypes.h">
       <Filter>src\Waypoint</Filter>
     </ClInclude>
   </ItemGroup>

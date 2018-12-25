@@ -20,7 +20,7 @@ public:
 	template<typename T>
 	T GetDataFromEdict(edict_t *edict, EntityDataType dataType)
 	{
-		return (T) *((char*) edict->GetUnknown()->GetBaseEntity() + _EntityOffsets[dataType]);
+		return (T) *((char*) edict->GetUnknown()->GetBaseEntity() + _EntityOffsets.at(dataType));
 	}
 
 private:

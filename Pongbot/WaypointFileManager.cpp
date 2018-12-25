@@ -114,13 +114,13 @@ void WaypointFileManager::Write()
 		for (WaypointNode *node : *_WaypointNodes)
 		{
 			Vector pos = node->Pos;
-			file << (int) node->Id << ":" << pos.x << ":" << pos.y << ":" << pos.z << ":" << node->Flags;
+			file << node->Id << ":" << pos.x << ":" << pos.y << ":" << pos.z << ":" << node->Flags;
 
 			// Also write IDs of saved nodes to file too
 			for (WaypointNode *connectedNode : node->GetConnectedNodes())
 				file << ":" << connectedNode->Id;
 
-			file << "\\" << std::endl;
+			file << ":\\" << std::endl;
 		}
 
 		file.close();

@@ -25,12 +25,12 @@ namespace Util
 
 	void Log(const char *text, ...)
 	{
-		char userText[128], prefixedText[140];
+		char userText[512], prefixedText[524];
 		va_list args;
 		va_start(args, text);
-		vsnprintf_s(userText, sizeof(userText), text, args);
+		vsnprintf(userText, sizeof(userText), text, args);
 		va_end(args);
-		sprintf_s(prefixedText, "[Pongbot] %s\n", userText);
+		sprintf(prefixedText, "[Pongbot] %s\n", userText);
 		g_SMAPI->ConPrintf(prefixedText);
 	}
 

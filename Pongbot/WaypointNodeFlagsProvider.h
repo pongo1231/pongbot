@@ -1,0 +1,37 @@
+#pragma once
+#include "WaypointNodeFlagTypes.h"
+#include <map>
+
+struct WaypointNodeFlagInfo
+{
+	WaypointNodeFlagInfo(const char *name, const char *desc) : Name(name), Desc(desc)
+	{}
+
+	const char *Name;
+	const char *Desc;
+};
+
+class WaypointNodeFlagsProvider
+{
+private:
+	WaypointNodeFlagsProvider();
+
+public:
+	static void Init();
+	static void Destroy();
+
+	std::map<WaypointNodeFlagType, WaypointNodeFlagInfo> GetAllNodeFlags() const;
+	WaypointNodeFlagInfo GetInfoOfFlagType(WaypointNodeFlagType flagType) const;
+
+private:
+	std::map<WaypointNodeFlagType, WaypointNodeFlagInfo> _WaypointNodeFlags =
+	{
+		{SPAWN_RED, WaypointNodeFlagInfo("SPAWN_RED", "Inside red spawn zone")},
+		{SPAWN_BLUE, WaypointNodeFlagInfo("SPAWN_BLUE", "Inside blue spawn zone")},
+		{ITEMFLAG, WaypointNodeFlagInfo("ITEMFLAG", "CTF Flag spawns here")},
+		{HEALTH, WaypointNodeFlagInfo("HEALTH", "Health Pack spawns here")},
+		{AMMO, WaypointNodeFlagInfo("AMMO", "Ammo Pack spawns here")},
+	};
+};
+
+extern WaypointNodeFlagsProvider *_WaypointNodeFlagsProvider;

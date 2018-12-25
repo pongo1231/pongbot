@@ -163,9 +163,9 @@
     <ClCompile Include="BotVisibles.cpp" />
     <ClCompile Include="BotVisiblesProvider.cpp" />
     <ClCompile Include="DebugCommands.cpp" />
+    <ClCompile Include="EntityDataProvider.cpp" />
     <ClCompile Include="IConVarBase.cpp" />
     <ClCompile Include="EntityProvider.cpp" />
-    <ClCompile Include="EntityDataProvider.cpp" />
     <ClCompile Include="IGameFramable.cpp" />
     <ClCompile Include="BotTaskCommon.cpp" />
     <ClCompile Include="TF2Util.cpp" />
@@ -173,6 +173,7 @@
     <ClCompile Include="WaypointFileManager.cpp" />
     <ClCompile Include="WaypointManager.cpp" />
     <ClCompile Include="WaypointNode.cpp" />
+    <ClCompile Include="WaypointNodeFlagsProvider.cpp" />
     <ClInclude Include="BotTaskCollection.h" />
     <ClInclude Include="BotTaskMaster.h" />
     <ClInclude Include="BotTaskMasterCollection.h" />
@@ -205,7 +206,8 @@
     <ClInclude Include="WaypointFileManager.h" />
     <ClInclude Include="WaypointManager.h" />
     <ClInclude Include="WaypointNode.h" />
-    <ClInclude Include="WaypointNodeFlags.h" />
+    <ClInclude Include="WaypointNodeFlagTypes.h" />
+    <ClInclude Include="WaypointNodeFlagsProvider.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bot.h" />

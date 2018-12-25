@@ -1,6 +1,6 @@
 #pragma once
 
-enum WaypointNodeFlags
+enum WaypointNodeFlagType
 {
 	SPAWN_RED = 1,
 	SPAWN_BLUE = 2,

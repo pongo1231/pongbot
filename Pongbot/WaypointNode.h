@@ -9,7 +9,7 @@ public:
 	WaypointNode(uint8_t id, Vector pos);
 
 public:
-	const uint8_t Id;
+	const unsigned int Id;
 	const Vector Pos;
 	unsigned int Flags;
 

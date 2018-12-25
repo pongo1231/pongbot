@@ -2,6 +2,7 @@
 #include "Util.h"
 #include "WaypointNode.h"
 #include "WaypointFileManager.h"
+#include "WaypointNodeFlagsProvider.h"
 #include <metamod/ISmmPlugin.h>
 #include <metamod/sourcehook.h>
 #include <hlsdk/public/mathlib/mathlib.h>
@@ -156,7 +157,7 @@ void WaypointManager::OnGameFrame()
 				if (startPos.DistTo(Util::GetEdictOrigin(edict)) <= WAYPOINT_NODE_BEAM_DRAWDIST)
 				{
 					Vector endPos = startPos + Vector(0.f, 0.f, 75.f);
-					Util::DrawBeam(startPos, endPos, 0, 255, 0, WAYPOINT_NODE_BEAM_TICK);
+					Util::DrawBeam(startPos, endPos, node->Flags != 0 ? 255 : 0, 255, 0, WAYPOINT_NODE_BEAM_TICK);
 					for (WaypointNode *connectedNode : node->GetConnectedNodes())
 					{
 						Util::DrawBeam(endPos, connectedNode->Pos, 255, 255, 255, WAYPOINT_NODE_BEAM_TICK);
@@ -171,7 +172,8 @@ void WaypointManager::OnGameFrame()
 						if (!alreadyDrawn)
 						{
 							startPos = connectedNode->Pos;
-							Util::DrawBeam(startPos, startPos + Vector(0.f, 0.f, 75.f), 0, 255, 0, WAYPOINT_NODE_BEAM_TICK);
+							Util::DrawBeam(startPos, startPos + Vector(0.f, 0.f, 75.f),
+								connectedNode->Flags != 0 ? 255 : 0, 255, 0, WAYPOINT_NODE_BEAM_TICK);
 
 							drawnNodes.push_back(node);
 						}
@@ -351,6 +353,101 @@ CON_COMMAND(pongbot_waypoint_getnodeid, "Outputs ID of closest node")
 		else
 		{
 			Util::Log("Node ID: %d", node->Id);
+		}
+	}
+}
+
+CON_COMMAND(pongbot_waypoint_togglenodeflag, "Adds/Removes a flag to a waypoint node")
+{
+	std::map<WaypointNodeFlagType, WaypointNodeFlagInfo> nodeFlags = _WaypointNodeFlagsProvider->GetAllNodeFlags();
+	const char *flagName = args[1];
+	if (strcmp(flagName, "") == 0)
+	{
+		char buffer[512] = "Possible flags: ";
+		for (auto const &pair : nodeFlags)
+		{
+			WaypointNodeFlagInfo info = pair.second;
+			char flagInfoBuffer[128];
+			sprintf(flagInfoBuffer, "\n%s - %s", info.Name, info.Desc);
+			strcat(buffer, flagInfoBuffer);
+		}
+		Util::Log(buffer);
+	}
+	else
+	{
+		IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
+		if (playerInfo)
+		{
+			WaypointNode *node = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
+			if (!node)
+				Util::Log("No waypoint node found!");
+			else
+			{
+				bool validFlag = false;
+				bool flagRemoved = false;
+				for (auto const &pair : nodeFlags)
+				{
+					WaypointNodeFlagInfo info = pair.second;
+					if (strcmpi(flagName, info.Name) == 0)
+					{
+						int flag = pair.first;
+						if (node->Flags & flag)
+						{
+							node->Flags &= ~flag;
+							flagRemoved = true;
+						}
+						else
+							node->Flags |= flag;
+						validFlag = true;
+						break;
+					}
+				}
+
+				if (validFlag)
+					Util::Log(flagRemoved ? "Removed flag from node #%d" : "Added flag to node #%d", node->Id);
+				else
+					Util::Log("Invalid flag!");
+			}
+		}
+	}
+}
+
+CON_COMMAND(pongbot_waypoint_getnodeflags, "Outputs all flags of a waypoint node")
+{
+	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
+	if (playerInfo)
+	{
+		WaypointNode *node = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
+		if (!node)
+			Util::Log("No waypoint node found!");
+		else
+		{
+			char buffer[512];
+			sprintf(buffer, "Node #%d has following flags:", node->Id);
+			for (auto const &pair : _WaypointNodeFlagsProvider->GetAllNodeFlags())
+				if (node->Flags & pair.first)
+				{
+					char flagNameBuffer[32];
+					sprintf(flagNameBuffer, "\n%s", pair.second.Name);
+					strcat(buffer, flagNameBuffer);
+				}
+			Util::Log(buffer);
+		}
+	}
+}
+
+CON_COMMAND(pongbot_waypoint_clearnodeflags, "Clears all flags of a waypoint node")
+{
+	IPlayerInfo *playerInfo = _CheckCommandTargetPlayerExists();
+	if (playerInfo)
+	{
+		WaypointNode *node = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
+		if (!node)
+			Util::Log("No waypoint node found!");
+		else
+		{
+			node->Flags = 0;
+			Util::Log("Cleared flags of node #%d", node->Id);
 		}
 	}
 }
