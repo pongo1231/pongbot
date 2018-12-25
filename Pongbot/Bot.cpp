@@ -6,6 +6,7 @@
 #include "BotTaskMasterCollection.h"
 #include "TFTeam.h"
 #include "TFClass.h"
+#include "EntityDataProvider.h"
 #include <metamod/ISmmPlugin.h>
 #include <string>
 
@@ -34,7 +35,19 @@ Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
 	_BotVisibles = new BotVisibles(this);
 	_IsDead = false;
 
-	_IIPlayerInfo->ChangeTeam(2);
+	// Join team with least players or red team if both equal
+	uint8_t red = 0;
+	uint8_t blue = 0;
+	for (edict_t *edict : Util::GetAllPlayers())
+	{
+		TFTeam team = _EntityDataProvider->GetDataFromEdict<TFTeam>(edict, TEAM);
+		if (team == RED)
+			red++;
+		else if (team == BLUE)
+			blue++;
+	}
+	_IIPlayerInfo->ChangeTeam(blue < red ? BLUE : RED);
+
 	_RandomClass();
 }
 

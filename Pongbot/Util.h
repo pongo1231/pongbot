@@ -13,7 +13,7 @@ namespace Util
 	void Log(const char *text, ...);
 	float DistanceToNoZ(Vector a, Vector b);
 	void DrawBeam(Vector startPos, Vector endPos, uint8_t r, uint8_t g, uint8_t b, float lifeTime);
-	std::vector<IPlayerInfo*> GetAllPlayers();
+	std::vector<edict_t*> GetAllPlayers();
 	Vector GetEdictOrigin(edict_t *edict);
 
 	QAngle GetLookAtAngleForPos(Bot *bot, Vector lookAtPos);

@@ -45,15 +45,14 @@ namespace Util
 			0, 0, 1, lifeTime, 1, 1, 255, 1, r, g, b, 255, 10);
 	}
 
-	std::vector<IPlayerInfo*> GetAllPlayers()
+	std::vector<edict_t*> GetAllPlayers()
 	{
-		std::vector<IPlayerInfo*> players;
+		std::vector<edict_t*> players;
 		for (uint8_t i = 1; i < 33; i++)
 		{
 			edict_t *edict = Engine->PEntityOfEntIndex(i);
-			IPlayerInfo *playerInfo = IIPlayerInfoManager->GetPlayerInfo(edict);
-			if (edict && playerInfo && playerInfo->IsPlayer())
-				players.push_back(playerInfo);
+			if (edict && strcmp(edict->GetClassName(), "player") == 0)
+				players.push_back(edict);
 		}
 
 		return players;
