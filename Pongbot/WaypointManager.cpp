@@ -137,10 +137,8 @@ void WaypointManager::OnGameFrame()
 		return;
 	tickTime = currentTime + WAYPOINT_NODE_BEAM_TICK;
 
-	edict_t *drawPlayerEdict = Engine->PEntityOfEntIndex(1);
-	IPlayerInfo *drawPlayerInfo = IIPlayerInfoManager->GetPlayerInfo(drawPlayerEdict);
-	Vector playerPos = drawPlayerInfo->GetAbsOrigin();
-	if (drawPlayerEdict && drawPlayerInfo && drawPlayerInfo->IsPlayer())
+	edict_t *edict = Engine->PEntityOfEntIndex(1);
+	if (edict && strcmp(edict->GetClassName(), "player") == 0)
 	{
 		std::vector<WaypointNode*> drawnNodes;
 		for (WaypointNode *node : _WaypointNodes)
@@ -155,7 +153,7 @@ void WaypointManager::OnGameFrame()
 			if (!alreadyDrawn)
 			{
 				Vector startPos = node->Pos;
-				if (startPos.DistTo(playerPos) <= WAYPOINT_NODE_BEAM_DRAWDIST)
+				if (startPos.DistTo(Util::GetEdictOrigin(edict)) <= WAYPOINT_NODE_BEAM_DRAWDIST)
 				{
 					Vector endPos = startPos + Vector(0.f, 0.f, 75.f);
 					Util::DrawBeam(startPos, endPos, 0, 255, 0, WAYPOINT_NODE_BEAM_TICK);

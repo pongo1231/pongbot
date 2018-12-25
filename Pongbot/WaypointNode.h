@@ -9,8 +9,9 @@ public:
 	WaypointNode(uint8_t id, Vector pos);
 
 public:
-	const unsigned int Id;
+	const uint8_t Id;
 	const Vector Pos;
+	unsigned int Flags;
 
 	std::vector<WaypointNode*> GetConnectedNodes() const;
 	bool ConnectToNode(WaypointNode *node, bool bidirectional = false);

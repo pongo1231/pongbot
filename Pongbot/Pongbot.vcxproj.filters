@@ -246,5 +246,8 @@
     <ClInclude Include="EntityDataProvider.h">
       <Filter>src\TF2Util\EntityData</Filter>
     </ClInclude>
+    <ClInclude Include="WaypointNodeFlags.h">
+      <Filter>src\Waypoint</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

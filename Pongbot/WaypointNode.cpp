@@ -1,7 +1,8 @@
 #include "WaypointNode.h"
 
-const unsigned int Id = 0;
+const uint8_t Id = 0;
 const Vector Pos;
+unsigned int Flags;
 std::vector<WaypointNode*> _ConnectedNodes;
 
 WaypointNode::WaypointNode(uint8_t id, Vector pos) : Id(id), Pos(pos)

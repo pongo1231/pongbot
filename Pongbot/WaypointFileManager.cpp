@@ -71,18 +71,19 @@ void WaypointFileManager::Read()
 				strcpy_s(lineBuffer[j++], token);
 			while ((token = strtok_s(nullptr, ":", &context)) != nullptr);
 
-			_WaypointNodes->push_back(new WaypointNode(atoi(lineBuffer[0]),
-				Vector(atof(lineBuffer[1]), atof(lineBuffer[2]), atof(lineBuffer[3]))));
+			WaypointNode *node = new WaypointNode(atoi(lineBuffer[0]),
+				Vector(atof(lineBuffer[1]), atof(lineBuffer[2]), atof(lineBuffer[3])));
+			node->Flags = atoi(lineBuffer[4]);
+			_WaypointNodes->push_back(node);
 
 			// Store connected node ids for reference
-			for (uint8_t k = 4; k < 256; k++)
+			for (uint8_t k = 5; k < 256; k++)
 			{
 				char *content = lineBuffer[k];
-				// End of file / line
-				if (strcmp(content, "\0") == 0 || strcmp(content, "end") == 0)
+				if (strcmp(content, "\\") == 0)
 					break;
 				else
-					connectedNodeIds[i][k - 4] = atoi(content);
+					connectedNodeIds[i][k - 5] = atoi(content);
 			}
 
 			i++;
@@ -113,14 +114,13 @@ void WaypointFileManager::Write()
 		for (WaypointNode *node : *_WaypointNodes)
 		{
 			Vector pos = node->Pos;
-			file << node->Id << ":" << pos.x << ":" << pos.y << ":"
-				<< pos.z;
+			file << (int) node->Id << ":" << pos.x << ":" << pos.y << ":" << pos.z << ":" << node->Flags;
 
 			// Also write IDs of saved nodes to file too
 			for (WaypointNode *connectedNode : node->GetConnectedNodes())
 				file << ":" << connectedNode->Id;
 
-			file << ":end" << std::endl;
+			file << "\\" << std::endl;
 		}
 
 		file.close();
