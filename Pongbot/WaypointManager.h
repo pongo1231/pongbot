@@ -18,7 +18,7 @@ public:
 	WaypointNode *GetRandomWaypointNode() const;
 	WaypointNode *GetClosestWaypointNode(Vector pos) const;
 	vec_t GetShortestWaypointNodeRouteToTargetNode(WaypointNode *startNode, WaypointNode *targetNode,
-		std::stack<WaypointNode*> *waypointNodesStack,
+		std::stack<WaypointNode*> *waypointNodesStack, unsigned int flagMask = 0,
 		std::vector<WaypointNode*> *_alreadyTraversedWaypointNodesStack = nullptr);
 	void OnGameFrame();
 };

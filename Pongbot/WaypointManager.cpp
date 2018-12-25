@@ -79,14 +79,14 @@ WaypointNode *WaypointManager::GetClosestWaypointNode(Vector pos) const
 }
 
 vec_t WaypointManager::GetShortestWaypointNodeRouteToTargetNode(WaypointNode *startNode,
-	WaypointNode *targetNode, std::stack<WaypointNode*> *waypointNodesStack,
+	WaypointNode *targetNode, std::stack<WaypointNode*> *waypointNodesStack, unsigned int flagMask,
 	std::vector<WaypointNode*> *_alreadyTraversedWaypointNodesStack)
 {
-	if (!startNode || !targetNode || !waypointNodesStack)
+	if (!startNode || !targetNode || !waypointNodesStack || startNode->Flags & flagMask /* Abort if flag is filtered */)
 		return -1;
-	if (startNode == targetNode)
+	else if (startNode == targetNode)
 		return 0.f;
-	if (!_alreadyTraversedWaypointNodesStack)
+	else if (!_alreadyTraversedWaypointNodesStack)
 		_alreadyTraversedWaypointNodesStack = &std::vector<WaypointNode*>();
 
 	// Check if this node was already traversed to avoid infinite recursive calls
@@ -99,7 +99,7 @@ vec_t WaypointManager::GetShortestWaypointNodeRouteToTargetNode(WaypointNode *st
 	for (WaypointNode *node : startNode->GetConnectedNodes())
 	{
 		vec_t distance = GetShortestWaypointNodeRouteToTargetNode(node, targetNode,
-			waypointNodesStack, _alreadyTraversedWaypointNodesStack);
+			waypointNodesStack, flagMask, _alreadyTraversedWaypointNodesStack);
 		// Distance under 0 = no connetion to target node
 		// Distance of 0 = Target Node
 		if (distance >= 0.f)

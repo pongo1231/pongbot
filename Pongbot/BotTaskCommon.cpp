@@ -5,6 +5,8 @@
 #include "BotVisibles.h"
 #include "EntityProvider.h"
 #include "EntityDataProvider.h"
+#include "TFTeam.h"
+#include "WaypointNodeFlagTypes.h"
 
 #define POS_STUCK_RADIUS 1.f
 #define POS_STUCK_STARTPANICTIME 120 // Bot starts crouch jumping
@@ -101,27 +103,30 @@ void BotTaskCommon::_UpdateNewWaypointNodeStack()
 	WaypointNode *closestNode = _WaypointManager->GetClosestWaypointNode(_LastPos);
 	if (closestNode)
 	{
+		Bot *bot = _GetBot();
 		_WaypointNodeStack = std::stack<WaypointNode*>();
 		WaypointNode *targetNode = nullptr;
+		int nodeFlagMask = 0;
 
 		/* CTF */
 		std::vector<edict_t*> itemFlags = _EntityProvider->SearchEdictsByClassname("item_teamflag");
 		if (!itemFlags.empty())
 		{
 			/* TODO: Waypoint Node Flags (way less expensive than getting closest node every time!!!) */
-			Bot *bot = _GetBot();
 			edict_t *allyFlag = nullptr;
 			edict_t *enemyFlag = nullptr;
 			for (edict_t *itemFlag : itemFlags)
-			{
 				if (_EntityDataProvider->GetDataFromEdict<TFTeam>(itemFlag, TEAM) == bot->GetTeam())
 					allyFlag = itemFlag;
 				else
 					enemyFlag = itemFlag;
-			}
 
+			// TODO: Detect if this bot carries the flag
 			if (allyFlag && _EntityDataProvider->GetDataFromEdict<int>(enemyFlag, FLAG_OWNER) != -1)
+			{
 				targetNode = _WaypointManager->GetClosestWaypointNode(Util::GetEdictOrigin(allyFlag));
+				nodeFlagMask |= SPAWN_RED + SPAWN_BLUE;
+			}
 			else if (enemyFlag)
 				targetNode = _WaypointManager->GetClosestWaypointNode(Util::GetEdictOrigin(enemyFlag));
 		}
@@ -129,6 +134,12 @@ void BotTaskCommon::_UpdateNewWaypointNodeStack()
 		if (!targetNode)
 			targetNode = _WaypointManager->GetRandomWaypointNode();
 
-		_WaypointManager->GetShortestWaypointNodeRouteToTargetNode(closestNode, targetNode, &_WaypointNodeStack);
+		if (bot->GetTeam() == RED)
+			nodeFlagMask |= SPAWN_BLUE;
+		else
+			nodeFlagMask |= SPAWN_RED;
+
+		_WaypointManager->GetShortestWaypointNodeRouteToTargetNode(closestNode, targetNode, &_WaypointNodeStack,
+			bot->GetTeam() == RED ? SPAWN_BLUE : SPAWN_RED);
 	}
 }
