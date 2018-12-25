@@ -139,7 +139,7 @@ void BotTaskCommon::_UpdateNewWaypointNodeStack()
 		else
 			nodeFlagMask |= SPAWN_RED;
 
-		_WaypointManager->GetShortestWaypointNodeRouteToTargetNode(closestNode, targetNode, &_WaypointNodeStack,
+		_WaypointManager->GetRandomWaypointNodeRouteToTargetNode(closestNode, targetNode, &_WaypointNodeStack,
 			bot->GetTeam() == RED ? SPAWN_BLUE : SPAWN_RED);
 	}
 }

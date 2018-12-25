@@ -61,6 +61,7 @@ WaypointNode *WaypointManager::GetRandomWaypointNode() const
 
 WaypointNode *WaypointManager::GetClosestWaypointNode(Vector pos) const
 {
+	// TODO: Add option to test visibility to nodes to get closest reachable node
 	WaypointNode *closestNode = nullptr;
 	float closestDistance = 9999.f; // Just something insanely high
 
@@ -123,6 +124,41 @@ vec_t WaypointManager::GetShortestWaypointNodeRouteToTargetNode(WaypointNode *st
 	}
 
 	return -1;
+}
+
+bool WaypointManager::GetRandomWaypointNodeRouteToTargetNode(WaypointNode *startNode,
+	WaypointNode *targetNode, std::stack<WaypointNode*> *waypointNodesStack, unsigned int flagMask,
+	std::vector<WaypointNode*> *_alreadyTraversedWaypointNodesStack)
+{
+	if (!startNode || !targetNode || !waypointNodesStack || startNode->Flags & flagMask /* Abort if flag is filtered */)
+		return false;
+	else if (startNode == targetNode)
+		return true;
+	else if (!_alreadyTraversedWaypointNodesStack)
+		_alreadyTraversedWaypointNodesStack = &std::vector<WaypointNode*>();
+
+	// Check if this node was already traversed to avoid infinite recursive calls
+	for (WaypointNode *node : *_alreadyTraversedWaypointNodesStack)
+		if (node == startNode)
+			return false;
+	_alreadyTraversedWaypointNodesStack->push_back(startNode);
+
+	std::vector<WaypointNode*> connectedNodes = startNode->GetConnectedNodes();
+	while (!connectedNodes.empty())
+	{
+		int randomNodeIndex = Util::RandomInt(0, connectedNodes.size() - 1);
+		WaypointNode *randomNode = connectedNodes[randomNodeIndex];
+		if (GetRandomWaypointNodeRouteToTargetNode(randomNode, targetNode, waypointNodesStack, flagMask,
+			_alreadyTraversedWaypointNodesStack))
+		{
+			waypointNodesStack->push(randomNode);
+			return true;
+		}
+		else
+			connectedNodes.erase(connectedNodes.begin() + randomNodeIndex);
+	}
+
+	return false;
 }
 
 /// Debug
