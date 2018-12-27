@@ -16,12 +16,12 @@ public:
 	static void Destroy();
 
 	WaypointNode *GetRandomWaypointNode() const;
-	WaypointNode *GetClosestWaypointNode(Vector pos) const;
+	WaypointNode *GetClosestWaypointNode(Vector pos, float maxDistance = -1, int nodeFlagWhitelist = 0) const;
 	vec_t GetShortestWaypointNodeRouteToTargetNode(WaypointNode *startNode, WaypointNode *targetNode,
-		std::stack<WaypointNode*> *waypointNodesStack, unsigned int flagMask = 0,
+		std::stack<WaypointNode*> *waypointNodesStack, unsigned int flagBlacklist = 0,
 		std::vector<WaypointNode*> *_alreadyTraversedWaypointNodesStack = nullptr);
 	bool GetRandomWaypointNodeRouteToTargetNode(WaypointNode *startNode, WaypointNode *targetNode,
-		std::stack<WaypointNode*> *waypointNodesStack, unsigned int flagMask = 0,
+		std::stack<WaypointNode*> *waypointNodesStack, unsigned int flagBlacklist = 0,
 		std::vector<WaypointNode*> *_alreadyTraversedWaypointNodesStack = nullptr);
 	void OnGameFrame();
 };

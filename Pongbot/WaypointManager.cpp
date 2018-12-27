@@ -10,7 +10,6 @@
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <map>
 
-#define WAYPOINT_NODE_CLOSEST_MAXDIST 500.f
 #define WAYPOINT_NODE_DEBUG_BEAM_TICK .5f
 #define WAYPOINT_NODE_DEBUG_BEAM_DRAWDIST 1000.f
 
@@ -60,14 +59,14 @@ WaypointNode *WaypointManager::GetRandomWaypointNode() const
 	return _WaypointNodes[Util::RandomInt(0, _WaypointNodes.size() - 1)];
 }
 
-WaypointNode *WaypointManager::GetClosestWaypointNode(Vector pos) const
+WaypointNode *WaypointManager::GetClosestWaypointNode(Vector pos, float maxDistance, int nodeFlagWhitelist) const
 {
 	WaypointNode *closestNode = nullptr;
-	float closestDistance = WAYPOINT_NODE_CLOSEST_MAXDIST;
+	float closestDistance = maxDistance > 0.f ? maxDistance : 9999.f;
 	for (WaypointNode *node : _WaypointNodes)
 	{
 		float distance = node->Pos.DistTo(pos);
-		if (closestDistance > distance)
+		if (closestDistance > distance && (nodeFlagWhitelist == 0 || node->Flags & nodeFlagWhitelist))
 		{
 			closestNode = node;
 			closestDistance = distance;
@@ -78,10 +77,11 @@ WaypointNode *WaypointManager::GetClosestWaypointNode(Vector pos) const
 }
 
 vec_t WaypointManager::GetShortestWaypointNodeRouteToTargetNode(WaypointNode *startNode,
-	WaypointNode *targetNode, std::stack<WaypointNode*> *waypointNodesStack, unsigned int flagMask,
+	WaypointNode *targetNode, std::stack<WaypointNode*> *waypointNodesStack, unsigned int flagBlacklist,
 	std::vector<WaypointNode*> *_alreadyTraversedWaypointNodesStack)
 {
-	if (!startNode || !targetNode || !waypointNodesStack || startNode->Flags & flagMask /* Abort if flag is filtered */)
+	if (!startNode || !targetNode || !waypointNodesStack
+		|| (flagBlacklist != 0 && startNode->Flags & flagBlacklist /* Abort if flag is filtered */))
 		return -1;
 	else if (startNode == targetNode)
 		return 0.f;
@@ -98,7 +98,7 @@ vec_t WaypointManager::GetShortestWaypointNodeRouteToTargetNode(WaypointNode *st
 	for (WaypointNode *node : startNode->GetConnectedNodes())
 	{
 		vec_t distance = GetShortestWaypointNodeRouteToTargetNode(node, targetNode,
-			waypointNodesStack, flagMask, _alreadyTraversedWaypointNodesStack);
+			waypointNodesStack, flagBlacklist, _alreadyTraversedWaypointNodesStack);
 		// Distance under 0 = no connetion to target node
 		// Distance of 0 = Target Node
 		if (distance >= 0.f)
@@ -125,10 +125,11 @@ vec_t WaypointManager::GetShortestWaypointNodeRouteToTargetNode(WaypointNode *st
 }
 
 bool WaypointManager::GetRandomWaypointNodeRouteToTargetNode(WaypointNode *startNode,
-	WaypointNode *targetNode, std::stack<WaypointNode*> *waypointNodesStack, unsigned int flagMask,
+	WaypointNode *targetNode, std::stack<WaypointNode*> *waypointNodesStack, unsigned int flagBlacklist,
 	std::vector<WaypointNode*> *_alreadyTraversedWaypointNodesStack)
 {
-	if (!startNode || !targetNode || !waypointNodesStack || startNode->Flags & flagMask /* Abort if flag is filtered */)
+	if (!startNode || !targetNode || !waypointNodesStack
+		|| (flagBlacklist != 0 && startNode->Flags & flagBlacklist /* Abort if flag is filtered */))
 		return false;
 	else if (startNode == targetNode)
 		return true;
@@ -146,7 +147,7 @@ bool WaypointManager::GetRandomWaypointNodeRouteToTargetNode(WaypointNode *start
 	{
 		int randomNodeIndex = Util::RandomInt(0, connectedNodes.size() - 1);
 		WaypointNode *randomNode = connectedNodes[randomNodeIndex];
-		if (GetRandomWaypointNodeRouteToTargetNode(randomNode, targetNode, waypointNodesStack, flagMask,
+		if (GetRandomWaypointNodeRouteToTargetNode(randomNode, targetNode, waypointNodesStack, flagBlacklist,
 			_alreadyTraversedWaypointNodesStack))
 		{
 			waypointNodesStack->push(randomNode);

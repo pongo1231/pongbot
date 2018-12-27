@@ -12,6 +12,7 @@
 #define POS_STUCK_STARTPANICTIME 120 // Bot starts crouch jumping
 #define POS_STUCK_GIVEUPTIME 180 // Bot searches new path
 #define WAYPOINTNODE_TOUCHED_RADIUS 5.f
+#define WAYPOINTNODE_FIND_CLOSEST_MAXDIST 500.f
 
 extern WaypointManager *_WaypointManager;
 
@@ -104,19 +105,20 @@ void BotTaskCommon::_UpdateNewWaypointNodeStack()
 	if (closestNode)
 	{
 		Bot *bot = _GetBot();
+		TFTeam botTeam = bot->GetTeam();
 		_WaypointNodeStack = std::stack<WaypointNode*>();
 		WaypointNode *targetNode = nullptr;
 		int nodeFlagMask = 0;
+		bool prioritizeShortestWay = false;
 
 		/* CTF */
 		std::vector<edict_t*> itemFlags = _EntityProvider->SearchEdictsByClassname("item_teamflag");
 		if (!itemFlags.empty())
 		{
-			/* TODO: Waypoint Node Flags (way less expensive than getting closest node every time!!!) */
 			edict_t *allyFlag = nullptr;
 			edict_t *enemyFlag = nullptr;
 			for (edict_t *itemFlag : itemFlags)
-				if (_EntityDataProvider->GetDataFromEdict<TFTeam>(itemFlag, TEAM) == bot->GetTeam())
+				if (_EntityDataProvider->GetDataFromEdict<TFTeam>(itemFlag, TEAM) == botTeam)
 					allyFlag = itemFlag;
 				else
 					enemyFlag = itemFlag;
@@ -124,8 +126,10 @@ void BotTaskCommon::_UpdateNewWaypointNodeStack()
 			// TODO: Detect if this bot carries the flag
 			if (allyFlag && _EntityDataProvider->GetDataFromEdict<int>(enemyFlag, FLAG_OWNER) != -1)
 			{
-				targetNode = _WaypointManager->GetClosestWaypointNode(Util::GetEdictOrigin(allyFlag));
+				targetNode = _WaypointManager->GetClosestWaypointNode(bot->GetPos(), -1,
+					botTeam == RED ? ITEMFLAG_RED : ITEMFLAG_BLUE);
 				nodeFlagMask |= SPAWN_RED + SPAWN_BLUE;
+				prioritizeShortestWay = true;
 			}
 			else if (enemyFlag)
 				targetNode = _WaypointManager->GetClosestWaypointNode(Util::GetEdictOrigin(enemyFlag));
@@ -139,7 +143,11 @@ void BotTaskCommon::_UpdateNewWaypointNodeStack()
 		else
 			nodeFlagMask |= SPAWN_RED;
 
-		_WaypointManager->GetRandomWaypointNodeRouteToTargetNode(closestNode, targetNode, &_WaypointNodeStack,
-			bot->GetTeam() == RED ? SPAWN_BLUE : SPAWN_RED);
+		if (prioritizeShortestWay)
+			_WaypointManager->GetShortestWaypointNodeRouteToTargetNode(closestNode, targetNode, &_WaypointNodeStack,
+				nodeFlagMask);
+		else
+			_WaypointManager->GetRandomWaypointNodeRouteToTargetNode(closestNode, targetNode, &_WaypointNodeStack,
+				nodeFlagMask);
 	}
 }

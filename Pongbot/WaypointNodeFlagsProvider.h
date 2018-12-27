@@ -28,7 +28,8 @@ private:
 	{
 		{SPAWN_RED, WaypointNodeFlagInfo("SPAWN_RED", "Inside red spawn zone")},
 		{SPAWN_BLUE, WaypointNodeFlagInfo("SPAWN_BLUE", "Inside blue spawn zone")},
-		{ITEMFLAG, WaypointNodeFlagInfo("ITEMFLAG", "CTF Flag spawns here")},
+		{ITEMFLAG_RED, WaypointNodeFlagInfo("ITEMFLAG_RED", "Red CTF Flag spawns here")},
+		{ITEMFLAG_BLUE, WaypointNodeFlagInfo("ITEMFLAG_BLUE", "Blue CTF Flag spawns here")},
 		{HEALTH, WaypointNodeFlagInfo("HEALTH", "Health Pack spawns here")},
 		{AMMO, WaypointNodeFlagInfo("AMMO", "Ammo Pack spawns here")},
 	};
