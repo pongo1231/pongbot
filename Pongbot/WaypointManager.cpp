@@ -10,8 +10,9 @@
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <map>
 
-#define WAYPOINT_NODE_BEAM_TICK .5f
-#define WAYPOINT_NODE_BEAM_DRAWDIST 1000.f
+#define WAYPOINT_NODE_CLOSEST_MAXDIST 500.f
+#define WAYPOINT_NODE_DEBUG_BEAM_TICK .5f
+#define WAYPOINT_NODE_DEBUG_BEAM_DRAWDIST 1000.f
 
 extern IVEngineServer *Engine;
 extern IPlayerInfoManager *IIPlayerInfoManager;
@@ -61,14 +62,11 @@ WaypointNode *WaypointManager::GetRandomWaypointNode() const
 
 WaypointNode *WaypointManager::GetClosestWaypointNode(Vector pos) const
 {
-	// TODO: Add option to test visibility to nodes to get closest reachable node
 	WaypointNode *closestNode = nullptr;
-	float closestDistance = 9999.f; // Just something insanely high
-
+	float closestDistance = WAYPOINT_NODE_CLOSEST_MAXDIST;
 	for (WaypointNode *node : _WaypointNodes)
 	{
 		float distance = node->Pos.DistTo(pos);
-
 		if (closestDistance > distance)
 		{
 			closestNode = node;
@@ -172,7 +170,7 @@ void WaypointManager::OnGameFrame()
 	float currentTime = Engine->Time();
 	if (tickTime > currentTime)
 		return;
-	tickTime = currentTime + WAYPOINT_NODE_BEAM_TICK;
+	tickTime = currentTime + WAYPOINT_NODE_DEBUG_BEAM_TICK;
 
 	edict_t *edict = Engine->PEntityOfEntIndex(1);
 	if (edict && strcmp(edict->GetClassName(), "player") == 0)
@@ -190,13 +188,13 @@ void WaypointManager::OnGameFrame()
 			if (!alreadyDrawn)
 			{
 				Vector startPos = node->Pos;
-				if (startPos.DistTo(Util::GetEdictOrigin(edict)) <= WAYPOINT_NODE_BEAM_DRAWDIST)
+				if (startPos.DistTo(Util::GetEdictOrigin(edict)) <= WAYPOINT_NODE_DEBUG_BEAM_DRAWDIST)
 				{
 					Vector endPos = startPos + Vector(0.f, 0.f, 75.f);
-					Util::DrawBeam(startPos, endPos, node->Flags != 0 ? 255 : 0, 255, 0, WAYPOINT_NODE_BEAM_TICK);
+					Util::DrawBeam(startPos, endPos, node->Flags != 0 ? 255 : 0, 255, 0, WAYPOINT_NODE_DEBUG_BEAM_TICK);
 					for (WaypointNode *connectedNode : node->GetConnectedNodes())
 					{
-						Util::DrawBeam(endPos, connectedNode->Pos, 255, 255, 255, WAYPOINT_NODE_BEAM_TICK);
+						Util::DrawBeam(endPos, connectedNode->Pos, 255, 255, 255, WAYPOINT_NODE_DEBUG_BEAM_TICK);
 
 						alreadyDrawn = false;
 						for (WaypointNode *drawnNode : drawnNodes)
@@ -209,7 +207,7 @@ void WaypointManager::OnGameFrame()
 						{
 							startPos = connectedNode->Pos;
 							Util::DrawBeam(startPos, startPos + Vector(0.f, 0.f, 75.f),
-								connectedNode->Flags != 0 ? 255 : 0, 255, 0, WAYPOINT_NODE_BEAM_TICK);
+								connectedNode->Flags != 0 ? 255 : 0, 255, 0, WAYPOINT_NODE_DEBUG_BEAM_TICK);
 
 							drawnNodes.push_back(node);
 						}
