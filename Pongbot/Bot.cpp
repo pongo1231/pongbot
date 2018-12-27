@@ -26,6 +26,7 @@ IPlayerInfo *_IIPlayerInfo;
 BotTaskMaster *_BotTaskMaster;
 BotVisibles *_BotVisibles;
 TFClass _CurrentClass;
+QAngle _LookAt;
 bool _IsDead;
 
 Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
@@ -96,7 +97,8 @@ void Bot::Think()
 
 void Bot::_HandleAiming(QAngle *targetLookAt)
 {
-	if (targetLookAt) {
+	if (targetLookAt)
+	{
 		static QAngle previousLookAt;
 		if (*targetLookAt != previousLookAt)
 		{

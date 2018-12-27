@@ -108,7 +108,7 @@ void BotTaskCommon::_UpdateNewWaypointNodeStack()
 		TFTeam botTeam = bot->GetTeam();
 		_WaypointNodeStack = std::stack<WaypointNode*>();
 		WaypointNode *targetNode = nullptr;
-		int nodeFlagMask = 0;
+		int nodeFlagBlacklist = 0;
 		bool prioritizeShortestWay = false;
 
 		/* CTF */
@@ -128,7 +128,7 @@ void BotTaskCommon::_UpdateNewWaypointNodeStack()
 			{
 				targetNode = _WaypointManager->GetClosestWaypointNode(bot->GetPos(), -1,
 					botTeam == RED ? ITEMFLAG_RED : ITEMFLAG_BLUE);
-				nodeFlagMask |= SPAWN_RED + SPAWN_BLUE;
+				nodeFlagBlacklist |= SPAWN_RED + SPAWN_BLUE;
 				prioritizeShortestWay = true;
 			}
 			else if (enemyFlag)
@@ -139,15 +139,15 @@ void BotTaskCommon::_UpdateNewWaypointNodeStack()
 			targetNode = _WaypointManager->GetRandomWaypointNode();
 
 		if (bot->GetTeam() == RED)
-			nodeFlagMask |= SPAWN_BLUE;
+			nodeFlagBlacklist |= SPAWN_BLUE;
 		else
-			nodeFlagMask |= SPAWN_RED;
+			nodeFlagBlacklist |= SPAWN_RED;
 
 		if (prioritizeShortestWay)
 			_WaypointManager->GetShortestWaypointNodeRouteToTargetNode(closestNode, targetNode, &_WaypointNodeStack,
-				nodeFlagMask);
+				nodeFlagBlacklist);
 		else
 			_WaypointManager->GetRandomWaypointNodeRouteToTargetNode(closestNode, targetNode, &_WaypointNodeStack,
-				nodeFlagMask);
+				nodeFlagBlacklist);
 	}
 }
