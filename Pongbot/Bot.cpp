@@ -7,11 +7,12 @@
 #include "TFTeam.h"
 #include "TFClass.h"
 #include "EntityDataProvider.h"
+#include "Util.h"
 #include <metamod/ISmmPlugin.h>
 #include <string>
 
-#define BOT_AIM_SENSITIVITY_X .9f // 0.f lowest - 1.f highest
-#define BOT_AIM_SENSITIVITY_Y .3f // 0.f lowest - 1.f highest
+#define BOT_AIM_SENSITIVITY_X 2.f
+#define BOT_AIM_SENSITIVITY_Y 1.5f
 
 extern IVEngineServer *Engine;
 extern IBotManager *IIBotManager;
@@ -108,9 +109,9 @@ void Bot::_HandleAiming(QAngle *targetLookAt)
 	}
 
 	QAngle currentLookAt = GetAngle();
-	QAngle targetAngleDistance = _LookAt - currentLookAt;
-	_LookAt = QAngle(currentLookAt.x + targetAngleDistance.x * BOT_AIM_SENSITIVITY_X,
-		currentLookAt.y + targetAngleDistance.y * BOT_AIM_SENSITIVITY_Y, 0);
+	QAngle targetAngleDistance = Util::CorrectViewAngle(_LookAt - currentLookAt);
+	_LookAt = QAngle(currentLookAt.x + targetAngleDistance.x / BOT_AIM_SENSITIVITY_X,
+		currentLookAt.y + targetAngleDistance.y / BOT_AIM_SENSITIVITY_Y, 0.f);
 }
 
 edict_t *Bot::GetEdict() const

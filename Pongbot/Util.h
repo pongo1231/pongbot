@@ -22,4 +22,3 @@ namespace Util
 	static vec_t _NormalizeAngle(vec_t angle);
 	static vec_t _ClampAngle(vec_t angle, float min, float max);
 }
-
