@@ -5,9 +5,6 @@ WaypointNodeFlagsProvider *_WaypointNodeFlagsProvider;
 
 std::map<WaypointNodeFlagType, WaypointNodeFlagInfo> _WaypointNodeFlags;
 
-WaypointNodeFlagsProvider::WaypointNodeFlagsProvider()
-{}
-
 void WaypointNodeFlagsProvider::Init()
 {
 	Assert(!_WaypointNodeFlagsProvider);

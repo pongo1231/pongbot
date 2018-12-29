@@ -1,6 +1,6 @@
 #include "Util.h"
 #include "Bot.h"
-#include "TF2Util.h"
+#include "TFClassInfoProvider.h"
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/mathlib/mathlib.h>
 #include <hlsdk/game/shared/IEffects.h>
@@ -77,7 +77,7 @@ namespace Util
 		Vector2D sins;
 		SinCos(DEG2RAD(bot->GetAngle().y - GetLookAtAngleForPos(bot, targetPos).y),
 			&sins.y, &sins.x);
-		sins = sins / sins.Length() * TF2Util::GetClassSpeed(bot->GetClass()) * 3.f;
+		sins = sins / sins.Length() * _TFClassInfoProvider->GetClassInfo(bot->GetClass()).Speed * 3.f;
 
 		return sins;
 	}

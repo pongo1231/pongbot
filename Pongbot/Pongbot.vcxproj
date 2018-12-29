@@ -168,7 +168,7 @@
     <ClCompile Include="EntityProvider.cpp" />
     <ClCompile Include="IGameFramable.cpp" />
     <ClCompile Include="BotTaskCommon.cpp" />
-    <ClCompile Include="TF2Util.cpp" />
+    <ClCompile Include="TFClassInfoProvider.cpp" />
     <ClCompile Include="TraceFilters.cpp" />
     <ClCompile Include="WaypointFileManager.cpp" />
     <ClCompile Include="WaypointManager.cpp" />
@@ -195,11 +195,11 @@
     <ClInclude Include="IGameFramable.h" />
     <ClInclude Include="BotTask.h" />
     <ClInclude Include="BotTaskCommon.h" />
-    <ClInclude Include="TF2Util.h" />
     <ClCompile Include="BotManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClInclude Include="TFClass.h" />
+    <ClInclude Include="TFClassInfoProvider.h" />
     <ClInclude Include="TFTeam.h" />
     <ClInclude Include="TraceFilters.h" />
     <ClInclude Include="TraceHeaders.h" />

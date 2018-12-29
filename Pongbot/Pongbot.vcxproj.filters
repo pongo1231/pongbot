@@ -47,14 +47,20 @@
     <Filter Include="src\Waypoint">
       <UniqueIdentifier>{7f4cb74e-d589-4efc-989f-f69f8f729627}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\TF2Util">
-      <UniqueIdentifier>{22828df5-eb3e-4c44-bd2d-953a97a10c58}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Bot\Task\Tasks\Common">
       <UniqueIdentifier>{2a20c762-4df6-44ec-b4b5-dac3f8db3168}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\TF2Util\EntityData">
+    <Filter Include="src\TF2">
+      <UniqueIdentifier>{22828df5-eb3e-4c44-bd2d-953a97a10c58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\TF2\Entity">
       <UniqueIdentifier>{a76ad4c3-4f21-4ae2-b619-484bdf4c8cb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\TF2\Trace">
+      <UniqueIdentifier>{a2cc2aa2-66e9-42d0-bb82-2b9b473ea79d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\TF2\Class">
+      <UniqueIdentifier>{0dedbbe7-d94a-44de-b7f3-ac6d20f86756}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -84,9 +90,6 @@
     </ClCompile>
     <ClCompile Include="BotVisiblesProvider.cpp">
       <Filter>src\Bot\Visibles</Filter>
-    </ClCompile>
-    <ClCompile Include="TF2Util.cpp">
-      <Filter>src\TF2Util</Filter>
     </ClCompile>
     <ClCompile Include="BotTaskMasterDemo.cpp">
       <Filter>src\Bot\Task\Tasks\Demo</Filter>
@@ -118,17 +121,11 @@
     <ClCompile Include="BotTask.cpp">
       <Filter>src\Bot\Task</Filter>
     </ClCompile>
-    <ClCompile Include="TraceFilters.cpp">
-      <Filter>src\TF2Util</Filter>
-    </ClCompile>
     <ClCompile Include="BotTaskCommon.cpp">
       <Filter>src\Bot\Task\Tasks\Common</Filter>
     </ClCompile>
     <ClCompile Include="BotTaskMaster.cpp">
       <Filter>src\Bot\Task\Tasks\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityProvider.cpp">
-      <Filter>src\TF2Util</Filter>
     </ClCompile>
     <ClCompile Include="IConVarBase.cpp">
       <Filter>src</Filter>
@@ -137,13 +134,22 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="DebugCommands.cpp">
-      <Filter>src\TF2Util</Filter>
+      <Filter>src\TF2</Filter>
     </ClCompile>
     <ClCompile Include="WaypointNodeFlagsProvider.cpp">
       <Filter>src\Waypoint</Filter>
     </ClCompile>
+    <ClCompile Include="EntityProvider.cpp">
+      <Filter>src\TF2\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="TraceFilters.cpp">
+      <Filter>src\TF2\Trace</Filter>
+    </ClCompile>
+    <ClCompile Include="TFClassInfoProvider.cpp">
+      <Filter>src\TF2\Class</Filter>
+    </ClCompile>
     <ClCompile Include="EntityDataProvider.cpp">
-      <Filter>src\TF2Util\EntityData</Filter>
+      <Filter>src\TF2\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -183,12 +189,6 @@
     <ClInclude Include="BotManager.h">
       <Filter>src\Bot</Filter>
     </ClInclude>
-    <ClInclude Include="TFClass.h">
-      <Filter>src\TF2Util</Filter>
-    </ClInclude>
-    <ClInclude Include="TF2Util.h">
-      <Filter>src\TF2Util</Filter>
-    </ClInclude>
     <ClInclude Include="BotTaskMasterDemo.h">
       <Filter>src\Bot\Task\Tasks\Demo</Filter>
     </ClInclude>
@@ -219,14 +219,8 @@
     <ClInclude Include="BotTaskMasterCollection.h">
       <Filter>src\Bot\Task</Filter>
     </ClInclude>
-    <ClInclude Include="TraceFilters.h">
-      <Filter>src\TF2Util</Filter>
-    </ClInclude>
-    <ClInclude Include="TraceHeaders.h">
-      <Filter>src\TF2Util</Filter>
-    </ClInclude>
     <ClInclude Include="TFTeam.h">
-      <Filter>src\TF2Util</Filter>
+      <Filter>src\TF2</Filter>
     </ClInclude>
     <ClInclude Include="BotVisibleTarget.h">
       <Filter>src\Bot\Visibles</Filter>
@@ -237,9 +231,6 @@
     <ClInclude Include="BotTaskMaster.h">
       <Filter>src\Bot\Task\Tasks\Common</Filter>
     </ClInclude>
-    <ClInclude Include="EntityProvider.h">
-      <Filter>src\TF2Util</Filter>
-    </ClInclude>
     <ClInclude Include="IConVarBase.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -247,13 +238,28 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="EntityDataProvider.h">
-      <Filter>src\TF2Util\EntityData</Filter>
+      <Filter>src\TF2\Entity</Filter>
     </ClInclude>
     <ClInclude Include="WaypointNodeFlagsProvider.h">
       <Filter>src\Waypoint</Filter>
     </ClInclude>
     <ClInclude Include="WaypointNodeFlagTypes.h">
       <Filter>src\Waypoint</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityProvider.h">
+      <Filter>src\TF2\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="TraceFilters.h">
+      <Filter>src\TF2\Trace</Filter>
+    </ClInclude>
+    <ClInclude Include="TraceHeaders.h">
+      <Filter>src\TF2\Trace</Filter>
+    </ClInclude>
+    <ClInclude Include="TFClass.h">
+      <Filter>src\TF2\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="TFClassInfoProvider.h">
+      <Filter>src\TF2\Class</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -22,9 +22,6 @@ char _CurrentMapName[32];
 SH_DECL_HOOK6(IServerGameDLL, LevelInit, SH_NOATTRIB, 0, bool, char const *, char const *,
 	char const *, char const *, bool, bool);
 
-WaypointFileManager::WaypointFileManager()
-{}
-
 void WaypointFileManager::Init(std::vector<WaypointNode*> *waypointNodes)
 {
 	Assert(!_WaypointFileManager);

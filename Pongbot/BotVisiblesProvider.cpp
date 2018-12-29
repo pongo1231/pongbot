@@ -14,9 +14,6 @@ BotVisiblesProvider *_BotVisiblesProvider;
 
 std::vector<edict_t*> _VisibleEdicts;
 
-BotVisiblesProvider::BotVisiblesProvider()
-{}
-
 void BotVisiblesProvider::Init()
 {
 	Assert(!_BotVisiblesProvider);

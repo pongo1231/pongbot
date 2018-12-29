@@ -14,7 +14,8 @@ struct WaypointNodeFlagInfo
 class WaypointNodeFlagsProvider
 {
 private:
-	WaypointNodeFlagsProvider();
+	WaypointNodeFlagsProvider()
+	{}
 
 public:
 	static void Init();

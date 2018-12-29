@@ -14,9 +14,6 @@ BotManager *_BotManager;
 
 static std::vector<Bot*> _Bots;
 
-BotManager::BotManager()
-{}
-
 void BotManager::Init()
 {
 	Assert(!_BotManager);

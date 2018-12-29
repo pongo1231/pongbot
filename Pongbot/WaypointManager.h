@@ -9,7 +9,8 @@ class WaypointNode;
 class WaypointManager : public IConVarBase, public IGameFramable
 {
 private:
-	WaypointManager();
+	WaypointManager()
+	{}
 
 public:
 	static void Init();

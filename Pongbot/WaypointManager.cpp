@@ -23,9 +23,6 @@ static WaypointNode *_SelectedNode;
 static bool _NodeBiConnect;
 static bool _DrawBeams;
 
-WaypointManager::WaypointManager()
-{}
-
 void WaypointManager::Init()
 {
 	Assert(!_WaypointManager);

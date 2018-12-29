@@ -7,7 +7,8 @@ class WaypointNode;
 class WaypointFileManager : public IConVarBase
 {
 private:
-	WaypointFileManager();
+	WaypointFileManager()
+	{}
 
 public:
 	static void Init(std::vector<WaypointNode*> *waypointNodes);

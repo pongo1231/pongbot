@@ -11,7 +11,8 @@ enum EntityDataType
 class EntityDataProvider
 {
 private:
-	EntityDataProvider();
+	EntityDataProvider()
+	{}
 
 public:
 	static void Init();
@@ -24,7 +25,8 @@ public:
 	}
 
 private:
-	std::map<EntityDataType, unsigned int> _EntityOffsets = {
+	const std::map<EntityDataType, unsigned int> _EntityOffsets =
+	{
 		{TEAM, 516},
 		{FLAG_OWNER, 1648}
 	};
