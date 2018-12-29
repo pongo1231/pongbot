@@ -5,7 +5,8 @@
 enum EntityDataType
 {
 	TEAM,
-	FLAG_OWNER
+	FLAG_OWNER,
+	FLAG_STATUS
 };
 
 class EntityDataProvider
@@ -28,7 +29,8 @@ private:
 	const std::map<EntityDataType, unsigned int> _EntityOffsets =
 	{
 		{TEAM, 516},
-		{FLAG_OWNER, 1648}
+		{FLAG_OWNER, 1648},
+		{FLAG_STATUS, 1632}
 	};
 };
 

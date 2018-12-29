@@ -7,6 +7,7 @@
 #include "EntityDataProvider.h"
 #include "TFTeam.h"
 #include "WaypointNodeFlagTypes.h"
+#include "CTFFlagStatusType.h"
 
 #define POS_STUCK_RADIUS 1.f
 #define POS_STUCK_STARTPANICTIME 120 // Bot starts crouch jumping
@@ -19,6 +20,10 @@ extern WaypointManager *_WaypointManager;
 Vector _LastPos;
 unsigned int _PosStuckTime;
 std::stack<WaypointNode*> _WaypointNodeStack;
+/* CTF */
+bool _DoCTFBehaviour = false;
+edict_t* _AllyFlag;
+edict_t* _EnemyFlag;
 
 BotTaskCommon::BotTaskCommon(Bot *bot) : BotTask(bot)
 {}
@@ -58,9 +63,7 @@ void BotTaskCommon::_DoMovement(int *&pressedButtons, Vector2D *&movement)
 		_LastPos = currentPos;
 	}
 
-	if (_WaypointNodeStack.empty())
-		_UpdateNewWaypointNodeStack();
-	else
+	if (!_WaypointNodeStack.empty())
 	{
 		WaypointNode *node = _WaypointNodeStack.top();
 		if (!node)
@@ -86,7 +89,7 @@ void BotTaskCommon::_DoLooking(int *&pressedButtons, QAngle *&lookAt)
 		lookAt = new QAngle(Util::GetLookAtAngleForPos(bot, enemyTarget->Pos));
 		*pressedButtons |= IN_ATTACK;
 	}
-	else if (_WaypointNodeStack.size() > 0)
+	else if (!_WaypointNodeStack.empty())
 	{
 		WaypointNode *node = _WaypointNodeStack.top();
 		if (node)
@@ -149,5 +152,40 @@ void BotTaskCommon::_UpdateNewWaypointNodeStack()
 		else
 			_WaypointManager->GetRandomWaypointNodeRouteToTargetNode(closestNode, targetNode, &_WaypointNodeStack,
 				nodeFlagBlacklist);
+	}
+}
+
+void BotTaskCommon::_UpdateObjectives()
+{
+	_DoCTFBehaviour = false;
+	Bot *bot = _GetBot();
+
+	/* CTF */
+	std::vector<edict_t*> itemFlags = _EntityProvider->SearchEdictsByClassname("item_teamflag");
+	if (!itemFlags.empty())
+	{
+		_DoCTFBehaviour = true;
+		TFTeam botTeam = bot->GetTeam();
+		Vector botPos = bot->GetPos();
+
+		edict_t* closestAllyFlag;
+		float closestAllyFlagDist;
+		edict_t* closestEnemyFlag;
+		float closestEnemyFlagDist;
+		for (edict_t *itemFlag : itemFlags)
+		{
+			bool isAllyFlag = _EntityDataProvider->GetDataFromEdict<TFTeam>(itemFlag, TEAM) == botTeam;
+			float botDistToFlag = botPos.DistTo(Util::GetEdictOrigin(itemFlag));
+			if (isAllyFlag && (!closestAllyFlag || botDistToFlag < closestAllyFlagDist))
+			{
+				closestAllyFlag = itemFlag;
+				closestAllyFlagDist = botDistToFlag;
+			}
+			else if (!isAllyFlag && (!closestEnemyFlag || botDistToFlag < closestEnemyFlagDist))
+			{
+				closestEnemyFlag = itemFlag;
+				closestEnemyFlagDist = botDistToFlag;
+			}
+		}
 	}
 }

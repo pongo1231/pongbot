@@ -62,6 +62,9 @@
     <Filter Include="src\TF2\Class">
       <UniqueIdentifier>{0dedbbe7-d94a-44de-b7f3-ac6d20f86756}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\TF2\Objectives">
+      <UniqueIdentifier>{b46593c9-c1f5-45e4-a125-a99259e089fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -260,6 +263,9 @@
     </ClInclude>
     <ClInclude Include="TFClassInfoProvider.h">
       <Filter>src\TF2\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="CTFFlagStatusType.h">
+      <Filter>src\TF2\Objectives</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -189,6 +189,7 @@
     <ClInclude Include="BotVisibles.h" />
     <ClInclude Include="BotVisiblesProvider.h" />
     <ClInclude Include="BotVisibleTarget.h" />
+    <ClInclude Include="CTFFlagStatusType.h" />
     <ClInclude Include="IConVarBase.h" />
     <ClInclude Include="EntityProvider.h" />
     <ClInclude Include="EntityDataProvider.h" />
