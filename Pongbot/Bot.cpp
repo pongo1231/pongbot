@@ -11,7 +11,8 @@
 #include <metamod/ISmmPlugin.h>
 #include <string>
 
-#define BOT_AIM_SENSITIVITY_X 2.f
+// Higher = slower
+#define BOT_AIM_SENSITIVITY_X 3.f
 #define BOT_AIM_SENSITIVITY_Y 1.5f
 
 extern IVEngineServer *Engine;
