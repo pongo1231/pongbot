@@ -41,8 +41,7 @@ private:
 	BotBehaviour *_BotBehaviour;
 	BotVisibles *_BotVisibles;
 	TFClass _CurrentClass;
-	QAngle _TargetLookAt;
-	QAngle _FinalLookAt;
+	QAngle _TargetViewAngle;
 	Vector2D _Movement;
 	int _PressedButtons;
 

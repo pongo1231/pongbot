@@ -19,9 +19,7 @@
 #include <metamod/ISmmPlugin.h>
 #include <string>
 
-// Higher = slower
-#define BOT_AIM_SENSITIVITY_X 3.f
-#define BOT_AIM_SENSITIVITY_Y 1.25f
+#define BOT_AIM_SENSITIVITY 3.f
 
 extern IVEngineServer *Engine;
 extern IBotManager *IIBotManager;
@@ -36,8 +34,7 @@ IPlayerInfo *_IIPlayerInfo;
 BotBehaviour *_BotBehaviour;
 BotVisibles *_BotVisibles;
 TFClass _CurrentClass;
-QAngle _TargetLookAt;
-QAngle _FinalLookAt;
+QAngle _TargetViewAngle;
 Vector2D _Movement;
 int _PressedButtons;
 
@@ -76,17 +73,15 @@ void Bot::Think()
 	_BotBehaviour->OnThink();
 	
 	// Smoothed out aiming
-	QAngle currentLookAt = GetViewAngle();
-	QAngle targetAngleDistance = Util::CorrectViewAngle(_TargetLookAt - currentLookAt);
-	_FinalLookAt = QAngle(currentLookAt.x + targetAngleDistance.x / BOT_AIM_SENSITIVITY_X,
-		currentLookAt.y + targetAngleDistance.y / BOT_AIM_SENSITIVITY_Y, 0.f);
+	QAngle currentViewAngle = GetViewAngle();
+	QAngle finalViewAngle = Util::CorrectViewAngle(_TargetViewAngle - currentViewAngle) / BOT_AIM_SENSITIVITY + currentViewAngle;
+	finalViewAngle.x *= 2;
 
 	CBotCmd cmd;
 	cmd.buttons = _PressedButtons;
-	_PressedButtons = 0;
 	cmd.forwardmove = _Movement.x;
 	cmd.sidemove = _Movement.y;
-	cmd.viewangles = _FinalLookAt;
+	cmd.viewangles = finalViewAngle;
 	_IIBotController->RunPlayerMove(&cmd);
 }
 
@@ -114,12 +109,12 @@ Vector Bot::GetEarPos() const
 
 QAngle Bot::GetViewAngle() const
 {
-	return _IIPlayerInfo->GetAbsAngles();
+	return _IIBotController->GetLocalAngles();
 }
 
 void Bot::SetViewAngle(QAngle angle)
 {
-	_TargetLookAt = angle;
+	_TargetViewAngle = angle;
 }
 
 TFClass Bot::GetClass() const

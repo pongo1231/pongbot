@@ -12,19 +12,22 @@ public:
 
 protected:
 	void _BotMoveTo(Vector pos);
-	QAngle _SetBotViewAngle(QAngle angle);
-	void _OverrideBotViewAngle(bool override);
+	void _SetBotLookAt(Vector pos);
+	void _OverrideBotViewAngle();
 	void _AddBotPressedButton(int button);
 	Vector _GetBotPos() const;
+	Vector _GetBotEarPos() const;
 	TFTeam _GetBotTeam() const;
 
 private:
 	Vector _BotCurrentPos;
+	Vector _BotEarPos;
+	TFTeam _BotTeam;
+
 	Vector _BotTargetPos;
-	QAngle _BotViewAngle;
+	Vector _BotTargetLookAt;
 	bool _IsBotViewAngleOverriden;
 	int _BotPressedButtons;
-	TFTeam _BotTeam;
 
 	virtual bool _OnThink() = 0; // true == Task done
 };

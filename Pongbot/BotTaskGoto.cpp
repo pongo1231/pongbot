@@ -36,7 +36,8 @@ bool BotTaskGoto::_OnThink()
 		if (_PosStuckTime > POS_STUCK_STARTPANICTIME + 50.f)
 		{
 			_PosStuckTime = 0;
-			_NewTargetNodeStack();
+			if (!_ShortestWay)
+				_NewTargetNodeStack();
 		}
 		else if (_PosStuckTime > POS_STUCK_STARTPANICTIME)
 		{
@@ -58,7 +59,10 @@ bool BotTaskGoto::_OnThink()
 		if (currentPos.DistTo(targetPos) <= WAYPOINTNODE_TOUCHED_RADIUS)
 			_TargetPosQueue.pop();
 		else
+		{
 			_BotMoveTo(targetPos);
+			_SetBotLookAt(targetPos + (_GetBotEarPos() - currentPos));
+		}
 	}
 
 	return false;
@@ -66,7 +70,8 @@ bool BotTaskGoto::_OnThink()
 
 void BotTaskGoto::_NewTargetNodeStack()
 {
-	WaypointNode *closestNode = _WaypointManager->GetClosestWaypointNode(_LastPos);
+	Vector currentPos = _GetBotPos();
+	WaypointNode *closestNode = _WaypointManager->GetClosestWaypointNode(currentPos);
 	if (closestNode)
 	{
 		WaypointNode *targetNode = _WaypointManager->GetClosestWaypointNode(_TargetPos);

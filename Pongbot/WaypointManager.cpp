@@ -2,6 +2,7 @@
 #include "Util.h"
 #include "WaypointFileManager.h"
 #include "WaypointNodeFlagsProvider.h"
+#include "TraceFilters.h"
 #include <metamod/ISmmPlugin.h>
 #include <metamod/sourcehook.h>
 #include <hlsdk/public/mathlib/mathlib.h>
@@ -14,6 +15,7 @@
 
 extern IVEngineServer *Engine;
 extern IPlayerInfoManager *IIPlayerInfoManager;
+extern IEngineTrace *IIEngineTrace;
 
 WaypointManager *_WaypointManager;
 
@@ -64,8 +66,18 @@ WaypointNode *WaypointManager::GetClosestWaypointNode(Vector pos, float maxDista
 		float distance = node->Pos.DistTo(pos);
 		if (closestDistance > distance && (nodeFlagWhitelist == 0 || node->Flags & nodeFlagWhitelist))
 		{
-			closestNode = node;
-			closestDistance = distance;
+			// Do raytracing to check if node is reachable
+			Vector nodeRayTracePos = node->Pos;
+			nodeRayTracePos.z += 75.f;
+			Ray_t traceLine;
+			traceLine.Init(pos + 1.f /* To be sure it's not inside the ground */, nodeRayTracePos);
+			trace_t traceResult;
+			IIEngineTrace->TraceRay(traceLine, MASK_SOLID_BRUSHONLY, &TraceFilterWorld(), &traceResult);
+			if (!traceResult.DidHit())
+			{
+				closestNode = node;
+				closestDistance = distance;
+			}
 		}
 	}
 

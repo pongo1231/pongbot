@@ -16,8 +16,8 @@ namespace Util
 	std::vector<edict_t*> GetAllPlayers();
 	Vector GetEdictOrigin(edict_t *edict);
 
-	QAngle GetLookAtAngleForPos(const Bot *bot, Vector lookAtPos);
-	Vector2D GetIdealMoveSpeedsToPos(const Bot *bot, Vector targetPos);
+	QAngle GetLookAtAngleForPos(Bot *bot, Vector lookAtPos);
+	Vector2D GetIdealMoveSpeedsToPos(Bot *bot, Vector targetPos);
 	QAngle CorrectViewAngle(QAngle viewAngle);
 	static vec_t _NormalizeAngle(vec_t angle);
 	static vec_t _ClampAngle(vec_t angle, float min, float max);
