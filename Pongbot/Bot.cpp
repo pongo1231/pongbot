@@ -1,9 +1,17 @@
 #include "Bot.h"
 #include "BotManager.h"
 #include "Util.h"
-#include "BotTaskMaster.h"
+#include "BotBehaviour.h"
 #include "BotVisibles.h"
-#include "BotTaskMasterCollection.h"
+#include "BotBehaviourScout.h"
+#include "BotBehaviourSoldier.h"
+#include "BotBehaviourPyro.h"
+#include "BotBehaviourDemo.h"
+#include "BotBehaviourHeavy.h"
+#include "BotBehaviourEngi.h"
+#include "BotBehaviourMed.h"
+#include "BotBehaviourSniper.h"
+#include "BotBehaviourSpy.h"
 #include "TFTeam.h"
 #include "TFClass.h"
 #include "EntityDataProvider.h"
@@ -13,7 +21,7 @@
 
 // Higher = slower
 #define BOT_AIM_SENSITIVITY_X 3.f
-#define BOT_AIM_SENSITIVITY_Y 1.5f
+#define BOT_AIM_SENSITIVITY_Y 1.25f
 
 extern IVEngineServer *Engine;
 extern IBotManager *IIBotManager;
@@ -25,18 +33,20 @@ const char *Name;
 edict_t *_Edict;
 IBotController *_IIBotController;
 IPlayerInfo *_IIPlayerInfo;
-BotTaskMaster *_BotTaskMaster;
+BotBehaviour *_BotBehaviour;
 BotVisibles *_BotVisibles;
 TFClass _CurrentClass;
-QAngle _LookAt;
-bool _IsDead;
+QAngle _TargetLookAt;
+QAngle _FinalLookAt;
+Vector2D _Movement;
+int _PressedButtons;
 
 Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
 	_IIBotController(IIBotManager->GetBotController(edict)),
 	_IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(edict))
 {
+	_BotBehaviour = new BotBehaviour(this);
 	_BotVisibles = new BotVisibles(this);
-	_IsDead = false;
 
 	// Join team with least players or red team if both equal
 	uint8_t red = 0;
@@ -56,63 +66,28 @@ Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
 
 Bot::~Bot()
 {
-	delete _BotTaskMaster;
 	delete _BotVisibles;
+	delete _BotBehaviour;
 }
 
 void Bot::Think()
 {
-	// Update Task Master on respawn
-	if (IsDead())
-	{
-		_IsDead = true;
-		return;
-	}
-	else if (_IsDead)
-	{
-		_UpdateTaskMaster();
-		_IsDead = false;
-	}
-
 	_BotVisibles->OnThink();
-
-	int pressedButtons = 0;
-	Vector2D *movement = nullptr;
-	QAngle *targetLookAt = nullptr;
-	if (_BotTaskMaster)
-		_BotTaskMaster->OnThink(&pressedButtons, movement, targetLookAt);
-	_HandleAiming(targetLookAt);
+	_BotBehaviour->OnThink();
+	
+	// Smoothed out aiming
+	QAngle currentLookAt = GetViewAngle();
+	QAngle targetAngleDistance = Util::CorrectViewAngle(_TargetLookAt - currentLookAt);
+	_FinalLookAt = QAngle(currentLookAt.x + targetAngleDistance.x / BOT_AIM_SENSITIVITY_X,
+		currentLookAt.y + targetAngleDistance.y / BOT_AIM_SENSITIVITY_Y, 0.f);
 
 	CBotCmd cmd;
-	cmd.buttons = pressedButtons;
-	if (movement)
-	{
-		cmd.forwardmove = movement->x;
-		cmd.sidemove = movement->y;
-	}
-	cmd.viewangles = _LookAt;
+	cmd.buttons = _PressedButtons;
+	_PressedButtons = 0;
+	cmd.forwardmove = _Movement.x;
+	cmd.sidemove = _Movement.y;
+	cmd.viewangles = _FinalLookAt;
 	_IIBotController->RunPlayerMove(&cmd);
-
-	delete movement;
-	delete targetLookAt;
-}
-
-void Bot::_HandleAiming(QAngle *targetLookAt)
-{
-	if (targetLookAt)
-	{
-		static QAngle previousLookAt;
-		if (*targetLookAt != previousLookAt)
-		{
-			previousLookAt = *targetLookAt;
-			_LookAt = *targetLookAt;
-		}
-	}
-
-	QAngle currentLookAt = GetAngle();
-	QAngle targetAngleDistance = Util::CorrectViewAngle(_LookAt - currentLookAt);
-	_LookAt = QAngle(currentLookAt.x + targetAngleDistance.x / BOT_AIM_SENSITIVITY_X,
-		currentLookAt.y + targetAngleDistance.y / BOT_AIM_SENSITIVITY_Y, 0.f);
 }
 
 edict_t *Bot::GetEdict() const
@@ -137,9 +112,14 @@ Vector Bot::GetEarPos() const
 	return earPos;
 }
 
-QAngle Bot::GetAngle() const
+QAngle Bot::GetViewAngle() const
 {
 	return _IIPlayerInfo->GetAbsAngles();
+}
+
+void Bot::SetViewAngle(QAngle angle)
+{
+	_TargetLookAt = angle;
 }
 
 TFClass Bot::GetClass() const
@@ -157,6 +137,16 @@ BotVisibles *Bot::GetBotVisibles() const
 	return _BotVisibles;
 }
 
+void Bot::SetMovement(Vector2D movement)
+{
+	_Movement = movement;
+}
+
+void Bot::SetPressedButtons(int pressedButtons)
+{
+	_PressedButtons = pressedButtons;
+}
+
 bool Bot::IsDead() const
 {
 	return _IIPlayerInfo->IsDead();
@@ -172,7 +162,7 @@ void Bot::ChangeClass(TFClass tfClass)
 	IIServerPluginHelpers->ClientCommand(_Edict, cmd);
 
 	_CurrentClass = tfClass;
-	_UpdateTaskMaster();
+	_UpdateBotBehaviour();
 }
 
 void Bot::ExecClientCommand(const char *command) const
@@ -180,29 +170,29 @@ void Bot::ExecClientCommand(const char *command) const
 	IIServerPluginHelpers->ClientCommand(_Edict, command);
 }
 
-void Bot::_UpdateTaskMaster()
+void Bot::_UpdateBotBehaviour()
 {
-	delete _BotTaskMaster;
+	delete _BotBehaviour;
 	switch (_CurrentClass)
 	{
 	case SCOUT:
-		_BotTaskMaster = new BotTaskMasterScout(this);
+		_BotBehaviour = new BotBehaviourScout(this);
 	case SOLDIER:
-		_BotTaskMaster = new BotTaskMasterSoldier(this);
+		_BotBehaviour = new BotBehaviourSoldier(this);
 	case PYRO:
-		_BotTaskMaster = new BotTaskMasterPyro(this);
+		_BotBehaviour = new BotBehaviourPyro(this);
 	case DEMO:
-		_BotTaskMaster = new BotTaskMasterDemo(this);
+		_BotBehaviour = new BotBehaviourDemo(this);
 	case HEAVY:
-		_BotTaskMaster = new BotTaskMasterHeavy(this);
+		_BotBehaviour = new BotBehaviourHeavy(this);
 	case ENGI:
-		_BotTaskMaster = new BotTaskMasterEngi(this);
+		_BotBehaviour = new BotBehaviourEngi(this);
 	case MED:
-		_BotTaskMaster = new BotTaskMasterMed(this);
+		_BotBehaviour = new BotBehaviourMed(this);
 	case SNIPER:
-		_BotTaskMaster = new BotTaskMasterSniper(this);
+		_BotBehaviour = new BotBehaviourSniper(this);
 	case SPY:
-		_BotTaskMaster = new BotTaskMasterSpy(this);
+		_BotBehaviour = new BotBehaviourSpy(this);
 	}
 }
 

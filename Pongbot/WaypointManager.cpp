@@ -1,6 +1,5 @@
 #include "WaypointManager.h"
 #include "Util.h"
-#include "WaypointNode.h"
 #include "WaypointFileManager.h"
 #include "WaypointNodeFlagsProvider.h"
 #include <metamod/ISmmPlugin.h>

@@ -14,7 +14,7 @@ public:
 	static void Destroy();
 
 	std::vector<edict_t*> GetVisibleEdicts() const;
-	void OnGameFrame();
+	virtual void OnGameFrame();
 
 private:
 	std::vector<edict_t*> _Edicts;

@@ -29,15 +29,21 @@ std::vector<BotVisibleTarget*> BotVisibles::GetVisibleTargets() const
 	return _VisibleTargets;
 }
 
-BotVisibleTarget *BotVisibles::GetMostImportantTarget(Vector currentPos) const
+BotVisibleTarget *BotVisibles::GetMostImportantTarget() const
 {
+	Vector botPos = _MBot->GetPos();
 	BotVisibleTarget *importantTarget = nullptr;
+	float importantTargetDist = 9999.f;
 	for (BotVisibleTarget *visibleTarget : _VisibleTargets)
 	{
 		BotTargetPriority targetPriority = visibleTarget->Priority;
+		float targetDist = visibleTarget->Pos.DistTo(botPos);
 		if (targetPriority != FRIENDLY && (!importantTarget || targetPriority > importantTarget->Priority
-			|| visibleTarget->Pos.DistTo(currentPos) < importantTarget->Pos.DistTo(currentPos)))
+			|| targetDist < importantTargetDist))
+		{
 			importantTarget = visibleTarget;
+			importantTargetDist = targetDist;
+		}
 	}
 
 	return importantTarget;

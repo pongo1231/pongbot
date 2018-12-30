@@ -63,7 +63,7 @@ namespace Util
 		return edict->GetCollideable()->GetCollisionOrigin();
 	}
 
-	QAngle GetLookAtAngleForPos(Bot *bot, Vector lookAtPos)
+	QAngle GetLookAtAngleForPos(const Bot *bot, Vector lookAtPos)
 	{
 		Vector vectorAngle = lookAtPos - bot->GetEarPos();
 		QAngle angle;
@@ -72,10 +72,10 @@ namespace Util
 		return CorrectViewAngle(angle);
 	}
 
-	Vector2D GetIdealMoveSpeedsToPos(Bot *bot, Vector targetPos)
+	Vector2D GetIdealMoveSpeedsToPos(const Bot *bot, Vector targetPos)
 	{
 		Vector2D sins;
-		SinCos(DEG2RAD(bot->GetAngle().y - GetLookAtAngleForPos(bot, targetPos).y),
+		SinCos(DEG2RAD(bot->GetViewAngle().y - GetLookAtAngleForPos(bot, targetPos).y),
 			&sins.y, &sins.x);
 		sins = sins / sins.Length() * _TFClassInfoProvider->GetClassInfo(bot->GetClass()).Speed * 3.f;
 

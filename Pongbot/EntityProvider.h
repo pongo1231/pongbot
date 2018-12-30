@@ -17,7 +17,7 @@ public:
 private:
 	std::vector<edict_t*> _Edicts;
 
-	void OnGameFrame();
+	virtual void OnGameFrame();
 };
 
 extern EntityProvider *_EntityProvider;

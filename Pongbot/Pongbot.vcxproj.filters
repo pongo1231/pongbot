@@ -8,47 +8,11 @@
     <Filter Include="src\Bot">
       <UniqueIdentifier>{2d645178-317e-44bd-9e28-5497720c56b9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Bot\Task">
-      <UniqueIdentifier>{bb1e4772-b98b-41cd-9747-86c102d2097b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Bot\Visibles">
       <UniqueIdentifier>{af10c782-3bc1-423c-a235-e6950f8719d7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Bot\Task\Tasks">
-      <UniqueIdentifier>{929e1436-91b3-4234-9d77-80ec45bc4502}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Bot\Task\Tasks\Demo">
-      <UniqueIdentifier>{945db397-c54d-43db-8774-b3d45d005b36}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Bot\Task\Tasks\Heavy">
-      <UniqueIdentifier>{13c09650-2162-4860-9802-7505a1f5265c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Bot\Task\Tasks\Engi">
-      <UniqueIdentifier>{02744ce0-4f4d-4fef-8431-9c0b9e86753d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Bot\Task\Tasks\Med">
-      <UniqueIdentifier>{e9ea1ac9-6344-4336-988e-c2f4518bc798}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Bot\Task\Tasks\Spy">
-      <UniqueIdentifier>{315482ff-d166-49fb-8f0f-ac79a652a562}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Bot\Task\Tasks\Sniper">
-      <UniqueIdentifier>{c88eff61-9274-4ec6-b8b7-15d94af9eff1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Bot\Task\Tasks\Pyro">
-      <UniqueIdentifier>{b28bfd53-5352-42a2-bc01-e19de29259f4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Bot\Task\Tasks\Soldier">
-      <UniqueIdentifier>{c7307e81-85a4-4359-bd4d-712cdacfa716}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Bot\Task\Tasks\Scout">
-      <UniqueIdentifier>{c8467509-ec15-40b9-bd6c-389c0a95cdde}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Waypoint">
       <UniqueIdentifier>{7f4cb74e-d589-4efc-989f-f69f8f729627}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Bot\Task\Tasks\Common">
-      <UniqueIdentifier>{2a20c762-4df6-44ec-b4b5-dac3f8db3168}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\TF2">
       <UniqueIdentifier>{22828df5-eb3e-4c44-bd2d-953a97a10c58}</UniqueIdentifier>
@@ -64,6 +28,12 @@
     </Filter>
     <Filter Include="src\TF2\Objectives">
       <UniqueIdentifier>{b46593c9-c1f5-45e4-a125-a99259e089fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Bot\Behaviour">
+      <UniqueIdentifier>{bb1e4772-b98b-41cd-9747-86c102d2097b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Bot\Behaviour\Tasks">
+      <UniqueIdentifier>{929e1436-91b3-4234-9d77-80ec45bc4502}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -94,42 +64,6 @@
     <ClCompile Include="BotVisiblesProvider.cpp">
       <Filter>src\Bot\Visibles</Filter>
     </ClCompile>
-    <ClCompile Include="BotTaskMasterDemo.cpp">
-      <Filter>src\Bot\Task\Tasks\Demo</Filter>
-    </ClCompile>
-    <ClCompile Include="BotTaskMasterEngi.cpp">
-      <Filter>src\Bot\Task\Tasks\Engi</Filter>
-    </ClCompile>
-    <ClCompile Include="BotTaskMasterHeavy.cpp">
-      <Filter>src\Bot\Task\Tasks\Heavy</Filter>
-    </ClCompile>
-    <ClCompile Include="BotTaskMasterMed.cpp">
-      <Filter>src\Bot\Task\Tasks\Med</Filter>
-    </ClCompile>
-    <ClCompile Include="BotTaskMasterPyro.cpp">
-      <Filter>src\Bot\Task\Tasks\Pyro</Filter>
-    </ClCompile>
-    <ClCompile Include="BotTaskMasterScout.cpp">
-      <Filter>src\Bot\Task\Tasks\Scout</Filter>
-    </ClCompile>
-    <ClCompile Include="BotTaskMasterSniper.cpp">
-      <Filter>src\Bot\Task\Tasks\Sniper</Filter>
-    </ClCompile>
-    <ClCompile Include="BotTaskMasterSoldier.cpp">
-      <Filter>src\Bot\Task\Tasks\Soldier</Filter>
-    </ClCompile>
-    <ClCompile Include="BotTaskMasterSpy.cpp">
-      <Filter>src\Bot\Task\Tasks\Spy</Filter>
-    </ClCompile>
-    <ClCompile Include="BotTask.cpp">
-      <Filter>src\Bot\Task</Filter>
-    </ClCompile>
-    <ClCompile Include="BotTaskCommon.cpp">
-      <Filter>src\Bot\Task\Tasks\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="BotTaskMaster.cpp">
-      <Filter>src\Bot\Task\Tasks\Common</Filter>
-    </ClCompile>
     <ClCompile Include="IConVarBase.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -154,6 +88,45 @@
     <ClCompile Include="EntityDataProvider.cpp">
       <Filter>src\TF2\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="BotBehaviour.cpp">
+      <Filter>src\Bot\Behaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="BotTask.cpp">
+      <Filter>src\Bot\Behaviour\Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectivesProvider.cpp">
+      <Filter>src\TF2\Objectives</Filter>
+    </ClCompile>
+    <ClCompile Include="BotBehaviourDemo.cpp">
+      <Filter>src\Bot\Behaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="BotBehaviourEngi.cpp">
+      <Filter>src\Bot\Behaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="BotBehaviourHeavy.cpp">
+      <Filter>src\Bot\Behaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="BotTaskGoto.cpp">
+      <Filter>src\Bot\Behaviour\Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="BotBehaviourMed.cpp">
+      <Filter>src\Bot\Behaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="BotBehaviourPyro.cpp">
+      <Filter>src\Bot\Behaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="BotBehaviourScout.cpp">
+      <Filter>src\Bot\Behaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="BotBehaviourSniper.cpp">
+      <Filter>src\Bot\Behaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="BotBehaviourSoldier.cpp">
+      <Filter>src\Bot\Behaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="BotBehaviourSpy.cpp">
+      <Filter>src\Bot\Behaviour</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Util.h">
@@ -174,12 +147,6 @@
     <ClInclude Include="WaypointNode.h">
       <Filter>src\Waypoint</Filter>
     </ClInclude>
-    <ClInclude Include="BotTask.h">
-      <Filter>src\Bot\Task</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskCollection.h">
-      <Filter>src\Bot\Task</Filter>
-    </ClInclude>
     <ClInclude Include="BotVisibles.h">
       <Filter>src\Bot\Visibles</Filter>
     </ClInclude>
@@ -192,47 +159,11 @@
     <ClInclude Include="BotManager.h">
       <Filter>src\Bot</Filter>
     </ClInclude>
-    <ClInclude Include="BotTaskMasterDemo.h">
-      <Filter>src\Bot\Task\Tasks\Demo</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskMasterEngi.h">
-      <Filter>src\Bot\Task\Tasks\Engi</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskMasterHeavy.h">
-      <Filter>src\Bot\Task\Tasks\Heavy</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskMasterMed.h">
-      <Filter>src\Bot\Task\Tasks\Med</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskMasterPyro.h">
-      <Filter>src\Bot\Task\Tasks\Pyro</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskMasterScout.h">
-      <Filter>src\Bot\Task\Tasks\Scout</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskMasterSniper.h">
-      <Filter>src\Bot\Task\Tasks\Sniper</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskMasterSoldier.h">
-      <Filter>src\Bot\Task\Tasks\Soldier</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskMasterSpy.h">
-      <Filter>src\Bot\Task\Tasks\Spy</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskMasterCollection.h">
-      <Filter>src\Bot\Task</Filter>
-    </ClInclude>
     <ClInclude Include="TFTeam.h">
       <Filter>src\TF2</Filter>
     </ClInclude>
     <ClInclude Include="BotVisibleTarget.h">
       <Filter>src\Bot\Visibles</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskCommon.h">
-      <Filter>src\Bot\Task\Tasks\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskMaster.h">
-      <Filter>src\Bot\Task\Tasks\Common</Filter>
     </ClInclude>
     <ClInclude Include="IConVarBase.h">
       <Filter>src</Filter>
@@ -266,6 +197,45 @@
     </ClInclude>
     <ClInclude Include="CTFFlagStatusType.h">
       <Filter>src\TF2\Objectives</Filter>
+    </ClInclude>
+    <ClInclude Include="BotBehaviour.h">
+      <Filter>src\Bot\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTask.h">
+      <Filter>src\Bot\Behaviour\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectivesProvider.h">
+      <Filter>src\TF2\Objectives</Filter>
+    </ClInclude>
+    <ClInclude Include="BotBehaviourDemo.h">
+      <Filter>src\Bot\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="BotBehaviourEngi.h">
+      <Filter>src\Bot\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="BotBehaviourHeavy.h">
+      <Filter>src\Bot\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskGoto.h">
+      <Filter>src\Bot\Behaviour\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="BotBehaviourMed.h">
+      <Filter>src\Bot\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="BotBehaviourPyro.h">
+      <Filter>src\Bot\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="BotBehaviourScout.h">
+      <Filter>src\Bot\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="BotBehaviourSniper.h">
+      <Filter>src\Bot\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="BotBehaviourSoldier.h">
+      <Filter>src\Bot\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="BotBehaviourSpy.h">
+      <Filter>src\Bot\Behaviour</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

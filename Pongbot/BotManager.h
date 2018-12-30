@@ -17,7 +17,7 @@ public:
 
 	void KickBot(Bot *bot);
 	void KickAllBots();
-	void OnGameFrame();
+	virtual void OnGameFrame();
 };
 
 extern BotManager *_BotManager;

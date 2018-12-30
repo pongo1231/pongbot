@@ -3,9 +3,9 @@
 #include <hlsdk/public/game/server/iplayerinfo.h>
 
 class BotHelper;
-class BotTaskMaster;
-class BotVisibles;
 class WaypointNode;
+class BotBehaviour;
+class BotVisibles;
 enum TFClass;
 enum TFTeam;
 
@@ -23,9 +23,12 @@ public:
 	bool Exists() const;
 	Vector GetPos() const;
 	Vector GetEarPos() const;
-	QAngle GetAngle() const;
+	QAngle GetViewAngle() const;
+	void SetViewAngle(QAngle angle);
 	TFClass GetClass() const;
 	TFTeam GetTeam() const;
+	void SetMovement(Vector2D movement);
+	void SetPressedButtons(int pressedButtons);
 	BotVisibles *GetBotVisibles() const;
 	bool IsDead() const;
 	void ChangeClass(TFClass tfClass);
@@ -35,14 +38,15 @@ private:
 	edict_t *_Edict;
 	IBotController *_IIBotController;
 	IPlayerInfo *_IIPlayerInfo;
-	BotTaskMaster *_BotTaskMaster;
+	BotBehaviour *_BotBehaviour;
 	BotVisibles *_BotVisibles;
 	TFClass _CurrentClass;
-	QAngle _LookAt;
-	bool _IsDead;
+	QAngle _TargetLookAt;
+	QAngle _FinalLookAt;
+	Vector2D _Movement;
+	int _PressedButtons;
 
-	void _HandleAiming(QAngle *targetLookAt);
-	void _UpdateTaskMaster();
+	void _UpdateBotBehaviour();
 	void _TFClassToJoinName(TFClass tfClass, char *tfClassName);
 	void _RandomClass();
 };

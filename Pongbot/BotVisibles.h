@@ -14,7 +14,7 @@ public:
 
 public:
 	std::vector<BotVisibleTarget*> GetVisibleTargets() const;
-	BotVisibleTarget *GetMostImportantTarget(Vector currentPos) const;
+	BotVisibleTarget *GetMostImportantTarget() const;
 
 	void OnThink();
 
