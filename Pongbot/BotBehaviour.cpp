@@ -4,22 +4,42 @@
 
 Bot *_ABot;
 std::queue<BotTask*> _BotTasks;
+bool _IsBotDead = false;
 
 void BotBehaviour::OnThink()
 {
 	_OnThink();
 
-	if (!_BotTasks.empty())
+	if (_ABot->IsDead())
 	{
-		BotTask *task = _BotTasks.front();
-		if (task->OnThink(_ABot))
-		{
-			delete task;
-			_BotTasks.pop();
-		}
+		_IsBotDead = true;
 	}
 	else
-		_BotTasks.push(new BotTaskGoto(_WaypointManager->GetRandomWaypointNode()->Pos, false));
+	{
+		if (_IsBotDead)
+		{
+			OnSpawn();
+			_IsBotDead = false;
+		}
+		if (!_BotTasks.empty())
+		{
+			BotTask *task = _BotTasks.front();
+			if (task->OnThink())
+			{
+				delete task;
+				_BotTasks.pop();
+			}
+		}
+		else
+			_BotTasks.push(new BotTaskGoto(_ABot, _WaypointManager->GetRandomWaypointNode()->Pos, false));
+	}
+}
+
+void BotBehaviour::OnSpawn()
+{
+	_OnSpawn();
+
+	_BotTasks = std::queue<BotTask*>();
 }
 
 void BotBehaviour::SetTaskQueue(std::queue<BotTask*> taskQueue)

@@ -1,4 +1,5 @@
 #include "BotTaskGoto.h"
+#include "Bot.h"
 #include "WaypointNode.h"
 #include "WaypointManager.h"
 #include "EntityProvider.h"
@@ -20,15 +21,16 @@ uint8_t _PosStuckTime;
 bool _ShortestWay;
 int _NodeFlagBlacklist;
 
-BotTaskGoto::BotTaskGoto(Vector targetPos, bool shortestWay, int nodeFlagBlacklist) : _TargetPos(targetPos),
-	_ShortestWay(shortestWay), _NodeFlagBlacklist(nodeFlagBlacklist)
+BotTaskGoto::BotTaskGoto(Bot *bot, Vector targetPos, bool shortestWay, int nodeFlagBlacklist) : BotTask(bot),
+	_TargetPos(targetPos), _ShortestWay(shortestWay), _NodeFlagBlacklist(nodeFlagBlacklist)
 {
 	_NewTargetNodeStack();
 }
 
 bool BotTaskGoto::_OnThink()
 {
-	Vector currentPos = _GetBotPos();
+	Bot *bot = _GetBot();
+	Vector currentPos = bot->GetPos();
 
 	if (Util::DistanceToNoZ(currentPos, _LastPos) < POS_STUCK_RADIUS)
 	{
@@ -61,7 +63,7 @@ bool BotTaskGoto::_OnThink()
 		else
 		{
 			_BotMoveTo(targetPos);
-			_SetBotLookAt(targetPos + (_GetBotEarPos() - currentPos));
+			_SetBotLookAt(targetPos + (bot->GetEarPos() - currentPos));
 		}
 	}
 
@@ -70,7 +72,8 @@ bool BotTaskGoto::_OnThink()
 
 void BotTaskGoto::_NewTargetNodeStack()
 {
-	Vector currentPos = _GetBotPos();
+	Bot *bot = _GetBot();
+	Vector currentPos = bot->GetPos();
 	WaypointNode *closestNode = _WaypointManager->GetClosestWaypointNode(currentPos);
 	if (closestNode)
 	{
@@ -80,7 +83,7 @@ void BotTaskGoto::_NewTargetNodeStack()
 		if (!targetNode)
 			targetNode = _WaypointManager->GetRandomWaypointNode();
 
-		if (_GetBotTeam() == RED)
+		if (bot->GetTeam() == RED)
 			nodeFlagBlacklist |= SPAWN_BLUE;
 		else
 			nodeFlagBlacklist |= SPAWN_RED;

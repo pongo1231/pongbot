@@ -3,21 +3,14 @@
 #include "BotVisibles.h"
 #include "Util.h"
 
-Vector _BotCurrentPos;
-Vector _BotEarPos;
-TFTeam _BotTeam;
-
+Bot *_Bot;
 Vector _BotTargetPos;
 Vector _BotTargetLookAt;
 bool _IsBotViewAngleOverriden;
 int _BotPressedButtons;
 
-bool BotTask::OnThink(Bot *bot)
+bool BotTask::OnThink()
 {
-	_BotCurrentPos = bot->GetPos();
-	_BotEarPos = bot->GetEarPos();
-	_BotTeam = bot->GetTeam();
-
 	_BotTargetPos.Zero();
 	_BotTargetLookAt.Zero();
 	_IsBotViewAngleOverriden = false;
@@ -27,16 +20,16 @@ bool BotTask::OnThink(Bot *bot)
 
 	if (!_IsBotViewAngleOverriden)
 	{
-		BotVisibleTarget *enemyTarget = bot->GetBotVisibles()->GetMostImportantTarget();
+		BotVisibleTarget *enemyTarget = _Bot->GetBotVisibles()->GetMostImportantTarget();
 		if (enemyTarget)
 		{
 			_BotTargetLookAt = enemyTarget->Pos;
 			_BotPressedButtons |= IN_ATTACK;
 		}
 	}
-	bot->SetViewAngle(Util::GetLookAtAngleForPos(bot, _BotTargetLookAt));
-	bot->SetMovement(Util::GetIdealMoveSpeedsToPos(bot, _BotTargetPos));
-	bot->SetPressedButtons(_BotPressedButtons);
+	_Bot->SetViewAngle(Util::GetLookAtAngleForPos(_Bot, _BotTargetLookAt));
+	_Bot->SetMovement(Util::GetIdealMoveSpeedsToPos(_Bot, _BotTargetPos));
+	_Bot->SetPressedButtons(_BotPressedButtons);
 
 	return taskResult;
 }
@@ -61,17 +54,7 @@ void BotTask::_AddBotPressedButton(int button)
 	_BotPressedButtons |= button;
 }
 
-Vector BotTask::_GetBotPos() const
+Bot *BotTask::_GetBot() const
 {
-	return _BotCurrentPos;
-}
-
-Vector BotTask::_GetBotEarPos() const
-{
-	return _BotEarPos;
-}
-
-TFTeam BotTask::_GetBotTeam() const
-{
-	return _BotTeam;
+	return _Bot;
 }

@@ -12,6 +12,7 @@ public:
 
 public:
 	void OnThink();
+	void OnSpawn();
 	void SetTaskQueue(std::queue<BotTask*> taskQueue);
 
 protected:
@@ -20,12 +21,11 @@ protected:
 private:
 	Bot *_ABot;
 	std::queue<BotTask*> _BotTasks;
+	bool _IsBotDead;
 
 	virtual void _OnThink()
 	{}
 	virtual void _OnSpawn()
-	{}
-	virtual void _OnFlagPickup()
 	{}
 };
 

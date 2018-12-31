@@ -78,7 +78,7 @@ void BotVisibles::OnThink()
 		Ray_t traceLine;
 		traceLine.Init(botPos, edictPos);
 		trace_t traceResult;
-		IIEngineTrace->TraceRay(traceLine, MASK_SOLID_BRUSHONLY, &TraceFilterSimple(botPassEntity, 
+		IIEngineTrace->TraceRay(traceLine, MASK_SOLID, &TraceFilterSimple(botPassEntity,
 			edict->GetIServerEntity()), &traceResult);
 		bool traceHit = traceResult.DidHit();
 

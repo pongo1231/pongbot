@@ -8,22 +8,21 @@ enum TFTeam;
 class BotTask
 {
 public:
-	bool OnThink(Bot *bot); 
+	BotTask(Bot *bot) : _Bot(bot)
+	{}
+
+public:
+	bool OnThink(); 
 
 protected:
 	void _BotMoveTo(Vector pos);
 	void _SetBotLookAt(Vector pos);
 	void _OverrideBotViewAngle();
 	void _AddBotPressedButton(int button);
-	Vector _GetBotPos() const;
-	Vector _GetBotEarPos() const;
-	TFTeam _GetBotTeam() const;
+	Bot *_GetBot() const;
 
 private:
-	Vector _BotCurrentPos;
-	Vector _BotEarPos;
-	TFTeam _BotTeam;
-
+	Bot *_Bot;
 	Vector _BotTargetPos;
 	Vector _BotTargetLookAt;
 	bool _IsBotViewAngleOverriden;

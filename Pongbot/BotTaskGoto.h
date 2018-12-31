@@ -2,10 +2,12 @@
 #include "BotTask.h"
 #include <queue>
 
+class Bot;
+
 class BotTaskGoto : public BotTask
 {
 public:
-	BotTaskGoto(Vector targetPos, bool shortestWay = true, int nodeFlagBlacklist = 0);
+	BotTaskGoto(Bot *bot, Vector targetPos, bool shortestWay = true, int nodeFlagBlacklist = 0);
 
 private:
 	std::queue<Vector> _TargetPosQueue;
