@@ -286,10 +286,7 @@ CON_COMMAND(pongbot_waypoint_connectnode1, "Selects nearest waypoint node for co
 	if (playerInfo)
 	{
 		_SelectedNode = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
-		if (!_SelectedNode)
-			Util::Log("No waypoint node found!");
-		else
-			Util::Log("Waypoint node #%d selected", _SelectedNode->Id);
+		Util::Log(!_SelectedNode ? "No waypoint node found!" : "Waypoint node #%d selected", _SelectedNode->Id);
 	}
 }
 
@@ -325,10 +322,7 @@ CON_COMMAND(pongbot_waypoint_connectnode2, "Connects previously selected waypoin
 CON_COMMAND(pongbot_waypoint_biconnect, "Toggles automatic node bidirectional connections")
 {
 	_NodeBiConnect = !_NodeBiConnect;
-	if (_NodeBiConnect)
-		Util::Log("Bidirectional node connections enabled!");
-	else
-		Util::Log("Bidirectional node connections disabled!");
+	Util::Log(_NodeBiConnect ? "Bidirectional node connections enabled!" : "Bidirectional node connections disabled!");
 }
 
 CON_COMMAND(pongbot_waypoint_clearnodes, "Removes all waypoint nodes")
@@ -390,10 +384,7 @@ CON_COMMAND(pongbot_waypoint_clearnodeconnections, "Clears all connections of no
 CON_COMMAND(pongbot_waypoint_debug, "Toggle beams to visualize nodes & their connections")
 {
 	_DrawBeams = !_DrawBeams;
-	if (_DrawBeams)
-		Util::Log("Waypoint Debugging enabled!");
-	else
-		Util::Log("Waypoint Debugging disabled!");
+	Util::Log(_DrawBeams ? "Waypoint Debugging enabled!" : "Waypoint Debugging disabled!");
 }
 
 CON_COMMAND(pongbot_waypoint_getnodeid, "Outputs ID of closest node")
@@ -402,12 +393,7 @@ CON_COMMAND(pongbot_waypoint_getnodeid, "Outputs ID of closest node")
 	if (playerInfo)
 	{
 		WaypointNode *node = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
-		if (!node)
-			Util::Log("No waypoint node found!");
-		else
-		{
-			Util::Log("Node ID: %d", node->Id);
-		}
+		Util::Log(!node ? "No waypoint node found!" : "Node ID: %d", node->Id);
 	}
 }
 

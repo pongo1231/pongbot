@@ -7,12 +7,18 @@
 #include "TFTeam.h"
 #include "WaypointNodeFlagTypes.h"
 #include "Util.h"
+#include <metamod/ISmmAPI.h>
 #include <stack>
 
 #define POS_STUCK_RADIUS 5.f
 #define POS_STUCK_STARTPANICTIME 120 // Bot starts crouch jumping
 #define WAYPOINTNODE_TOUCHED_RADIUS 5.f
 #define WAYPOINTNODE_FIND_CLOSEST_MAXDIST 500.f
+#define TARGETPOS_DEBUG_BEAM_TICK 0.1f
+
+extern IVEngineServer *Engine;
+
+static bool _DrawDebugBeam = false;
 
 std::queue<Vector> _TargetPosQueue;
 Vector _TargetPos;
@@ -20,11 +26,14 @@ Vector _LastPos;
 uint8_t _PosStuckTime;
 bool _ShortestWay;
 int _NodeFlagBlacklist;
+float _DebugBeamDrawTime;
 
 BotTaskGoto::BotTaskGoto(Bot *bot, Vector targetPos, bool shortestWay, int nodeFlagBlacklist) : BotTask(bot),
 	_TargetPos(targetPos), _ShortestWay(shortestWay), _NodeFlagBlacklist(nodeFlagBlacklist)
 {
-	_NewTargetNodeStack();
+	// Don't bother if place is (supposedly) unreachable anyways
+	if (!_WaypointManager->GetClosestWaypointNode(targetPos)->Flags & (bot->GetTeam() == RED ? SPAWN_BLUE : SPAWN_RED))
+		_NewTargetNodeStack();
 }
 
 bool BotTaskGoto::_OnThink()
@@ -65,6 +74,12 @@ bool BotTaskGoto::_OnThink()
 			_BotMoveTo(targetPos);
 			_SetBotLookAt(targetPos + (bot->GetEarPos() - currentPos));
 		}
+
+		if (_DrawDebugBeam && Engine->Time() > _DebugBeamDrawTime)
+		{
+			Util::DrawBeam(bot->GetEarPos(), targetPos, 255, 0, 0, TARGETPOS_DEBUG_BEAM_TICK);
+			_DebugBeamDrawTime = Engine->Time() + TARGETPOS_DEBUG_BEAM_TICK;
+		}
 	}
 
 	return false;
@@ -104,4 +119,10 @@ void BotTaskGoto::_NewTargetNodeStack()
 		}
 		_TargetPosQueue.push(_TargetPos);
 	}
+}
+
+CON_COMMAND(pongbot_bot_goto_debug, "Draw a beam to the bots' target pos")
+{
+	_DrawDebugBeam = !_DrawDebugBeam;
+	Util::Log(_DrawDebugBeam ? "Debug Pos Beam enabled!" : "Debug Pos Beam disabled!");
 }
