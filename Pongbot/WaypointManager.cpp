@@ -49,15 +49,31 @@ void WaypointManager::Destroy()
 	delete _WaypointManager;
 }
 
-WaypointNode *WaypointManager::GetRandomWaypointNode() const
+WaypointNode *WaypointManager::GetRandomWaypointNode(unsigned int nodeFlagBlacklist) const
 {
-	if (_WaypointNodes.empty())
-		return nullptr;
+	if (!_WaypointNodes.empty())
+	{
+		if (nodeFlagBlacklist == 0) // Don't waste resources unnecessarily, doofus
+			return _WaypointNodes[Util::RandomInt(0, _WaypointNodes.size() - 1)];
+		else
+		{
+			std::vector<WaypointNode*> waypointNodes = _WaypointNodes;
+			while (!waypointNodes.empty())
+			{
+				int randomNodeIndex = Util::RandomInt(0, waypointNodes.size() - 1);
+				WaypointNode *randomNode = waypointNodes[randomNodeIndex];
+				if (randomNode->Flags & nodeFlagBlacklist)
+					waypointNodes.erase(waypointNodes.begin() + randomNodeIndex);
+				else
+					return randomNode;
+			}
+		}
+	}
 
-	return _WaypointNodes[Util::RandomInt(0, _WaypointNodes.size() - 1)];
+	return nullptr;
 }
 
-WaypointNode *WaypointManager::GetClosestWaypointNode(Vector pos, float maxDistance, int nodeFlagWhitelist) const
+WaypointNode *WaypointManager::GetClosestWaypointNode(Vector pos, float maxDistance, unsigned int nodeFlagWhitelist) const
 {
 	WaypointNode *closestNode = nullptr;
 	float closestDistance = maxDistance > 0.f ? maxDistance : 9999.f;
@@ -84,7 +100,7 @@ WaypointNode *WaypointManager::GetClosestWaypointNode(Vector pos, float maxDista
 	return closestNode;
 }
 
-vec_t WaypointManager::GetShortestWaypointNodeRouteToTargetNode(WaypointNode *startNode,
+float WaypointManager::GetShortestWaypointNodeRouteToTargetNode(WaypointNode *startNode,
 	WaypointNode *targetNode, std::stack<WaypointNode*> *waypointNodesStack, unsigned int flagBlacklist,
 	std::vector<WaypointNode*> *_alreadyTraversedWaypointNodesStack)
 {
@@ -145,7 +161,7 @@ bool WaypointManager::GetRandomWaypointNodeRouteToTargetNode(WaypointNode *start
 	std::vector<WaypointNode*> *_alreadyTraversedWaypointNodesStack)
 {
 	if (!startNode || !targetNode || !waypointNodesStack
-		|| (flagBlacklist != 0 && startNode->Flags & flagBlacklist /* Abort if flag is filtered */))
+		|| (flagBlacklist != 0 && flagBlacklist & startNode->Flags /* Abort if flag is filtered */))
 		return false;
 	else if (startNode == targetNode)
 	{

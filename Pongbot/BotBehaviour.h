@@ -7,7 +7,7 @@
 class BotBehaviour
 {
 public:
-	BotBehaviour(Bot *bot) : _ABot(bot)
+	BotBehaviour(Bot *bot) : _ABot(bot), _IsBotDead(false)
 	{}
 
 public:
@@ -22,6 +22,8 @@ private:
 	Bot *_ABot;
 	std::queue<BotTask*> _BotTasks;
 	bool _IsBotDead;
+
+	void _ClearTasks();
 
 	virtual void _OnThink()
 	{}

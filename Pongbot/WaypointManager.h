@@ -15,9 +15,9 @@ public:
 	static void Init();
 	static void Destroy();
 
-	WaypointNode *GetRandomWaypointNode() const;
-	WaypointNode *GetClosestWaypointNode(Vector pos, float maxDistance = -1, int nodeFlagWhitelist = 0) const;
-	vec_t GetShortestWaypointNodeRouteToTargetNode(WaypointNode *startNode, WaypointNode *targetNode,
+	WaypointNode *GetRandomWaypointNode(unsigned int nodeFlagBlacklist = 0) const;
+	WaypointNode *GetClosestWaypointNode(Vector pos, float maxDistance = -1, unsigned int nodeFlagWhitelist = 0) const;
+	float GetShortestWaypointNodeRouteToTargetNode(WaypointNode *startNode, WaypointNode *targetNode,
 		std::stack<WaypointNode*> *waypointNodesStack, unsigned int flagBlacklist = 0,
 		std::vector<WaypointNode*> *_alreadyTraversedWaypointNodesStack = nullptr);
 	bool GetRandomWaypointNodeRouteToTargetNode(WaypointNode *startNode, WaypointNode *targetNode,

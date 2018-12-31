@@ -7,6 +7,7 @@
 #include "TFTeam.h"
 #include "WaypointNodeFlagTypes.h"
 #include "Util.h"
+#include "WaypointNodeFlagsProvider.h"
 #include <metamod/ISmmAPI.h>
 #include <stack>
 
@@ -31,9 +32,7 @@ float _DebugBeamDrawTime;
 BotTaskGoto::BotTaskGoto(Bot *bot, Vector targetPos, bool shortestWay, int nodeFlagBlacklist) : BotTask(bot),
 	_TargetPos(targetPos), _ShortestWay(shortestWay), _NodeFlagBlacklist(nodeFlagBlacklist)
 {
-	// Don't bother if place is (supposedly) unreachable anyways
-	if (!_WaypointManager->GetClosestWaypointNode(targetPos)->Flags & (bot->GetTeam() == RED ? SPAWN_BLUE : SPAWN_RED))
-		_NewTargetNodeStack();
+	_NewTargetNodeStack();
 }
 
 bool BotTaskGoto::_OnThink()
@@ -44,7 +43,7 @@ bool BotTaskGoto::_OnThink()
 	if (Util::DistanceToNoZ(currentPos, _LastPos) < POS_STUCK_RADIUS)
 	{
 		_PosStuckTime++;
-		if (_PosStuckTime > POS_STUCK_STARTPANICTIME + 50.f)
+		if (_PosStuckTime > POS_STUCK_STARTPANICTIME + 50)
 		{
 			_PosStuckTime = 0;
 			if (!_ShortestWay)
@@ -93,23 +92,18 @@ void BotTaskGoto::_NewTargetNodeStack()
 	if (closestNode)
 	{
 		WaypointNode *targetNode = _WaypointManager->GetClosestWaypointNode(_TargetPos);
-		int nodeFlagBlacklist = 0;
+		int nodeFlagBlacklist = _WaypointNodeFlagsProvider->GetInaccessibleNodeFlagsForBot(bot);
 
 		if (!targetNode)
 			targetNode = _WaypointManager->GetRandomWaypointNode();
 
-		if (bot->GetTeam() == RED)
-			nodeFlagBlacklist |= SPAWN_BLUE;
-		else
-			nodeFlagBlacklist |= SPAWN_RED;
-
 		std::stack<WaypointNode*> _WaypointNodeStack;
 		if (_ShortestWay)
 			_WaypointManager->GetShortestWaypointNodeRouteToTargetNode(closestNode, targetNode, &_WaypointNodeStack,
-				nodeFlagBlacklist + _NodeFlagBlacklist);
+				nodeFlagBlacklist | _NodeFlagBlacklist);
 		else
 			_WaypointManager->GetRandomWaypointNodeRouteToTargetNode(closestNode, targetNode, &_WaypointNodeStack,
-				nodeFlagBlacklist + _NodeFlagBlacklist);
+				nodeFlagBlacklist | _NodeFlagBlacklist);
 		
 		_TargetPosQueue = std::queue<Vector>();
 		while (!_WaypointNodeStack.empty())

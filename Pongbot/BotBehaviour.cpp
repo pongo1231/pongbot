@@ -1,10 +1,11 @@
 #include "BotBehaviour.h"
 #include "BotTaskGoto.h"
 #include "WaypointManager.h"
+#include "WaypointNodeFlagsProvider.h"
 
 Bot *_ABot;
 std::queue<BotTask*> _BotTasks;
-bool _IsBotDead = false;
+bool _IsBotDead;
 
 void BotBehaviour::OnThink()
 {
@@ -16,9 +17,10 @@ void BotBehaviour::OnThink()
 	{
 		if (_IsBotDead)
 		{
-			OnSpawn();
 			_IsBotDead = false;
+			OnSpawn();
 		}
+
 		if (!_BotTasks.empty())
 		{
 			BotTask *task = _BotTasks.front();
@@ -29,30 +31,33 @@ void BotBehaviour::OnThink()
 			}
 		}
 		else
-			_BotTasks.push(new BotTaskGoto(_ABot, _WaypointManager->GetRandomWaypointNode()->Pos, false));
+			_BotTasks.push(new BotTaskGoto(_ABot, _WaypointManager->GetRandomWaypointNode(
+				_WaypointNodeFlagsProvider->GetInaccessibleNodeFlagsForBot(_ABot))->Pos, false));
 	}
 }
 
 void BotBehaviour::OnSpawn()
 {
+	_ClearTasks();
 	_OnSpawn();
-
-	_BotTasks = std::queue<BotTask*>();
 }
 
 void BotBehaviour::SetTaskQueue(std::queue<BotTask*> taskQueue)
 {
-	// Clean up first
-	while (!_BotTasks.empty())
-	{
-		delete _BotTasks.front();
-		_BotTasks.pop();
-	}
-
+	_ClearTasks();
 	_BotTasks = taskQueue;
 }
 
 Bot *BotBehaviour::_GetBot() const
 {
 	return _ABot;
+}
+
+void BotBehaviour::_ClearTasks()
+{
+	while (!_BotTasks.empty())
+	{
+		delete _BotTasks.front();
+		_BotTasks.pop();
+	}
 }

@@ -1,6 +1,9 @@
 #pragma once
 #include "WaypointNodeFlagTypes.h"
 #include <map>
+#include <vector>
+
+class Bot;
 
 struct WaypointNodeFlagInfo
 {
@@ -23,6 +26,7 @@ public:
 
 	std::map<WaypointNodeFlagType, WaypointNodeFlagInfo> GetAllNodeFlags() const;
 	WaypointNodeFlagInfo GetInfoOfFlagType(WaypointNodeFlagType flagType) const;
+	int GetInaccessibleNodeFlagsForBot(Bot *bot) const;
 
 private:
 	std::map<WaypointNodeFlagType, WaypointNodeFlagInfo> _WaypointNodeFlags =

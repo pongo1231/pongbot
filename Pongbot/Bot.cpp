@@ -97,7 +97,7 @@ bool Bot::Exists() const
 
 Vector Bot::GetPos() const
 {
-	return _IIPlayerInfo->GetAbsOrigin();
+	return _IIBotController->GetLocalOrigin();
 }
 
 Vector Bot::GetEarPos() const
