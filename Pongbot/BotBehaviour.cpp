@@ -11,9 +11,7 @@ void BotBehaviour::OnThink()
 	_OnThink();
 
 	if (_ABot->IsDead())
-	{
 		_IsBotDead = true;
-	}
 	else
 	{
 		if (_IsBotDead)
