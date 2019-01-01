@@ -8,6 +8,7 @@
 #include "EntityDataProvider.h"
 #include "WaypointNodeFlagsProvider.h"
 #include "TFClassInfoProvider.h"
+#include "ObjectivesProvider.h"
 #include <hlsdk/game/shared/IEffects.h>
 #include <hlsdk/public/eiface.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
@@ -48,6 +49,7 @@ bool Main::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bool lat
 	EntityDataProvider::Init();
 	WaypointNodeFlagsProvider::Init();
 	TFClassInfoProvider::Init();
+	ObjectivesProvider::Init();
 
 	return true;
 }
@@ -60,6 +62,7 @@ bool Main::Unload(char *error, size_t len)
 	EntityDataProvider::Destroy();
 	WaypointNodeFlagsProvider::Destroy();
 	TFClassInfoProvider::Destroy();
+	ObjectivesProvider::Destroy();
 
 	SH_REMOVE_HOOK(IServerGameDLL, GameFrame, Server, SH_MEMBER(this, &Main::_OnGameFrame), true);
 

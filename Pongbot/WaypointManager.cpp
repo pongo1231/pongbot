@@ -76,24 +76,24 @@ WaypointNode *WaypointManager::GetRandomWaypointNode(unsigned int nodeFlagBlackl
 WaypointNode *WaypointManager::GetClosestWaypointNode(Vector pos, float maxDistance, unsigned int nodeFlagWhitelist) const
 {
 	WaypointNode *closestNode = nullptr;
-	float closestDistance = maxDistance > 0.f ? maxDistance : 9999.f;
+	float closestDistance = maxDistance > 0.f ? maxDistance : 99999.f;
 	for (WaypointNode *node : _WaypointNodes)
 	{
 		float distance = node->Pos.DistTo(pos);
 		if (closestDistance > distance && (nodeFlagWhitelist == 0 || node->Flags & nodeFlagWhitelist))
 		{
 			// Do raytracing to check if node is reachable
-			Vector nodeRayTracePos = node->Pos;
+			/*Vector nodeRayTracePos = node->Pos;
 			nodeRayTracePos.z += 75.f;
 			Ray_t traceLine;
-			traceLine.Init(pos + 1.f /* To be sure it's not inside the ground */, nodeRayTracePos);
+			traceLine.Init(pos + 1.f \/* To be sure it's not inside the ground *\/, nodeRayTracePos);
 			trace_t traceResult;
 			IIEngineTrace->TraceRay(traceLine, MASK_SOLID, &TraceFilterWorld(), &traceResult);
 			if (!traceResult.DidHit())
-			{
+			{*/
 				closestNode = node;
 				closestDistance = distance;
-			}
+			/*}*/
 		}
 	}
 
@@ -138,7 +138,7 @@ float WaypointManager::GetShortestWaypointNodeRouteToTargetNode(WaypointNode *st
 	{
 		/* Return path with shortest distance */
 		WaypointNode *closestDistanceNode = nullptr;
-		float closestDistance = 99999999.f;
+		float closestDistance = 99999.f;
 		for (auto const& pair : distances)
 			if (pair.second /* distance */ < closestDistance)
 			{

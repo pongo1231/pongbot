@@ -33,7 +33,7 @@ BotVisibleTarget *BotVisibles::GetMostImportantTarget() const
 {
 	Vector botPos = _MBot->GetPos();
 	BotVisibleTarget *importantTarget = nullptr;
-	float importantTargetDist = 9999.f;
+	float importantTargetDist = 99999.f;
 	for (BotVisibleTarget *visibleTarget : _VisibleTargets)
 	{
 		BotTargetPriority targetPriority = visibleTarget->Priority;
