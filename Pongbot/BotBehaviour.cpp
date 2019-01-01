@@ -80,15 +80,11 @@ void BotBehaviour::_DefaultBehaviour()
 		if (closestObjective->Type == ITEMFLAG)
 		{
 			CTFFlagStatusType itemFlagStatus = (CTFFlagStatusType) closestObjective->Status;
-			if (itemFlagStatus == UNTOUCHED || itemFlagStatus == DROPPED)
-			{// The flag should be picked up
-				Util::Log("GoTo");
+			if (itemFlagStatus == UNTOUCHED || itemFlagStatus == DROPPED) // The flag should be picked up
 				gotoTask = new BotTaskGoto(_ABot, closestObjective->Pos, false);
-			}
 			else if (_EntityDataProvider->GetDataFromEdict<int>(closestObjective->Edict, FLAG_OWNER)
 				== Engine->IndexOfEdict(_ABot->GetEdict()))
 			{
-				Util::Log("BringBack");
 				// I'm carrying the flag
 				WaypointNode *targetNode = _WaypointManager->GetClosestWaypointNode(botPos,
 					-1, _ABot->GetTeam() == RED ? ITEMFLAG_RED : ITEMFLAG_BLUE);
@@ -101,7 +97,6 @@ void BotBehaviour::_DefaultBehaviour()
 		_FreeRoaming = false;
 	else if (!gotoTask && needsNewTask)
 	{
-		Util::Log("Freeroam");
 		_FreeRoaming = true;
 		gotoTask = new BotTaskGoto(_ABot, _WaypointManager->GetRandomWaypointNode(
 			_WaypointNodeFlagsProvider->GetInaccessibleNodeFlagsForBot(_ABot))->Pos, false);
