@@ -23,6 +23,14 @@ namespace Util
 		return rand() % (max - min + 1) + min;
 	}
 
+	float RandomFloat(float min, float max)
+	{
+		if (min >= max)
+			return min;
+
+		return std::fmod(rand(), (max - min + 1.f) + min);
+	}
+
 	void Log(const char *text, ...)
 	{
 		char userText[512], prefixedText[524];

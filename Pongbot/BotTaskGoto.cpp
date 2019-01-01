@@ -11,9 +11,9 @@
 #include <metamod/ISmmAPI.h>
 #include <stack>
 
-#define POS_STUCK_RADIUS 5.f
+#define POS_STUCK_RADIUS 50.f
 #define POS_STUCK_STARTPANICTIME 120 // Bot starts crouch jumping
-#define WAYPOINTNODE_TOUCHED_RADIUS 5.f
+#define WAYPOINTNODE_TOUCHED_RADIUS 50.f
 #define WAYPOINTNODE_FIND_CLOSEST_MAXDIST 500.f
 #define TARGETPOS_DEBUG_BEAM_TICK 0.1f
 
@@ -108,7 +108,9 @@ void BotTaskGoto::_NewTargetNodeStack()
 		_TargetPosQueue = std::queue<Vector>();
 		while (!_WaypointNodeStack.empty())
 		{
-			_TargetPosQueue.push(_WaypointNodeStack.top()->Pos);
+			_TargetPosQueue.push(_WaypointNodeStack.top()->Pos
+				+ Vector(Util::RandomFloat(-WAYPOINTNODE_TOUCHED_RADIUS, WAYPOINTNODE_TOUCHED_RADIUS),
+					Util::RandomFloat(-WAYPOINTNODE_TOUCHED_RADIUS, WAYPOINTNODE_TOUCHED_RADIUS), 0.f));
 			_WaypointNodeStack.pop();
 		}
 		_TargetPosQueue.push(_TargetPos);
