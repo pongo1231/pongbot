@@ -30,12 +30,12 @@ void ObjectivesProvider::Destroy()
 
 std::vector<Objective> ObjectivesProvider::GetBotPushObjectives(Bot *bot)
 {
-	return bot->GetTeam() == RED ? _BlueObjectives : _RedObjectives;
+	return bot->GetTeam() == TEAM_RED ? _BlueObjectives : _RedObjectives;
 }
 
 std::vector<Objective> ObjectivesProvider::GetBotDefendObjectives(Bot *bot)
 {
-	return bot->GetTeam() == RED ? _RedObjectives : _BlueObjectives;
+	return bot->GetTeam() == TEAM_RED ? _RedObjectives : _BlueObjectives;
 }
 
 void ObjectivesProvider::OnGameFrame()
@@ -57,8 +57,8 @@ void ObjectivesProvider::_UpdateCTFObjectives()
 	for (edict_t *itemFlag : itemFlags)
 	{
 		Objective objective(itemFlag, ITEMFLAG, Util::GetEdictOrigin(itemFlag),
-			_EntityDataProvider->GetDataFromEdict<int>(itemFlag, FLAG_STATUS));
-		if (_EntityDataProvider->GetDataFromEdict<TFTeam>(itemFlag, TEAM) == RED)
+			_EntityDataProvider->GetDataFromEdict<int>(itemFlag, DATA_FLAG_STATUS));
+		if (_EntityDataProvider->GetDataFromEdict<TFTeam>(itemFlag, DATA_TEAM) == TEAM_RED)
 			_RedObjectives.push_back(objective);
 		else
 			_BlueObjectives.push_back(objective);

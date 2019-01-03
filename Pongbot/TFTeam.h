@@ -2,7 +2,7 @@
 
 enum TFTeam
 {
-	SPECTATOR = 1,
-	RED,
-	BLUE
+	TEAM_SPEC = 1,
+	TEAM_RED,
+	TEAM_BLUE
 };

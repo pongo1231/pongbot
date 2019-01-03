@@ -80,16 +80,16 @@ void BotBehaviour::_DefaultBehaviour()
 		if (closestObjective->Type == ITEMFLAG)
 		{
 			CTFFlagStatusType itemFlagStatus = (CTFFlagStatusType) closestObjective->Status;
-			if (itemFlagStatus == UNTOUCHED || itemFlagStatus == DROPPED) // The flag should be picked up
+			if (itemFlagStatus == CTF_UNTOUCHED || itemFlagStatus == CTF_DROPPED) // The flag should be picked up
 				gotoTask = new BotTaskGoto(_ABot, closestObjective->Pos, false);
-			else if (_EntityDataProvider->GetDataFromEdict<int>(closestObjective->Edict, FLAG_OWNER)
+			else if (_EntityDataProvider->GetDataFromEdict<int>(closestObjective->Edict, DATA_FLAG_OWNER)
 				== Engine->IndexOfEdict(_ABot->GetEdict()))
 			{
 				// I'm carrying the flag
 				WaypointNode *targetNode = _WaypointManager->GetClosestWaypointNode(botPos,
-					-1, _ABot->GetTeam() == RED ? ITEMFLAG_RED : ITEMFLAG_BLUE);
+					-1, _ABot->GetTeam() == TEAM_RED ? NODE_ITEMFLAG_RED : NODE_ITEMFLAG_BLUE);
 				if (targetNode) // Map doesn't have a ITEMFLAG_RED/ITEMFLAG_BLUE node!
-					gotoTask = new BotTaskGoto(_ABot, targetNode->Pos, true, SPAWN_RED | SPAWN_BLUE); // Don't walk through spawns
+					gotoTask = new BotTaskGoto(_ABot, targetNode->Pos, true, NODE_SPAWN_RED | NODE_SPAWN_BLUE); // Don't walk through spawns
 			}
 		}
 	}

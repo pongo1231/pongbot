@@ -31,12 +31,12 @@ public:
 private:
 	std::map<WaypointNodeFlagType, WaypointNodeFlagInfo> _WaypointNodeFlags =
 	{
-		{SPAWN_RED, WaypointNodeFlagInfo("SPAWN_RED", "Inside red spawn zone")},
-		{SPAWN_BLUE, WaypointNodeFlagInfo("SPAWN_BLUE", "Inside blue spawn zone")},
-		{ITEMFLAG_RED, WaypointNodeFlagInfo("ITEMFLAG_RED", "Red CTF Flag spawns here")},
-		{ITEMFLAG_BLUE, WaypointNodeFlagInfo("ITEMFLAG_BLUE", "Blue CTF Flag spawns here")},
-		{HEALTH, WaypointNodeFlagInfo("HEALTH", "Health Pack spawns here")},
-		{AMMO, WaypointNodeFlagInfo("AMMO", "Ammo Pack spawns here")},
+		{NODE_SPAWN_RED, WaypointNodeFlagInfo("SPAWN_RED", "Inside red spawn zone")},
+		{NODE_SPAWN_BLUE, WaypointNodeFlagInfo("SPAWN_BLUE", "Inside blue spawn zone")},
+		{NODE_ITEMFLAG_RED, WaypointNodeFlagInfo("ITEMFLAG_RED", "Red CTF Flag spawns here")},
+		{NODE_ITEMFLAG_BLUE, WaypointNodeFlagInfo("ITEMFLAG_BLUE", "Blue CTF Flag spawns here")},
+		{NODE_HEALTH, WaypointNodeFlagInfo("HEALTH", "Health Pack spawns here")},
+		{NODE_AMMO, WaypointNodeFlagInfo("AMMO", "Ammo Pack spawns here")},
 	};
 };
 

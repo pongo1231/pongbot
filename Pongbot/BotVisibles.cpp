@@ -38,7 +38,7 @@ BotVisibleTarget *BotVisibles::GetMostImportantTarget() const
 	{
 		BotTargetPriority targetPriority = visibleTarget->Priority;
 		float targetDist = visibleTarget->Pos.DistTo(botPos);
-		if (targetPriority != FRIENDLY && (!importantTarget || targetPriority > importantTarget->Priority
+		if (targetPriority != PRIORITY_FRIENDLY && (!importantTarget || targetPriority > importantTarget->Priority
 			|| targetDist < importantTargetDist))
 		{
 			importantTarget = visibleTarget;
@@ -106,11 +106,11 @@ void BotVisibles::OnThink()
 
 void BotVisibles::_AddEntity(edict_t *edict, Vector edictPos, uint8_t insertIndex)
 {
-	BotTargetPriority targetPriority = BotTargetPriority::FRIENDLY;
+	BotTargetPriority targetPriority = PRIORITY_FRIENDLY;
 
 	IPlayerInfo *playerInfo = IIPlayerInfoManager->GetPlayerInfo(edict);
 	if (playerInfo && playerInfo->IsPlayer() && playerInfo->GetTeamIndex() != _MBot->GetTeam())
-		targetPriority = BotTargetPriority::NORMAL;
+		targetPriority = PRIORITY_NORMAL;
 		
 	_VisibleTargets.insert(_VisibleTargets.begin() + insertIndex,
 		new BotVisibleTarget(edictPos, targetPriority));

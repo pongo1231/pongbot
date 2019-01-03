@@ -3,10 +3,10 @@
 
 enum BotTargetPriority
 {
-	FRIENDLY = -1,
-	LOW,
-	NORMAL,
-	HIGH
+	PRIORITY_FRIENDLY = -1,
+	PRIORITY_LOW,
+	PRIORITY_NORMAL,
+	PRIORITY_HIGH
 };
 
 struct BotVisibleTarget

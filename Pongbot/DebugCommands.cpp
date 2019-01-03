@@ -41,6 +41,6 @@ CON_COMMAND(pongbot_debug_getdata, "Outputs specified entity data")
 			std::vector<edict_t*> itemFlags = _EntityProvider->SearchEdictsByClassname("item_teamflag");
 			for (int i = 0; i < itemFlags.size(); i++)
 				Util::Log("Flag %d: %d", i, _EntityDataProvider->GetDataFromEdict<int>(itemFlags[i],
-					strcmp(data, "FLAG_OWNER") == 0 ? FLAG_OWNER : FLAG_STATUS));
+					strcmp(data, "FLAG_OWNER") == 0 ? DATA_FLAG_OWNER : DATA_FLAG_STATUS));
 		}
 }

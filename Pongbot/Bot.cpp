@@ -50,13 +50,13 @@ Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
 	uint8_t blue = 0;
 	for (edict_t *edict : Util::GetAllPlayers())
 	{
-		TFTeam team = _EntityDataProvider->GetDataFromEdict<TFTeam>(edict, TEAM);
-		if (team == RED)
+		TFTeam team = _EntityDataProvider->GetDataFromEdict<TFTeam>(edict, DATA_TEAM);
+		if (team == TEAM_RED)
 			red++;
-		else if (team == BLUE)
+		else if (team == TEAM_BLUE)
 			blue++;
 	}
-	_IIPlayerInfo->ChangeTeam(blue < red ? BLUE : RED);
+	_IIPlayerInfo->ChangeTeam(blue < red ? TEAM_BLUE : TEAM_RED);
 
 	_RandomClass();
 }
