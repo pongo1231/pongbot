@@ -1,4 +1,5 @@
 #include "EntityProvider.h"
+#include "EntityDataProvider.h"
 #include <metamod/ISmmAPI.h>
 
 #define EDICT_PROVIDER_TICK 1
@@ -15,12 +16,16 @@ EntityProvider::EntityProvider()
 void EntityProvider::Init()
 {
 	Assert(!_EdictsProvider);
+	EntityDataProvider::Init();
+
 	_EntityProvider = new EntityProvider();
 }
 
 void EntityProvider::Destroy()
 {
 	Assert(_EdictsProvider);
+	EntityDataProvider::Destroy();
+
 	delete _EntityProvider;
 }
 

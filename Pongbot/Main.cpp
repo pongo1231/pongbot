@@ -5,8 +5,6 @@
 #include "IGameFramable.h"
 #include "TraceHeaders.h"
 #include "EntityProvider.h"
-#include "EntityDataProvider.h"
-#include "WaypointNodeFlagsProvider.h"
 #include "TFClassInfoProvider.h"
 #include "ObjectivesProvider.h"
 #include <hlsdk/game/shared/IEffects.h>
@@ -46,8 +44,6 @@ bool Main::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bool lat
 	BotManager::Init();
 	WaypointManager::Init();
 	EntityProvider::Init();
-	EntityDataProvider::Init();
-	WaypointNodeFlagsProvider::Init();
 	TFClassInfoProvider::Init();
 	ObjectivesProvider::Init();
 
@@ -59,8 +55,6 @@ bool Main::Unload(char *error, size_t len)
 	BotManager::Destroy();
 	WaypointManager::Destroy();
 	EntityProvider::Destroy();
-	EntityDataProvider::Destroy();
-	WaypointNodeFlagsProvider::Destroy();
 	TFClassInfoProvider::Destroy();
 	ObjectivesProvider::Destroy();
 

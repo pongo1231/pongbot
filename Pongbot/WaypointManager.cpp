@@ -29,6 +29,7 @@ void WaypointManager::Init()
 	Assert(!_WaypointManager);
 	_WaypointNodes.clear();
 	WaypointFileManager::Init(&_WaypointNodes);
+	WaypointNodeFlagsProvider::Init();
 
 	_SelectedNode = nullptr;
 	_NodeBiConnect = false;
@@ -40,6 +41,7 @@ void WaypointManager::Destroy()
 {
 	Assert(_WaypointManager);
 	WaypointFileManager::Destroy();
+	WaypointNodeFlagsProvider::Destroy();
 
 	for (uint8_t i = 0; i < _WaypointNodes.size(); i++)
 	{
