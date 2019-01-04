@@ -53,6 +53,7 @@ bool BotTaskGoto::_OnThink()
 		{
 			_AddBotPressedButton(IN_JUMP);
 			_AddBotPressedButton(IN_DUCK);
+			bot->ExecClientCommand("voicemenu 2 5");
 		}
 	}
 	else
