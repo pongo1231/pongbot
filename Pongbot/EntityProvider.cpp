@@ -1,5 +1,6 @@
 #include "EntityProvider.h"
 #include "EntityDataProvider.h"
+#include "BotManager.h"
 #include <metamod/ISmmAPI.h>
 
 #define EDICT_PROVIDER_TICK 1
@@ -45,6 +46,9 @@ std::vector<edict_t*> EntityProvider::SearchEdictsByClassname(const char *classn
 
 void EntityProvider::OnGameFrame()
 {
+	if (!_BotManager->BotsInGame())
+		return;
+
 	static float tickTime;
 	float currentTime = Engine->Time();
 	if (tickTime > currentTime)

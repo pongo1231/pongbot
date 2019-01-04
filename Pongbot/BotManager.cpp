@@ -45,6 +45,11 @@ void BotManager::KickAllBots()
 		KickBot(bot);
 }
 
+bool BotManager::BotsInGame() const
+{
+	return !_Bots.empty();
+}
+
 void BotManager::OnGameFrame()
 {
 	for (uint8_t i = 0; i < _Bots.size(); i++)

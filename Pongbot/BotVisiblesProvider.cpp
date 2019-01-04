@@ -2,6 +2,7 @@
 #include "TFTeam.h"
 #include "EntityProvider.h"
 #include "Util.h"
+#include "BotManager.h"
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 
@@ -33,6 +34,9 @@ std::vector<edict_t*> BotVisiblesProvider::GetVisibleEdicts() const
 
 void BotVisiblesProvider::OnGameFrame()
 {
+	if (!_BotManager->BotsInGame())
+		return;
+
 	static float tickTime;
 	float currentTime = Engine->Time();
 	if (tickTime > currentTime)

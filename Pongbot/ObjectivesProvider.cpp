@@ -5,6 +5,7 @@
 #include "Util.h"
 #include "CTFFlagStatusType.h"
 #include "TFTeam.h"
+#include "BotManager.h"
 #include <metamod/ISmmAPI.h>
 
 #define OBJECTIVE_UPDATE_TICK 0.5f
@@ -40,6 +41,9 @@ std::vector<Objective> ObjectivesProvider::GetBotDefendObjectives(Bot *bot)
 
 void ObjectivesProvider::OnGameFrame()
 {
+	if (!_BotManager->BotsInGame())
+		return;
+
 	static float tickTime;
 	float engineTime = Engine->Time();
 	if (tickTime > engineTime)
