@@ -29,10 +29,10 @@
     <Filter Include="src\TF2\Objectives">
       <UniqueIdentifier>{b46593c9-c1f5-45e4-a125-a99259e089fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Bot\Behaviour">
+    <Filter Include="src\Bot\Brain">
       <UniqueIdentifier>{bb1e4772-b98b-41cd-9747-86c102d2097b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Bot\Behaviour\Tasks">
+    <Filter Include="src\Bot\Brain\Tasks">
       <UniqueIdentifier>{929e1436-91b3-4234-9d77-80ec45bc4502}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -88,44 +88,44 @@
     <ClCompile Include="EntityDataProvider.cpp">
       <Filter>src\TF2\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="BotBehaviour.cpp">
-      <Filter>src\Bot\Behaviour</Filter>
-    </ClCompile>
     <ClCompile Include="BotTask.cpp">
-      <Filter>src\Bot\Behaviour\Tasks</Filter>
+      <Filter>src\Bot\Brain\Tasks</Filter>
     </ClCompile>
     <ClCompile Include="ObjectivesProvider.cpp">
       <Filter>src\TF2\Objectives</Filter>
     </ClCompile>
-    <ClCompile Include="BotBehaviourDemo.cpp">
-      <Filter>src\Bot\Behaviour</Filter>
-    </ClCompile>
-    <ClCompile Include="BotBehaviourEngi.cpp">
-      <Filter>src\Bot\Behaviour</Filter>
-    </ClCompile>
-    <ClCompile Include="BotBehaviourHeavy.cpp">
-      <Filter>src\Bot\Behaviour</Filter>
-    </ClCompile>
     <ClCompile Include="BotTaskGoto.cpp">
-      <Filter>src\Bot\Behaviour\Tasks</Filter>
+      <Filter>src\Bot\Brain\Tasks</Filter>
     </ClCompile>
-    <ClCompile Include="BotBehaviourMed.cpp">
-      <Filter>src\Bot\Behaviour</Filter>
+    <ClCompile Include="BotBrain.cpp">
+      <Filter>src\Bot\Brain</Filter>
     </ClCompile>
-    <ClCompile Include="BotBehaviourPyro.cpp">
-      <Filter>src\Bot\Behaviour</Filter>
+    <ClCompile Include="BotBrainDemo.cpp">
+      <Filter>src\Bot\Brain</Filter>
     </ClCompile>
-    <ClCompile Include="BotBehaviourScout.cpp">
-      <Filter>src\Bot\Behaviour</Filter>
+    <ClCompile Include="BotBrainEngi.cpp">
+      <Filter>src\Bot\Brain</Filter>
     </ClCompile>
-    <ClCompile Include="BotBehaviourSniper.cpp">
-      <Filter>src\Bot\Behaviour</Filter>
+    <ClCompile Include="BotBrainHeavy.cpp">
+      <Filter>src\Bot\Brain</Filter>
     </ClCompile>
-    <ClCompile Include="BotBehaviourSoldier.cpp">
-      <Filter>src\Bot\Behaviour</Filter>
+    <ClCompile Include="BotBrainMed.cpp">
+      <Filter>src\Bot\Brain</Filter>
     </ClCompile>
-    <ClCompile Include="BotBehaviourSpy.cpp">
-      <Filter>src\Bot\Behaviour</Filter>
+    <ClCompile Include="BotBrainPyro.cpp">
+      <Filter>src\Bot\Brain</Filter>
+    </ClCompile>
+    <ClCompile Include="BotBrainScout.cpp">
+      <Filter>src\Bot\Brain</Filter>
+    </ClCompile>
+    <ClCompile Include="BotBrainSniper.cpp">
+      <Filter>src\Bot\Brain</Filter>
+    </ClCompile>
+    <ClCompile Include="BotBrainSoldier.cpp">
+      <Filter>src\Bot\Brain</Filter>
+    </ClCompile>
+    <ClCompile Include="BotBrainSpy.cpp">
+      <Filter>src\Bot\Brain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -198,44 +198,44 @@
     <ClInclude Include="CTFFlagStatusType.h">
       <Filter>src\TF2\Objectives</Filter>
     </ClInclude>
-    <ClInclude Include="BotBehaviour.h">
-      <Filter>src\Bot\Behaviour</Filter>
-    </ClInclude>
     <ClInclude Include="BotTask.h">
-      <Filter>src\Bot\Behaviour\Tasks</Filter>
+      <Filter>src\Bot\Brain\Tasks</Filter>
     </ClInclude>
     <ClInclude Include="ObjectivesProvider.h">
       <Filter>src\TF2\Objectives</Filter>
     </ClInclude>
-    <ClInclude Include="BotBehaviourDemo.h">
-      <Filter>src\Bot\Behaviour</Filter>
-    </ClInclude>
-    <ClInclude Include="BotBehaviourEngi.h">
-      <Filter>src\Bot\Behaviour</Filter>
-    </ClInclude>
-    <ClInclude Include="BotBehaviourHeavy.h">
-      <Filter>src\Bot\Behaviour</Filter>
-    </ClInclude>
     <ClInclude Include="BotTaskGoto.h">
-      <Filter>src\Bot\Behaviour\Tasks</Filter>
+      <Filter>src\Bot\Brain\Tasks</Filter>
     </ClInclude>
-    <ClInclude Include="BotBehaviourMed.h">
-      <Filter>src\Bot\Behaviour</Filter>
+    <ClInclude Include="BotBrain.h">
+      <Filter>src\Bot\Brain</Filter>
     </ClInclude>
-    <ClInclude Include="BotBehaviourPyro.h">
-      <Filter>src\Bot\Behaviour</Filter>
+    <ClInclude Include="BotBrainDemo.h">
+      <Filter>src\Bot\Brain</Filter>
     </ClInclude>
-    <ClInclude Include="BotBehaviourScout.h">
-      <Filter>src\Bot\Behaviour</Filter>
+    <ClInclude Include="BotBrainEngi.h">
+      <Filter>src\Bot\Brain</Filter>
     </ClInclude>
-    <ClInclude Include="BotBehaviourSniper.h">
-      <Filter>src\Bot\Behaviour</Filter>
+    <ClInclude Include="BotBrainHeavy.h">
+      <Filter>src\Bot\Brain</Filter>
     </ClInclude>
-    <ClInclude Include="BotBehaviourSoldier.h">
-      <Filter>src\Bot\Behaviour</Filter>
+    <ClInclude Include="BotBrainMed.h">
+      <Filter>src\Bot\Brain</Filter>
     </ClInclude>
-    <ClInclude Include="BotBehaviourSpy.h">
-      <Filter>src\Bot\Behaviour</Filter>
+    <ClInclude Include="BotBrainPyro.h">
+      <Filter>src\Bot\Brain</Filter>
+    </ClInclude>
+    <ClInclude Include="BotBrainScout.h">
+      <Filter>src\Bot\Brain</Filter>
+    </ClInclude>
+    <ClInclude Include="BotBrainSniper.h">
+      <Filter>src\Bot\Brain</Filter>
+    </ClInclude>
+    <ClInclude Include="BotBrainSoldier.h">
+      <Filter>src\Bot\Brain</Filter>
+    </ClInclude>
+    <ClInclude Include="BotBrainSpy.h">
+      <Filter>src\Bot\Brain</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

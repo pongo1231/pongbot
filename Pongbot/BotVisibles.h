@@ -24,4 +24,6 @@ private:
 	float _TickTime;
 
 	void _AddEntity(edict_t *edict, Vector edictPos, uint8_t insertIndex);
+	bool _IsTargetInSight(Vector targetPos) const;
+	bool _HasClearLineToTarget(IServerEntity *targetEntity, Vector targetPos) const;
 };

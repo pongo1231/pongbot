@@ -6,6 +6,8 @@
 #include "TFTeam.h"
 #include "EntityDataProvider.h"
 #include <metamod/ISmmAPI.h>
+#include <hlsdk/public/mathlib/mathlib.h>
+#include <numeric>
 
 #define BOT_VISIBILITY_TICK .2f
 
@@ -61,46 +63,39 @@ void BotVisibles::OnThink()
 	_VisibleTargets.clear();
 
 	Vector botPos = _MBot->GetEarPos();
-	edict_t *botEdict = _MBot->GetEdict();
-	IHandleEntity *botPassEntity = botEdict->GetIServerEntity();
 	for (edict_t *edict : _BotVisiblesProvider->GetVisibleEdicts())
 	{
-		if (edict == botEdict)
+		if (edict == _MBot->GetEdict())
 			continue;
 
 		Vector edictPos = Util::GetEdictOrigin(edict);
-		// Target center instead of feet if edict is player
-		Vector earPos = Vector();
-		IIServerGameClients->ClientEarPosition(edict, &earPos);
-		if (!earPos.IsZero())
-			edictPos += Vector(0.f, 0.f, (earPos.z - edictPos.z) / 2.f);
-
-		Ray_t traceLine;
-		traceLine.Init(botPos, edictPos);
-		trace_t traceResult;
-		IIEngineTrace->TraceRay(traceLine, MASK_SOLID, &TraceFilterSimple(botPassEntity,
-			edict->GetIServerEntity()), &traceResult);
-		bool traceHit = traceResult.DidHit();
-
-		if (!traceHit)
+		if (_IsTargetInSight(edictPos))
 		{
-			// Insert according to distance bot <-> edict
-			uint8_t insertIndex = 0;
-			vec_t edictBotDistance = edictPos.DistTo(botPos);
-			for (uint8_t i = 0; i < _VisibleTargets.size(); i++)
+			// Target center instead of feet if entity is player
+			Vector earPos;
+			IIServerGameClients->ClientEarPosition(edict, &earPos);
+			if (!earPos.IsZero())
+				edictPos += Vector(0.f, 0.f, (earPos.z - edictPos.z) / 2.f);
+
+			bool clearLine = _HasClearLineToTarget(edict->GetIServerEntity(), edictPos);
+			if (clearLine)
 			{
-				if (_VisibleTargets[i]->Pos.DistTo(botPos) >= edictBotDistance)
-				{
-					insertIndex = i;
-					break;
-				}
+				// Insert according to distance bot <-> edict
+				uint8_t insertIndex = 0;
+				vec_t edictBotDistance = edictPos.DistTo(botPos);
+				for (uint8_t i = 0; i < _VisibleTargets.size(); i++)
+					if (_VisibleTargets[i]->Pos.DistTo(botPos) >= edictBotDistance)
+					{
+						insertIndex = i;
+						break;
+					}
+
+				_AddEntity(edict, edictPos, insertIndex);
 			}
 
-			_AddEntity(edict, edictPos, insertIndex);
+			if (_DrawDebugBeams)
+				Util::DrawBeam(botPos, edictPos, clearLine ? 255 : 0, clearLine ? 0 : 255, 0, BOT_VISIBILITY_TICK);
 		}
-
-		if (_DrawDebugBeams)
-				Util::DrawBeam(botPos, edictPos, traceHit ? 255 : 0, traceHit ? 0 : 255, 0, BOT_VISIBILITY_TICK);
 	}
 }
 
@@ -114,6 +109,28 @@ void BotVisibles::_AddEntity(edict_t *edict, Vector edictPos, uint8_t insertInde
 		
 	_VisibleTargets.insert(_VisibleTargets.begin() + insertIndex,
 		new BotVisibleTarget(edictPos, targetPriority));
+}
+
+bool BotVisibles::_IsTargetInSight(Vector targetPos) const
+{
+	Vector vectorForward;
+	AngleVectors(_MBot->GetViewAngle(), &vectorForward);
+	float dot = vectorForward.x * targetPos.x + vectorForward.y * targetPos.y + vectorForward.z * targetPos.z;
+	float angle = std::acos(dot / (vectorForward.Length() * targetPos.Length()));
+
+	// TODOOOOOOOOOOOOOOO!
+	return true;
+}
+
+bool BotVisibles::_HasClearLineToTarget(IServerEntity *targetEntity, Vector targetPos) const
+{
+	Ray_t traceLine;
+	traceLine.Init(_MBot->GetEarPos(), targetPos);
+	trace_t traceResult;
+	IIEngineTrace->TraceRay(traceLine, MASK_SOLID, &TraceFilterSimple(_MBot->GetEdict()->GetIServerEntity(),
+		targetEntity), &traceResult);
+
+	return !traceResult.DidHit();
 }
 
 CON_COMMAND(pongbot_bot_visibility_debug, "Toggle debug visibility raytracing beams")
