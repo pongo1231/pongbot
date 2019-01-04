@@ -4,7 +4,7 @@
 
 class BotHelper;
 class WaypointNode;
-class BotBehaviour;
+class BotBrain;
 class BotVisibles;
 enum TFClass;
 enum TFTeam;
@@ -38,14 +38,14 @@ private:
 	edict_t *_Edict;
 	IBotController *_IIBotController;
 	IPlayerInfo *_IIPlayerInfo;
-	BotBehaviour *_BotBehaviour;
+	BotBrain *_BotBrain;
 	BotVisibles *_BotVisibles;
 	TFClass _CurrentClass;
 	QAngle _TargetViewAngle;
 	Vector2D _Movement;
 	int _PressedButtons;
 
-	void _UpdateBotBehaviour();
+	void _UpdateBotBrain();
 	void _TFClassToJoinName(TFClass tfClass, char *tfClassName);
 	void _RandomClass();
 };

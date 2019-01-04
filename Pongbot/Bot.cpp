@@ -1,17 +1,17 @@
 #include "Bot.h"
 #include "BotManager.h"
 #include "Util.h"
-#include "BotBehaviour.h"
+#include "BotBrain.h"
 #include "BotVisibles.h"
-#include "BotBehaviourScout.h"
-#include "BotBehaviourSoldier.h"
-#include "BotBehaviourPyro.h"
-#include "BotBehaviourDemo.h"
-#include "BotBehaviourHeavy.h"
-#include "BotBehaviourEngi.h"
-#include "BotBehaviourMed.h"
-#include "BotBehaviourSniper.h"
-#include "BotBehaviourSpy.h"
+#include "BotBrainScout.h"
+#include "BotBrainSoldier.h"
+#include "BotBrainPyro.h"
+#include "BotBrainDemo.h"
+#include "BotBrainHeavy.h"
+#include "BotBrainEngi.h"
+#include "BotBrainMed.h"
+#include "BotBrainSniper.h"
+#include "BotBrainSpy.h"
 #include "TFTeam.h"
 #include "TFClass.h"
 #include "EntityDataProvider.h"
@@ -31,7 +31,7 @@ const char *Name;
 edict_t *_Edict;
 IBotController *_IIBotController;
 IPlayerInfo *_IIPlayerInfo;
-BotBehaviour *_BotBehaviour;
+BotBrain *_BotBrain;
 BotVisibles *_BotVisibles;
 TFClass _CurrentClass;
 QAngle _TargetViewAngle;
@@ -42,7 +42,7 @@ Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
 	_IIBotController(IIBotManager->GetBotController(edict)),
 	_IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(edict))
 {
-	_BotBehaviour = new BotBehaviour(this);
+	_BotBrain = new BotBrain(this);
 	_BotVisibles = new BotVisibles(this);
 
 	// Join team with least players or red team if both equal
@@ -64,13 +64,13 @@ Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
 Bot::~Bot()
 {
 	delete _BotVisibles;
-	delete _BotBehaviour;
+	delete _BotBrain;
 }
 
 void Bot::Think()
 {
 	_BotVisibles->OnThink();
-	_BotBehaviour->OnThink();
+	_BotBrain->OnThink();
 	
 	// Smoothed out aiming
 	QAngle currentViewAngle = GetViewAngle();
@@ -157,7 +157,7 @@ void Bot::ChangeClass(TFClass tfClass)
 	IIServerPluginHelpers->ClientCommand(_Edict, cmd);
 
 	_CurrentClass = tfClass;
-	_UpdateBotBehaviour();
+	_UpdateBotBrain();
 }
 
 void Bot::ExecClientCommand(const char *command) const
@@ -165,29 +165,29 @@ void Bot::ExecClientCommand(const char *command) const
 	IIServerPluginHelpers->ClientCommand(_Edict, command);
 }
 
-void Bot::_UpdateBotBehaviour()
+void Bot::_UpdateBotBrain()
 {
-	delete _BotBehaviour;
+	delete _BotBrain;
 	switch (_CurrentClass)
 	{
 	case SCOUT:
-		_BotBehaviour = new BotBehaviourScout(this);
+		_BotBrain = new BotBrainScout(this);
 	case SOLDIER:
-		_BotBehaviour = new BotBehaviourSoldier(this);
+		_BotBrain = new BotBrainSoldier(this);
 	case PYRO:
-		_BotBehaviour = new BotBehaviourPyro(this);
+		_BotBrain = new BotBrainPyro(this);
 	case DEMO:
-		_BotBehaviour = new BotBehaviourDemo(this);
+		_BotBrain = new BotBrainDemo(this);
 	case HEAVY:
-		_BotBehaviour = new BotBehaviourHeavy(this);
+		_BotBrain = new BotBrainHeavy(this);
 	case ENGI:
-		_BotBehaviour = new BotBehaviourEngi(this);
+		_BotBrain = new BotBrainEngi(this);
 	case MED:
-		_BotBehaviour = new BotBehaviourMed(this);
+		_BotBrain = new BotBrainMed(this);
 	case SNIPER:
-		_BotBehaviour = new BotBehaviourSniper(this);
+		_BotBrain = new BotBrainSniper(this);
 	case SPY:
-		_BotBehaviour = new BotBehaviourSpy(this);
+		_BotBrain = new BotBrainSpy(this);
 	}
 }
 

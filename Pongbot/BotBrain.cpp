@@ -1,4 +1,4 @@
-#include "BotBehaviour.h"
+#include "BotBrain.h"
 #include "BotTaskGoto.h"
 #include "WaypointManager.h"
 #include "WaypointNodeFlagsProvider.h"
@@ -20,7 +20,7 @@ bool _IsBotDead;
 bool _FreeRoaming;
 float _DefaultBehaviourUpdateTime;
 
-void BotBehaviour::OnThink()
+void BotBrain::OnThink()
 {
 	if (_ABot->IsDead())
 		_IsBotDead = true;
@@ -53,7 +53,7 @@ void BotBehaviour::OnThink()
 	}
 }
 
-void BotBehaviour::_DefaultBehaviour()
+void BotBrain::_DefaultBehaviour()
 {
 	Vector botPos = _ABot->GetPos();
 	std::vector<Objective> pushObjectives = _ObjectivesProvider->GetBotPushObjectives(_ABot);
@@ -110,24 +110,24 @@ void BotBehaviour::_DefaultBehaviour()
 		SetTaskQueue(newTaskQueue);
 }
 
-void BotBehaviour::OnSpawn()
+void BotBrain::OnSpawn()
 {
 	_ClearTasks();
 	_OnSpawn();
 }
 
-void BotBehaviour::SetTaskQueue(std::queue<BotTask*> taskQueue)
+void BotBrain::SetTaskQueue(std::queue<BotTask*> taskQueue)
 {
 	_ClearTasks();
 	_BotTasks = taskQueue;
 }
 
-Bot *BotBehaviour::_GetBot() const
+Bot *BotBrain::_GetBot() const
 {
 	return _ABot;
 }
 
-void BotBehaviour::_ClearTasks()
+void BotBrain::_ClearTasks()
 {
 	while (!_BotTasks.empty())
 	{

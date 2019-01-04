@@ -4,10 +4,10 @@
 #include <hlsdk/public/mathlib/mathlib.h>
 #include <queue>
 
-class BotBehaviour
+class BotBrain
 {
 public:
-	BotBehaviour(Bot *bot) : _ABot(bot), _IsBotDead(false), _FreeRoaming(false)
+	BotBrain(Bot *bot) : _ABot(bot), _IsBotDead(false), _FreeRoaming(false)
 	{}
 
 public:
