@@ -9,7 +9,7 @@
 #include <hlsdk/public/mathlib/mathlib.h>
 #include <numeric>
 
-#define BOT_VISIBILITY_TICK .2f
+ConVar _CVarVisibilityTick("pongbot_bot_visibility_tick", "0.2", 0, "How often visibility is being tested");
 
 extern IVEngineServer *Engine;
 extern IEngineTrace *IIEngineTrace;
@@ -22,9 +22,6 @@ static bool _DrawDebugBeams = false;
 Bot *_MBot;
 std::vector<BotVisibleTarget*> _VisibleTargets;
 float _TickTime;
-
-BotVisibles::BotVisibles(Bot *bot) : _MBot(bot)
-{}
 
 std::vector<BotVisibleTarget*> BotVisibles::GetVisibleTargets() const
 {
@@ -56,7 +53,8 @@ void BotVisibles::OnThink()
 	float currentTime = Engine->Time();
 	if (_TickTime > currentTime)
 		return;
-	_TickTime = currentTime + BOT_VISIBILITY_TICK;
+	float visibilityTick = _CVarVisibilityTick.GetFloat();
+	_TickTime = currentTime + visibilityTick;
 
 	for (BotVisibleTarget *visibleTarget : _VisibleTargets)
 		delete visibleTarget;
@@ -94,7 +92,7 @@ void BotVisibles::OnThink()
 			}
 
 			if (_DrawDebugBeams)
-				Util::DrawBeam(botPos, edictPos, clearLine ? 255 : 0, clearLine ? 0 : 255, 0, BOT_VISIBILITY_TICK);
+				Util::DrawBeam(botPos, edictPos, clearLine ? 255 : 0, clearLine ? 0 : 255, 0, visibilityTick);
 		}
 	}
 }

@@ -19,7 +19,7 @@
 #include <metamod/ISmmPlugin.h>
 #include <string>
 
-#define BOT_AIM_SENSITIVITY 3.f
+ConVar _CVarAimSensivity("pongbot_bot_aimsensivity", "3.0", 0, "Bot aim sensivity");
 
 extern IVEngineServer *Engine;
 extern IBotManager *IIBotManager;
@@ -74,7 +74,7 @@ void Bot::Think()
 	
 	// Smoothed out aiming
 	QAngle currentViewAngle = GetViewAngle();
-	QAngle finalViewAngle = Util::CorrectViewAngle(_TargetViewAngle - currentViewAngle) / BOT_AIM_SENSITIVITY + currentViewAngle;
+	QAngle finalViewAngle = Util::CorrectViewAngle(_TargetViewAngle - currentViewAngle) / _CVarAimSensivity.GetFloat() + currentViewAngle;
 	finalViewAngle.x *= 2;
 
 	CBotCmd cmd;

@@ -10,8 +10,8 @@
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <map>
 
-#define WAYPOINT_NODE_DEBUG_BEAM_TICK .5f
-#define WAYPOINT_NODE_DEBUG_BEAM_DRAWDIST 1000.f
+ConVar _CVarDebugBeamTick("pongbot_waypoint_debugbeamtick", "0.5", 0, "How often the node debug beams get drawn");
+ConVar _CVarDebugBeamDist("pongbot_waypoint_debugbeamdist", "1000.0", 0, "Max draw distance of node debug beams");
 
 extern IVEngineServer *Engine;
 extern IPlayerInfoManager *IIPlayerInfoManager;
@@ -208,7 +208,8 @@ void WaypointManager::OnGameFrame()
 	float currentTime = Engine->Time();
 	if (tickTime > currentTime)
 		return;
-	tickTime = currentTime + WAYPOINT_NODE_DEBUG_BEAM_TICK;
+	float debugBeamTick = _CVarDebugBeamTick.GetFloat();
+	tickTime = currentTime + debugBeamTick;
 
 	edict_t *edict = Engine->PEntityOfEntIndex(1);
 	if (edict && strcmp(edict->GetClassName(), "player") == 0)
@@ -226,13 +227,13 @@ void WaypointManager::OnGameFrame()
 			if (!alreadyDrawn)
 			{
 				Vector startPos = node->Pos;
-				if (startPos.DistTo(Util::GetEdictOrigin(edict)) <= WAYPOINT_NODE_DEBUG_BEAM_DRAWDIST)
+				if (startPos.DistTo(Util::GetEdictOrigin(edict)) <= _CVarDebugBeamDist.GetFloat())
 				{
 					Vector endPos = startPos + Vector(0.f, 0.f, 75.f);
-					Util::DrawBeam(startPos, endPos, node->Flags != 0 ? 255 : 0, 255, 0, WAYPOINT_NODE_DEBUG_BEAM_TICK);
+					Util::DrawBeam(startPos, endPos, node->Flags != 0 ? 255 : 0, 255, 0, debugBeamTick);
 					for (WaypointNode *connectedNode : node->GetConnectedNodes())
 					{
-						Util::DrawBeam(endPos, connectedNode->Pos, 255, 255, 255, WAYPOINT_NODE_DEBUG_BEAM_TICK);
+						Util::DrawBeam(endPos, connectedNode->Pos, 255, 255, 255, debugBeamTick);
 
 						alreadyDrawn = false;
 						for (WaypointNode *drawnNode : drawnNodes)
@@ -245,7 +246,7 @@ void WaypointManager::OnGameFrame()
 						{
 							startPos = connectedNode->Pos;
 							Util::DrawBeam(startPos, startPos + Vector(0.f, 0.f, 75.f),
-								connectedNode->Flags != 0 ? 255 : 0, 255, 0, WAYPOINT_NODE_DEBUG_BEAM_TICK);
+								connectedNode->Flags != 0 ? 255 : 0, 255, 0, debugBeamTick);
 
 							drawnNodes.push_back(node);
 						}

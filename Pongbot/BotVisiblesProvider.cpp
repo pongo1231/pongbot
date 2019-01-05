@@ -6,7 +6,7 @@
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 
-#define VISIBLES_PROVIDER_TICK 1
+ConVar _CVarVisiblesProviderTick("pongbot_visibles_providetick", "1.0", 0, "How often visibles will be provided");
 
 extern IVEngineServer *Engine;
 extern IPlayerInfoManager *IIPlayerInfoManager;
@@ -41,7 +41,7 @@ void BotVisiblesProvider::OnGameFrame()
 	float currentTime = Engine->Time();
 	if (tickTime > currentTime)
 		return;
-	tickTime = currentTime + VISIBLES_PROVIDER_TICK;
+	tickTime = currentTime + _CVarVisiblesProviderTick.GetFloat();
 
 	_VisibleEdicts.clear();
 	for (edict_t *edict : _EntityProvider->GetEdicts())

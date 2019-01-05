@@ -3,7 +3,7 @@
 #include "BotManager.h"
 #include <metamod/ISmmAPI.h>
 
-#define EDICT_PROVIDER_TICK 1
+ConVar _CVarEntityProviderTick("pongbot_entityprovide_tick", "1.0", 0, "How often all entities get iterated through");
 
 extern IVEngineServer *Engine;
 
@@ -53,7 +53,7 @@ void EntityProvider::OnGameFrame()
 	float currentTime = Engine->Time();
 	if (tickTime > currentTime)
 		return;
-	tickTime = currentTime + EDICT_PROVIDER_TICK;
+	tickTime = currentTime + _CVarEntityProviderTick.GetFloat();
 
 	_Edicts.clear();
 	for (int i = 1; i < Engine->GetEntityCount(); i++)

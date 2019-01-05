@@ -10,7 +10,8 @@ class Bot;
 class BotVisibles
 {
 public:
-	BotVisibles(Bot *bot);
+	BotVisibles(Bot *bot) : _MBot(bot)
+	{}
 
 public:
 	std::vector<BotVisibleTarget*> GetVisibleTargets() const;

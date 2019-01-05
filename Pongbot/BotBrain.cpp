@@ -10,7 +10,7 @@
 #include <metamod/ISmmAPI.h>
 #include <vector>
 
-#define BEHAVIOUR_UPDATE_TICK 0.2f
+ConVar _CVarBehaviourUpdateTick("pongbot_bot_brain_updatetick", "0.2", 0, "How often the bots will check for updated tasks");
 
 extern IVEngineServer *Engine;
 
@@ -38,7 +38,7 @@ void BotBrain::OnThink()
 		if (_DefaultBehaviourUpdateTime < engineTime)
 		{
 			_DefaultBehaviour();
-			_DefaultBehaviourUpdateTime = engineTime + BEHAVIOUR_UPDATE_TICK;
+			_DefaultBehaviourUpdateTime = engineTime + _CVarBehaviourUpdateTick.GetFloat();
 		}
 
 		if (!_BotTasks.empty())

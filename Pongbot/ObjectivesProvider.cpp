@@ -8,7 +8,7 @@
 #include "BotManager.h"
 #include <metamod/ISmmAPI.h>
 
-#define OBJECTIVE_UPDATE_TICK 0.5f
+ConVar _CVarObjectiveUpdateTick("pongbot_objectiveprovider_tick", "0.5", 0, "How often all objectives get iterated through");
 
 extern IVEngineServer *Engine;
 
@@ -48,7 +48,7 @@ void ObjectivesProvider::OnGameFrame()
 	float engineTime = Engine->Time();
 	if (tickTime > engineTime)
 		return;
-	tickTime = engineTime + OBJECTIVE_UPDATE_TICK;
+	tickTime = engineTime + _CVarObjectiveUpdateTick.GetFloat();
 
 	_RedObjectives.clear();
 	_BlueObjectives.clear();

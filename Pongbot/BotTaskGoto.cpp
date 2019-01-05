@@ -11,11 +11,9 @@
 #include <metamod/ISmmAPI.h>
 #include <stack>
 
-#define POS_STUCK_RADIUS 50.f
-#define POS_STUCK_STARTPANICTIME 120 // Bot starts crouch jumping
-#define WAYPOINTNODE_TOUCHED_RADIUS 50.f
-#define WAYPOINTNODE_FIND_CLOSEST_MAXDIST 500.f
-#define TARGETPOS_DEBUG_BEAM_TICK 0.1f
+ConVar _CVarNodeTouchRadius("pongbot_bot_goto_nodetouchradius", "50.0", 0, "Min distance to node to count as 'touched'");
+ConVar _CVarPosStuckPanicTime("pongbot_bot_goto_stuckpanictime", "120.0", 0, "Time until bot starts panicing if stuck (crouch jump)");
+ConVar _CVarTargetPosDebugBeamTick("pongbot_bot_goto_debugbeamtick", "0.1", 0, "How often the goto debug beam gets updated");
 
 extern IVEngineServer *Engine;
 
@@ -39,17 +37,20 @@ bool BotTaskGoto::_OnThink()
 {
 	Bot *bot = _GetBot();
 	Vector currentPos = bot->GetPos();
+	float nodeTouchRadius = _CVarNodeTouchRadius.GetFloat();
 
-	if (Util::DistanceToNoZ(currentPos, _LastPos) < POS_STUCK_RADIUS)
+	if (Util::DistanceToNoZ(currentPos, _LastPos) < nodeTouchRadius)
 	{
 		_PosStuckTime++;
-		if (_PosStuckTime > POS_STUCK_STARTPANICTIME + 50)
+
+		float panicStuckTime = _CVarPosStuckPanicTime.GetFloat();
+		if (_PosStuckTime > panicStuckTime + 50)
 		{
 			_PosStuckTime = 0;
 			if (!_ShortestWay)
 				_NewTargetNodeStack();
 		}
-		else if (_PosStuckTime > POS_STUCK_STARTPANICTIME)
+		else if (_PosStuckTime > panicStuckTime)
 		{
 			_AddBotPressedButton(IN_JUMP);
 			_AddBotPressedButton(IN_DUCK);
@@ -67,7 +68,7 @@ bool BotTaskGoto::_OnThink()
 	else
 	{
 		Vector targetPos = _TargetPosQueue.front();
-		if (currentPos.DistTo(targetPos) <= WAYPOINTNODE_TOUCHED_RADIUS)
+		if (currentPos.DistTo(targetPos) <= nodeTouchRadius)
 			_TargetPosQueue.pop();
 		else
 		{
@@ -77,8 +78,9 @@ bool BotTaskGoto::_OnThink()
 
 		if (_DrawDebugBeam && Engine->Time() > _DebugBeamDrawTime)
 		{
-			Util::DrawBeam(bot->GetEarPos(), targetPos, 255, 0, 0, TARGETPOS_DEBUG_BEAM_TICK);
-			_DebugBeamDrawTime = Engine->Time() + TARGETPOS_DEBUG_BEAM_TICK;
+			float debugBeamTick = _CVarTargetPosDebugBeamTick.GetFloat();
+			Util::DrawBeam(bot->GetEarPos(), targetPos, 255, 0, 0, debugBeamTick);
+			_DebugBeamDrawTime = Engine->Time() + debugBeamTick;
 		}
 	}
 
@@ -109,9 +111,10 @@ void BotTaskGoto::_NewTargetNodeStack()
 		_TargetPosQueue = std::queue<Vector>();
 		while (!_WaypointNodeStack.empty())
 		{
+			float nodeTouchRadius = _CVarNodeTouchRadius.GetFloat();
 			_TargetPosQueue.push(_WaypointNodeStack.top()->Pos
-				+ Vector(Util::RandomFloat(-WAYPOINTNODE_TOUCHED_RADIUS, WAYPOINTNODE_TOUCHED_RADIUS),
-					Util::RandomFloat(-WAYPOINTNODE_TOUCHED_RADIUS, WAYPOINTNODE_TOUCHED_RADIUS), 0.f));
+				+ Vector(Util::RandomFloat(-nodeTouchRadius, nodeTouchRadius),
+					Util::RandomFloat(-nodeTouchRadius, nodeTouchRadius), 0.f));
 			_WaypointNodeStack.pop();
 		}
 		_TargetPosQueue.push(_TargetPos);
