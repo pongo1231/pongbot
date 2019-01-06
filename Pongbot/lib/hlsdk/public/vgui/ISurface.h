@@ -12,15 +12,15 @@
 #pragma once
 #endif
 
-#include <vgui/VGUI.h>
-#include <vgui/IHTML.h> // CreateHTML, PaintHTML 
-#include "tier1/interface.h"
-#include "bitmap/imageformat.h"
+#include <hlsdk/public/vgui/VGUI.h>
+#include <hlsdk/public/vgui/IHTML.h> // CreateHTML, PaintHTML 
+#include "hlsdk/public/tier1/interface.h"
+#include "hlsdk/public/bitmap/imageformat.h"
 
-#include "appframework/IAppSystem.h"
-#include "mathlib/vector2d.h"  // must be before the namespace line
+#include "hlsdk/public/appframework/IAppSystem.h"
+#include "hlsdk/public/mathlib/vector2d.h"  // must be before the namespace line
 
-#include "IVguiMatInfo.h"
+#include "hlsdk/public/vgui/IVguiMatInfo.h"
 
 #ifdef CreateFont
 #undef CreateFont

@@ -14,7 +14,7 @@
 #pragma once
 #endif
 
-#include "inputsystem/ButtonCode.h"
+#include "hlsdk/public/inputsystem/ButtonCode.h"
 
 namespace vgui
 {

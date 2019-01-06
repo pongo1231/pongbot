@@ -12,11 +12,11 @@
 #pragma once
 
 
-#include "c_baseanimating.h"
-#include "c_baseanimatingoverlay.h"
-#include "sceneentity_shared.h"
+#include "hlsdk/game/client/c_baseanimating.h"
+#include "hlsdk/game/client/c_baseanimatingoverlay.h"
+#include "hlsdk/game/shared/sceneentity_shared.h"
 
-#include "UtlVector.h"
+#include "hlsdk/public/tier1/UtlVector.h"
 
 //-----------------------------------------------------------------------------
 // Purpose: Item in list of loaded scene files

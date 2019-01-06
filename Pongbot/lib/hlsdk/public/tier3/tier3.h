@@ -12,7 +12,7 @@
 #pragma once
 #endif
 
-#include "tier2/tier2.h"
+#include "hlsdk/public/tier2/tier2.h"
 
 
 //-----------------------------------------------------------------------------

@@ -13,7 +13,7 @@
 #include "hlsdk/public/tier1/smartptr.h"
 #include "hlsdk/public/globalvars_base.h"
 #include "hlsdk/game/client/particles_new.h"
-#include "hlsdk/public/particle_parse.h"
+#include "hlsdk/game/shared/particle_parse.h"
 
 //-----------------------------------------------------------------------------
 // Forward declarations

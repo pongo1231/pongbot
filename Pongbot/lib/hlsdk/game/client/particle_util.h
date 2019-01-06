@@ -9,11 +9,11 @@
 #ifndef PARTICLE_UTIL_H
 #define PARTICLE_UTIL_H
 
-#include "materialsystem/IMesh.h"
-#include "particledraw.h"
-#include "particlemgr.h"
-#include "cdll_client_int.h"
-#include "timedevent.h"
+#include "hlsdk/public/materialsystem/IMesh.h"
+#include "hlsdk/game/client/particledraw.h"
+#include "hlsdk/game/client/particlemgr.h"
+#include "hlsdk/game/client/cdll_client_int.h"
+#include "hlsdk/game/client/timedevent.h"
 
 // Lerp between two floating point numbers.
 inline float FLerp(float minVal, float maxVal, float t)

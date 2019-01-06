@@ -48,11 +48,11 @@ struct studiohdr_t;
 #include "hlsdk/game/shared/gamerules.h"
 #include "hlsdk/game/client/c_baseplayer.h"
 #include "hlsdk/game/shared/itempents.h"
-#include "hlsdk/game/shared/vphysics_interface.h"
-#include "hlsdk/game/shared/physics.h"
+#include "hlsdk/public/vphysics_interface.h"
+#include "hlsdk/game/server/physics.h"
 #include "hlsdk/game/client/c_recipientfilter.h"
 #include "hlsdk/game/client/cdll_client_int.h"
-#include "hlsdk/game/shared/worldsize.h"
-#include "hlsdk/game/shared/engine/ivmodelinfo.h"
+#include "hlsdk/public/worldsize.h"
+#include "hlsdk/public/engine/ivmodelinfo.h"
 
 #endif // CBASE_H

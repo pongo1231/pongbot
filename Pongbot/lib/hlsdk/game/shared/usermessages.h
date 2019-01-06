@@ -10,9 +10,9 @@
 #pragma once
 #endif
 
-#include <utldict.h>
-#include <utlvector.h>
-#include <bitbuf.h>
+#include <hlsdk/public/tier1/utldict.h>
+#include <hlsdk/public/tier1/utlvector.h>
+#include <hlsdk/public/tier1/bitbuf.h>
 
 
 // Client dispatch function for usermessages

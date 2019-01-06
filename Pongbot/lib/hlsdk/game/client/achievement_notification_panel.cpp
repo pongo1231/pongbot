@@ -5,22 +5,22 @@
 // $NoKeywords: $
 //=============================================================================
 
-#include "cbase.h"
-#include "hud.h"
-#include "hud_macros.h"
-#include "hudelement.h"
-#include "iclientmode.h"
-#include "ienginevgui.h"
-#include <vgui/ILocalize.h>
-#include <vgui/ISurface.h>
-#include <vgui/IVGUI.h>
-#include <vgui_controls/EditablePanel.h>
-#include <vgui_controls/Label.h>
-#include <vgui_controls/ImagePanel.h>
-#include "achievement_notification_panel.h"
-#include "steam/steam_api.h"
-#include "iachievementmgr.h"
-#include "fmtstr.h"
+#include "hlsdk/game/client/cbase.h"
+#include "hlsdk/game/client/hud.h"
+#include "hlsdk/game/client/hud_macros.h"
+#include "hlsdk/game/client/hudelement.h"
+#include "hlsdk/game/client/iclientmode.h"
+#include "hlsdk/public/ienginevgui.h"
+#include <hlsdk/public/vgui/ILocalize.h>
+#include <hlsdk/public/vgui/ISurface.h>
+#include <hlsdk/public/vgui/IVGUI.h>
+#include <hlsdk/public/vgui_controls/EditablePanel.h>
+#include <hlsdk/public/vgui_controls/Label.h>
+#include <hlsdk/public/vgui_controls/ImagePanel.h>
+#include "hlsdk/game/client/achievement_notification_panel.h"
+#include "hlsdk/public/steam/steam_api.h"
+#include "hlsdk/public/iachievementmgr.h"
+#include "hlsdk/public/tier1/fmtstr.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "hlsdk/public/tier0/memdbgon.h"

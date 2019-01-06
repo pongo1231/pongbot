@@ -12,8 +12,8 @@
 #endif
 
 
-#include "materialsystem/imesh.h"
-#include "particledraw.h"
+#include "hlsdk/public/materialsystem/imesh.h"
+#include "hlsdk/game/client/particledraw.h"
 
 
 #define NUM_PARTICLES_PER_BATCH 200

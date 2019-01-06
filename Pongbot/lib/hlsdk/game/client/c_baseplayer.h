@@ -12,17 +12,17 @@
 #pragma once
 #endif
 
-#include "c_playerlocaldata.h"
-#include "c_basecombatcharacter.h"
-#include "playerstate.h"
-#include "usercmd.h"
-#include "shareddefs.h"
-#include "timedevent.h"
-#include "smartptr.h"
-#include "fx_water.h"
-#include "hintsystem.h"
-#include "soundemittersystem/isoundemittersystembase.h"
-#include "c_env_fog_controller.h"
+#include "hlsdk/game/client/c_playerlocaldata.h"
+#include "hlsdk/game/client/c_basecombatcharacter.h"
+#include "hlsdk/public/playerstate.h"
+#include "hlsdk/game/shared/usercmd.h"
+#include "hlsdk/game/shared/shareddefs.h"
+#include "hlsdk/game/client/timedevent.h"
+#include "hlsdk/public/tier1/smartptr.h"
+#include "hlsdk/game/client/fx_water.h"
+#include "hlsdk/game/shared/hintsystem.h"
+#include "hlsdk/public/soundemittersystem/isoundemittersystembase.h"
+#include "hlsdk/game/client/c_env_fog_controller.h"
 
 class C_BaseCombatWeapon;
 class C_BaseViewModel;

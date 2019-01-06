@@ -13,9 +13,9 @@
 #pragma once
 #endif
 
-#include "basetypes.h"
-#include "utlmemory.h"
-#include "tier0/dbg.h"
+#include "hlsdk/public/tier0/basetypes.h"
+#include "hlsdk/public/tier1/utlmemory.h"
+#include "hlsdk/public/tier0/dbg.h"
 
 
 // 

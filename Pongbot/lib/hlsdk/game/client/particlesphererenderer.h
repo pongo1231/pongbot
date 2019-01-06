@@ -12,8 +12,8 @@
 #endif
 
 
-#include "particlemgr.h"
-#include "particle_util.h"
+#include "hlsdk/game/client/particlemgr.h"
+#include "hlsdk/game/client/particle_util.h"
 
 
 class CParticleSphereRenderer

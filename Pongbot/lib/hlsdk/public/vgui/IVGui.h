@@ -12,10 +12,10 @@
 #pragma once
 #endif
 
-#include "tier1/interface.h"
-#include <vgui/VGUI.h>
+#include "hlsdk/public/tier1/interface.h"
+#include <hlsdk/public/vgui/VGUI.h>
 
-#include "appframework/IAppSystem.h"
+#include "hlsdk/public/appframework/IAppSystem.h"
 
 class KeyValues;
 

@@ -11,8 +11,8 @@
 
 #include <stdarg.h>
 #include <stdio.h>
-#include "tier0/platform.h"
-#include "tier1/strtools.h"
+#include "hlsdk/public/tier0/platform.h"
+#include "hlsdk/public/tier1/strtools.h"
 
 #if defined( _WIN32 )
 #pragma once

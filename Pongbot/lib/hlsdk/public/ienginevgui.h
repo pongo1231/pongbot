@@ -13,8 +13,8 @@
 #pragma once
 #endif
 
-#include "interface.h"
-#include "vgui/VGUI.h"
+#include "hlsdk/public/tier1/interface.h"
+#include "hlsdk/public/vgui/VGUI.h"
 
 // Forward declarations.
 namespace vgui

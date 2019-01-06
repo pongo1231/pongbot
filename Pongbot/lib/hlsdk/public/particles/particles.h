@@ -10,19 +10,19 @@
 #pragma once
 #endif
 
-#include "mathlib/mathlib.h"
-#include "mathlib/vector.h"
-#include "mathlib/ssemath.h"
-#include "materialsystem/imaterialsystem.h"
-#include "dmxloader/dmxelement.h"
-#include "tier1/utlintrusivelist.h"
-#include "vstdlib/random.h"
-#include "tier1/utlobjectreference.h"
-#include "tier1/UtlStringMap.h"
-#include "tier1/utlmap.h"
-#include "materialsystem/MaterialSystemUtil.h"
-#include "trace.h"
-#include "tier1/utlsoacontainer.h"
+#include "hlsdk/public/mathlib/mathlib.h"
+#include "hlsdk/public/mathlib/vector.h"
+#include "hlsdk/public/mathlib/ssemath.h"
+#include "hlsdk/public/materialsystem/imaterialsystem.h"
+#include "hlsdk/public/dmxloader/dmxelement.h"
+#include "hlsdk/public/tier1/utlintrusivelist.h"
+#include "hlsdk/public/vstdlib/random.h"
+#include "hlsdk/public/tier1/utlobjectreference.h"
+#include "hlsdk/public/tier1/UtlStringMap.h"
+#include "hlsdk/public/tier1/utlmap.h"
+#include "hlsdk/public/materialsystem/MaterialSystemUtil.h"
+#include "hlsdk/public/trace.h"
+#include "hlsdk/public/tier1/utlsoacontainer.h"
 
 #ifndef SWDS
 #include <algorithm>

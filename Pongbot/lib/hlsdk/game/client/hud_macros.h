@@ -10,7 +10,7 @@
 #pragma once
 #endif
 
-#include "usermessages.h"
+#include "hlsdk/game/shared/usermessages.h"
 
 // Macros to hook function calls into the HUD object
 #define HOOK_MESSAGE(x) usermessages->HookMessage(#x, __MsgFunc_##x );

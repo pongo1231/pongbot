@@ -12,9 +12,9 @@
 #pragma once
 #endif
 
-#include "basetypes.h"
-#include "mathlib/vector.h"
-#include "playernet_vars.h"
+#include "hlsdk/public/tier0/basetypes.h"
+#include "hlsdk/public/mathlib/vector.h"
+#include "hlsdk/game/shared/playernet_vars.h"
 
 //-----------------------------------------------------------------------------
 // Purpose: Player specific data ( sent only to local player, too )

@@ -14,10 +14,10 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <vgui/VGUI.h>
-#include "tier1/utlvector.h"
+#include <hlsdk/public/vgui/VGUI.h>
+#include "hlsdk/public/tier1/utlvector.h"
 
-#include "tier0/memdbgon.h"
+#include "hlsdk/public/tier0/memdbgon.h"
 
 namespace vgui
 {
@@ -129,6 +129,6 @@ public:
 
 }
 
-#include "tier0/memdbgoff.h"
+#include "hlsdk/public/tier0/memdbgoff.h"
 
 #endif // DAR_H

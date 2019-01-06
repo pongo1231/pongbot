@@ -109,19 +109,20 @@ entities. Each one is useful under different conditions.
 #pragma once
 #endif
 
-#include "materialsystem/imaterial.h"
-#include "materialsystem/imaterialsystem.h"
-#include "mathlib/vector.h"
-#include "mathlib/vmatrix.h"
-#include "mathlib/Mathlib.h"
-#include "iclientrenderable.h"
-#include "clientleafsystem.h"
-#include "tier0/fasttimer.h"
-#include "utllinkedlist.h"
-#include "UtlDict.h"
-#include <typeinfo.h>
-#include "tier1/utlintrusivelist.h"
-#include "tier1/utlstring.h"
+#include "hlsdk/public/materialsystem/imaterial.h"
+#include "hlsdk/public/materialsystem/imaterialsystem.h"
+#include "hlsdk/public/mathlib/vector.h"
+#include "hlsdk/public/mathlib/vmatrix.h"
+#include "hlsdk/public/mathlib/Mathlib.h"
+#include "hlsdk/public/iclientrenderable.h"
+#include "hlsdk/game/client/clientleafsystem.h"
+#include "hlsdk/public/tier0/fasttimer.h"
+#include "hlsdk/public/tier1/utllinkedlist.h"
+#include "hlsdk/public/tier1/UtlDict.h"
+// <typeinfo> -> <typeinfo.h> - pongo1231
+#include <typeinfo>
+#include "hlsdk/public/tier1/utlintrusivelist.h"
+#include "hlsdk/public/tier1/utlstring.h"
 
 
 //-----------------------------------------------------------------------------

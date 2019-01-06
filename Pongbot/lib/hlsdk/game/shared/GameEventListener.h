@@ -11,7 +11,7 @@
 #pragma once
 #endif
 
-#include "igameevents.h"
+#include "hlsdk/public/igameevents.h"
 
 // A safer method than inheriting straight from IGameEventListener2.
 // Avoids requiring the user to remove themselves as listeners in 

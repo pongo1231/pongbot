@@ -10,8 +10,8 @@
 #pragma once
 #endif
 
-#include "utlvector.h"
-#include "utlstring.h"
+#include "hlsdk/public/tier1/utlvector.h"
+#include "hlsdk/public/tier1/utlstring.h"
 
 //-----------------------------------------------------------------------------
 // Particle attachment methods

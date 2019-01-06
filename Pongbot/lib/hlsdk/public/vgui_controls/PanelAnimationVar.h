@@ -10,8 +10,8 @@
 #pragma once
 #endif
 
-#include "tier1/utlvector.h"
-#include <vgui_controls/Panel.h>
+#include "hlsdk/public/tier1/utlvector.h"
+#include <hlsdk/public/vgui_controls/Panel.h>
 
 #define DECLARE_PANELANIMATION( className )												\
 	static void AddToAnimationMap( char const *scriptname, char const *type, char const *var,	\

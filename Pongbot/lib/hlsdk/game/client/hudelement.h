@@ -10,11 +10,11 @@
 #pragma once
 #endif
 
-#include "hud.h"
-#include "hud_element_helper.h"
-#include "networkvar.h"
-#include "gameeventlistener.h"
-#include "tier0/memdbgon.h"
+#include "hlsdk/game/client/hud.h"
+#include "hlsdk/game/client/hud_element_helper.h"
+#include "hlsdk/public/networkvar.h"
+#include "hlsdk/game/shared/gameeventlistener.h"
+#include "hlsdk/public/tier0/memdbgon.h"
 #undef new
 
 //-----------------------------------------------------------------------------
@@ -124,7 +124,7 @@ private:
 	CUtlVector< int >			m_HudRenderGroups;
 };
 
-#include "utlpriorityqueue.h"
+#include "hlsdk/public/tier1/utlpriorityqueue.h"
 
 inline bool RenderGroupLessFunc( CHudElement * const &lhs, CHudElement * const &rhs )
 {
@@ -147,6 +147,6 @@ public:
 	CUtlPriorityQueue< CHudElement * >	m_pLockingElements;
 };
 
-#include "tier0/memdbgoff.h"
+#include "hlsdk/public/tier0/memdbgoff.h"
 
 #endif // HUDELEMENT_H

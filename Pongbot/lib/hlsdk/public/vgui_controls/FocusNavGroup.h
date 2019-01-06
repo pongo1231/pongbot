@@ -12,8 +12,8 @@
 #pragma once
 #endif
 
-#include <vgui/VGUI.h>
-#include <vgui_controls/PHandle.h>
+#include <hlsdk/public/vgui/VGUI.h>
+#include <hlsdk/public/vgui_controls/PHandle.h>
 
 namespace vgui
 {

@@ -10,7 +10,7 @@
 #pragma once
 #endif
 
-#include "vstdlib/vstdlib.h"
+#include "hlsdk/public/vstdlib/vstdlib.h"
 
 // handle to a KeyValues key name symbol
 typedef int HKeySymbol;

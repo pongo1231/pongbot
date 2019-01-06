@@ -10,16 +10,16 @@
 #pragma once
 #endif
 
-#include "tier1/utlvector.h"
-#include "tier1/utlstring.h"
-#include "tier1/uniqueid.h"
-#include "Color.h"
-#include "mathlib/vector2d.h"
-#include "mathlib/vector.h"
-#include "mathlib/vector4d.h"
-#include "mathlib/vmatrix.h"
-#include "datamodel/dmelementhandle.h"
-#include "tier1/utlsymbol.h"
+#include "hlsdk/public/tier1/utlvector.h"
+#include "hlsdk/public/tier1/utlstring.h"
+#include "hlsdk/public/tier1/uniqueid.h"
+#include "hlsdk/public/Color.h"
+#include "hlsdk/public/mathlib/vector2d.h"
+#include "hlsdk/public/mathlib/vector.h"
+#include "hlsdk/public/mathlib/vector4d.h"
+#include "hlsdk/public/mathlib/vmatrix.h"
+#include "hlsdk/public/datamodel/dmelementhandle.h"
+#include "hlsdk/public/tier1/utlsymbol.h"
 
 
 //-----------------------------------------------------------------------------

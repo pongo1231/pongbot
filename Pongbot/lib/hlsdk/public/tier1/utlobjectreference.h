@@ -11,8 +11,8 @@
 #pragma once
 #endif
 
-#include "tier1/utlintrusivelist.h"
-#include "mathlib/mathlib.h"
+#include "hlsdk/public/tier1/utlintrusivelist.h"
+#include "hlsdk/public/mathlib/mathlib.h"
 
 
 // Purpose: class for keeping track of all the references that exist to an object.  When the object

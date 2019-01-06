@@ -11,9 +11,9 @@
 #pragma once
 #endif
 
-#include "particlemgr.h"
-#include "ParticleSphereRenderer.h"
-#include "smartptr.h"
+#include "hlsdk/game/client/particlemgr.h"
+#include "hlsdk/game/client/ParticleSphereRenderer.h"
+#include "hlsdk/public/tier1/smartptr.h"
 
 
 // ------------------------------------------------------------------------------------------------ //

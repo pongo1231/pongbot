@@ -11,12 +11,12 @@
 #pragma once
 #endif
 
-#include "datamodel/dmattributetypes.h"
-#include "tier1/utlvector.h"
-#include "tier1/utlrbtree.h"
-#include "tier1/utlsymbol.h"
-#include "tier1/mempool.h"
-#include "dmxloader/dmxloader.h"
+#include "hlsdk/public/datamodel/dmattributetypes.h"
+#include "hlsdk/public/tier1/utlvector.h"
+#include "hlsdk/public/tier1/utlrbtree.h"
+#include "hlsdk/public/tier1/utlsymbol.h"
+#include "hlsdk/public/tier1/mempool.h"
+#include "hlsdk/public/dmxloader/dmxloader.h"
 
 
 //-----------------------------------------------------------------------------

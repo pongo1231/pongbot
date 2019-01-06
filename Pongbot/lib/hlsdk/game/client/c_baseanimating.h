@@ -12,20 +12,20 @@
 #pragma once
 #endif
 
-#include "c_baseentity.h"
-#include "studio.h"
-#include "UtlVector.h"
-#include "ragdoll.h"
-#include "mouthinfo.h"
+#include "hlsdk/game/client/c_baseentity.h"
+#include "hlsdk/public/studio.h"
+#include "hlsdk/public/tier1/UtlVector.h"
+#include "hlsdk/game/client/ragdoll.h"
+#include "hlsdk/public/mouthinfo.h"
 // Shared activities
-#include "ai_activity.h"
-#include "animationlayer.h"
-#include "sequence_transitioner.h"
-#include "bone_accessor.h"
-#include "bone_merge_cache.h"
-#include "ragdoll_shared.h"
-#include "tier0/threadtools.h"
-#include "datacache/idatacache.h"
+#include "hlsdk/game/shared/ai_activity.h"
+#include "hlsdk/game/client/animationlayer.h"
+#include "hlsdk/game/shared/sequence_transitioner.h"
+#include "hlsdk/public/bone_accessor.h"
+#include "hlsdk/game/client/bone_merge_cache.h"
+#include "hlsdk/game/shared/ragdoll_shared.h"
+#include "hlsdk/public/tier0/threadtools.h"
+#include "hlsdk/public/datacache/idatacache.h"
 
 #define LIPSYNC_POSEPARAM_NAME "mouth"
 #define NUM_HITBOX_FIRES	10

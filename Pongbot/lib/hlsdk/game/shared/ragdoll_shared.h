@@ -23,8 +23,8 @@ struct studiohdr_t;
 class CStudioHdr;
 class CBoneAccessor;
 
-#include "mathlib/vector.h"
-#include "bone_accessor.h"
+#include "hlsdk/public/mathlib/vector.h"
+#include "hlsdk/public/bone_accessor.h"
 
 // UNDONE: Remove and make dynamic?
 #define RAGDOLL_MAX_ELEMENTS	24

@@ -12,7 +12,7 @@
 #pragma once
 #endif
 
-#include <vgui/VGUI.h>
+#include <hlsdk/public/vgui/VGUI.h>
 
 class Color;
 

@@ -11,11 +11,11 @@
 #pragma once
 #endif
 
-#include "irecipientfilter.h"
-#include "utlvector.h"
-#include "c_baseentity.h"
-#include "soundflags.h"
-#include "bitvec.h"
+#include "hlsdk/public/irecipientfilter.h"
+#include "hlsdk/public/tier1/utlvector.h"
+#include "hlsdk/game/client/c_baseentity.h"
+#include "hlsdk/public/soundflags.h"
+#include "hlsdk/public/bitvec.h"
 
 class C_BasePlayer;
 class C_Team;

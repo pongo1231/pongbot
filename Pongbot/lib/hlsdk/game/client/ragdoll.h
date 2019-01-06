@@ -14,7 +14,7 @@
 #pragma once
 #endif
 
-#include "ragdoll_shared.h"
+#include "hlsdk/game/shared/ragdoll_shared.h"
 
 #define RAGDOLL_VISUALIZE	0
 

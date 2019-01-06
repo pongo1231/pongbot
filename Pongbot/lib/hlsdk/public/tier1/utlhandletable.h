@@ -12,8 +12,8 @@
 #endif
 
 
-#include "tier1/utlvector.h"
-#include "tier1/utlqueue.h"
+#include "hlsdk/public/tier1/utlvector.h"
+#include "hlsdk/public/tier1/utlqueue.h"
 
 
 //-----------------------------------------------------------------------------

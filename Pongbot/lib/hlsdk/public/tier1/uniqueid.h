@@ -14,7 +14,7 @@
 #pragma once
 #endif
 
-#include "tier1/utlvector.h"
+#include "hlsdk/public/tier1/utlvector.h"
 
 
 //-----------------------------------------------------------------------------

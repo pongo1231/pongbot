@@ -10,7 +10,7 @@
 #pragma once
 #endif
 
-#include "steam/isteamapps.h"
+#include "hlsdk/public/steam/isteamapps.h"
 
 //-----------------------------------------------------------------------------
 // Purpose: interface to app data

@@ -16,12 +16,12 @@
 #endif
 
 
-#include "tier0/platform.h"
-#include "tier0/dbg.h"
-#include "tier0/threadtools.h"
-#include "tier1/utlmemory.h"
-#include "tier1/utlblockmemory.h"
-#include "mathlib/ssemath.h"
+#include "hlsdk/public/tier0/platform.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/tier0/threadtools.h"
+#include "hlsdk/public/tier1/utlmemory.h"
+#include "hlsdk/public/tier1/utlblockmemory.h"
+#include "hlsdk/public/mathlib/ssemath.h"
 
 
 // strided pointers. gives you a class that acts like a pointer, but the ++ and += operators do the

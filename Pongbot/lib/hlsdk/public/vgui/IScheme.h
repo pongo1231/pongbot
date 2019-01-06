@@ -12,8 +12,8 @@
 #pragma once
 #endif
 
-#include <vgui/VGUI.h>
-#include "tier1/interface.h"
+#include <hlsdk/public/vgui/VGUI.h>
+#include "hlsdk/public/tier1/interface.h"
 
 class Color;
 

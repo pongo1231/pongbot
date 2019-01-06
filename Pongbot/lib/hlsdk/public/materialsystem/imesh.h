@@ -11,12 +11,12 @@
 #pragma once
 #endif
 
-#include "tier1/interface.h"
-#include "materialsystem/imaterial.h"
+#include "hlsdk/public/tier1/interface.h"
+#include "hlsdk/public/materialsystem/imaterial.h"
 #include <float.h>
 #include <string.h>
-#include "tier0/dbg.h"
-#include "tier2/meshutils.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/tier2/meshutils.h"
 
 
 //-----------------------------------------------------------------------------

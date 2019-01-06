@@ -11,10 +11,10 @@
 #pragma once
 #endif
 
-#include "iclientnetworkable.h"
-#include "utllinkedlist.h"
-#include "cdll_int.h"
-#include "eiface.h"
+#include "hlsdk/public/iclientnetworkable.h"
+#include "hlsdk/public/tier1/utllinkedlist.h"
+#include "hlsdk/public/cdll_int.h"
+#include "hlsdk/public/eiface.h"
 
 
 class IVModelRender;

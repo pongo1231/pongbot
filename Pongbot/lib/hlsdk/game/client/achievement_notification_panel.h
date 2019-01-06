@@ -11,8 +11,8 @@
 #pragma once
 #endif
 
-#include <vgui_controls/EditablePanel.h>
-#include "hudelement.h"
+#include <hlsdk/public/vgui_controls/EditablePanel.h>
+#include "hlsdk/game/client/hudelement.h"
 
 using namespace vgui;
 

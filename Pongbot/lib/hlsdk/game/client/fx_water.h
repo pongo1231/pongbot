@@ -10,9 +10,9 @@
 #pragma once
 #endif
 
-#include "particles_simple.h"
+#include "hlsdk/game/client/particles_simple.h"
 
-#include "tier0/memdbgon.h"
+#include "hlsdk/public/tier0/memdbgon.h"
 
 class CSplashParticle : public CSimpleEmitter
 {
@@ -66,6 +66,6 @@ extern void FX_GunshotSlimeSplash( const Vector &origin, const Vector &normal, f
 
 extern inline void FX_GetSplashLighting( Vector position, Vector *color, float *luminosity );
 
-#include "tier0/memdbgoff.h"
+#include "hlsdk/public/tier0/memdbgoff.h"
 
 #endif // FX_WATER_H

@@ -23,13 +23,13 @@
 
 #else
 	
-	#include "baseentity.h"
-	#include "recipientfilter.h"
+	#include "hlsdk/game/server/baseentity.h"
+	#include "hlsdk/game/server/recipientfilter.h"
 
 #endif
 
-#include "igamesystem.h"
-#include "gamerules_register.h"
+#include "hlsdk/game/shared/igamesystem.h"
+#include "hlsdk/game/shared/gamerules_register.h"
 
 
 //#include "items.h"

@@ -12,10 +12,10 @@
 #pragma once
 #endif
 
-#include "utlvector.h"
-#include "vgui/VGUI.h"
-#include "vgui_controls/Panel.h"
-#include "vgui_controls/PHandle.h"
+#include "hlsdk/public/tier1/utlvector.h"
+#include "hlsdk/public/vgui/VGUI.h"
+#include "hlsdk/public/vgui_controls/Panel.h"
+#include "hlsdk/public/vgui_controls/PHandle.h"
 
 namespace vgui
 {

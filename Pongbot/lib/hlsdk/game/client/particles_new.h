@@ -12,12 +12,12 @@
 #pragma once
 #endif
 
-#include "particlemgr.h"
-#include "particles/particles.h"
-#include "ParticleSphereRenderer.h"
-#include "smartptr.h"
-#include "particles_simple.h"
-#include "tier1/utlobjectreference.h"
+#include "hlsdk/game/client/particlemgr.h"
+#include "hlsdk/public/particles/particles.h"
+#include "hlsdk/game/client/ParticleSphereRenderer.h"
+#include "hlsdk/public/tier1/smartptr.h"
+#include "hlsdk/game/client/particles_simple.h"
+#include "hlsdk/public/tier1/utlobjectreference.h"
 
 
 //-----------------------------------------------------------------------------

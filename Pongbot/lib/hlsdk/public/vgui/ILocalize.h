@@ -12,9 +12,9 @@
 #pragma once
 #endif
 
-#include <vgui/VGUI.h>
-#include "appframework/IAppSystem.h"
-#include <tier1/KeyValues.h>
+#include <hlsdk/public/vgui/VGUI.h>
+#include "hlsdk/public/appframework/IAppSystem.h"
+#include <hlsdk/public/tier1/KeyValues.h>
 
 // unicode character type
 // for more unicode manipulation functions #include <wchar.h>

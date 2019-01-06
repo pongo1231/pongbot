@@ -116,8 +116,8 @@ typedef void (C_BaseEntity::*ENTITYFUNCPTR)(C_BaseEntity *pOther );
 // For entity creation on the client
 typedef C_BaseEntity* (*DISPATCHFUNCTION)( void );
 
-#include "touchlink.h"
-#include "groundlink.h"
+#include "hlsdk/game/shared/touchlink.h"
+#include "hlsdk/game/shared/groundlink.h"
 
 #if !defined( NO_ENTITY_PREDICTION )
 //-----------------------------------------------------------------------------

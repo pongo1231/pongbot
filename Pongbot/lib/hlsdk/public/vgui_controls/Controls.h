@@ -12,14 +12,14 @@
 #pragma once
 #endif
 
-#include <vgui/VGUI.h>
-#include <vgui/IPanel.h>
-#include <vstdlib/IKeyValuesSystem.h>
+#include <hlsdk/public/vgui/VGUI.h>
+#include <hlsdk/public/vgui/IPanel.h>
+#include <hlsdk/public/vstdlib/IKeyValuesSystem.h>
 
-#include "tier1/interface.h"
-#include "vgui/MouseCode.h"
-#include "vgui/KeyCode.h"
-#include "tier3/tier3.h"
+#include "hlsdk/public/tier1/interface.h"
+#include "hlsdk/public/vgui/MouseCode.h"
+#include "hlsdk/public/vgui/KeyCode.h"
+#include "hlsdk/public/tier3/tier3.h"
 
 
 namespace vgui
