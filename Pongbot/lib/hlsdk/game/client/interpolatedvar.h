@@ -10,14 +10,14 @@
 #pragma once
 #endif
 
-#include "tier1/utllinkedlist.h"
-#include "rangecheckedvar.h"
-#include "lerp_functions.h"
-#include "animationlayer.h"
-#include "convar.h"
+#include "hlsdk/public/tier1/utllinkedlist.h"
+#include "hlsdk/public/tier1/rangecheckedvar.h"
+#include "hlsdk/game/client/lerp_functions.h"
+#include "hlsdk/game/client/animationlayer.h"
+#include "hlsdk/public/tier1/convar.h"
 
 
-#include "tier0/memdbgon.h"
+#include "hlsdk/public/tier0/memdbgon.h"
 
 #define COMPARE_HISTORY(a,b) \
 	( memcmp( m_VarHistory[a].GetValue(), m_VarHistory[b].GetValue(), sizeof(Type)*GetMaxCount() ) == 0 ) 			
@@ -1559,6 +1559,6 @@ public:
 	}
 };
 
-#include "tier0/memdbgoff.h"
+#include "hlsdk/public/tier0/memdbgoff.h"
 
 #endif // INTERPOLATEDVAR_H

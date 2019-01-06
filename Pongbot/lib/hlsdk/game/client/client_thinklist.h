@@ -12,11 +12,11 @@
 #endif
 
 
-#include "IGameSystem.h"
-#include "utllinkedlist.h"
-#include "cliententitylist.h"
-#include "iclientthinkable.h"
-#include "utlrbtree.h"
+#include "hlsdk/game/shared/IGameSystem.h"
+#include "hlsdk/public/tier1/utllinkedlist.h"
+#include "hlsdk/game/client/cliententitylist.h"
+#include "hlsdk/public/iclientthinkable.h"
+#include "hlsdk/public/tier1/utlrbtree.h"
 
 
 #define CLIENT_THINK_ALWAYS	-1293

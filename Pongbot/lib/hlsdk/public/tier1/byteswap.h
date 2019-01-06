@@ -10,7 +10,7 @@
 #pragma once
 #endif
 
-#include "datamap.h"	// Needed for typedescription_t.  Note datamap.h is tier1 as well.
+#include "hlsdk/public/datamap.h"	// Needed for typedescription_t.  Note datamap.h is tier1 as well.
 
 class CByteswap
 {

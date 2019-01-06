@@ -12,7 +12,7 @@
 #pragma once
 #endif
 
-#include "tier1/tier1.h"
+#include "hlsdk/public/tier1/tier1.h"
 
 
 //-----------------------------------------------------------------------------

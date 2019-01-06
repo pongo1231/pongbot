@@ -10,8 +10,8 @@
 #pragma once
 #endif
 
-#include "playernet_vars.h"
-#include "igamesystem.h"
+#include "hlsdk/game/shared/playernet_vars.h"
+#include "hlsdk/game/shared/igamesystem.h"
 
 // Spawn Flags
 #define SF_FOG_MASTER		0x0001

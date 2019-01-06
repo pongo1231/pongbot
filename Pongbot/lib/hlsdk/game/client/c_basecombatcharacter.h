@@ -12,8 +12,8 @@
 #pragma once
 #endif
 
-#include "shareddefs.h"
-#include "c_baseflex.h"
+#include "hlsdk/game/shared/shareddefs.h"
+#include "hlsdk/game/client/c_baseflex.h"
 
 class C_BaseCombatWeapon;
 class C_WeaponCombatShield;

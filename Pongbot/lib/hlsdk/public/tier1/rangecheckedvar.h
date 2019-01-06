@@ -11,9 +11,9 @@
 #endif
 
 
-#include "tier0/dbg.h"
-#include "tier0/threadtools.h"
-#include "mathlib/vector.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/tier0/threadtools.h"
+#include "hlsdk/public/mathlib/vector.h"
 #include <float.h>
 
 

@@ -153,7 +153,7 @@ void Bot::ChangeClass(TFClass tfClass)
 	_TFClassToJoinName(tfClass, newClass);
 
 	char cmd[32];
-	sprintf_s(cmd, "joinclass %s", newClass);
+	sprintf(cmd, "joinclass %s", newClass);
 	IIServerPluginHelpers->ClientCommand(_Edict, cmd);
 
 	_CurrentClass = tfClass;

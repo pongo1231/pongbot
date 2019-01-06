@@ -12,8 +12,8 @@
 #pragma once
 #endif
 
-#include "bitmap/imageformat.h"
-#include "tier0/platform.h"
+#include "hlsdk/public/bitmap/imageformat.h"
+#include "hlsdk/public/tier0/platform.h"
 
 // #define VTF_FILE_FORMAT_ONLY to just include the vtf header and none of the code declaration
 #ifndef VTF_FILE_FORMAT_ONLY
@@ -370,7 +370,7 @@ bool ConvertVTFTo360Format( const char *pDebugName, CUtlBuffer &sourceBuf, CUtlB
 //-----------------------------------------------------------------------------
 bool GetVTFPreload360Data( const char *pDebugName, CUtlBuffer &fileBufferIn, CUtlBuffer &preloadBufferOut );
 
-#include "mathlib/vector.h"
+#include "hlsdk/public/mathlib/vector.h"
 
 #endif // VTF_FILE_FORMAT_ONLY
 
@@ -418,7 +418,7 @@ bool GetVTFPreload360Data( const char *pDebugName, CUtlBuffer &fileBufferIn, CUt
 //-----------------------------------------------------------------------------
 
 
-#include "datamap.h"
+#include "hlsdk/public/datamap.h"
 
 #pragma pack(1)
 

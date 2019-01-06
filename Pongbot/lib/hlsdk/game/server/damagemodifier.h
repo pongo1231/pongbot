@@ -15,7 +15,7 @@
 class CBaseEntity;
 
 
-#include "ehandle.h"
+#include "hlsdk/game/shared/ehandle.h"
 
 //-----------------------------------------------------------------------------
 // Purpose: Class handling generic damage modification to & from a player

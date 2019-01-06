@@ -11,12 +11,12 @@
 #pragma once
 #endif
 
-#include "basetypes.h"
-#include "mathlib/vplane.h"
-#include "interface.h"
-#include "materialsystem/imaterialsystem.h"
-#include "const.h"
-#include "tier1/refcount.h"
+#include "hlsdk/public/tier0/basetypes.h"
+#include "hlsdk/public/mathlib/vplane.h"
+#include "hlsdk/public/tier1/interface.h"
+#include "hlsdk/public/materialsystem/imaterialsystem.h"
+#include "hlsdk/public/const.h"
+#include "hlsdk/public/tier1/refcount.h"
 
 
 //-----------------------------------------------------------------------------

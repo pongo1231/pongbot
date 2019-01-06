@@ -1,4 +1,6 @@
 #pragma once
+#include "TFTeam.h"
+#include "TFClass.h"
 #include <hlsdk/public/edict.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 
@@ -6,8 +8,6 @@ class BotHelper;
 class WaypointNode;
 class BotBrain;
 class BotVisibles;
-enum TFClass;
-enum TFTeam;
 
 class Bot
 {

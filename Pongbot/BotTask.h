@@ -1,9 +1,9 @@
 #pragma once
+#include "TFTeam.h"
 #include <hlsdk/public/mathlib/mathlib.h>
 #include <hlsdk/game/shared/in_buttons.h>
 
 class Bot;
-enum TFTeam;
 
 class BotTask
 {

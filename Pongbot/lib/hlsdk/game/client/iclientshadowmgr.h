@@ -13,11 +13,11 @@
 #pragma once
 #endif
 
-#include "IGameSystem.h"
-#include "IClientEntityInternal.h"
-#include "engine/ishadowmgr.h"
-#include "IVRenderView.h"
-#include "toolframework/IToolEntity.h"
+#include "hlsdk/game/shared/IGameSystem.h"
+#include "hlsdk/game/client/IClientEntityInternal.h"
+#include "hlsdk/public/engine/ishadowmgr.h"
+#include "hlsdk/public/IVRenderView.h"
+#include "hlsdk/public/toolframework/IToolEntity.h"
 
 //-----------------------------------------------------------------------------
 // Forward decls

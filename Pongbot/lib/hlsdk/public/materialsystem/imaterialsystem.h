@@ -18,18 +18,18 @@
 #define GAMMA 2.2f
 #define TEXGAMMA 2.2f
 
-#include "tier1/interface.h"
-#include "tier1/refcount.h"
-#include "mathlib/vector.h"
-#include "mathlib/vector4d.h"
-#include "mathlib/vmatrix.h"
-#include "appframework/IAppSystem.h"
-#include "bitmap/imageformat.h"
-#include "texture_group_names.h"
-#include "vtf/vtf.h"
-#include "materialsystem/deformations.h"
-#include "materialsystem/imaterialsystemhardwareconfig.h"
-#include "materialsystem/IColorCorrection.h"
+#include "hlsdk/public/tier1/interface.h"
+#include "hlsdk/public/tier1/refcount.h"
+#include "hlsdk/public/mathlib/vector.h"
+#include "hlsdk/public/mathlib/vector4d.h"
+#include "hlsdk/public/mathlib/vmatrix.h"
+#include "hlsdk/public/appframework/IAppSystem.h"
+#include "hlsdk/public/bitmap/imageformat.h"
+#include "hlsdk/public/texture_group_names.h"
+#include "hlsdk/public/vtf/vtf.h"
+#include "hlsdk/public/materialsystem/deformations.h"
+#include "hlsdk/public/materialsystem/imaterialsystemhardwareconfig.h"
+#include "hlsdk/public/materialsystem/IColorCorrection.h"
 
 
 //-----------------------------------------------------------------------------
@@ -238,7 +238,7 @@ enum MaterialFindContext_t
 //-----------------------------------------------------------------------------
 // Light structure
 //-----------------------------------------------------------------------------
-#include "mathlib/lightdesc.h"
+#include "hlsdk/public/mathlib/lightdesc.h"
 
 #if 0
 enum LightType_t

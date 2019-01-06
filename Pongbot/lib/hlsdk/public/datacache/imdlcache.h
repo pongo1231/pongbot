@@ -19,7 +19,7 @@
 #pragma once
 #endif
 
-#include "appframework/IAppSystem.h"
+#include "hlsdk/public/appframework/IAppSystem.h"
 
 //-----------------------------------------------------------------------------
 // Forward declarations

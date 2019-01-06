@@ -31,7 +31,7 @@ LIBS = -Llibs -llibtier0_srv.so -llibvstdlib_srv.so -lmathlib_i486.a -ltier1_i48
 default_target: release
 
 .PHONY: release
-release: export CXXFLAGS := $(CXXFLAGS) $(COMPILE_FLAGS) -D_LINUX -DPOSIX
+release: export CXXFLAGS := $(CXXFLAGS) $(COMPILE_FLAGS) -D_LINUX -DLINUX -DPOSIX -DSTATIC_TIER0 -fpermissive -w
 release: dirs
 	@$(MAKE) all
 

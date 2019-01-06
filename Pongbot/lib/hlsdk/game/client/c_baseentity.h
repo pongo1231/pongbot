@@ -15,25 +15,25 @@
 #pragma once
 #endif
 
-#include "mathlib/vector.h"
-#include "IClientEntityInternal.h"
-#include "engine/IVModelRender.h"
-#include "client_class.h"
-#include "IClientShadowMgr.h"
-#include "ehandle.h"
-#include "iclientunknown.h"
-#include "client_thinklist.h"
+#include "hlsdk/public/mathlib/vector.h"
+#include "hlsdk/game/client/IClientEntityInternal.h"
+#include "hlsdk/public/engine/IVModelRender.h"
+#include "hlsdk/public/client_class.h"
+#include "hlsdk/game/client/IClientShadowMgr.h"
+#include "hlsdk/game/shared/ehandle.h"
+#include "hlsdk/public/iclientunknown.h"
+#include "hlsdk/game/client/client_thinklist.h"
 #if !defined( NO_ENTITY_PREDICTION )
-#include "predictableid.h"
+#include "hlsdk/game/shared/predictableid.h"
 #endif
-#include "soundflags.h"
-#include "shareddefs.h"
-#include "networkvar.h"
-#include "interpolatedvar.h"
-#include "collisionproperty.h"
-#include "particle_property.h"
-#include "toolframework/itoolentity.h"
-#include "tier0/threadtools.h"
+#include "hlsdk/public/soundflags.h"
+#include "hlsdk/game/shared/shareddefs.h"
+#include "hlsdk/public/networkvar.h"
+#include "hlsdk/game/client/interpolatedvar.h"
+#include "hlsdk/game/shared/collisionproperty.h"
+#include "hlsdk/game/shared/particle_property.h"
+#include "hlsdk/public/toolframework/itoolentity.h"
+#include "hlsdk/public/tier0/threadtools.h"
 
 class C_Team;
 class IPhysicsObject;

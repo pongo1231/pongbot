@@ -44,7 +44,12 @@ public:
 						ServerClass *p2 = p1->m_pNext;
 
 						// use _stricmp because Q_stricmp isn't hooked up properly yet
+						// Linux compatibility - pongo1231
+#if defined _LINUX
+						if (strcasecmp(p1->GetName(), pNetworkName) > 0)
+#else
 						if ( _stricmp( p1->GetName(), pNetworkName ) > 0)
+#endif
 						{
 							m_pNext = g_pServerClassHead;
 							g_pServerClassHead = this;
@@ -53,7 +58,12 @@ public:
 
 						while( p1 )
 						{
+							// Linux compatibility - pongo1231
+#if defined _LINUX
+							if (p2 == NULL || strcasecmp(p2->GetName(), pNetworkName) > 0)
+#else
 							if ( p2 == NULL || _stricmp( p2->GetName(), pNetworkName ) > 0)
+#endif
 							{
 								m_pNext = p2;
 								p1->m_pNext = this;

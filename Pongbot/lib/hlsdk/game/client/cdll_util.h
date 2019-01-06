@@ -13,12 +13,12 @@
 #pragma once
 #endif
 
-#include <soundflags.h>
-#include "mathlib/vector.h"
-#include <shareddefs.h>
+#include <hlsdk/public/soundflags.h>
+#include "hlsdk/public/mathlib/vector.h"
+#include <hlsdk/game/shared/shareddefs.h>
 
-#include "ispatialpartition.h"
-#include "materialsystem/materialsystemutil.h"
+#include "hlsdk/public/ispatialpartition.h"
+#include "hlsdk/public/materialsystem/materialsystemutil.h"
 
 class Vector;
 class QAngle;

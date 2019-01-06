@@ -110,7 +110,12 @@ public:
 		char str[8192];
 		va_list marker;
 		va_start( marker, pFormat );
-		_vsnprintf( str, sizeof( str ), pFormat, marker );
+		// Linux compatibility - pongo1231
+#if defined _LINUX
+		vsnprintf( str, sizeof( str ), pFormat, marker );
+#else
+		_vsnprintf(str, sizeof(str), pFormat, marker);
+#endif
 		va_end( marker );
 		return m_pFileSystemPassThru->FPrintf( file, "%s", str );
 	}

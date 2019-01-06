@@ -11,8 +11,8 @@
 #pragma once
 #endif
 
-#include "tier1/interface.h"
-#include "bitmap/imageformat.h"
+#include "hlsdk/public/tier1/interface.h"
+#include "hlsdk/public/bitmap/imageformat.h"
 
 typedef unsigned int ColorCorrectionHandle_t;
 struct ShaderColorCorrectionInfo_t;

@@ -13,14 +13,14 @@
 #endif
 
 #ifndef TIER2_H
-#include "tier2/tier2.h"
+#include "hlsdk/public/tier2/tier2.h"
 #endif
 
 #ifndef FILESYSTEM_H
-#include "filesystem.h"
+#include "hlsdk/public/filesystem.h"
 #endif
 
-#include "tier0/platform.h"
+#include "hlsdk/public/tier0/platform.h"
 
 // Builds a directory which is a subdirectory of the current mod
 void GetModSubdirectory( const char *pSubDir, char *pBuf, int nBufLen );

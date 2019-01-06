@@ -60,7 +60,7 @@ enum stepsoundtimes_t
 #define CBasePlayer C_BasePlayer
 #include "c_baseplayer.h"
 #else
-#include "player.h"
+#include "hlsdk/game/server/player.h"
 #endif
 
 #endif // BASEPLAYER_SHARED_H

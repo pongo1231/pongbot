@@ -11,8 +11,8 @@
 #endif
 
 
-#include "rangecheckedvar.h"
-#include "lerp_functions.h"
+#include "hlsdk/public/tier1/rangecheckedvar.h"
+#include "hlsdk/game/client/lerp_functions.h"
 
 class C_AnimationLayer
 {

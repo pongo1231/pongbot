@@ -13,8 +13,8 @@
 #pragma once
 #endif
 
-#include "basecombatweapon_shared.h"
-#include "weapons_resource.h"
+#include "hlsdk/game/shared/basecombatweapon_shared.h"
+#include "hlsdk/game/client/weapons_resource.h"
 
 class CViewSetup;
 class C_BaseViewModel;

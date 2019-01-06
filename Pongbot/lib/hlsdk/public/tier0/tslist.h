@@ -23,10 +23,10 @@
 #include <windows.h>
 #endif
 
-#include "tier0/dbg.h"
-#include "tier0/threadtools.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/tier0/threadtools.h"
 
-#include "tier0/memdbgon.h"
+#include "hlsdk/public/tier0/memdbgon.h"
 
 //-----------------------------------------------------------------------------
 
@@ -789,6 +789,6 @@ private:
 	CTSListBase m_FreeNodes;
 };
 
-#include "tier0/memdbgoff.h"
+#include "hlsdk/public/tier0/memdbgoff.h"
 
 #endif // TSLIST_H

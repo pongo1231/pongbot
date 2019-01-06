@@ -12,8 +12,8 @@
 #pragma once
 #endif
 
-#include "appframework/IAppSystem.h"
-#include "tier1/convar.h"
+#include "hlsdk/public/appframework/IAppSystem.h"
+#include "hlsdk/public/tier1/convar.h"
 
 
 //-----------------------------------------------------------------------------

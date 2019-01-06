@@ -10,12 +10,12 @@
 #pragma once
 #endif
 
-#include "tier1/interface.h"
-#include "tier1/utlvector.h"
-#include "Color.h"
-#include "basehandle.h"
-#include "iclientrenderable.h"
-#include "engine/ishadowmgr.h"
+#include "hlsdk/public/tier1/interface.h"
+#include "hlsdk/public/tier1/utlvector.h"
+#include "hlsdk/public/Color.h"
+#include "hlsdk/public/basehandle.h"
+#include "hlsdk/public/iclientrenderable.h"
+#include "hlsdk/public/engine/ishadowmgr.h"
 
 
 //-----------------------------------------------------------------------------

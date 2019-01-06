@@ -11,7 +11,7 @@
 #endif
 
 
-#include "mathlib/mathlib.h"
+#include "hlsdk/public/mathlib/mathlib.h"
 
 
 struct CompressedLightCube

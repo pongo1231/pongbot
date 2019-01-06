@@ -12,16 +12,16 @@
 #pragma once
 #endif
 
-#include "tier0/dbg.h"
-#include "icliententitylist.h"
-#include "iclientunknown.h"
-#include "UtlLinkedList.h"
-#include "UtlVector.h"
-#include "icliententityinternal.h"
-#include "ispatialpartition.h"
-#include "cdll_util.h"
-#include "entitylist_base.h"
-#include "utlmap.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/icliententitylist.h"
+#include "hlsdk/public/iclientunknown.h"
+#include "hlsdk/public/tier1/UtlLinkedList.h"
+#include "hlsdk/public/tier1/UtlVector.h"
+#include "hlsdk/game/client/icliententityinternal.h"
+#include "hlsdk/public/ispatialpartition.h"
+#include "hlsdk/game/client/cdll_util.h"
+#include "hlsdk/game/shared/entitylist_base.h"
+#include "hlsdk/public/tier1/utlmap.h"
 
 class C_Beam;
 class C_BaseViewModel;

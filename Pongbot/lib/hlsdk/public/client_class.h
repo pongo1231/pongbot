@@ -16,8 +16,8 @@
 #pragma once
 #endif
 
-#include "interface.h"
-#include "dt_recv.h"
+#include "hlsdk/public/tier1/interface.h"
+#include "hlsdk/public/dt_recv.h"
 
 //-----------------------------------------------------------------------------
 // forward declarations

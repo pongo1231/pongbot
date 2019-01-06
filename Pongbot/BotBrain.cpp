@@ -6,9 +6,9 @@
 #include "CTFFlagStatusType.h"
 #include "Util.h"
 #include "EntityDataProvider.h"
-#include "TFTeam.h"
 #include <metamod/ISmmAPI.h>
 #include <vector>
+#include <stdint.h> // uint8_t for Linux
 
 ConVar _CVarBehaviourUpdateTick("pongbot_bot_brain_updatetick", "0.2", 0, "How often the bots will check for updated tasks");
 

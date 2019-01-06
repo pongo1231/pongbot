@@ -2,6 +2,7 @@
 #include "BotTask.h"
 #include "IConVarBase.h"
 #include <queue>
+#include <stdint.h> // uint8_t for Linux
 
 class Bot;
 

@@ -10,17 +10,17 @@
 #pragma once
 #endif
 
-#include "basetypes.h"
-#include "interface.h"
-#include "mathlib/mathlib.h"
-#include "const.h"
-#include "checksum_crc.h"
-#include "datamap.h"
-#include "tier1/bitbuf.h"
-#include "inputsystem/ButtonCode.h"
+#include "hlsdk/public/tier0/basetypes.h"
+#include "hlsdk/public/tier1/interface.h"
+#include "hlsdk/public/mathlib/mathlib.h"
+#include "hlsdk/public/const.h"
+#include "hlsdk/public/tier1/checksum_crc.h"
+#include "hlsdk/public/datamap.h"
+#include "hlsdk/public/tier1/bitbuf.h"
+#include "hlsdk/public/inputsystem/ButtonCode.h"
 
 #if !defined( _X360 )
-#include "xbox/xboxstubs.h"
+#include "hlsdk/common/xbox/xboxstubs.h"
 #endif
 
 //-----------------------------------------------------------------------------

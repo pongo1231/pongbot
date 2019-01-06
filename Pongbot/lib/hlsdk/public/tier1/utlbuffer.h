@@ -14,8 +14,8 @@
 #pragma once
 #endif
 
-#include "tier1/utlmemory.h"
-#include "tier1/byteswap.h"
+#include "hlsdk/public/tier1/utlmemory.h"
+#include "hlsdk/public/tier1/byteswap.h"
 #include <stdarg.h>
 
 

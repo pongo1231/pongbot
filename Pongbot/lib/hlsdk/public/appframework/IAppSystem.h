@@ -13,7 +13,7 @@
 #pragma once
 #endif
 
-#include "tier1/interface.h"
+#include "hlsdk/public/tier1/interface.h"
 
 
 //-----------------------------------------------------------------------------

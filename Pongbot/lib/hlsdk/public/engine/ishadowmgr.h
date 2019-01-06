@@ -13,8 +13,8 @@
 #pragma once
 #endif
 
-#include "interface.h"
-#include "mathlib/vmatrix.h"
+#include "hlsdk/public/tier1/interface.h"
+#include "hlsdk/public/mathlib/vmatrix.h"
 
 
 //-----------------------------------------------------------------------------

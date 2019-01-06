@@ -576,7 +576,12 @@ public:
 		va_list arg_ptr;
 
 		va_start(arg_ptr, pszFormat);
-		_vsntprintf(m_szBuf, sizeof(m_szBuf)-1, pszFormat, arg_ptr);
+		// _vsnprintf -> vsnprintf on Linux - pongo1231
+#if defined _LINUX
+		vsnprintf(m_szBuf, sizeof(m_szBuf) - 1, pszFormat, arg_ptr);
+#else
+		_vsntprintf(m_szBuf, sizeof(m_szBuf) - 1, pszFormat, arg_ptr);
+#endif
 		va_end(arg_ptr);
 
 		m_szBuf[sizeof(m_szBuf)-1] = 0;

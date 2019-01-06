@@ -35,7 +35,7 @@ void BotManager::Destroy()
 void BotManager::KickBot(Bot *bot)
 {
 	char command[64];
-	sprintf_s(command, "kickid %d Bot Removed\n", Engine->GetPlayerUserId(bot->GetEdict()));
+	sprintf(command, "kickid %d Bot Removed\n", Engine->GetPlayerUserId(bot->GetEdict()));
 	Engine->ServerCommand(command);
 }
 

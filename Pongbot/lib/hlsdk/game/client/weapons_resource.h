@@ -9,10 +9,10 @@
 #define WEAPONS_RESOURCE_H
 #pragma once
 
-#include "shareddefs.h"
-#include "weapon_parse.h"
-#include "UtlDict.h"
-#include "hud.h"
+#include "hlsdk/game/shared/shareddefs.h"
+#include "hlsdk/game/shared/weapon_parse.h"
+#include "hlsdk/public/tier1/UtlDict.h"
+#include "hlsdk/game/client/hud.h"
 
 class C_BaseCombatWeapon;
 class CHudTexture;

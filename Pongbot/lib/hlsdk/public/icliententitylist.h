@@ -13,7 +13,7 @@
 #pragma once
 #endif
 
-#include "interface.h"
+#include "hlsdk/public/tier1/interface.h"
 
 class IClientEntity;
 class ClientClass;

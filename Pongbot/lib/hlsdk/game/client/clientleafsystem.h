@@ -15,12 +15,12 @@
 #pragma once
 #endif
 
-#include "IGameSystem.h"
-#include "engine/IClientLeafSystem.h"
-#include "cdll_int.h"
-#include "IVRenderView.h"
-#include "tier1/mempool.h"
-#include "tier1/refcount.h"
+#include "hlsdk/game/shared/IGameSystem.h"
+#include "hlsdk/public/engine/IClientLeafSystem.h"
+#include "hlsdk/public/cdll_int.h"
+#include "hlsdk/public/IVRenderView.h"
+#include "hlsdk/public/tier1/mempool.h"
+#include "hlsdk/public/tier1/refcount.h"
 
 
 //-----------------------------------------------------------------------------

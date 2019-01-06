@@ -10,12 +10,12 @@
 #pragma once
 #endif
 
-#include "UtlVector.h"
-#include "UtlDict.h"
-#include "ConVar.h"
-#include <vgui/vgui.h>
-#include <Color.h>
-#include <bitbuf.h>
+#include "hlsdk/public/tier1/UtlVector.h"
+#include "hlsdk/public/tier1/UtlDict.h"
+#include "hlsdk/public/tier1/ConVar.h"
+#include <hlsdk/public/vgui/vgui.h>
+#include <hlsdk/public/Color.h>
+#include <hlsdk/public/tier1/bitbuf.h>
 
 namespace vgui
 {

@@ -30,7 +30,14 @@ public:
 //-------------------------------------
 
 inline bool StringLessThan( const char * const &lhs, const char * const &rhs)			{ return ( strcmp( lhs, rhs) < 0 );  }
-inline bool CaselessStringLessThan( const char * const &lhs, const char * const &rhs )	{ return ( stricmp( lhs, rhs) < 0 ); }
+inline bool CaselessStringLessThan( const char * const &lhs, const char * const &rhs )	{
+	// Linux compatibility - pongo1231
+#if defined _LINUX
+	return (strcasecmp(lhs, rhs) < 0);
+#else
+	return ( stricmp( lhs, rhs) < 0 );
+#endif
+}
 
 // Same as CaselessStringLessThan, but it ignores differences in / and \.
 inline bool CaselessStringLessThanIgnoreSlashes( const char * const &lhs, const char * const &rhs )	

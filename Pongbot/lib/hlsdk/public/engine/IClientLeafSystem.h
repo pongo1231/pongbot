@@ -16,7 +16,7 @@
 #endif
 
 
-#include "client_render_handle.h"
+#include "hlsdk/public/client_render_handle.h"
 
 
 //-----------------------------------------------------------------------------

@@ -10,8 +10,8 @@
 #pragma once
 #endif
 
-#include "IClientEntity.h"
-#include "ClientLeafSystem.h"
+#include "hlsdk/public/IClientEntity.h"
+#include "hlsdk/game/client/ClientLeafSystem.h"
 
 //-----------------------------------------------------------------------------
 // Forward declarations

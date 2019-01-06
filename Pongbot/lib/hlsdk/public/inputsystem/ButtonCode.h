@@ -12,7 +12,7 @@
 #pragma once
 #endif
 
-#include "inputsystem/InputEnums.h"
+#include "hlsdk/public/inputsystem/InputEnums.h"
 
 //-----------------------------------------------------------------------------
 // Button enum. "Buttons" are binary-state input devices (mouse buttons, keyboard keys)

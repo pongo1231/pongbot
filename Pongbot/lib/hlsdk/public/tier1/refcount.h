@@ -8,7 +8,7 @@
 #ifndef REFCOUNT_H
 #define REFCOUNT_H
 
-#include "tier0/threadtools.h"
+#include "hlsdk/public/tier0/threadtools.h"
 
 #if defined( _WIN32 )
 #pragma once

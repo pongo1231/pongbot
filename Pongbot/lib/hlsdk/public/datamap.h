@@ -12,12 +12,12 @@
 #endif
 
 #ifndef VECTOR_H
-#include "mathlib/vector.h"
+#include "hlsdk/public/mathlib/vector.h"
 #endif
 
-#include "tier1/utlvector.h"
+#include "hlsdk/public/tier1/utlvector.h"
 
-#include "tier0/memdbgon.h"
+#include "hlsdk/public/tier0/memdbgon.h"
 
 // SINGLE_INHERITANCE restricts the size of CBaseEntity pointers-to-member-functions to 4 bytes
 class SINGLE_INHERITANCE CBaseEntity;

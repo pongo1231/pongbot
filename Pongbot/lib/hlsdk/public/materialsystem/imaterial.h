@@ -13,8 +13,8 @@
 #pragma once
 #endif
 
-#include "bitmap/imageformat.h"
-#include "materialsystem/imaterialsystem.h"
+#include "hlsdk/public/bitmap/imageformat.h"
+#include "hlsdk/public/materialsystem/imaterialsystem.h"
 
 //-----------------------------------------------------------------------------
 // forward declaraions

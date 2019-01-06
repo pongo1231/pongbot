@@ -65,7 +65,7 @@ typedef unsigned long HFont;
 const HFont INVALID_FONT = 0; // the value of an invalid font handle
 }
 
-#include "tier1/strtools.h"
+#include "hlsdk/public/tier1/strtools.h"
 
 
 #endif // VGUI_H

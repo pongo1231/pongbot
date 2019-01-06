@@ -10,8 +10,8 @@
 #pragma once
 #endif
 
-#include "datamap.h"
-#include "checksum_crc.h"
+#include "hlsdk/public/datamap.h"
+#include "hlsdk/public/tier1/checksum_crc.h"
 
 #define MAX_BLOCK_BITS	13
 
@@ -43,7 +43,12 @@ struct CaptionLookup_t
 	void SetHash( char const *string )
 	{
 		int len = Q_strlen( string );
+		// Linux compatbility - pongo1231
+#if defined _LINUX
+		char *tempstr = (char *)alloca(len + 1);
+#else
 		char *tempstr = (char *)_alloca( len + 1 );
+#endif
 		Q_strncpy( tempstr, string, len + 1 );
 		Q_strlower( tempstr );
 		CRC32_t temp;

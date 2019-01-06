@@ -10,10 +10,10 @@
 #pragma once
 #endif
 
-#include "smartptr.h"
-#include "globalvars_base.h"
-#include "particles_new.h"
-#include "particle_parse.h"
+#include "hlsdk/public/tier1/smartptr.h"
+#include "hlsdk/public/globalvars_base.h"
+#include "hlsdk/game/client/particles_new.h"
+#include "hlsdk/public/particle_parse.h"
 
 //-----------------------------------------------------------------------------
 // Forward declarations

@@ -18,11 +18,11 @@
 #pragma once
 #endif
 
-#include "tier0/memalloc.h"
-#include "tier0/tslist.h"
-#include "tier0/platform.h"
-#include "tier1/utlvector.h"
-#include "tier1/utlrbtree.h"
+#include "hlsdk/public/tier0/memalloc.h"
+#include "hlsdk/public/tier0/tslist.h"
+#include "hlsdk/public/tier0/platform.h"
+#include "hlsdk/public/tier1/utlvector.h"
+#include "hlsdk/public/tier1/utlrbtree.h"
 
 //-----------------------------------------------------------------------------
 // Purpose: Optimized pool memory allocator

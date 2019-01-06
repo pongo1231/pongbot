@@ -11,7 +11,7 @@
 #pragma once
 #endif
 
-#include "tier0/platform.h"
+#include "hlsdk/public/tier0/platform.h"
 
 // nonlinear transformations which may be applied to model vertices when rendering. must be powers of two
 enum DeformationType_t	
