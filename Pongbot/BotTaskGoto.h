@@ -1,12 +1,11 @@
 #pragma once
 #include "BotTask.h"
-#include "IConVarBase.h"
 #include <queue>
 #include <stdint.h> // uint8_t for Linux
 
 class Bot;
 
-class BotTaskGoto : public BotTask, public IConVarBase
+class BotTaskGoto : public BotTask
 {
 public:
 	BotTaskGoto(Bot *bot, Vector targetPos, bool shortestWay = true, int nodeFlagBlacklist = 0);

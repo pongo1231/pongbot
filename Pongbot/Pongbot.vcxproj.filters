@@ -237,5 +237,8 @@
     <ClInclude Include="BotBrainSpy.h">
       <Filter>src\Bot\Brain</Filter>
     </ClInclude>
+    <ClInclude Include="WeaponSlot.h">
+      <Filter>src\TF2</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

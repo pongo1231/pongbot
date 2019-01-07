@@ -1,11 +1,12 @@
 #pragma once
 #include "TFTeam.h"
+#include "IConVarBase.h"
 #include <hlsdk/public/mathlib/mathlib.h>
 #include <hlsdk/game/shared/in_buttons.h>
 
 class Bot;
 
-class BotTask
+class BotTask : public IConVarBase
 {
 public:
 	BotTask(Bot *bot) : _Bot(bot)
@@ -27,6 +28,9 @@ private:
 	Vector _BotTargetLookAt;
 	bool _IsBotViewAngleOverriden;
 	int _BotPressedButtons;
+
+	void _ShootAtBadGuys();
+	void _ChooseBestWeaponForDistance(float distance);
 
 	virtual bool _OnThink() = 0; // true == Task done
 };

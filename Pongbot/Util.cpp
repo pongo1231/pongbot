@@ -39,6 +39,7 @@ namespace Util
 		vsnprintf(userText, sizeof(userText), text, args);
 		va_end(args);
 		sprintf(prefixedText, "[Pongbot] %s\n", userText);
+
 		g_SMAPI->ConPrintf(prefixedText);
 	}
 

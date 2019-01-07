@@ -37,6 +37,7 @@ TFClass _CurrentClass;
 QAngle _TargetViewAngle;
 Vector2D _Movement;
 int _PressedButtons;
+WeaponSlot _SelectedWeapon;
 
 Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
 	_IIBotController(IIBotManager->GetBotController(edict)),
@@ -45,19 +46,7 @@ Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
 	_BotBrain = new BotBrain(this);
 	_BotVisibles = new BotVisibles(this);
 
-	// Join team with least players or red team if both equal
-	uint8_t red = 0;
-	uint8_t blue = 0;
-	for (edict_t *edict : Util::GetAllPlayers())
-	{
-		TFTeam team = _EntityDataProvider->GetDataFromEdict<TFTeam>(edict, DATA_TEAM);
-		if (team == TEAM_RED)
-			red++;
-		else if (team == TEAM_BLUE)
-			blue++;
-	}
-	_IIPlayerInfo->ChangeTeam(blue < red ? TEAM_BLUE : TEAM_RED);
-
+	_SwitchToFittingTeam();
 	_RandomClass();
 }
 
@@ -82,6 +71,7 @@ void Bot::Think()
 	cmd.forwardmove = _Movement.x;
 	cmd.sidemove = _Movement.y;
 	cmd.viewangles = finalViewAngle;
+	cmd.weaponselect = _SelectedWeapon;
 	_IIBotController->RunPlayerMove(&cmd);
 }
 
@@ -142,6 +132,12 @@ void Bot::SetPressedButtons(int pressedButtons)
 	_PressedButtons = pressedButtons;
 }
 
+void Bot::SetSelectedWeapon(WeaponSlot weapon)
+{
+	//_SelectedWeapon = weapon;
+	ExecClientCommand("slot%d", weapon);
+}
+
 bool Bot::IsDead() const
 {
 	return _IIPlayerInfo->IsDead();
@@ -160,9 +156,31 @@ void Bot::ChangeClass(TFClass tfClass)
 	_UpdateBotBrain();
 }
 
-void Bot::ExecClientCommand(const char *command) const
+void Bot::ExecClientCommand(const char *command, ...) const
 {
-	IIServerPluginHelpers->ClientCommand(_Edict, command);
+	char fullcommand[128];
+	va_list args;
+	va_start(args, fullcommand);
+	vsnprintf(fullcommand, sizeof(fullcommand), command, args);
+	va_end(args);
+
+	IIServerPluginHelpers->ClientCommand(_Edict, fullcommand);
+}
+
+void Bot::_SwitchToFittingTeam()
+{
+	uint8_t red = 0;
+	uint8_t blue = 0;
+	for (edict_t *edict : Util::GetAllPlayers())
+	{
+		TFTeam team = _EntityDataProvider->GetDataFromEdict<TFTeam>(edict, DATA_TEAM);
+		if (team == TEAM_RED)
+			red++;
+		else if (team == TEAM_BLUE)
+			blue++;
+	}
+
+	_IIPlayerInfo->ChangeTeam(blue < red ? TEAM_BLUE : TEAM_RED);
 }
 
 void Bot::_UpdateBotBrain()

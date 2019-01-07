@@ -209,6 +209,7 @@
     <ClInclude Include="WaypointNode.h" />
     <ClInclude Include="WaypointNodeFlagTypes.h" />
     <ClInclude Include="WaypointNodeFlagsProvider.h" />
+    <ClInclude Include="WeaponSlot.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bot.h" />

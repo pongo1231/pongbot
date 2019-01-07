@@ -1,6 +1,7 @@
 #pragma once
 #include "TFTeam.h"
 #include "TFClass.h"
+#include "WeaponSlot.h"
 #include <hlsdk/public/edict.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 
@@ -29,10 +30,11 @@ public:
 	TFTeam GetTeam() const;
 	void SetMovement(Vector2D movement);
 	void SetPressedButtons(int pressedButtons);
+	void SetSelectedWeapon(WeaponSlot weapon);
 	BotVisibles *GetBotVisibles() const;
 	bool IsDead() const;
 	void ChangeClass(TFClass tfClass);
-	void ExecClientCommand(const char *command) const;
+	void ExecClientCommand(const char *command, ...) const;
 
 private:
 	edict_t *_Edict;
@@ -44,7 +46,9 @@ private:
 	QAngle _TargetViewAngle;
 	Vector2D _Movement;
 	int _PressedButtons;
+	WeaponSlot _SelectedWeapon;
 
+	void _SwitchToFittingTeam();
 	void _UpdateBotBrain();
 	void _TFClassToJoinName(TFClass tfClass, char *tfClassName);
 	void _RandomClass();
