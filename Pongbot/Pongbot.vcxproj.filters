@@ -127,6 +127,9 @@
     <ClCompile Include="BotBrainSpy.cpp">
       <Filter>src\Bot\Brain</Filter>
     </ClCompile>
+    <ClCompile Include="BotTaskMeleeCombat.cpp">
+      <Filter>src\Bot\Brain\Tasks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Util.h">
@@ -239,6 +242,9 @@
     </ClInclude>
     <ClInclude Include="WeaponSlot.h">
       <Filter>src\TF2</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskMeleeCombat.h">
+      <Filter>src\Bot\Brain\Tasks</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

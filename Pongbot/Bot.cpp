@@ -39,6 +39,7 @@ QAngle _TargetViewAngle;
 Vector2D _Movement;
 int _PressedButtons;
 TFClassInfo *_ClassInfo;
+WeaponSlot _SelectedWeaponSlot;
 
 Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
 	_IIBotController(IIBotManager->GetBotController(edict)),
@@ -132,29 +133,40 @@ void Bot::SetPressedButtons(int pressedButtons)
 	_PressedButtons = pressedButtons;
 }
 
-const char *Bot::GetSelectedWeapon() const
+const char *Bot::GetSelectedWeaponName() const
 {
 	return _IIPlayerInfo->GetWeaponName();
 }
 
+WeaponSlot Bot::GetSelectedWeaponSlot() const
+{
+	return _SelectedWeaponSlot;
+}
+
 void Bot::SetSelectedWeapon(WeaponSlot weapon)
 {
-	char *weaponName = nullptr;
-	switch (weapon)
+	if (_ClassInfo)
 	{
-	case WEAPON_PRIMARY:
-		weaponName = (char*) _ClassInfo->Primary;
-		break;
-	case WEAPON_SECONDARY:
-		weaponName = (char*) _ClassInfo->Secondary;
-		break;
-	case WEAPON_MELEE:
-		weaponName = (char*) _ClassInfo->Melee;
-		break;
-	}
+		char *weaponName = nullptr;
+		switch (weapon)
+		{
+		case WEAPON_PRIMARY:
+			weaponName = (char*)_ClassInfo->Primary;
+			break;
+		case WEAPON_SECONDARY:
+			weaponName = (char*)_ClassInfo->Secondary;
+			break;
+		case WEAPON_MELEE:
+			weaponName = (char*)_ClassInfo->Melee;
+			break;
+		}
 
-	if (weaponName)
-		ExecClientCommand("use %s", weaponName);
+		if (weaponName)
+		{
+			_SelectedWeaponSlot = weapon;
+			ExecClientCommand("use %s", weaponName);
+		}
+	}
 }
 
 bool Bot::IsDead() const
@@ -165,6 +177,7 @@ bool Bot::IsDead() const
 void Bot::ChangeClass(TFClass tfClass)
 {
 	ExecClientCommand("joinclass %s", _TFClassToJoinName(tfClass));
+	SetSelectedWeapon(WEAPON_PRIMARY);
 
 	_CurrentClass = tfClass;
 	delete _ClassInfo;

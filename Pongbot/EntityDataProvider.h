@@ -6,7 +6,8 @@ enum EntityDataType
 {
 	DATA_TEAM,
 	DATA_FLAG_OWNER,
-	DATA_FLAG_STATUS
+	DATA_FLAG_STATUS,
+	DATA_HEALTH
 };
 
 class EntityDataProvider
@@ -30,7 +31,8 @@ private:
 	{
 		{DATA_TEAM, 516},
 		{DATA_FLAG_OWNER, 1648},
-		{DATA_FLAG_STATUS, 1632}
+		{DATA_FLAG_STATUS, 1632},
+		{DATA_HEALTH, 244}
 	};
 };
 

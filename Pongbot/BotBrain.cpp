@@ -1,11 +1,13 @@
 #include "BotBrain.h"
 #include "BotTaskGoto.h"
+#include "BotTaskMeleeCombat.h"
 #include "WaypointManager.h"
 #include "WaypointNodeFlagsProvider.h"
 #include "ObjectivesProvider.h"
 #include "CTFFlagStatusType.h"
 #include "Util.h"
 #include "EntityDataProvider.h"
+#include "BotVisibles.h"
 #include <metamod/ISmmAPI.h>
 #include <vector>
 #include <stdint.h> // uint8_t for Linux
@@ -19,6 +21,7 @@ std::queue<BotTask*> _BotTasks;
 bool _IsBotDead;
 bool _FreeRoaming;
 float _DefaultBehaviourUpdateTime;
+bool _InMeleeFight;
 
 void BotBrain::OnThink()
 {
@@ -74,35 +77,48 @@ void BotBrain::_DefaultBehaviour()
 	bool needsNewTask = _BotTasks.empty();
 	std::queue<BotTask*> newTaskQueue;
 
-	BotTaskGoto *gotoTask = nullptr;
-	if (closestObjective && (_FreeRoaming || needsNewTask))
+	// Melee combat
+	BotVisibleTarget *botTarget = _ABot->GetBotVisibles()->GetMostImportantTarget();
+	if (botTarget && _ABot->GetSelectedWeaponSlot() == WEAPON_MELEE && !_InMeleeFight)
 	{
-		if (closestObjective->Type == ITEMFLAG)
+		_InMeleeFight = true;
+		newTaskQueue.push(new BotTaskMeleeCombat(_ABot, botTarget->Edict));
+	}
+	else if (_InMeleeFight)
+		_InMeleeFight = false;
+
+	if (newTaskQueue.empty())
+	{
+		BotTaskGoto *gotoTask = nullptr;
+		if (closestObjective && (_FreeRoaming || needsNewTask))
 		{
-			CTFFlagStatusType itemFlagStatus = (CTFFlagStatusType) closestObjective->Status;
-			if (itemFlagStatus == CTF_UNTOUCHED || itemFlagStatus == CTF_DROPPED) // The flag should be picked up
-				gotoTask = new BotTaskGoto(_ABot, closestObjective->Pos, false);
-			else if (_EntityDataProvider->GetDataFromEdict<int>(closestObjective->Edict, DATA_FLAG_OWNER)
-				== Engine->IndexOfEdict(_ABot->GetEdict()))
+			if (closestObjective->Type == ITEMFLAG)
 			{
-				// I'm carrying the flag
-				WaypointNode *targetNode = _WaypointManager->GetClosestWaypointNode(botPos,
-					-1, _ABot->GetTeam() == TEAM_RED ? NODE_ITEMFLAG_RED : NODE_ITEMFLAG_BLUE);
-				if (targetNode) // Map doesn't have a ITEMFLAG_RED/ITEMFLAG_BLUE node!
-					gotoTask = new BotTaskGoto(_ABot, targetNode->Pos, true, NODE_SPAWN_RED | NODE_SPAWN_BLUE); // Don't walk through spawns
+				CTFFlagStatusType itemFlagStatus = (CTFFlagStatusType)closestObjective->Status;
+				if (itemFlagStatus == CTF_UNTOUCHED || itemFlagStatus == CTF_DROPPED) // The flag should be picked up
+					gotoTask = new BotTaskGoto(_ABot, closestObjective->Pos, false);
+				else if (_EntityDataProvider->GetDataFromEdict<int>(closestObjective->Edict, DATA_FLAG_OWNER)
+					== Engine->IndexOfEdict(_ABot->GetEdict()))
+				{
+					// I'm carrying the flag
+					WaypointNode *targetNode = _WaypointManager->GetClosestWaypointNode(botPos,
+						-1, _ABot->GetTeam() == TEAM_RED ? NODE_ITEMFLAG_RED : NODE_ITEMFLAG_BLUE);
+					if (targetNode) // Map doesn't have a ITEMFLAG_RED/ITEMFLAG_BLUE node!
+						gotoTask = new BotTaskGoto(_ABot, targetNode->Pos, true, NODE_SPAWN_RED | NODE_SPAWN_BLUE); // Don't walk through spawns
+				}
 			}
 		}
+		if (gotoTask)
+			_FreeRoaming = false;
+		else if (!gotoTask && needsNewTask)
+		{
+			_FreeRoaming = true;
+			gotoTask = new BotTaskGoto(_ABot, _WaypointManager->GetRandomWaypointNode(
+				_WaypointNodeFlagsProvider->GetInaccessibleNodeFlagsForBot(_ABot))->Pos, false);
+		}
+		if (gotoTask)
+			newTaskQueue.push(gotoTask);
 	}
-	if (gotoTask)
-		_FreeRoaming = false;
-	else if (!gotoTask && needsNewTask)
-	{
-		_FreeRoaming = true;
-		gotoTask = new BotTaskGoto(_ABot, _WaypointManager->GetRandomWaypointNode(
-			_WaypointNodeFlagsProvider->GetInaccessibleNodeFlagsForBot(_ABot))->Pos, false);
-	}
-	if (gotoTask)
-		newTaskQueue.push(gotoTask);
 
 	delete closestObjective;
 

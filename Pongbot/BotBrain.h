@@ -7,7 +7,7 @@
 class BotBrain
 {
 public:
-	BotBrain(Bot *bot) : _ABot(bot), _IsBotDead(false), _FreeRoaming(false)
+	BotBrain(Bot *bot) : _ABot(bot), _IsBotDead(false), _FreeRoaming(false), _InMeleeFight(false)
 	{}
 
 public:
@@ -24,6 +24,7 @@ private:
 	bool _IsBotDead;
 	bool _FreeRoaming;
 	float _DefaultBehaviourUpdateTime;
+	bool _InMeleeFight;
 
 	void _DefaultBehaviour();
 	void _ClearTasks();

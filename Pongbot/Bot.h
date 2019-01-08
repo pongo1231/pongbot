@@ -9,7 +9,7 @@ class BotHelper;
 class WaypointNode;
 class BotBrain;
 class BotVisibles;
-struct TFClassInfo;
+class TFClassInfo;
 
 class Bot
 {
@@ -31,7 +31,8 @@ public:
 	TFTeam GetTeam() const;
 	void SetMovement(Vector2D movement);
 	void SetPressedButtons(int pressedButtons);
-	const char *GetSelectedWeapon() const;
+	const char *GetSelectedWeaponName() const;
+	WeaponSlot GetSelectedWeaponSlot() const;
 	void SetSelectedWeapon(WeaponSlot weapon);
 	BotVisibles *GetBotVisibles() const;
 	bool IsDead() const;
@@ -49,6 +50,7 @@ private:
 	Vector2D _Movement;
 	int _PressedButtons;
 	TFClassInfo *_ClassInfo;
+	WeaponSlot _SelectedWeaponSlot;
 
 	void _SwitchToFittingTeam();
 	void _UpdateBotBrain();

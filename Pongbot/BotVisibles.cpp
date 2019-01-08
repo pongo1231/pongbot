@@ -106,7 +106,7 @@ void BotVisibles::_AddEntity(edict_t *edict, Vector edictPos, uint8_t insertInde
 		targetPriority = PRIORITY_NORMAL;
 		
 	_VisibleTargets.insert(_VisibleTargets.begin() + insertIndex,
-		new BotVisibleTarget(edictPos, targetPriority));
+		new BotVisibleTarget(edictPos, targetPriority, edict));
 }
 
 bool BotVisibles::_IsTargetInSight(Vector targetPos) const

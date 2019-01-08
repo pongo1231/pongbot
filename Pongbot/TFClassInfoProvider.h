@@ -30,6 +30,7 @@ public:
 private:
 	const std::map<TFClass, TFClassInfo> _ClassInfos =
 	{
+		{CLASS_UNKNOWN, TFClassInfo(0.f, "", "", "")},
 		{SCOUT, TFClassInfo(133.f, "TF_WEAPON_PISTOL_SCOUT", "TF_WEAPON_SCATTERGUN", "TF_WEAPON_BAT")},
 		{SOLDIER, TFClassInfo(80.f, "TF_WEAPON_ROCKETLAUNCHER", "TF_WEAPON_SHOTGUN_SOLDIER", "TF_WEAPON_SHOVEL")},
 		{PYRO, TFClassInfo(100.f, "TF_WEAPON_SHOTGUN_PYRO", "TF_WEAPON_FLAMETHROWER", "TF_WEAPON_FIREAXE")},
