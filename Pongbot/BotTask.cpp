@@ -10,8 +10,8 @@ Vector _BotTargetLookAt;
 bool _IsBotViewAngleOverriden;
 int _BotPressedButtons;
 
-ConVar _CVarPrimaryWeaponDist("pongbot_bot_primwepdist", "600.0", 0, "Max distance where bots use their primary weapon");
-ConVar _CVarMeleeWeaponDist("pongbot_bot_meleewepdist", "300.0", 0, "Max distance where bots use their melee weapon");
+ConVar _CVarPrimaryWeaponDist("pongbot_bot_primwepdist", "800.0", 0, "Min distance where bots use their primary weapon");
+ConVar _CVarSecondaryWeaponDist("pongbot_bot_secwepdist", "300.0", 0, "Min distance where bots use their secondary weapon");
 
 bool BotTask::OnThink()
 {
@@ -37,23 +37,24 @@ void BotTask::_ShootAtBadGuys()
 	BotVisibleTarget *enemyTarget = _Bot->GetBotVisibles()->GetMostImportantTarget();
 	if (enemyTarget)
 	{
-		_BotTargetLookAt = enemyTarget->Pos;
+		Vector targetPos = enemyTarget->Pos;
+
+		_BotTargetLookAt = targetPos;
 		_BotPressedButtons |= IN_ATTACK;
 
-		_ChooseBestWeaponForDistance(enemyTarget->Pos.DistTo(_Bot->GetPos()));
+		_ChooseBestWeaponForDistance(targetPos.DistTo(_Bot->GetPos()));
 	}
 }
 
 void BotTask::_ChooseBestWeaponForDistance(float distance)
 {
-	bool primarySecondarySwap = _TFClassInfoProvider->GetClassInfo(_Bot->GetClass()).PrimaryWeaponSwap;
 	WeaponSlot weaponSlot;
-	if (distance < _CVarMeleeWeaponDist.GetFloat())
+	if (distance < _CVarSecondaryWeaponDist.GetFloat())
 		weaponSlot = WEAPON_MELEE;
 	else if (distance < _CVarPrimaryWeaponDist.GetFloat())
-		weaponSlot = primarySecondarySwap ? WEAPON_SECONDARY : WEAPON_PRIMARY;
+		weaponSlot = WEAPON_SECONDARY;
 	else
-		weaponSlot = primarySecondarySwap ? WEAPON_PRIMARY : WEAPON_SECONDARY;
+		weaponSlot = WEAPON_PRIMARY;
 
 	_Bot->SetSelectedWeapon(weaponSlot);
 }

@@ -16,6 +16,7 @@
 #include "TFClass.h"
 #include "EntityDataProvider.h"
 #include "Util.h"
+#include "TFClassInfoProvider.h"
 #include <metamod/ISmmPlugin.h>
 #include <string>
 
@@ -37,7 +38,7 @@ TFClass _CurrentClass;
 QAngle _TargetViewAngle;
 Vector2D _Movement;
 int _PressedButtons;
-WeaponSlot _SelectedWeapon;
+TFClassInfo *_ClassInfo;
 
 Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
 	_IIBotController(IIBotManager->GetBotController(edict)),
@@ -71,7 +72,6 @@ void Bot::Think()
 	cmd.forwardmove = _Movement.x;
 	cmd.sidemove = _Movement.y;
 	cmd.viewangles = finalViewAngle;
-	cmd.weaponselect = _SelectedWeapon;
 	_IIBotController->RunPlayerMove(&cmd);
 }
 
@@ -132,10 +132,29 @@ void Bot::SetPressedButtons(int pressedButtons)
 	_PressedButtons = pressedButtons;
 }
 
+const char *Bot::GetSelectedWeapon() const
+{
+	return _IIPlayerInfo->GetWeaponName();
+}
+
 void Bot::SetSelectedWeapon(WeaponSlot weapon)
 {
-	//_SelectedWeapon = weapon;
-	ExecClientCommand("slot%d", weapon);
+	char *weaponName = nullptr;
+	switch (weapon)
+	{
+	case WEAPON_PRIMARY:
+		weaponName = (char*) _ClassInfo->Primary;
+		break;
+	case WEAPON_SECONDARY:
+		weaponName = (char*) _ClassInfo->Secondary;
+		break;
+	case WEAPON_MELEE:
+		weaponName = (char*) _ClassInfo->Melee;
+		break;
+	}
+
+	if (weaponName)
+		ExecClientCommand("use %s", weaponName);
 }
 
 bool Bot::IsDead() const
@@ -145,26 +164,23 @@ bool Bot::IsDead() const
 
 void Bot::ChangeClass(TFClass tfClass)
 {
-	char newClass[16];
-	_TFClassToJoinName(tfClass, newClass);
-
-	char cmd[32];
-	sprintf(cmd, "joinclass %s", newClass);
-	IIServerPluginHelpers->ClientCommand(_Edict, cmd);
+	ExecClientCommand("joinclass %s", _TFClassToJoinName(tfClass));
 
 	_CurrentClass = tfClass;
+	delete _ClassInfo;
+	_ClassInfo = new TFClassInfo(_TFClassInfoProvider->GetClassInfo(tfClass));
 	_UpdateBotBrain();
 }
 
 void Bot::ExecClientCommand(const char *command, ...) const
 {
-	char fullcommand[128];
+	char fullCommand[128];
 	va_list args;
-	va_start(args, fullcommand);
-	vsnprintf(fullcommand, sizeof(fullcommand), command, args);
+	va_start(args, command);
+	vsnprintf(fullCommand, sizeof(fullCommand), command, args);
 	va_end(args);
 
-	IIServerPluginHelpers->ClientCommand(_Edict, fullcommand);
+	IIServerPluginHelpers->ClientCommand(_Edict, fullCommand);
 }
 
 void Bot::_SwitchToFittingTeam()
@@ -209,36 +225,27 @@ void Bot::_UpdateBotBrain()
 	}
 }
 
-void Bot::_TFClassToJoinName(TFClass tfClass, char *tfClassName)
+const char *Bot::_TFClassToJoinName(TFClass tfClass) const
 {
 	switch (tfClass) {
 	case SCOUT:
-		strcpy(tfClassName, "scout");
-		break;
+		return "scout";
 	case SOLDIER:
-		strcpy(tfClassName, "soldier");
-		break;
+		return "soldier";
 	case PYRO:
-		strcpy(tfClassName, "pyro");
-		break;
+		return "pyro";
 	case DEMO:
-		strcpy(tfClassName, "demoman");
-		break;
+		return "demoman";
 	case HEAVY:
-		strcpy(tfClassName, "heavyweapons");
-		break;
+		return "heavyweapons";
 	case ENGI:
-		strcpy(tfClassName, "engineer");
-		break;
+		return "engineer";
 	case MED:
-		strcpy(tfClassName, "medic");
-		break;
+		return "medic";
 	case SNIPER:
-		strcpy(tfClassName, "sniper");
-		break;
+		return "sniper";
 	case SPY:
-		strcpy(tfClassName, "spy");
-		break;
+		return "spy";
 	}
 }
 
