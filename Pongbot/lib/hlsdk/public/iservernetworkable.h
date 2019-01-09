@@ -12,11 +12,11 @@
 #endif
 
 
-#include "ihandleentity.h"
+#include "hlsdk/public/ihandleentity.h"
 #include "hlsdk/public/tier0/basetypes.h"
-#include "bitvec.h"
-#include "const.h"
-#include "bspfile.h"
+#include "hlsdk/public/bitvec.h"
+#include "hlsdk/public/const.h"
+#include "hlsdk/public/bspfile.h"
 
 
 

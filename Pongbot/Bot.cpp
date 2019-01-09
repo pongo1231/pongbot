@@ -19,6 +19,10 @@
 #include <metamod/ISmmPlugin.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <hlsdk/public/edict.h>
+
+// TODO: Fix HL2SDK stuff to maybe get CBaseEntity working for easier access
+//#include <hlsdk/game/server/player.h>
+
 #include <string>
 
 extern IVEngineServer *Engine;
@@ -49,6 +53,8 @@ Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
 
 	_SwitchToFittingTeam();
 	_RandomClass();
+
+
 }
 
 Bot::~Bot()
@@ -147,17 +153,17 @@ void Bot::SetSelectedWeapon(WeaponSlot weapon)
 {
 	if (_ClassInfo)
 	{
-		char *weaponName = nullptr;
+		const char *weaponName = nullptr;
 		switch (weapon)
 		{
 		case WEAPON_PRIMARY:
-			weaponName = (char*)_ClassInfo->Primary;
+			weaponName = _ClassInfo->Primary.WeaponName;
 			break;
 		case WEAPON_SECONDARY:
-			weaponName = (char*)_ClassInfo->Secondary;
+			weaponName = _ClassInfo->Secondary.WeaponName;
 			break;
 		case WEAPON_MELEE:
-			weaponName = (char*)_ClassInfo->Melee;
+			weaponName = _ClassInfo->Melee.WeaponName;
 			break;
 		}
 
@@ -194,6 +200,37 @@ void Bot::ExecClientCommand(const char *command, ...) const
 	va_end(args);
 
 	IIServerPluginHelpers->ClientCommand(_Edict, fullCommand);
+}
+
+WeaponSlot Bot::GetIdealWeaponForRange(float range) const
+{
+	// Determine ideal weapons for ranges first
+	TFClassInfoWeapon weaponInfos[] =
+	{
+		_ClassInfo->Primary,
+		_ClassInfo->Secondary,
+		_ClassInfo->Melee
+	};
+	WeaponSlot longRangeWeaponSlot = WEAPON_PRIMARY;
+	WeaponSlot middleRangeWeaponSlot = WEAPON_SECONDARY;
+	WeaponSlot shortRangeWeaponSlot = WEAPON_MELEE;
+	for (int i = 0; i < 3; i++)
+	{
+		unsigned int weaponFlags = weaponInfos[i].WeaponFlags;
+		if (weaponFlags & WEAPONFLAG_PRIORITIZE_LONGDIST)
+			longRangeWeaponSlot = (WeaponSlot) i;
+		if (weaponFlags & WEAPONFLAG_PRIORITIZE_MIDDLEDIST)
+			middleRangeWeaponSlot = (WeaponSlot) i;
+		if (weaponFlags & WEAPONFLAG_PRIORITIZE_SHORTDIST)
+			shortRangeWeaponSlot = (WeaponSlot) i;
+	}
+
+	if (range < _ConVarHolder->CVarBotWeaponMiddleRangeDist->GetFloat())
+		return shortRangeWeaponSlot;
+	else if (range < _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
+		return middleRangeWeaponSlot;
+	else
+		return longRangeWeaponSlot;
 }
 
 void Bot::_SwitchToFittingTeam()

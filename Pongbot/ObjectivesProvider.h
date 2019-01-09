@@ -34,8 +34,10 @@ public:
 	static void Init();
 	static void Destroy();
 
-	std::vector<Objective> GetBotPushObjectives(Bot *bot);
-	std::vector<Objective> GetBotDefendObjectives(Bot *bot);
+	std::vector<Objective> GetBotPushObjectives(Bot *bot) const;
+	std::vector<Objective> GetBotDefendObjectives(Bot *bot) const;
+	std::vector<Objective> GetAllObjectives() const;
+
 	virtual void OnGameFrame();
 
 private:

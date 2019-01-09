@@ -9,8 +9,8 @@
 #define BASETYPES_H
 
 #include "hlsdk/public/tier0/platform.h"
-#include "commonmacros.h"
-#include "wchartypes.h"
+#include "hlsdk/public/tier0/commonmacros.h"
+#include "hlsdk/public/tier0/wchartypes.h"
 
 #include "hlsdk/public/tier0/valve_off.h"
 
@@ -25,12 +25,12 @@
 #define DLL_EXT_STRING DLLExtTokenPaste2( _DLL_EXT )
 
 
-#include "protected_things.h"
+#include "hlsdk/public/tier0/protected_things.h"
 
 // There's a different version of this file in the xbox codeline
 // so the PC version built in the xbox branch includes things like 
 // tickrate changes.
-#include "xbox_codeline_defines.h"
+#include "hlsdk/public/tier0/xbox_codeline_defines.h"
 
 #ifdef IN_XBOX_CODELINE
 #define XBOX_CODELINE_ONLY()

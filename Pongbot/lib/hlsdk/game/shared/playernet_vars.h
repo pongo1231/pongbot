@@ -11,7 +11,7 @@
 #pragma once
 #endif
 
-#include "shared_classnames.h"
+#include "hlsdk/game/shared/shared_classnames.h"
 
 #define NUM_AUDIO_LOCAL_SOUNDS	8
 

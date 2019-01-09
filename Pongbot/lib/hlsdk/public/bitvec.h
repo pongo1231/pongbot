@@ -11,8 +11,8 @@
 #endif
 
 #include <limits.h>
-#include "tier0/dbg.h"
-#include "tier0/basetypes.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/tier0/basetypes.h"
 
 
 class CBitVecAccessor

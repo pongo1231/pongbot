@@ -28,14 +28,24 @@ void ObjectivesProvider::Destroy()
 		delete _ObjectivesProvider;
 }
 
-std::vector<Objective> ObjectivesProvider::GetBotPushObjectives(Bot *bot)
+std::vector<Objective> ObjectivesProvider::GetBotPushObjectives(Bot *bot) const
 {
 	return bot->GetTeam() == TEAM_RED ? _BlueObjectives : _RedObjectives;
 }
 
-std::vector<Objective> ObjectivesProvider::GetBotDefendObjectives(Bot *bot)
+std::vector<Objective> ObjectivesProvider::GetBotDefendObjectives(Bot *bot) const
 {
 	return bot->GetTeam() == TEAM_RED ? _RedObjectives : _BlueObjectives;
+}
+
+std::vector<Objective> ObjectivesProvider::GetAllObjectives() const
+{
+	// Merge both objective lists
+	std::vector<Objective> objectives = _RedObjectives;
+	for (Objective objective : _BlueObjectives)
+		objectives.push_back(objective);
+
+	return objectives;
 }
 
 void ObjectivesProvider::OnGameFrame()

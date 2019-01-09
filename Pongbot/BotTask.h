@@ -17,6 +17,7 @@ protected:
 	void _SetBotLookAt(Vector pos);
 	void _OverrideBotViewAngle();
 	void _AddBotPressedButton(int button);
+	void _SetBotWeaponSlot(WeaponSlot weaponSlot);
 	Bot *_GetBot() const;
 
 private:
@@ -25,9 +26,9 @@ private:
 	Vector _BotTargetLookAt;
 	bool _IsBotViewAngleOverriden;
 	int _BotPressedButtons;
+	WeaponSlot _WeaponSlot;
 
 	void _ShootAtBadGuys();
-	void _ChooseBestWeaponForDistance(float distance);
 
 	virtual bool _OnThink() = 0; // true == Task done
 };

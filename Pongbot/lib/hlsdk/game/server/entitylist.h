@@ -13,7 +13,7 @@
 #pragma once
 #endif
 
-#include "baseentity.h"
+#include "hlsdk/game/server/baseentity.h"
 
 class IEntityListener;
 

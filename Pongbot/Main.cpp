@@ -8,6 +8,7 @@
 #include "TFClassInfoProvider.h"
 #include "ObjectivesProvider.h"
 #include "ConVarHolder.h"
+#include "EventHooksProvider.h"
 #include <hlsdk/game/shared/IEffects.h>
 #include <hlsdk/public/eiface.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
@@ -48,6 +49,7 @@ bool Main::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bool lat
 	TFClassInfoProvider::Init();
 	ObjectivesProvider::Init();
 	ConVarHolder::Init();
+	EventHooksProvider::Init();
 
 	return true;
 }
@@ -60,6 +62,7 @@ bool Main::Unload(char *error, size_t len)
 	TFClassInfoProvider::Destroy();
 	ObjectivesProvider::Destroy();
 	ConVarHolder::Destroy();
+	EventHooksProvider::Destroy();
 
 	SH_REMOVE_HOOK(IServerGameDLL, GameFrame, Server, SH_MEMBER(this, &Main::_OnGameFrame), true);
 

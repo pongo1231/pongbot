@@ -11,8 +11,8 @@
 #endif
 
 
-#include "const.h"
-#include "tier0/dbg.h"
+#include "hlsdk/public/const.h"
+#include "hlsdk/public/tier0/dbg.h"
 
 
 class IHandleEntity;

@@ -14,7 +14,7 @@
 #endif
 
 
-#include "baseentity.h"
+#include "hlsdk/game/server/baseentity.h"
 
 
 #define EVENT_FIRE_ALWAYS	-1

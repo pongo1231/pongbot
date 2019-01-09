@@ -11,7 +11,7 @@
 #pragma once
 #endif
 
-#include "utlvector.h"
+#include "hlsdk/public/tier1/utlvector.h"
 
 class CBaseEntity;
 

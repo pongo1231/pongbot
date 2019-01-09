@@ -9,6 +9,7 @@ Vector _BotTargetPos;
 Vector _BotTargetLookAt;
 bool _IsBotViewAngleOverriden;
 int _BotPressedButtons;
+WeaponSlot _WeaponSlot;
 
 bool BotTask::OnThink()
 {
@@ -39,21 +40,8 @@ void BotTask::_ShootAtBadGuys()
 		_BotTargetLookAt = targetPos;
 		_BotPressedButtons |= IN_ATTACK;
 
-		_ChooseBestWeaponForDistance(targetPos.DistTo(_Bot->GetPos()));
+		_Bot->SetSelectedWeapon(_Bot->GetIdealWeaponForRange(targetPos.DistTo(_Bot->GetPos())));
 	}
-}
-
-void BotTask::_ChooseBestWeaponForDistance(float distance)
-{
-	WeaponSlot weaponSlot;
-	if (distance < _ConVarHolder->CVarBotSecondaryWeaponDist->GetFloat())
-		weaponSlot = WEAPON_MELEE;
-	else if (distance < _ConVarHolder->CVarBotPrimaryWeaponDist->GetFloat())
-		weaponSlot = WEAPON_SECONDARY;
-	else
-		weaponSlot = WEAPON_PRIMARY;
-
-	_Bot->SetSelectedWeapon(weaponSlot);
 }
 
 void BotTask::_BotMoveTo(Vector pos)
@@ -74,6 +62,11 @@ void BotTask::_OverrideBotViewAngle()
 void BotTask::_AddBotPressedButton(int button)
 {
 	_BotPressedButtons |= button;
+}
+
+void BotTask::_SetBotWeaponSlot(WeaponSlot weaponSlot)
+{
+	_WeaponSlot = weaponSlot;
 }
 
 Bot *BotTask::_GetBot() const

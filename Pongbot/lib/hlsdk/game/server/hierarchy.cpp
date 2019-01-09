@@ -7,11 +7,11 @@
 
 // UNDONE: Reconcile this with SetParent()
 
-#include "cbase.h"
-#include "hierarchy.h"
+#include "hlsdk/game/server/cbase.h"
+#include "hlsdk/game/server/hierarchy.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
-#include "tier0/memdbgon.h"
+#include "hlsdk/public/tier0/memdbgon.h"
 
 //-----------------------------------------------------------------------------
 // Purpose: Does the linked list work of removing a child object from the hierarchy.

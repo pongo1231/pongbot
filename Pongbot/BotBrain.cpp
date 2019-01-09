@@ -1,6 +1,6 @@
 #include "BotBrain.h"
 #include "BotTaskGoto.h"
-#include "BotTaskMeleeCombat.h"
+#include "BotTaskAggressiveCombat.h"
 #include "WaypointManager.h"
 #include "WaypointNodeFlagsProvider.h"
 #include "ObjectivesProvider.h"
@@ -18,7 +18,6 @@ extern IVEngineServer *Engine;
 Bot *_ABot;
 std::queue<BotTask*> _BotTasks;
 bool _IsBotDead;
-bool _FreeRoaming;
 float _DefaultBehaviourUpdateTime;
 bool _InMeleeFight;
 
@@ -86,7 +85,7 @@ void BotBrain::_DefaultBehaviour()
 	if (botTarget && _ABot->GetSelectedWeaponSlot() == WEAPON_MELEE && !_InMeleeFight)
 	{
 		_InMeleeFight = true;
-		newTaskQueue.push(new BotTaskMeleeCombat(_ABot, botTarget->Edict));
+		newTaskQueue.push(new BotTaskAggressiveCombat(_ABot, botTarget->Edict, WEAPON_MELEE));
 	}
 	else if (_InMeleeFight)
 		_InMeleeFight = false;
@@ -94,7 +93,7 @@ void BotBrain::_DefaultBehaviour()
 	if (newTaskQueue.empty())
 	{
 		BotTaskGoto *gotoTask = nullptr;
-		if (closestObjective && (_FreeRoaming || needsNewTask))
+		if (closestObjective && needsNewTask)
 		{
 			if (closestObjective->Type == ITEMFLAG)
 			{
@@ -112,14 +111,9 @@ void BotBrain::_DefaultBehaviour()
 				}
 			}
 		}
-		if (gotoTask)
-			_FreeRoaming = false;
-		else if (!gotoTask && needsNewTask)
-		{
-			_FreeRoaming = true;
+		if (!gotoTask && needsNewTask)
 			gotoTask = new BotTaskGoto(_ABot, _WaypointManager->GetRandomWaypointNode(
 				_WaypointNodeFlagsProvider->GetInaccessibleNodeFlagsForBot(_ABot))->Pos, false);
-		}
 		if (gotoTask)
 			newTaskQueue.push(gotoTask);
 	}
@@ -134,6 +128,11 @@ void BotBrain::OnSpawn()
 {
 	_ClearTasks();
 	_OnSpawn();
+}
+
+void BotBrain::OnObjectiveUpdate()
+{
+	_ClearTasks();
 }
 
 void BotBrain::SetTaskQueue(std::queue<BotTask*> taskQueue)
@@ -159,6 +158,5 @@ void BotBrain::_ClearTasks()
 void BotBrain::_ResetState()
 {
 	_IsBotDead = false;
-	_FreeRoaming = false;
 	_InMeleeFight = false;
 }

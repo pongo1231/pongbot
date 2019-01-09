@@ -35,6 +35,9 @@
     <Filter Include="src\Bot\Brain\Tasks">
       <UniqueIdentifier>{929e1436-91b3-4234-9d77-80ec45bc4502}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\TF2\Events">
+      <UniqueIdentifier>{002650f2-a60e-47bc-b836-b932fddfae1b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -127,11 +130,17 @@
     <ClCompile Include="BotBrainSpy.cpp">
       <Filter>src\Bot\Brain</Filter>
     </ClCompile>
-    <ClCompile Include="BotTaskMeleeCombat.cpp">
-      <Filter>src\Bot\Brain\Tasks</Filter>
-    </ClCompile>
     <ClCompile Include="ConVarHolder.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="IEventHooker.cpp">
+      <Filter>src\TF2\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="EventHooksProvider.cpp">
+      <Filter>src\TF2\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="BotTaskAggressiveCombat.cpp">
+      <Filter>src\Bot\Brain\Tasks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -246,11 +255,17 @@
     <ClInclude Include="WeaponSlot.h">
       <Filter>src\TF2</Filter>
     </ClInclude>
-    <ClInclude Include="BotTaskMeleeCombat.h">
-      <Filter>src\Bot\Brain\Tasks</Filter>
-    </ClInclude>
     <ClInclude Include="ConVarHolder.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="IEventHooker.h">
+      <Filter>src\TF2\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="EventHooksProvider.h">
+      <Filter>src\TF2\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskAggressiveCombat.h">
+      <Filter>src\Bot\Brain\Tasks</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

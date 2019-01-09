@@ -13,7 +13,7 @@
 #endif
 
 
-#include "ihandleentity.h"
+#include "hlsdk/public/ihandleentity.h"
 
 class ICollideable;
 class IServerNetworkable;

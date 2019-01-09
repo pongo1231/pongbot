@@ -13,10 +13,10 @@
 #pragma once
 #endif
 
-#include "dt_common.h"
-#include "tier0/dbg.h"
-#include "const.h"
-#include "bitvec.h"
+#include "hlsdk/public/dt_common.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/const.h"
+#include "hlsdk/public/bitvec.h"
 
 
 // ------------------------------------------------------------------------ //

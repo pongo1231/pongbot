@@ -38,6 +38,7 @@ public:
 	bool IsDead() const;
 	void ChangeClass(TFClass tfClass);
 	void ExecClientCommand(const char *command, ...) const;
+	WeaponSlot GetIdealWeaponForRange(float range) const;
 
 private:
 	edict_t *_Edict;

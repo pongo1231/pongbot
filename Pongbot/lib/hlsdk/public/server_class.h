@@ -13,9 +13,9 @@
 #pragma once
 #endif
 
-#include "tier0/dbg.h"
-#include "dt_send.h"
-#include "networkstringtabledefs.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/dt_send.h"
+#include "hlsdk/public/networkstringtabledefs.h"
 
 
 class ServerClass;

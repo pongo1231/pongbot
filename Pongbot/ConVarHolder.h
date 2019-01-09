@@ -15,8 +15,8 @@ public:
 	ConVar *CVarBotNodeTouchRadius;
 	ConVar *CVarBotPosStuckPanicTime;
 	ConVar *CVarBotTargetPosDebugBeamTick;
-	ConVar *CVarBotPrimaryWeaponDist;
-	ConVar *CVarBotSecondaryWeaponDist;
+	ConVar *CVarBotWeaponLongRangeDist;
+	ConVar *CVarBotWeaponMiddleRangeDist;
 	ConVar *CVarBotBehaviourUpdateTick;
 	ConVar *CVarBotVisibilityTick;
 	ConVar *CVarVisiblesProviderTick;
@@ -24,6 +24,8 @@ public:
 	ConVar *CVarObjectiveUpdateTick;
 	ConVar *CVarWaypointNodeDebugBeamTick;
 	ConVar *CVarWaypointNodeDebugBeamDist;
+	ConVar *CVarEventProviderTick;
+	ConVar *CVarBotMaxVisibleDist;
 };
 
 extern ConVarHolder *_ConVarHolder;

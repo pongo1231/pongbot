@@ -15,7 +15,7 @@
 #include "hlsdk/public/tier1/convar.h"
 
 #if defined( CLIENT_DLL ) || defined( GAME_DLL )
-	#include "basehandle.h"
+	#include "hlsdk/public/basehandle.h"
 #endif
 
 #ifdef _MSC_VER

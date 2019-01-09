@@ -11,10 +11,10 @@
 #endif
 
 
-#include "cmodel.h"
+#include "hlsdk/public/cmodel.h"
 #include "hlsdk/public/tier1/utlvector.h"
-#include "ihandleentity.h"
-#include "ispatialpartition.h"
+#include "hlsdk/public/ihandleentity.h"
+#include "hlsdk/public/ispatialpartition.h"
 
 #if defined( CLIENT_DLL )
 	class C_BaseEntity;

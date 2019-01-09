@@ -10,12 +10,12 @@
 #pragma once
 
 #ifndef MATHLIB_H
-#include "mathlib/mathlib.h"
+#include "hlsdk/public/mathlib/mathlib.h"
 #endif
 
-#include "datamap.h"
-#include "mathlib/bumpvects.h"
-#include "mathlib/compressed_light_cube.h"
+#include "hlsdk/public/datamap.h"
+#include "hlsdk/public/mathlib/bumpvects.h"
+#include "hlsdk/public/mathlib/compressed_light_cube.h"
 
 // little-endian "VBSP"
 #define IDBSPHEADER	(('P'<<24)+('S'<<16)+('B'<<8)+'V')		

@@ -11,14 +11,14 @@
 #pragma once
 #endif
 
-#include "mathlib/vector.h"
-#include "cmodel.h"
-#include "const.h"
-#include "iserverentity.h"
-#include "globalvars_base.h"
-#include "engine/ICollideable.h"
-#include "iservernetworkable.h"
-#include "bitvec.h"
+#include "hlsdk/public/mathlib/vector.h"
+#include "hlsdk/public/cmodel.h"
+#include "hlsdk/public/const.h"
+#include "hlsdk/public/iserverentity.h"
+#include "hlsdk/public/globalvars_base.h"
+#include "hlsdk/public/engine/ICollideable.h"
+#include "hlsdk/public/iservernetworkable.h"
+#include "hlsdk/public/bitvec.h"
 
 struct edict_t;
 

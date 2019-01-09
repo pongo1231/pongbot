@@ -1,4 +1,4 @@
-#include "BotTaskMeleeCombat.h"
+#include "BotTaskAggressiveCombat.h"
 #include "Util.h"
 #include "EntityDataProvider.h"
 #include "ConVarHolder.h"
@@ -11,14 +11,16 @@ extern IServerGameClients *IIServerGameClients;
 
 edict_t *_TargetEdict;
 IPlayerInfo *_TargetPlayerInfo;
+WeaponSlot _MWeaponSlot;
 
-BotTaskMeleeCombat::BotTaskMeleeCombat(Bot *bot, edict_t *targetEdict) : BotTask(bot), _TargetEdict(targetEdict)
+BotTaskAggressiveCombat::BotTaskAggressiveCombat(Bot *bot, edict_t *targetEdict,
+	WeaponSlot weaponSlot) : BotTask(bot), _TargetEdict(targetEdict), _MWeaponSlot(weaponSlot)
 {
 	if (strcmp(targetEdict->GetClassName(), "player") == 0)
 		_TargetPlayerInfo = IIPlayerInfoManager->GetPlayerInfo(targetEdict);
 }
 
-bool BotTaskMeleeCombat::_OnThink()
+bool BotTaskAggressiveCombat::_OnThink()
 {
 	if (!_TargetEdict || _EntityDataProvider->GetDataFromEdict<float>(_TargetEdict, DATA_HEALTH) == 0.f
 		|| (_TargetPlayerInfo && _TargetPlayerInfo->IsDead()))
@@ -33,13 +35,29 @@ bool BotTaskMeleeCombat::_OnThink()
 		targetPos += (earPos - targetPos) / 2;
 	}
 
-	if (_GetBot()->GetPos().DistTo(targetPos) > _ConVarHolder->CVarBotSecondaryWeaponDist->GetFloat())
+	// Determine max distance to target before task aborts
+	float maxDistance;
+	switch (_MWeaponSlot)
+	{
+	case WEAPON_PRIMARY:
+		maxDistance = _ConVarHolder->CVarBotMaxVisibleDist->GetFloat();
+		break;
+	case WEAPON_SECONDARY:
+		maxDistance = _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat();
+		break;
+	case WEAPON_MELEE:
+		maxDistance = _ConVarHolder->CVarBotWeaponMiddleRangeDist->GetFloat();
+		break;
+	}
+
+	if (_GetBot()->GetPos().DistTo(targetPos) > maxDistance)
 		return true; // Too far away
 	else
 	{
 		_OverrideBotViewAngle();
 		_SetBotLookAt(targetPos);
 		_BotMoveTo(targetPos);
+		_SetBotWeaponSlot(_MWeaponSlot);
 		_AddBotPressedButton(IN_ATTACK);
 	}
 

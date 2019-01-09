@@ -3,14 +3,15 @@
 
 struct edict_t;
 
-class BotTaskMeleeCombat : public BotTask
+class BotTaskAggressiveCombat : public BotTask
 {
 public:
-	BotTaskMeleeCombat(Bot *bot, edict_t *targetEdict);
+	BotTaskAggressiveCombat(Bot *bot, edict_t *targetEdict, WeaponSlot weaponSlot);
 
 private:
 	edict_t *_TargetEdict;
 	IPlayerInfo *_TargetPlayerInfo;
+	WeaponSlot _MWeaponSlot;
 
 	virtual bool _OnThink();
 };

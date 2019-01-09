@@ -13,9 +13,9 @@
 #pragma once
 #endif
 
-#include "trace.h"
-#include "tier0/dbg.h"
-#include "basehandle.h"
+#include "hlsdk/public/trace.h"
+#include "hlsdk/public/tier0/dbg.h"
+#include "hlsdk/public/basehandle.h"
 
 struct edict_t;
 struct model_t;
@@ -125,5 +125,5 @@ private:
 #endif // CMODEL_H
 
 	
-#include "gametrace.h"
+#include "hlsdk/public/gametrace.h"
 
