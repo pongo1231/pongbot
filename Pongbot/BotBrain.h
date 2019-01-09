@@ -1,14 +1,12 @@
 #pragma once
 #include "Bot.h"
 #include "BotTask.h"
-#include <hlsdk/public/mathlib/mathlib.h>
 #include <queue>
 
 class BotBrain
 {
 public:
-	BotBrain(Bot *bot) : _ABot(bot), _IsBotDead(false), _FreeRoaming(false), _InMeleeFight(false)
-	{}
+	BotBrain(Bot *bot);
 
 public:
 	void OnThink();
@@ -28,6 +26,7 @@ private:
 
 	void _DefaultBehaviour();
 	void _ClearTasks();
+	void _ResetState();
 
 	virtual void _OnThink()
 	{}

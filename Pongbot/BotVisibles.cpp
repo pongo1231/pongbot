@@ -5,11 +5,12 @@
 #include "TraceFilters.h"
 #include "TFTeam.h"
 #include "EntityDataProvider.h"
+#include "ConVarHolder.h"
 #include <metamod/ISmmAPI.h>
-#include <hlsdk/public/mathlib/mathlib.h>
+#include <hlsdk/public/mathlib/vector.h>
+#include <hlsdk/public/edict.h>
+#include <hlsdk/public/game/server/iplayerinfo.h>
 #include <numeric>
-
-ConVar _CVarVisibilityTick("pongbot_bot_visibility_tick", "0.2", 0, "How often visibility is being tested");
 
 extern IVEngineServer *Engine;
 extern IEngineTrace *IIEngineTrace;
@@ -53,7 +54,7 @@ void BotVisibles::OnThink()
 	float currentTime = Engine->Time();
 	if (_TickTime > currentTime)
 		return;
-	float visibilityTick = _CVarVisibilityTick.GetFloat();
+	float visibilityTick = _ConVarHolder->CVarBotVisibilityTick->GetFloat();
 	_TickTime = currentTime + visibilityTick;
 
 	for (BotVisibleTarget *visibleTarget : _VisibleTargets)

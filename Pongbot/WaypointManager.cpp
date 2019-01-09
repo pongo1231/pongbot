@@ -3,15 +3,13 @@
 #include "WaypointFileManager.h"
 #include "WaypointNodeFlagsProvider.h"
 #include "TraceFilters.h"
+#include "ConVarHolder.h"
 #include <metamod/ISmmPlugin.h>
 #include <metamod/sourcehook.h>
 #include <hlsdk/public/mathlib/mathlib.h>
 #include <hlsdk/public/edict.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <map>
-
-ConVar _CVarDebugBeamTick("pongbot_waypoint_debugbeamtick", "0.5", 0, "How often the node debug beams get drawn");
-ConVar _CVarDebugBeamDist("pongbot_waypoint_debugbeamdist", "1000.0", 0, "Max draw distance of node debug beams");
 
 extern IVEngineServer *Engine;
 extern IPlayerInfoManager *IIPlayerInfoManager;
@@ -26,29 +24,33 @@ static bool _DrawBeams;
 
 void WaypointManager::Init()
 {
-	Assert(!_WaypointManager);
-	_WaypointNodes.clear();
-	WaypointFileManager::Init(&_WaypointNodes);
-	WaypointNodeFlagsProvider::Init();
+	if (!_WaypointManager)
+	{
+		_WaypointNodes.clear();
+		WaypointFileManager::Init(&_WaypointNodes);
+		WaypointNodeFlagsProvider::Init();
 
-	_SelectedNode = nullptr;
-	_NodeBiConnect = false;
-	_DrawBeams = false;
-	_WaypointManager = new WaypointManager();
+		_SelectedNode = nullptr;
+		_NodeBiConnect = false;
+		_DrawBeams = false;
+		_WaypointManager = new WaypointManager();
+	}
 }
 
 void WaypointManager::Destroy()
 {
-	Assert(_WaypointManager);
-	WaypointFileManager::Destroy();
-	WaypointNodeFlagsProvider::Destroy();
-
-	for (uint8_t i = 0; i < _WaypointNodes.size(); i++)
+	if (_WaypointManager)
 	{
-		delete _WaypointNodes[i];
-		_WaypointNodes.erase(_WaypointNodes.begin() + i);
+		WaypointFileManager::Destroy();
+		WaypointNodeFlagsProvider::Destroy();
+
+		for (uint8_t i = 0; i < _WaypointNodes.size(); i++)
+		{
+			delete _WaypointNodes[i];
+			_WaypointNodes.erase(_WaypointNodes.begin() + i);
+		}
+		delete _WaypointManager;
 	}
-	delete _WaypointManager;
 }
 
 WaypointNode *WaypointManager::GetRandomWaypointNode(unsigned int nodeFlagBlacklist) const
@@ -208,7 +210,7 @@ void WaypointManager::OnGameFrame()
 	float currentTime = Engine->Time();
 	if (tickTime > currentTime)
 		return;
-	float debugBeamTick = _CVarDebugBeamTick.GetFloat();
+	float debugBeamTick = _ConVarHolder->CVarWaypointNodeDebugBeamTick->GetFloat();
 	tickTime = currentTime + debugBeamTick;
 
 	edict_t *edict = Engine->PEntityOfEntIndex(1);
@@ -227,7 +229,7 @@ void WaypointManager::OnGameFrame()
 			if (!alreadyDrawn)
 			{
 				Vector startPos = node->Pos;
-				if (startPos.DistTo(Util::GetEdictOrigin(edict)) <= _CVarDebugBeamDist.GetFloat())
+				if (startPos.DistTo(Util::GetEdictOrigin(edict)) <= _ConVarHolder->CVarWaypointNodeDebugBeamDist->GetFloat())
 				{
 					Vector endPos = startPos + Vector(0.f, 0.f, 75.f);
 					Util::DrawBeam(startPos, endPos, node->Flags != 0 ? 255 : 0, 255, 0, debugBeamTick);

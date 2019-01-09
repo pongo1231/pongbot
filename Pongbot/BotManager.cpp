@@ -16,20 +16,24 @@ static std::vector<Bot*> _Bots;
 
 void BotManager::Init()
 {
-	Assert(!_BotManager);
-	_Bots.clear();
-	BotVisiblesProvider::Init();
+	if (!_BotManager)
+	{
+		_Bots.clear();
+		BotVisiblesProvider::Init();
 
-	_BotManager = new BotManager();
+		_BotManager = new BotManager();
+	}
 }
 
 void BotManager::Destroy()
 {
-	Assert(_BotManager);
-	BotVisiblesProvider::Destroy();
+	if (_BotManager)
+	{
+		BotVisiblesProvider::Destroy();
 
-	_BotManager->KickAllBots();
-	delete _BotManager;
+		_BotManager->KickAllBots();
+		delete _BotManager;
+	}
 }
 
 void BotManager::KickBot(Bot *bot)

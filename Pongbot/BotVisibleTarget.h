@@ -1,7 +1,7 @@
 #pragma once
 #include <hlsdk/public/mathlib/mathlib.h>
 
-class edict_t;
+struct edict_t;
 
 enum BotTargetPriority
 {

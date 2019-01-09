@@ -164,6 +164,7 @@
     <ClCompile Include="BotTaskMeleeCombat.cpp" />
     <ClCompile Include="BotVisibles.cpp" />
     <ClCompile Include="BotVisiblesProvider.cpp" />
+    <ClCompile Include="ConVarHolder.cpp" />
     <ClCompile Include="DebugCommands.cpp" />
     <ClCompile Include="EntityDataProvider.cpp" />
     <ClCompile Include="IConVarBase.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="BotVisibles.h" />
     <ClInclude Include="BotVisiblesProvider.h" />
     <ClInclude Include="BotVisibleTarget.h" />
+    <ClInclude Include="ConVarHolder.h" />
     <ClInclude Include="CTFFlagStatusType.h" />
     <ClInclude Include="IConVarBase.h" />
     <ClInclude Include="EntityProvider.h" />

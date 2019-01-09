@@ -3,10 +3,9 @@
 #include "EntityProvider.h"
 #include "Util.h"
 #include "BotManager.h"
+#include "ConVarHolder.h"
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
-
-ConVar _CVarVisiblesProviderTick("pongbot_visibles_providetick", "1.0", 0, "How often visibles will be provided");
 
 extern IVEngineServer *Engine;
 extern IPlayerInfoManager *IIPlayerInfoManager;
@@ -17,14 +16,14 @@ std::vector<edict_t*> _VisibleEdicts;
 
 void BotVisiblesProvider::Init()
 {
-	Assert(!_BotVisiblesProvider);
-	_BotVisiblesProvider = new BotVisiblesProvider();
+	if (!_BotVisiblesProvider)
+		_BotVisiblesProvider = new BotVisiblesProvider();
 }
 
 void BotVisiblesProvider::Destroy()
 {
-	Assert(_BotVisiblesProvider);
-	delete _BotVisiblesProvider;
+	if (_BotVisiblesProvider)
+		delete _BotVisiblesProvider;
 }
 
 std::vector<edict_t*> BotVisiblesProvider::GetVisibleEdicts() const
@@ -41,7 +40,7 @@ void BotVisiblesProvider::OnGameFrame()
 	float currentTime = Engine->Time();
 	if (tickTime > currentTime)
 		return;
-	tickTime = currentTime + _CVarVisiblesProviderTick.GetFloat();
+	tickTime = currentTime + _ConVarHolder->CVarVisiblesProviderTick->GetFloat();
 
 	_VisibleEdicts.clear();
 	for (edict_t *edict : _EntityProvider->GetEdicts())

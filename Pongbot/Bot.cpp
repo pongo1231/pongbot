@@ -12,15 +12,14 @@
 #include "BotBrainMed.h"
 #include "BotBrainSniper.h"
 #include "BotBrainSpy.h"
-#include "TFTeam.h"
-#include "TFClass.h"
 #include "EntityDataProvider.h"
 #include "Util.h"
 #include "TFClassInfoProvider.h"
+#include "ConVarHolder.h"
 #include <metamod/ISmmPlugin.h>
+#include <hlsdk/public/game/server/iplayerinfo.h>
+#include <hlsdk/public/edict.h>
 #include <string>
-
-ConVar _CVarAimSensivity("pongbot_bot_aimsensivity", "3.0", 0, "Bot aim sensivity");
 
 extern IVEngineServer *Engine;
 extern IBotManager *IIBotManager;
@@ -65,7 +64,8 @@ void Bot::Think()
 	
 	// Smoothed out aiming
 	QAngle currentViewAngle = GetViewAngle();
-	QAngle finalViewAngle = Util::CorrectViewAngle(_TargetViewAngle - currentViewAngle) / _CVarAimSensivity.GetFloat() + currentViewAngle;
+	QAngle finalViewAngle = Util::CorrectViewAngle(_TargetViewAngle - currentViewAngle)
+		/ _ConVarHolder->CVarBotAimSensivity->GetFloat() + currentViewAngle;
 	finalViewAngle.x *= 2;
 
 	CBotCmd cmd;

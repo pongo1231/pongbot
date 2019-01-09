@@ -8,11 +8,10 @@
 #include "Util.h"
 #include "EntityDataProvider.h"
 #include "BotVisibles.h"
+#include "ConVarHolder.h"
 #include <metamod/ISmmAPI.h>
 #include <vector>
 #include <stdint.h> // uint8_t for Linux
-
-ConVar _CVarBehaviourUpdateTick("pongbot_bot_brain_updatetick", "0.2", 0, "How often the bots will check for updated tasks");
 
 extern IVEngineServer *Engine;
 
@@ -22,6 +21,11 @@ bool _IsBotDead;
 bool _FreeRoaming;
 float _DefaultBehaviourUpdateTime;
 bool _InMeleeFight;
+
+BotBrain::BotBrain(Bot *bot) : _ABot(bot)
+{
+	_ResetState();
+}
 
 void BotBrain::OnThink()
 {
@@ -41,7 +45,7 @@ void BotBrain::OnThink()
 		if (_DefaultBehaviourUpdateTime < engineTime)
 		{
 			_DefaultBehaviour();
-			_DefaultBehaviourUpdateTime = engineTime + _CVarBehaviourUpdateTick.GetFloat();
+			_DefaultBehaviourUpdateTime = engineTime + _ConVarHolder->CVarBotBehaviourUpdateTick->GetFloat();
 		}
 
 		if (!_BotTasks.empty())
@@ -150,4 +154,11 @@ void BotBrain::_ClearTasks()
 		delete _BotTasks.front();
 		_BotTasks.pop();
 	}
+}
+
+void BotBrain::_ResetState()
+{
+	_IsBotDead = false;
+	_FreeRoaming = false;
+	_InMeleeFight = false;
 }

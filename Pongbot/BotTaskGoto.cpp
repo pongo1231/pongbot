@@ -8,12 +8,9 @@
 #include "WaypointNodeFlagTypes.h"
 #include "Util.h"
 #include "WaypointNodeFlagsProvider.h"
+#include "ConVarHolder.h"
 #include <metamod/ISmmAPI.h>
 #include <stack>
-
-ConVar _CVarNodeTouchRadius("pongbot_bot_goto_nodetouchradius", "50.0", 0, "Min distance to node to count as 'touched'");
-ConVar _CVarPosStuckPanicTime("pongbot_bot_goto_stuckpanictime", "120.0", 0, "Time until bot starts panicing if stuck (crouch jump)");
-ConVar _CVarTargetPosDebugBeamTick("pongbot_bot_goto_debugbeamtick", "0.1", 0, "How often the goto debug beam gets updated");
 
 extern IVEngineServer *Engine;
 
@@ -37,13 +34,13 @@ bool BotTaskGoto::_OnThink()
 {
 	Bot *bot = _GetBot();
 	Vector currentPos = bot->GetPos();
-	float nodeTouchRadius = _CVarNodeTouchRadius.GetFloat();
+	float nodeTouchRadius = _ConVarHolder->CVarBotNodeTouchRadius->GetFloat();
 
 	if (Util::DistanceToNoZ(currentPos, _LastPos) < nodeTouchRadius)
 	{
 		_PosStuckTime++;
 
-		float panicStuckTime = _CVarPosStuckPanicTime.GetFloat();
+		float panicStuckTime = _ConVarHolder->CVarBotPosStuckPanicTime->GetFloat();
 		if (_PosStuckTime > panicStuckTime + 50)
 		{
 			_PosStuckTime = 0;
@@ -78,7 +75,7 @@ bool BotTaskGoto::_OnThink()
 
 		if (_DrawDebugBeam && Engine->Time() > _DebugBeamDrawTime)
 		{
-			float debugBeamTick = _CVarTargetPosDebugBeamTick.GetFloat();
+			float debugBeamTick = _ConVarHolder->CVarBotTargetPosDebugBeamTick->GetFloat();
 			Util::DrawBeam(bot->GetEarPos(), targetPos, 255, 0, 0, debugBeamTick);
 			_DebugBeamDrawTime = Engine->Time() + debugBeamTick;
 		}
@@ -111,7 +108,7 @@ void BotTaskGoto::_NewTargetNodeStack()
 		_TargetPosQueue = std::queue<Vector>();
 		while (!_WaypointNodeStack.empty())
 		{
-			float nodeTouchRadius = _CVarNodeTouchRadius.GetFloat();
+			float nodeTouchRadius = _ConVarHolder->CVarBotNodeTouchRadius->GetFloat();
 			_TargetPosQueue.push(_WaypointNodeStack.top()->Pos
 				+ Vector(Util::RandomFloat(-nodeTouchRadius, nodeTouchRadius),
 					Util::RandomFloat(-nodeTouchRadius, nodeTouchRadius), 0.f));

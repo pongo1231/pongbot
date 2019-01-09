@@ -1,9 +1,8 @@
 #include "EntityProvider.h"
 #include "EntityDataProvider.h"
 #include "BotManager.h"
+#include "ConVarHolder.h"
 #include <metamod/ISmmAPI.h>
-
-ConVar _CVarEntityProviderTick("pongbot_entityprovide_tick", "1.0", 0, "How often all entities get iterated through");
 
 extern IVEngineServer *Engine;
 
@@ -16,18 +15,20 @@ EntityProvider::EntityProvider()
 
 void EntityProvider::Init()
 {
-	Assert(!_EdictsProvider);
-	EntityDataProvider::Init();
-
-	_EntityProvider = new EntityProvider();
+	if (!_EntityProvider)
+	{
+		EntityDataProvider::Init();
+		_EntityProvider = new EntityProvider();
+	}
 }
 
 void EntityProvider::Destroy()
 {
-	Assert(_EdictsProvider);
-	EntityDataProvider::Destroy();
-
-	delete _EntityProvider;
+	if (_EntityProvider)
+	{
+		EntityDataProvider::Destroy();
+		delete _EntityProvider;
+	}
 }
 
 std::vector<edict_t*> EntityProvider::GetEdicts() const
@@ -53,7 +54,7 @@ void EntityProvider::OnGameFrame()
 	float currentTime = Engine->Time();
 	if (tickTime > currentTime)
 		return;
-	tickTime = currentTime + _CVarEntityProviderTick.GetFloat();
+	tickTime = currentTime + _ConVarHolder->CVarEntityProviderTick->GetFloat();
 
 	_Edicts.clear();
 	for (int i = 1; i < Engine->GetEntityCount(); i++)

@@ -24,24 +24,21 @@ SH_DECL_HOOK6(IServerGameDLL, LevelInit, SH_NOATTRIB, 0, bool, char const *, cha
 
 void WaypointFileManager::Init(std::vector<WaypointNode*> *waypointNodes)
 {
-	Assert(!_WaypointFileManager);
-
-	_WaypointNodes = waypointNodes;
-
-	_WaypointFileManager = new WaypointFileManager();
-
-	SH_ADD_HOOK(IServerGameDLL, LevelInit, Server,
-		SH_MEMBER(_WaypointFileManager, &WaypointFileManager::_OnLevelInit), true);
+	if (!_WaypointFileManager)
+	{
+		_WaypointNodes = waypointNodes;
+		_WaypointFileManager = new WaypointFileManager();
+		SH_ADD_HOOK(IServerGameDLL, LevelInit, Server, SH_MEMBER(_WaypointFileManager, &WaypointFileManager::_OnLevelInit), true);
+	}
 }
 
 void WaypointFileManager::Destroy()
 {
-	Assert(_WaypointFileManager);
-
-	SH_REMOVE_HOOK(IServerGameDLL, LevelInit, Server,
-		SH_MEMBER(_WaypointFileManager, &WaypointFileManager::_OnLevelInit), true);
-
-	delete _WaypointFileManager;
+	if (_WaypointFileManager)
+	{
+		SH_REMOVE_HOOK(IServerGameDLL, LevelInit, Server, SH_MEMBER(_WaypointFileManager, &WaypointFileManager::_OnLevelInit), true);
+		delete _WaypointFileManager;
+	}
 }
 
 void WaypointFileManager::Read()

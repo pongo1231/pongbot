@@ -6,9 +6,8 @@
 #include "CTFFlagStatusType.h"
 #include "TFTeam.h"
 #include "BotManager.h"
+#include "ConVarHolder.h"
 #include <metamod/ISmmAPI.h>
-
-ConVar _CVarObjectiveUpdateTick("pongbot_objectiveprovider_tick", "0.5", 0, "How often all objectives get iterated through");
 
 extern IVEngineServer *Engine;
 
@@ -19,14 +18,14 @@ std::vector<Objective> _BlueObjectives;
 
 void ObjectivesProvider::Init()
 {
-	Assert(!_ObjectivesProvider);
-	_ObjectivesProvider = new ObjectivesProvider();
+	if (!_ObjectivesProvider)
+		_ObjectivesProvider = new ObjectivesProvider();
 }
 
 void ObjectivesProvider::Destroy()
 {
-	Assert(_ObjectivesProvider);
-	delete _ObjectivesProvider;
+	if (_ObjectivesProvider)
+		delete _ObjectivesProvider;
 }
 
 std::vector<Objective> ObjectivesProvider::GetBotPushObjectives(Bot *bot)
@@ -48,7 +47,7 @@ void ObjectivesProvider::OnGameFrame()
 	float engineTime = Engine->Time();
 	if (tickTime > engineTime)
 		return;
-	tickTime = engineTime + _CVarObjectiveUpdateTick.GetFloat();
+	tickTime = engineTime + _ConVarHolder->CVarObjectiveUpdateTick->GetFloat();
 
 	_RedObjectives.clear();
 	_BlueObjectives.clear();

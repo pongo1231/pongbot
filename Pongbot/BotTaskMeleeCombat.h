@@ -1,17 +1,16 @@
 #pragma once
 #include "BotTask.h"
 
-class Bot;
-class edict_t;
+struct edict_t;
 
 class BotTaskMeleeCombat : public BotTask
 {
 public:
-	BotTaskMeleeCombat(Bot *bot, edict_t *targetEdict) : BotTask(bot), _TargetEdict(targetEdict)
-	{}
+	BotTaskMeleeCombat(Bot *bot, edict_t *targetEdict);
 
 private:
 	edict_t *_TargetEdict;
+	IPlayerInfo *_TargetPlayerInfo;
 
 	virtual bool _OnThink();
 };

@@ -1,15 +1,15 @@
 #pragma once
-#include "TFTeam.h"
 #include "TFClass.h"
 #include "WeaponSlot.h"
-#include <hlsdk/public/edict.h>
-#include <hlsdk/public/game/server/iplayerinfo.h>
+#include "TFTeam.h"
+#include <hlsdk/public/mathlib/mathlib.h>
 
-class BotHelper;
-class WaypointNode;
 class BotBrain;
 class BotVisibles;
-class TFClassInfo;
+struct TFClassInfo;
+struct edict_t;
+class IBotController;
+class IPlayerInfo;
 
 class Bot
 {

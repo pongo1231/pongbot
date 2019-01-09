@@ -1,17 +1,14 @@
-#include "Bot.h"
 #include "BotTask.h"
 #include "BotVisibles.h"
 #include "Util.h"
 #include "TFClassInfoProvider.h"
+#include "ConVarHolder.h"
 
 Bot *_Bot;
 Vector _BotTargetPos;
 Vector _BotTargetLookAt;
 bool _IsBotViewAngleOverriden;
 int _BotPressedButtons;
-
-ConVar _CVarPrimaryWeaponDist("pongbot_bot_primwepdist", "800.0", 0, "Min distance where bots use their primary weapon");
-ConVar _CVarSecondaryWeaponDist("pongbot_bot_secwepdist", "300.0", 0, "Min distance where bots use their secondary weapon");
 
 bool BotTask::OnThink()
 {
@@ -49,9 +46,9 @@ void BotTask::_ShootAtBadGuys()
 void BotTask::_ChooseBestWeaponForDistance(float distance)
 {
 	WeaponSlot weaponSlot;
-	if (distance < _CVarSecondaryWeaponDist.GetFloat())
+	if (distance < _ConVarHolder->CVarBotSecondaryWeaponDist->GetFloat())
 		weaponSlot = WEAPON_MELEE;
-	else if (distance < _CVarPrimaryWeaponDist.GetFloat())
+	else if (distance < _ConVarHolder->CVarBotPrimaryWeaponDist->GetFloat())
 		weaponSlot = WEAPON_SECONDARY;
 	else
 		weaponSlot = WEAPON_PRIMARY;

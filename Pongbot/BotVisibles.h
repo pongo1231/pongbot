@@ -1,11 +1,12 @@
 #pragma once
 #include "IGameFramable.h"
 #include "BotVisibleTarget.h"
-#include <hlsdk/public/edict.h>
 #include <vector>
 #include <cstdint>
 
 class Bot;
+struct edict_t;
+class IServerEntity;
 
 class BotVisibles
 {

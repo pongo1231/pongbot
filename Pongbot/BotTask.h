@@ -1,12 +1,9 @@
 #pragma once
-#include "TFTeam.h"
-#include "IConVarBase.h"
-#include <hlsdk/public/mathlib/mathlib.h>
+#include "Bot.h"
+#include <hlsdk/public/mathlib/vector.h>
 #include <hlsdk/game/shared/in_buttons.h>
 
-class Bot;
-
-class BotTask : public IConVarBase
+class BotTask
 {
 public:
 	BotTask(Bot *bot) : _Bot(bot)
