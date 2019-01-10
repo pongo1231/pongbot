@@ -58,9 +58,9 @@ Bot::~Bot()
 
 void Bot::Think()
 {
-	if (_BotVisibles)
+	if (_BotVisibles && _ConVarHolder->CVarBotEnableVisibility->GetBool())
 		_BotVisibles->OnThink();
-	if (_BotBrain)
+	if (_BotBrain && _ConVarHolder->CVarBotEnableBrain->GetBool())
 		_BotBrain->OnThink();
 	
 	// Smoothed out aiming

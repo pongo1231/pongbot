@@ -26,6 +26,8 @@ public:
 	ConVar *CVarWaypointNodeDebugBeamDist;
 	ConVar *CVarEventProviderTick;
 	ConVar *CVarBotMaxVisibleDist;
+	ConVar *CVarBotEnableVisibility;
+	ConVar *CVarBotEnableBrain;
 };
 
 extern ConVarHolder *_ConVarHolder;

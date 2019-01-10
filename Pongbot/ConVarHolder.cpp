@@ -17,6 +17,8 @@ ConVar *CVarWaypointNodeDebugBeamTick;
 ConVar *CVarWaypointNodeDebugBeamDist;
 ConVar *CVarEventProviderTick;
 ConVar *CVarBotMaxVisibleDist;
+ConVar *CVarBotEnableVisibility;
+ConVar *CVarBotEnableBrain;
 
 void ConVarHolder::Init()
 {
@@ -39,6 +41,8 @@ void ConVarHolder::Init()
 		_ConVarHolder->CVarWaypointNodeDebugBeamDist = new ConVar("pongbot_waypoint_debugbeamdist", "1000.0", 0, "Max draw distance of node debug beams");
 		_ConVarHolder->CVarEventProviderTick = new ConVar("pongbot_eventprovider_tick", "0.2", 0, "How often the plugin checks for events");
 		_ConVarHolder->CVarBotMaxVisibleDist = new ConVar("pongbot_bot_visibility_maxdist", "1500.0", 0, "How far the bots can see");
+		_ConVarHolder->CVarBotEnableVisibility = new ConVar("pongbot_bot_visibility_enabled", "1", 0, "Bots should be able to see entities");
+		_ConVarHolder->CVarBotEnableBrain = new ConVar("pongbot_bot_brain_enabled", "1", 0, "Bots should be able to think");
 	}
 }
 
@@ -59,6 +63,8 @@ void ConVarHolder::Destroy()
 		delete _ConVarHolder->CVarObjectiveUpdateTick;
 		delete _ConVarHolder->CVarWaypointNodeDebugBeamTick;
 		delete _ConVarHolder->CVarWaypointNodeDebugBeamDist;
+		delete _ConVarHolder->CVarBotEnableVisibility;
+		delete _ConVarHolder->CVarBotEnableBrain;
 
 		delete _ConVarHolder;
 	}
