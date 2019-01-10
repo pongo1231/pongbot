@@ -35,7 +35,7 @@ void EventHooksProvider::AddEventHooker(IEventHooker *eventHooker)
 
 void EventHooksProvider::RemoveEventHooker(IEventHooker *eventHooker)
 {
-	for (int i = 0; i < _EventHookers.size(); i++)
+	for (unsigned int i = 0; i < _EventHookers.size(); i++)
 		if (_EventHookers[i] == eventHooker)
 		{
 			_EventHookers.erase(_EventHookers.begin() + i);

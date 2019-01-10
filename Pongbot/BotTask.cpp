@@ -23,9 +23,10 @@ bool BotTask::OnThink()
 	if (!_IsBotViewAngleOverriden)
 		_ShootAtBadGuys();
 
-	_Bot->SetViewAngle(Util::GetLookAtAngleForPos(_Bot, _BotTargetLookAt));
-	_Bot->SetMovement(Util::GetIdealMoveSpeedsToPos(_Bot, _BotTargetPos));
+	_Bot->SetMovement(_BotTargetPos.IsZero() ? Vector2D() : Util::GetIdealMoveSpeedsToPos(_Bot, _BotTargetPos));
+	_Bot->SetViewAngle(_BotTargetLookAt.IsZero() ? QAngle() : Util::GetLookAtAngleForPos(_Bot, _BotTargetLookAt));
 	_Bot->SetPressedButtons(_BotPressedButtons);
+	_Bot->SetSelectedWeapon(_WeaponSlot);
 
 	return taskResult;
 }

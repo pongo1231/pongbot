@@ -51,6 +51,9 @@ BotVisibleTarget *BotVisibles::GetMostImportantTarget() const
 
 bool BotVisibles::IsEntityVisible(edict_t *edict) const
 {
+	if (!edict)
+		return false;
+
 	for (BotVisibleTarget *visibleTarget : _VisibleTargets)
 		if (visibleTarget->Edict == edict)
 			return true;

@@ -80,12 +80,15 @@ void BotBrain::_DefaultThink()
 
 	// Melee combat
 	BotVisibleTarget *currentTarget = _ABot->GetBotVisibles()->GetMostImportantTarget();
-	if (currentTarget && _ABot->GetSelectedWeaponSlot() == WEAPON_MELEE && !_HasState(BOTSTATE_MELEEFIGHT))
+	if (currentTarget && _ABot->GetSelectedWeaponSlot() == WEAPON_MELEE)
 	{
-		_AddState(BOTSTATE_MELEEFIGHT);
-		newTaskQueue.push(new BotTaskAggressiveCombat(_ABot, currentTarget->Edict, WEAPON_MELEE));
+		if (!_HasState(BOTSTATE_MELEEFIGHT))
+		{
+			_AddState(BOTSTATE_MELEEFIGHT);
+			newTaskQueue.push(new BotTaskAggressiveCombat(_ABot, currentTarget->Edict, WEAPON_MELEE));
+		}
 	}
-	else if (_HasState(BOTSTATE_MELEEFIGHT))
+	else
 		_RemoveState(BOTSTATE_MELEEFIGHT);
 
 	/* Filler Tasks in case the bot has nothing to do */

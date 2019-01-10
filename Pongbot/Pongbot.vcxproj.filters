@@ -142,6 +142,9 @@
     <ClCompile Include="BotTaskAggressiveCombat.cpp">
       <Filter>src\Bot\Brain\Tasks</Filter>
     </ClCompile>
+    <ClCompile Include="BotTaskMedHealTarget.cpp">
+      <Filter>src\Bot\Brain\Tasks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Util.h">
@@ -262,6 +265,9 @@
       <Filter>src\TF2\Events</Filter>
     </ClInclude>
     <ClInclude Include="BotTaskAggressiveCombat.h">
+      <Filter>src\Bot\Brain\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="BotTaskMedHealTarget.h">
       <Filter>src\Bot\Brain\Tasks</Filter>
     </ClInclude>
   </ItemGroup>

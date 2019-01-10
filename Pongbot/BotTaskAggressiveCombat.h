@@ -6,11 +6,12 @@ struct edict_t;
 class BotTaskAggressiveCombat : public BotTask
 {
 public:
-	BotTaskAggressiveCombat(Bot *bot, edict_t *targetEdict, WeaponSlot weaponSlot);
+	BotTaskAggressiveCombat(Bot *bot, edict_t *targetEdict, WeaponSlot weaponSlot) : BotTask(bot),
+		_TargetEdict(targetEdict), _MWeaponSlot(weaponSlot)
+	{}
 
 private:
 	edict_t *_TargetEdict;
-	IPlayerInfo *_TargetPlayerInfo;
 	WeaponSlot _MWeaponSlot;
 
 	virtual bool _OnThink();
