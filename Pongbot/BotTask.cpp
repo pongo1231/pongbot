@@ -41,7 +41,7 @@ void BotTask::_ShootAtBadGuys()
 		_BotTargetLookAt = targetPos;
 		_BotPressedButtons |= IN_ATTACK;
 
-		_Bot->SetSelectedWeapon(_Bot->GetIdealWeaponForRange(targetPos.DistTo(_Bot->GetPos())));
+		_WeaponSlot = _Bot->GetIdealWeaponForRange(targetPos.DistTo(_Bot->GetPos()));
 	}
 }
 
