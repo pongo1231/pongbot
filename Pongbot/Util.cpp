@@ -69,7 +69,8 @@ namespace Util
 
 	Vector GetEdictOrigin(edict_t *edict)
 	{
-		return edict->GetCollideable()->GetCollisionOrigin();
+		ICollideable *collideable = edict->GetCollideable();
+		return collideable ? collideable->GetCollisionOrigin() : Vector();
 	}
 
 	QAngle GetLookAtAngleForPos(Bot *bot, Vector lookAtPos)

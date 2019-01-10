@@ -2,6 +2,7 @@
 #include "Util.h"
 #include "EntityDataProvider.h"
 #include "ConVarHolder.h"
+#include "BotVisibles.h"
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <hlsdk/public/edict.h>
@@ -50,8 +51,9 @@ bool BotTaskAggressiveCombat::_OnThink()
 		break;
 	}
 
-	if (_GetBot()->GetPos().DistTo(targetPos) > maxDistance)
-		return true; // Too far away
+	Bot *bot = _GetBot();
+	if (bot->GetPos().DistTo(targetPos) > maxDistance || !bot->GetBotVisibles()->IsEntityVisible(_TargetEdict))
+		return true; // Too far away or not visible
 	else
 	{
 		_OverrideBotViewAngle();

@@ -49,6 +49,15 @@ BotVisibleTarget *BotVisibles::GetMostImportantTarget() const
 	return importantTarget;
 }
 
+bool BotVisibles::IsEntityVisible(edict_t *edict) const
+{
+	for (BotVisibleTarget *visibleTarget : _VisibleTargets)
+		if (visibleTarget->Edict == edict)
+			return true;
+
+	return false;
+}
+
 void BotVisibles::OnThink()
 {
 	float currentTime = Engine->Time();

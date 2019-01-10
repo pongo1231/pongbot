@@ -194,7 +194,6 @@
     <ClInclude Include="BotTaskAggressiveCombat.h" />
     <ClInclude Include="BotVisibles.h" />
     <ClInclude Include="BotVisiblesProvider.h" />
-    <ClInclude Include="BotVisibleTarget.h" />
     <ClInclude Include="ConVarHolder.h" />
     <ClInclude Include="CTFFlagStatusType.h" />
     <ClInclude Include="EventHooksProvider.h" />

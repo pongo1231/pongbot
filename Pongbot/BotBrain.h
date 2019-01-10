@@ -5,10 +5,18 @@
 #include <queue>
 #include <vector>
 
+enum BotState
+{
+	BOTSTATE_DEAD = 1,
+	BOTSTATE_MELEEFIGHT = 2,
+	BOTSTATE_PYRO_FLAMETHROWERRUSH = 4
+};
+
 class BotBrain : public IEventHooker
 {
 public:
-	BotBrain(Bot *bot);
+	BotBrain(Bot *bot) : _ABot(bot)
+	{}
 
 public:
 	void OnThink();
@@ -19,20 +27,21 @@ public:
 
 protected:
 	Bot *_GetBot() const;
+	void _AddState(BotState state);
+	void _RemoveState(BotState state);
+	bool _HasState(BotState state) const;
 
 private:
 	Bot *_ABot;
 	std::queue<BotTask*> _BotTasks;
-	bool _IsBotDead;
-	float _DefaultBehaviourUpdateTime;
-	bool _InMeleeFight;
+	float _ThinkTime;
+	unsigned int _States;
 
-	void _DefaultBehaviour();
+	void _DefaultThink();
 	void _ClearTasks();
 	void _ResetState();
 
-	virtual void _OnThink()
-	{}
+	virtual void _OnThink() = 0;
 	virtual void _OnSpawn()
 	{}
 };

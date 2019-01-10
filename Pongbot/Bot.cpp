@@ -19,10 +19,6 @@
 #include <metamod/ISmmPlugin.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <hlsdk/public/edict.h>
-
-// TODO: Fix HL2SDK stuff to maybe get CBaseEntity working for easier access
-//#include <hlsdk/game/server/player.h>
-
 #include <string>
 
 extern IVEngineServer *Engine;
@@ -48,13 +44,10 @@ Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
 	_IIBotController(IIBotManager->GetBotController(edict)),
 	_IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(edict))
 {
-	_BotBrain = new BotBrain(this);
 	_BotVisibles = new BotVisibles(this);
 
 	_SwitchToFittingTeam();
 	_RandomClass();
-
-
 }
 
 Bot::~Bot()
@@ -65,8 +58,10 @@ Bot::~Bot()
 
 void Bot::Think()
 {
-	_BotVisibles->OnThink();
-	_BotBrain->OnThink();
+	if (_BotVisibles)
+		_BotVisibles->OnThink();
+	if (_BotBrain)
+		_BotBrain->OnThink();
 	
 	// Smoothed out aiming
 	QAngle currentViewAngle = GetViewAngle();
@@ -183,7 +178,6 @@ bool Bot::IsDead() const
 void Bot::ChangeClass(TFClass tfClass)
 {
 	ExecClientCommand("joinclass %s", _TFClassToJoinName(tfClass));
-	SetSelectedWeapon(WEAPON_PRIMARY);
 
 	_CurrentClass = tfClass;
 	delete _ClassInfo;
@@ -205,6 +199,7 @@ void Bot::ExecClientCommand(const char *command, ...) const
 WeaponSlot Bot::GetIdealWeaponForRange(float range) const
 {
 	// Determine ideal weapons for ranges first
+	// TODO: Take ammo into account
 	TFClassInfoWeapon weaponInfos[] =
 	{
 		_ClassInfo->Primary,
@@ -256,22 +251,31 @@ void Bot::_UpdateBotBrain()
 	{
 	case SCOUT:
 		_BotBrain = new BotBrainScout(this);
+		break;
 	case SOLDIER:
 		_BotBrain = new BotBrainSoldier(this);
+		break;
 	case PYRO:
 		_BotBrain = new BotBrainPyro(this);
+		break;
 	case DEMO:
 		_BotBrain = new BotBrainDemo(this);
+		break;
 	case HEAVY:
 		_BotBrain = new BotBrainHeavy(this);
+		break;
 	case ENGI:
 		_BotBrain = new BotBrainEngi(this);
+		break;
 	case MED:
 		_BotBrain = new BotBrainMed(this);
+		break;
 	case SNIPER:
 		_BotBrain = new BotBrainSniper(this);
+		break;
 	case SPY:
 		_BotBrain = new BotBrainSpy(this);
+		break;
 	}
 }
 

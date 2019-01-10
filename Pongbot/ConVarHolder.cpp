@@ -8,7 +8,7 @@ ConVar *CVarBotPosStuckPanicTime;
 ConVar *CVarBotTargetPosDebugBeamTick;
 ConVar *CVarBotWeaponLongRangeDist;
 ConVar *CVarBotWeaponMiddleRangeDist;
-ConVar *CVarBotBehaviourUpdateTick;
+ConVar *CVarBotBrainThinkTick;
 ConVar *CVarBotVisibilityTick;
 ConVar *CVarVisiblesProviderTick;
 ConVar *CVarEntityProviderTick;
@@ -25,12 +25,12 @@ void ConVarHolder::Init()
 		_ConVarHolder = new ConVarHolder();
 
 		_ConVarHolder->CVarBotAimSensivity = new ConVar("pongbot_bot_aimsensivity", "3.0", 0, "Bot aim sensivity");
-		_ConVarHolder->CVarBotNodeTouchRadius = new ConVar("pongbot_bot_goto_nodetouchradius", "50.0", 0, "Min distance to node to count as 'touched'");
+		_ConVarHolder->CVarBotNodeTouchRadius = new ConVar("pongbot_bot_goto_nodetouchradius", "40.0", 0, "Min distance to node to count as 'touched'");
 		_ConVarHolder->CVarBotPosStuckPanicTime = new ConVar("pongbot_bot_goto_stuckpanictime", "120.0", 0, "Time until bot starts panicing if stuck (crouch jump)");
 		_ConVarHolder->CVarBotTargetPosDebugBeamTick = new ConVar("pongbot_bot_goto_debugbeamtick", "0.1", 0, "How often the goto debug beam gets updated");
 		_ConVarHolder->CVarBotWeaponLongRangeDist = new ConVar("pongbot_bot_wep_longrangedist", "800.0", 0, "Min distance where bots use their long range weapon");
 		_ConVarHolder->CVarBotWeaponMiddleRangeDist = new ConVar("pongbot_bot_wep_middlerangedist", "300.0", 0, "Min distance where bots use their middle range weapon");
-		_ConVarHolder->CVarBotBehaviourUpdateTick = new ConVar("pongbot_bot_brain_updatetick", "0.2", 0, "How often the bots will check for updated tasks");
+		_ConVarHolder->CVarBotBrainThinkTick = new ConVar("pongbot_bot_brain_thinktick", "0.2", 0, "How often the bots will think");
 		_ConVarHolder->CVarBotVisibilityTick = new ConVar("pongbot_bot_visibility_tick", "0.2", 0, "How often visibility is being tested");
 		_ConVarHolder->CVarVisiblesProviderTick = new ConVar("pongbot_visibles_providetick", "1.0", 0, "How often visibles will be provided");
 		_ConVarHolder->CVarEntityProviderTick = new ConVar("pongbot_entityprovide_tick", "1.0", 0, "How often all entities get iterated through");
@@ -52,7 +52,7 @@ void ConVarHolder::Destroy()
 		delete _ConVarHolder->CVarBotTargetPosDebugBeamTick;
 		delete _ConVarHolder->CVarBotWeaponLongRangeDist;
 		delete _ConVarHolder->CVarBotWeaponMiddleRangeDist;
-		delete _ConVarHolder->CVarBotBehaviourUpdateTick;
+		delete _ConVarHolder->CVarBotBrainThinkTick;
 		delete _ConVarHolder->CVarBotVisibilityTick;
 		delete _ConVarHolder->CVarVisiblesProviderTick;
 		delete _ConVarHolder->CVarEntityProviderTick;

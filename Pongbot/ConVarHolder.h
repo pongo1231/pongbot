@@ -17,7 +17,7 @@ public:
 	ConVar *CVarBotTargetPosDebugBeamTick;
 	ConVar *CVarBotWeaponLongRangeDist;
 	ConVar *CVarBotWeaponMiddleRangeDist;
-	ConVar *CVarBotBehaviourUpdateTick;
+	ConVar *CVarBotBrainThinkTick;
 	ConVar *CVarBotVisibilityTick;
 	ConVar *CVarVisiblesProviderTick;
 	ConVar *CVarEntityProviderTick;

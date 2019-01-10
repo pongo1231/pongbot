@@ -9,6 +9,7 @@
 #include "EntityDataProvider.h"
 #include "BotVisibles.h"
 #include "ConVarHolder.h"
+#include "WeaponSlot.h"
 #include <metamod/ISmmAPI.h>
 #include <vector>
 #include <stdint.h> // uint8_t for Linux
@@ -17,34 +18,27 @@ extern IVEngineServer *Engine;
 
 Bot *_ABot;
 std::queue<BotTask*> _BotTasks;
-bool _IsBotDead;
-float _DefaultBehaviourUpdateTime;
-bool _InMeleeFight;
-
-BotBrain::BotBrain(Bot *bot) : _ABot(bot)
-{
-	_ResetState();
-}
+float _ThinkTime;
+unsigned int _States;
 
 void BotBrain::OnThink()
 {
 	if (_ABot->IsDead())
-		_IsBotDead = true;
+		_AddState(BOTSTATE_DEAD);
 	else
 	{
-		if (_IsBotDead)
+		if (_States & BOTSTATE_DEAD)
 		{
-			_IsBotDead = false;
+			_RemoveState(BOTSTATE_DEAD);
 			OnSpawn();
 		}
 
-		_OnThink();
-
 		float engineTime = Engine->Time();
-		if (_DefaultBehaviourUpdateTime < engineTime)
+		if (_ThinkTime < engineTime)
 		{
-			_DefaultBehaviour();
-			_DefaultBehaviourUpdateTime = engineTime + _ConVarHolder->CVarBotBehaviourUpdateTick->GetFloat();
+			_ThinkTime = engineTime + _ConVarHolder->CVarBotBrainThinkTick->GetFloat();
+			_OnThink();
+			_DefaultThink();
 		}
 
 		if (!_BotTasks.empty())
@@ -59,9 +53,12 @@ void BotBrain::OnThink()
 	}
 }
 
-void BotBrain::_DefaultBehaviour()
+void BotBrain::_DefaultThink()
 {
 	Vector botPos = _ABot->GetPos();
+
+	/* Check for objectives */
+
 	std::vector<Objective> pushObjectives = _ObjectivesProvider->GetBotPushObjectives(_ABot);
 	// Get closest objective
 	Objective *closestObjective = nullptr;
@@ -77,45 +74,54 @@ void BotBrain::_DefaultBehaviour()
 		}
 	}
 
-	bool needsNewTask = _BotTasks.empty();
+	/* Tasks which should be able to override current ones */
+
 	std::queue<BotTask*> newTaskQueue;
 
 	// Melee combat
-	BotVisibleTarget *botTarget = _ABot->GetBotVisibles()->GetMostImportantTarget();
-	if (botTarget && _ABot->GetSelectedWeaponSlot() == WEAPON_MELEE && !_InMeleeFight)
+	BotVisibleTarget *currentTarget = _ABot->GetBotVisibles()->GetMostImportantTarget();
+	if (currentTarget && _ABot->GetSelectedWeaponSlot() == WEAPON_MELEE && !_HasState(BOTSTATE_MELEEFIGHT))
 	{
-		_InMeleeFight = true;
-		newTaskQueue.push(new BotTaskAggressiveCombat(_ABot, botTarget->Edict, WEAPON_MELEE));
+		_AddState(BOTSTATE_MELEEFIGHT);
+		newTaskQueue.push(new BotTaskAggressiveCombat(_ABot, currentTarget->Edict, WEAPON_MELEE));
 	}
-	else if (_InMeleeFight)
-		_InMeleeFight = false;
+	else if (_HasState(BOTSTATE_MELEEFIGHT))
+		_RemoveState(BOTSTATE_MELEEFIGHT);
 
-	if (newTaskQueue.empty())
+	/* Filler Tasks in case the bot has nothing to do */
+
+	if (_BotTasks.empty())
 	{
-		BotTaskGoto *gotoTask = nullptr;
-		if (closestObjective && needsNewTask)
+		if (newTaskQueue.empty())
 		{
-			if (closestObjective->Type == ITEMFLAG)
+			BotTaskGoto *gotoTask = nullptr;
+			if (closestObjective)
 			{
-				CTFFlagStatusType itemFlagStatus = (CTFFlagStatusType)closestObjective->Status;
-				if (itemFlagStatus == CTF_UNTOUCHED || itemFlagStatus == CTF_DROPPED) // The flag should be picked up
-					gotoTask = new BotTaskGoto(_ABot, closestObjective->Pos, false);
-				else if (_EntityDataProvider->GetDataFromEdict<int>(closestObjective->Edict, DATA_FLAG_OWNER)
-					== Engine->IndexOfEdict(_ABot->GetEdict()))
+				// CTF Flag stuff
+				if (closestObjective->Type == ITEMFLAG)
 				{
-					// I'm carrying the flag
-					WaypointNode *targetNode = _WaypointManager->GetClosestWaypointNode(botPos,
-						-1, _ABot->GetTeam() == TEAM_RED ? NODE_ITEMFLAG_RED : NODE_ITEMFLAG_BLUE);
-					if (targetNode) // Map doesn't have a ITEMFLAG_RED/ITEMFLAG_BLUE node!
-						gotoTask = new BotTaskGoto(_ABot, targetNode->Pos, true, NODE_SPAWN_RED | NODE_SPAWN_BLUE); // Don't walk through spawns
+					CTFFlagStatusType itemFlagStatus = (CTFFlagStatusType)closestObjective->Status;
+					if (itemFlagStatus == CTF_UNTOUCHED || itemFlagStatus == CTF_DROPPED) // The flag should be picked up
+						gotoTask = new BotTaskGoto(_ABot, closestObjective->Pos, false);
+					else if (_EntityDataProvider->GetDataFromEdict<int>(closestObjective->Edict, DATA_FLAG_OWNER)
+						== Engine->IndexOfEdict(_ABot->GetEdict()))
+					{
+						// I'm carrying the flag
+						WaypointNode *targetNode = _WaypointManager->GetClosestWaypointNode(botPos,
+							-1, _ABot->GetTeam() == TEAM_RED ? NODE_ITEMFLAG_RED : NODE_ITEMFLAG_BLUE);
+						if (targetNode) // Map doesn't have a ITEMFLAG_RED/ITEMFLAG_BLUE node!
+							gotoTask = new BotTaskGoto(_ABot, targetNode->Pos, true, NODE_SPAWN_RED | NODE_SPAWN_BLUE); // Don't walk through spawns
+					}
 				}
 			}
-		}
-		if (!gotoTask && needsNewTask)
-			gotoTask = new BotTaskGoto(_ABot, _WaypointManager->GetRandomWaypointNode(
-				_WaypointNodeFlagsProvider->GetInaccessibleNodeFlagsForBot(_ABot))->Pos, false);
-		if (gotoTask)
+
+			// Free Roaming
+			if (!gotoTask)
+				gotoTask = new BotTaskGoto(_ABot, _WaypointManager->GetRandomWaypointNode(
+					_WaypointNodeFlagsProvider->GetInaccessibleNodeFlagsForBot(_ABot))->Pos, false);
+
 			newTaskQueue.push(gotoTask);
+		}
 	}
 
 	delete closestObjective;
@@ -127,6 +133,7 @@ void BotBrain::_DefaultBehaviour()
 void BotBrain::OnSpawn()
 {
 	_ClearTasks();
+	_ABot->SetSelectedWeapon(WEAPON_PRIMARY);
 	_OnSpawn();
 }
 
@@ -157,6 +164,20 @@ void BotBrain::_ClearTasks()
 
 void BotBrain::_ResetState()
 {
-	_IsBotDead = false;
-	_InMeleeFight = false;
+	_States = 0;
+}
+
+void BotBrain::_AddState(BotState state)
+{
+	_States |= state;
+}
+
+void BotBrain::_RemoveState(BotState state)
+{
+	_States &= ~state;
+}
+
+bool BotBrain::_HasState(BotState state) const
+{
+	return _States & state;
 }

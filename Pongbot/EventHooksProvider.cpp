@@ -29,6 +29,7 @@ void EventHooksProvider::AddEventHooker(IEventHooker *eventHooker)
 	for (IEventHooker *listEventHooker : _EventHookers)
 		if (listEventHooker == eventHooker)
 			return;
+
 	_EventHookers.push_back(eventHooker);
 }
 
@@ -72,6 +73,8 @@ void EventHooksProvider::_CheckObjectiveUpdates()
 				// Status changed
 				for (IEventHooker *eventHooker : _EventHookers)
 					eventHooker->OnObjectiveUpdate();
-				return;
+				break;
 			}
+
+	_PrevObjectives = newObjectives;
 }
