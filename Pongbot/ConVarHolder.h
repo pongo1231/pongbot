@@ -29,6 +29,7 @@ public:
 	ConVar *CVarBotEnableVisibility;
 	ConVar *CVarBotEnableBrain;
 	ConVar *CVarBotMedTargetDistance;
+	ConVar *CVarBotMovementIgnoreRadius;
 };
 
 extern ConVarHolder *_ConVarHolder;

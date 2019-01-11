@@ -20,6 +20,7 @@ ConVar *CVarBotMaxVisibleDist;
 ConVar *CVarBotEnableVisibility;
 ConVar *CVarBotEnableBrain;
 ConVar *CVarBotMedTargetDistance;
+ConVar *CVarBotMovementIgnoreRadius;
 
 void ConVarHolder::Init()
 {
@@ -44,7 +45,8 @@ void ConVarHolder::Init()
 		_ConVarHolder->CVarBotMaxVisibleDist = new ConVar("pongbot_bot_visibility_maxdist", "1500.0", 0, "How far the bots can see");
 		_ConVarHolder->CVarBotEnableVisibility = new ConVar("pongbot_bot_visibility_enabled", "1", 0, "Bots should be able to see entities");
 		_ConVarHolder->CVarBotEnableBrain = new ConVar("pongbot_bot_brain_enabled", "1", 0, "Bots should be able to think");
-		_ConVarHolder->CVarBotMedTargetDistance = new ConVar("pongbot_bot_med_targetdistance", "50.0", 0, "Distance med bots should have to heal target");
+		_ConVarHolder->CVarBotMedTargetDistance = new ConVar("pongbot_bot_med_targetdistance", "100.0", 0, "Distance med bots should have to heal target");
+		_ConVarHolder->CVarBotMovementIgnoreRadius = new ConVar("pongbot_bot_movement_ignoreradius", "5.0", 0, "Radius around bot where movement tasks should be ignored");
 	}
 }
 
@@ -68,6 +70,7 @@ void ConVarHolder::Destroy()
 		delete _ConVarHolder->CVarBotEnableVisibility;
 		delete _ConVarHolder->CVarBotEnableBrain;
 		delete _ConVarHolder->CVarBotMedTargetDistance;
+		delete _ConVarHolder->CVarBotMovementIgnoreRadius;
 
 		delete _ConVarHolder;
 	}
