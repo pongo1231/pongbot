@@ -9,4 +9,5 @@ public:
 
 private:
 	virtual void _OnThink();
+	virtual void _OnSpawn();
 };

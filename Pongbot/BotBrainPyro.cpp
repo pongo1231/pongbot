@@ -2,6 +2,8 @@
 #include "BotVisibles.h"
 #include "BotTaskAggressiveCombat.h"
 
+bool _IsRushingEnemy;
+
 void BotBrainPyro::_OnThink()
 {
 	Bot *bot = _GetBot();
@@ -10,15 +12,20 @@ void BotBrainPyro::_OnThink()
 	BotVisibleTarget *currentTarget = bot->GetBotVisibles()->GetMostImportantTarget();
 	if (currentTarget && bot->GetSelectedWeaponSlot() == WEAPON_PRIMARY)
 	{
-		if (!_HasState(BOTSTATE_PYRO_FLAMETHROWERRUSH))
+		if (!_IsRushingEnemy)
 		{
-			_AddState(BOTSTATE_PYRO_FLAMETHROWERRUSH);
+			_IsRushingEnemy = true;
 			newTaskQueue.push(new BotTaskAggressiveCombat(bot, currentTarget->Edict, WEAPON_PRIMARY));
 		}
 	}
 	else
-		_RemoveState(BOTSTATE_PYRO_FLAMETHROWERRUSH);
+		_IsRushingEnemy = false;
 
 	if (!newTaskQueue.empty())
 		SetTaskQueue(newTaskQueue);
+}
+
+void BotBrainPyro::_OnSpawn()
+{
+	_IsRushingEnemy = false;
 }

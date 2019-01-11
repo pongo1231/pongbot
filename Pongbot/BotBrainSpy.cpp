@@ -2,3 +2,8 @@
 
 void BotBrainSpy::_OnThink()
 {}
+
+void BotBrainSpy::_OnSpawn()
+{
+
+}

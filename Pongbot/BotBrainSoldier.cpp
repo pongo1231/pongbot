@@ -4,3 +4,8 @@ void BotBrainSoldier::_OnThink()
 {
 
 }
+
+void BotBrainSoldier::_OnSpawn()
+{
+
+}

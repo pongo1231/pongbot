@@ -4,3 +4,8 @@ void BotBrainScout::_OnThink()
 {
 
 }
+
+void BotBrainScout::_OnSpawn()
+{
+
+}

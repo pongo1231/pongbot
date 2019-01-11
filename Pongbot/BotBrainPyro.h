@@ -8,5 +8,8 @@ public:
 	{}
 
 private:
+	bool _IsRushingEnemy;
+
 	virtual void _OnThink();
+	virtual void _OnSpawn();
 };

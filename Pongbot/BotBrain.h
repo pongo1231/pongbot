@@ -7,10 +7,7 @@
 
 enum BotState
 {
-	BOTSTATE_DEAD = 1,
-	BOTSTATE_MELEEFIGHT = 2,
-	BOTSTATE_PYRO_FLAMETHROWERRUSH = 4,
-	BOTSTATE_MED_HEALING = 8
+// TODO: Signal stuff like needing ammo or so here
 };
 
 class BotBrain : public IEventHooker
@@ -37,13 +34,14 @@ private:
 	std::queue<BotTask*> _BotTasks;
 	float _ThinkTime;
 	unsigned int _States;
+	bool _IsBotDead;
+	bool _IsBotInMeleeFight;
 
 	void _DefaultThink();
 	void _ClearTasks();
 	void _ResetState();
 
 	virtual void _OnThink() = 0;
-	virtual void _OnSpawn()
-	{}
+	virtual void _OnSpawn() = 0;
 };
 

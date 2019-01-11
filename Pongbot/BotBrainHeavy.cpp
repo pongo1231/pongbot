@@ -4,3 +4,8 @@ void BotBrainHeavy::_OnThink()
 {
 
 }
+
+void BotBrainHeavy::_OnSpawn()
+{
+
+}

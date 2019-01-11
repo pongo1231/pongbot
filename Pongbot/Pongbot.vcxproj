@@ -164,6 +164,7 @@
     <ClCompile Include="BotBrainSpy.cpp" />
     <ClCompile Include="BotTaskAggressiveCombat.cpp" />
     <ClCompile Include="BotTaskMedHealTarget.cpp" />
+    <ClCompile Include="BotTaskSniperSnipe.cpp" />
     <ClCompile Include="BotVisibles.cpp" />
     <ClCompile Include="BotVisiblesProvider.cpp" />
     <ClCompile Include="ConVarHolder.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="BotBrainSpy.h" />
     <ClInclude Include="BotTaskAggressiveCombat.h" />
     <ClInclude Include="BotTaskMedHealTarget.h" />
+    <ClInclude Include="BotTaskSniperSnipe.h" />
     <ClInclude Include="BotVisibles.h" />
     <ClInclude Include="BotVisiblesProvider.h" />
     <ClInclude Include="ConVarHolder.h" />

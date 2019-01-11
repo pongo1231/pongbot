@@ -11,4 +11,5 @@ private:
 	edict_t *_CurrentHealTarget;
 
 	virtual void _OnThink();
+	virtual void _OnSpawn();
 };

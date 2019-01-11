@@ -20,18 +20,17 @@ Bot *_ABot;
 std::queue<BotTask*> _BotTasks;
 float _ThinkTime;
 unsigned int _States;
+bool _IsBotDead;
+bool _IsBotInMeleeFight;
 
 void BotBrain::OnThink()
 {
 	if (_ABot->IsDead())
-		_AddState(BOTSTATE_DEAD);
+		_IsBotDead = true;
 	else
 	{
-		if (_States & BOTSTATE_DEAD)
-		{
-			_RemoveState(BOTSTATE_DEAD);
+		if (_IsBotDead)
 			OnSpawn();
-		}
 
 		float engineTime = Engine->Time();
 		if (_ThinkTime < engineTime)
@@ -82,14 +81,14 @@ void BotBrain::_DefaultThink()
 	BotVisibleTarget *currentTarget = _ABot->GetBotVisibles()->GetMostImportantTarget();
 	if (currentTarget && _ABot->GetSelectedWeaponSlot() == WEAPON_MELEE)
 	{
-		if (!_HasState(BOTSTATE_MELEEFIGHT))
+		if (!_IsBotInMeleeFight)
 		{
-			_AddState(BOTSTATE_MELEEFIGHT);
+			_IsBotInMeleeFight = true;
 			newTaskQueue.push(new BotTaskAggressiveCombat(_ABot, currentTarget->Edict, WEAPON_MELEE));
 		}
 	}
 	else
-		_RemoveState(BOTSTATE_MELEEFIGHT);
+		_IsBotInMeleeFight = false;
 
 	/* Filler Tasks in case the bot has nothing to do */
 
@@ -136,6 +135,7 @@ void BotBrain::_DefaultThink()
 void BotBrain::OnSpawn()
 {
 	_ClearTasks();
+	_ResetState();
 	_ABot->SetSelectedWeapon(WEAPON_PRIMARY);
 	_OnSpawn();
 }
@@ -168,6 +168,8 @@ void BotBrain::_ClearTasks()
 void BotBrain::_ResetState()
 {
 	_States = 0;
+	_IsBotDead = false;
+	_IsBotInMeleeFight = false;
 }
 
 void BotBrain::_AddState(BotState state)

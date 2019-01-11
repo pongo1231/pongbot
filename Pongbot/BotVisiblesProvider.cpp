@@ -52,5 +52,6 @@ bool BotVisiblesProvider::_IsEdictRelevant(edict_t *edict)
 {
 	// TODO: more filters
 	const char *className = edict->GetClassName();
-	return (strcmp(className, "player") == 0 && !IIPlayerInfoManager->GetPlayerInfo(edict)->IsDead());
+	return (strcmp(className, "player") == 0 && !IIPlayerInfoManager->GetPlayerInfo(edict)->IsDead())
+		|| strcmp(className, "obj_sentrygun") == 0 || strcmp(className, "obj_dispenser") == 0;
 }

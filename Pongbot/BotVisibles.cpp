@@ -83,10 +83,12 @@ void BotVisibles::OnThink()
 		if (_IsTargetInSight(edictPos))
 		{
 			// Target center instead of feet if entity is player
-			Vector earPos;
-			IIServerGameClients->ClientEarPosition(edict, &earPos);
-			if (!earPos.IsZero())
+			if (strcmp(edict->GetClassName(), "player") == 0)
+			{
+				Vector earPos;
+				IIServerGameClients->ClientEarPosition(edict, &earPos);
 				edictPos += Vector(0.f, 0.f, (earPos.z - edictPos.z) / 2.f);
+			}
 
 			bool clearLine = _HasClearLineToTarget(edict->GetIServerEntity(), edictPos);
 			if (clearLine)
@@ -113,13 +115,10 @@ void BotVisibles::OnThink()
 void BotVisibles::_AddEntity(edict_t *edict, Vector edictPos, uint8_t insertIndex)
 {
 	BotTargetPriority targetPriority = PRIORITY_FRIENDLY;
-
-	IPlayerInfo *playerInfo = IIPlayerInfoManager->GetPlayerInfo(edict);
-	if (playerInfo && playerInfo->IsPlayer() && playerInfo->GetTeamIndex() != _MBot->GetTeam())
+	if (_EntityDataProvider->GetDataFromEdict<TFTeam>(edict, DATA_TEAM) != _MBot->GetTeam())
 		targetPriority = PRIORITY_NORMAL;
 		
-	_VisibleTargets.insert(_VisibleTargets.begin() + insertIndex,
-		new BotVisibleTarget(edictPos, targetPriority, edict));
+	_VisibleTargets.insert(_VisibleTargets.begin() + insertIndex, new BotVisibleTarget(edictPos, targetPriority, edict));
 }
 
 bool BotVisibles::_IsTargetInSight(Vector targetPos) const

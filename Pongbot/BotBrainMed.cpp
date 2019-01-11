@@ -13,10 +13,10 @@ void BotBrainMed::_OnThink()
 	std::queue<BotTask*> newTaskQueue;
 
 	BotVisibles *botVisibles = bot->GetBotVisibles();
-	if (_HasState(BOTSTATE_MED_HEALING) && !botVisibles->IsEntityVisible(_CurrentHealTarget))
-		_RemoveState(BOTSTATE_MED_HEALING);
+	if (_CurrentHealTarget && !botVisibles->IsEntityVisible(_CurrentHealTarget))
+		_CurrentHealTarget = nullptr;
 
-	if (!_HasState(BOTSTATE_MED_HEALING))
+	if (!_CurrentHealTarget)
 	{
 		Vector botPos = bot->GetPos();
 		std::vector<BotVisibleTarget*> botVisibleTargets = botVisibles->GetVisibleTargets();
@@ -26,7 +26,6 @@ void BotBrainMed::_OnThink()
 				&& visibleTarget->Priority == PRIORITY_FRIENDLY
 				&& botPos.DistTo(visibleTarget->Pos) < _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
 			{
-				_AddState(BOTSTATE_MED_HEALING);
 				_CurrentHealTarget = visibleTarget->Edict;
 				newTaskQueue.push(new BotTaskMedHealTarget(bot, _CurrentHealTarget));
 				break;
@@ -35,4 +34,9 @@ void BotBrainMed::_OnThink()
 
 	if (!newTaskQueue.empty())
 		SetTaskQueue(newTaskQueue);
+}
+
+void BotBrainMed::_OnSpawn()
+{
+	_CurrentHealTarget = nullptr;
 }
