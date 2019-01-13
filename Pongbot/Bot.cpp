@@ -12,10 +12,10 @@
 #include "BotBrainMed.h"
 #include "BotBrainSniper.h"
 #include "BotBrainSpy.h"
-#include "EntityDataProvider.h"
 #include "Util.h"
 #include "TFClassInfoProvider.h"
 #include "ConVarHolder.h"
+#include "PlayerInfo.h"
 #include <metamod/ISmmPlugin.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <hlsdk/public/edict.h>
@@ -25,7 +25,6 @@ extern IVEngineServer *Engine;
 extern IBotManager *IIBotManager;
 extern IPlayerInfoManager *IIPlayerInfoManager;
 extern IServerPluginHelpers *IIServerPluginHelpers;
-extern IServerGameClients *IIServerGameClients;
 
 const char *Name;
 edict_t *_Edict;
@@ -94,9 +93,7 @@ Vector Bot::GetPos() const
 
 Vector Bot::GetEarPos() const
 {
-	Vector earPos;
-	IIServerGameClients->ClientEarPosition(_Edict, &earPos);
-	return earPos;
+	return PlayerInfo(_Edict).GetHeadPos();
 }
 
 QAngle Bot::GetViewAngle() const
@@ -234,7 +231,7 @@ void Bot::_SwitchToFittingTeam()
 	uint8_t blue = 0;
 	for (edict_t *edict : Util::GetAllPlayers())
 	{
-		TFTeam team = _EntityDataProvider->GetDataFromEdict<TFTeam>(edict, DATA_TEAM);
+		TFTeam team = PlayerInfo(edict).GetTeam();
 		if (team == TEAM_RED)
 			red++;
 		else if (team == TEAM_BLUE)

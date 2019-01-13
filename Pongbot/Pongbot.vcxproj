@@ -170,12 +170,15 @@
     <ClCompile Include="ConVarHolder.cpp" />
     <ClCompile Include="DebugCommands.cpp" />
     <ClCompile Include="EntityDataProvider.cpp" />
+    <ClCompile Include="EntityInfo.cpp" />
     <ClCompile Include="EventHooksProvider.cpp" />
+    <ClCompile Include="FlagInfo.cpp" />
     <ClCompile Include="IConVarBase.cpp" />
     <ClCompile Include="EntityProvider.cpp" />
     <ClCompile Include="IEventHooker.cpp" />
     <ClCompile Include="IGameFramable.cpp" />
     <ClCompile Include="ObjectivesProvider.cpp" />
+    <ClCompile Include="PlayerInfo.cpp" />
     <ClCompile Include="TFClassInfoProvider.cpp" />
     <ClCompile Include="TraceFilters.cpp" />
     <ClCompile Include="WaypointFileManager.cpp" />
@@ -200,7 +203,9 @@
     <ClInclude Include="BotVisiblesProvider.h" />
     <ClInclude Include="ConVarHolder.h" />
     <ClInclude Include="CTFFlagStatusType.h" />
+    <ClInclude Include="EntityInfo.h" />
     <ClInclude Include="EventHooksProvider.h" />
+    <ClInclude Include="FlagInfo.h" />
     <ClInclude Include="IConVarBase.h" />
     <ClInclude Include="EntityProvider.h" />
     <ClInclude Include="EntityDataProvider.h" />
@@ -211,6 +216,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClInclude Include="ObjectivesProvider.h" />
+    <ClInclude Include="PlayerInfo.h" />
     <ClInclude Include="TFClass.h" />
     <ClInclude Include="TFClassInfoProvider.h" />
     <ClInclude Include="TFTeam.h" />

@@ -6,10 +6,10 @@
 #include "ObjectivesProvider.h"
 #include "CTFFlagStatusType.h"
 #include "Util.h"
-#include "EntityDataProvider.h"
 #include "BotVisibles.h"
 #include "ConVarHolder.h"
 #include "WeaponSlot.h"
+#include "FlagInfo.h"
 #include <metamod/ISmmAPI.h>
 #include <vector>
 #include <stdint.h> // uint8_t for Linux
@@ -105,8 +105,7 @@ void BotBrain::_DefaultThink()
 					CTFFlagStatusType itemFlagStatus = (CTFFlagStatusType)closestObjective->Status;
 					if (itemFlagStatus == CTF_UNTOUCHED || itemFlagStatus == CTF_DROPPED) // The flag should be picked up
 						gotoTask = new BotTaskGoto(_ABot, closestObjective->Pos, false);
-					else if (_EntityDataProvider->GetDataFromEdict<int>(closestObjective->Edict, DATA_FLAG_OWNER)
-						== Engine->IndexOfEdict(_ABot->GetEdict()))
+					else if (FlagInfo(closestObjective->Edict).GetOwner() == Engine->IndexOfEdict(_ABot->GetEdict()))
 					{
 						// I'm carrying the flag
 						WaypointNode *targetNode = _WaypointManager->GetClosestWaypointNode(botPos,

@@ -4,11 +4,10 @@
 class BotTaskSniperSnipe : public BotTask
 {
 public:
-	BotTaskSniperSnipe(Bot *bot) : BotTask(bot)
+	BotTaskSniperSnipe(Bot *bot) : BotTask(bot), _ShootTime(0.f)
 	{}
 
 private:
-	bool _IsZoomedIn;
 	float _ShootTime;
 
 	virtual bool _OnThink();

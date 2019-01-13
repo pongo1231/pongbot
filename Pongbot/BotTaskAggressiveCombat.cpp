@@ -1,14 +1,10 @@
 #include "BotTaskAggressiveCombat.h"
 #include "Util.h"
-#include "EntityDataProvider.h"
+#include "PlayerInfo.h"
 #include "ConVarHolder.h"
 #include "BotVisibles.h"
-#include <metamod/ISmmAPI.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <hlsdk/public/edict.h>
-
-extern IPlayerInfoManager *IIPlayerInfoManager;
-extern IServerGameClients *IIServerGameClients;
 
 edict_t *_TargetEdict;
 WeaponSlot _MWeaponSlot;
@@ -22,12 +18,7 @@ bool BotTaskAggressiveCombat::_OnThink()
 
 	Vector targetPos = Util::GetEdictOrigin(_TargetEdict);
 	if (strcmp(_TargetEdict->GetClassName(), "player") == 0)
-	{
-		// Don't shoot at player's feet
-		Vector earPos;
-		IIServerGameClients->ClientEarPosition(_TargetEdict, &earPos);
-		targetPos += (earPos - targetPos) / 2;
-	}
+		targetPos += (PlayerInfo(bot->GetEdict()).GetHeadPos() - targetPos) / 2;
 
 	// Determine max distance to target before task aborts
 	float maxDistance;

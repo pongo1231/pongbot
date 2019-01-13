@@ -4,7 +4,8 @@
 #include "Util.h"
 #include "TraceFilters.h"
 #include "TFTeam.h"
-#include "EntityDataProvider.h"
+#include "EntityInfo.h"
+#include "PlayerInfo.h"
 #include "ConVarHolder.h"
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/mathlib/vector.h>
@@ -15,7 +16,6 @@
 extern IVEngineServer *Engine;
 extern IEngineTrace *IIEngineTrace;
 extern BotVisiblesProvider *_BotVisiblesProvider;
-extern IServerGameClients *IIServerGameClients;
 extern IPlayerInfoManager *IIPlayerInfoManager;
 
 static bool _DrawDebugBeams = false;
@@ -83,12 +83,8 @@ void BotVisibles::OnThink()
 		if (_IsTargetInSight(edictPos))
 		{
 			// Target center instead of feet if entity is player
-			if (strcmp(edict->GetClassName(), "player") == 0)
-			{
-				Vector earPos;
-				IIServerGameClients->ClientEarPosition(edict, &earPos);
-				edictPos += Vector(0.f, 0.f, (earPos.z - edictPos.z) / 2.f);
-			}
+			if (EntityInfo(edict).IsPlayer())
+				edictPos += Vector(0.f, 0.f, (PlayerInfo(edict).GetHeadPos().z - edictPos.z) / 2.f);
 
 			bool clearLine = _HasClearLineToTarget(edict->GetIServerEntity(), edictPos);
 			if (clearLine)
@@ -115,7 +111,7 @@ void BotVisibles::OnThink()
 void BotVisibles::_AddEntity(edict_t *edict, Vector edictPos, uint8_t insertIndex)
 {
 	BotTargetPriority targetPriority = PRIORITY_FRIENDLY;
-	if (_EntityDataProvider->GetDataFromEdict<TFTeam>(edict, DATA_TEAM) != _MBot->GetTeam())
+	if (EntityInfo(edict).GetTeam() != _MBot->GetTeam())
 		targetPriority = PRIORITY_NORMAL;
 		
 	_VisibleTargets.insert(_VisibleTargets.begin() + insertIndex, new BotVisibleTarget(edictPos, targetPriority, edict));

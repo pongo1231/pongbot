@@ -1,8 +1,8 @@
 #include "BotBrainSniper.h"
 #include "BotVisibles.h"
 #include "ConVarHolder.h"
-#include "Util.h"
 #include "BotTaskSniperSnipe.h"
+#include "Util.h"
 
 bool _IsBotSniping;
 
