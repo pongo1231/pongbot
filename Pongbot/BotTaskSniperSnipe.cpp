@@ -34,14 +34,14 @@ bool BotTaskSniperSnipe::_OnThink()
 
 		edict_t *targetEdict = visibleTarget->Edict;
 		// Aim at head if it's a player
-		if (targetEdict && strcmp(targetEdict->GetClassName(), "player") == 0)
+		if (targetEdict && EntityInfo(targetEdict).IsPlayer())
 			visibleTargetPos = PlayerInfo(targetEdict).GetHeadPos();
 
 		// Only shoot after a little time
 		float engineTime = Engine->Time();
 		if (engineTime > _ShootTime)
 		{
-			_ShootTime = engineTime + Util::RandomFloat(1.5f, 5.f);
+			_ShootTime = engineTime + Util::RandomFloat(3.f, 10.f);
 			_AddBotPressedButton(IN_ATTACK);
 		}
 	}

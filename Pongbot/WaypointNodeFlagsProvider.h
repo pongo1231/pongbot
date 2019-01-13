@@ -37,6 +37,8 @@ private:
 		{NODE_ITEMFLAG_BLUE, WaypointNodeFlagInfo("ITEMFLAG_BLUE", "Blue CTF Flag spawns here")},
 		{NODE_HEALTH, WaypointNodeFlagInfo("HEALTH", "Health Pack spawns here")},
 		{NODE_AMMO, WaypointNodeFlagInfo("AMMO", "Ammo Pack spawns here")},
+		{NODE_SENTRY_RED, WaypointNodeFlagInfo("SENTRY_RED", "Red Engineers build sentries here")},
+		{NODE_SENTRY_BLUE, WaypointNodeFlagInfo("SENTRY_BLUE", "Blue Engineers build sentries here")}
 	};
 };
 
