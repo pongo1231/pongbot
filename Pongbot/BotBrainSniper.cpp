@@ -9,7 +9,6 @@ bool _IsBotSniping;
 void BotBrainSniper::_OnThink()
 {
 	Bot *bot = _GetBot();
-	std::queue<BotTask*> newTaskQueue;
 
 	BotVisibleTarget *visibleTarget = bot->GetBotVisibles()->GetMostImportantTarget();
 	if (visibleTarget)
@@ -19,15 +18,12 @@ void BotBrainSniper::_OnThink()
 			if (!_IsBotSniping)
 			{
 				_IsBotSniping = true;
-				newTaskQueue.push(new BotTaskSniperSnipe(bot));
+				_SetBotTask(new BotTaskSniperSnipe(bot));
 			}
 		}
 		else
 			_IsBotSniping = false;
 	}
-
-	if (!newTaskQueue.empty())
-		SetTaskQueue(newTaskQueue);
 }
 
 void BotBrainSniper::_OnSpawn()

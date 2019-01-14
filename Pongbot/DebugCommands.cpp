@@ -1,6 +1,8 @@
 #include "IConVarBase.h"
 #include "Util.h"
 #include "EntityProvider.h"
+#include "CTFFlag.h"
+#include "Player.h"
 #include "EntityDataProvider.h"
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/edict.h>
@@ -34,13 +36,26 @@ CON_COMMAND(pongbot_debug_getdata, "Outputs specified entity data")
 {
 	const char *data = args.Arg(1);
 	if (strcmp(data, "") == 0)
-		Util::Log("FLAG_OWNER | FLAG_STATUS");
+		Util::Log("FLAG_OWNER | FLAG_STATUS | PLAYER_CURRENTWEAPON");
 	else
-		if (data[0] == 'F' && data[1] == 'L' && data[2] == 'A' && data[3] == 'G')
+	{
+		if (strcmp(data, "FLAG_OWNER") == 0)
 		{
-			std::vector<edict_t*> itemFlags = _EntityProvider->SearchEdictsByClassname("item_teamflag");
-			for (int i = 0; i < itemFlags.size(); i++)
-				Util::Log("Flag %d: %d", i, _EntityDataProvider->GetDataFromEdict<int>(itemFlags[i],
-					strcmp(data, "FLAG_OWNER") == 0 ? DATA_FLAG_OWNER : DATA_FLAG_STATUS));
+			std::vector<Entity> itemFlags = _EntityProvider->SearchEntitiesByClassname("item_teamflag");
+			for (unsigned int i = 0; i < itemFlags.size(); i++)
+				Util::Log("Flag %d: %d", i, CTFFlag(itemFlags[i]).GetOwner());
 		}
+		else if (strcmp(data, "FLAG_STATUS") == 0)
+		{
+			std::vector<Entity> itemFlags = _EntityProvider->SearchEntitiesByClassname("item_teamflag");
+			for (unsigned int i = 0; i < itemFlags.size(); i++)
+				Util::Log("Flag %d: %d", i, CTFFlag(itemFlags[i]).GetStatus());
+		}
+		else if (strcmp(data, "PLAYER_CURRENTWEAPON") == 0)
+		{
+			std::vector<edict_t*> players = Util::GetAllPlayers();
+			for (unsigned int i = 0; i < players.size(); i++)
+				Util::Log("Player %d: %d", i, _EntityDataProvider->GetDataFromEdict<int>(players[i], DATA_PLAYER_CURRENTWEAPON));
+		}
+	}
 }

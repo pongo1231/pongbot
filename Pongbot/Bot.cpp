@@ -15,7 +15,7 @@
 #include "Util.h"
 #include "TFClassInfoProvider.h"
 #include "ConVarHolder.h"
-#include "PlayerInfo.h"
+#include "Player.h"
 #include <metamod/ISmmPlugin.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <hlsdk/public/edict.h>
@@ -93,7 +93,7 @@ Vector Bot::GetPos() const
 
 Vector Bot::GetEarPos() const
 {
-	return PlayerInfo(_Edict).GetHeadPos();
+	return Player(_Edict).GetHeadPos();
 }
 
 QAngle Bot::GetViewAngle() const
@@ -231,7 +231,7 @@ void Bot::_SwitchToFittingTeam()
 	uint8_t blue = 0;
 	for (edict_t *edict : Util::GetAllPlayers())
 	{
-		TFTeam team = PlayerInfo(edict).GetTeam();
+		TFTeam team = Player(edict).GetTeam();
 		if (team == TEAM_RED)
 			red++;
 		else if (team == TEAM_BLUE)

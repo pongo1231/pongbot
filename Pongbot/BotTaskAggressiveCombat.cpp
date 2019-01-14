@@ -1,6 +1,6 @@
 #include "BotTaskAggressiveCombat.h"
 #include "Util.h"
-#include "PlayerInfo.h"
+#include "Player.h"
 #include "ConVarHolder.h"
 #include "BotVisibles.h"
 #include <hlsdk/public/game/server/iplayerinfo.h>
@@ -12,13 +12,14 @@ WeaponSlot _MWeaponSlot;
 bool BotTaskAggressiveCombat::_OnThink()
 {
 	Bot *bot = _GetBot();
+	Entity targetEntity = Entity(_TargetEdict);
 
-	if (!_TargetEdict || !bot->GetBotVisibles()->IsEntityVisible(_TargetEdict))
+	if (!_TargetEdict || !bot->GetBotVisibles()->IsEntityVisible(targetEntity))
 		return true; // Removed or Gone otherwise (e.g. death)
 
-	Vector targetPos = Util::GetEdictOrigin(_TargetEdict);
-	if (strcmp(_TargetEdict->GetClassName(), "player") == 0)
-		targetPos += (PlayerInfo(bot->GetEdict()).GetHeadPos() - targetPos) / 2;
+	Vector targetPos = Entity(_TargetEdict).GetPos();
+	if (targetEntity.IsPlayer())
+		targetPos += Player(targetEntity).GetHeadPos();
 
 	// Determine max distance to target before task aborts
 	float maxDistance;

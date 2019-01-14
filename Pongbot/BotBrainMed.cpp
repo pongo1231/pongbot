@@ -3,6 +3,7 @@
 #include "BotTaskMedHealTarget.h"
 #include "Util.h"
 #include "ConVarHolder.h"
+#include "Player.h"
 #include <hlsdk/public/edict.h>
 
 edict_t *_CurrentHealTarget;
@@ -10,7 +11,6 @@ edict_t *_CurrentHealTarget;
 void BotBrainMed::_OnThink()
 {
 	Bot *bot = _GetBot();
-	std::queue<BotTask*> newTaskQueue;
 
 	BotVisibles *botVisibles = bot->GetBotVisibles();
 	if (_CurrentHealTarget && !botVisibles->IsEntityVisible(_CurrentHealTarget))
@@ -22,18 +22,17 @@ void BotBrainMed::_OnThink()
 		std::vector<BotVisibleTarget*> botVisibleTargets = botVisibles->GetVisibleTargets();
 		// TODO: Target most important target for healing instead of first one
 		for (BotVisibleTarget *visibleTarget : botVisibleTargets)
-			if (visibleTarget->Edict && strcmp(visibleTarget->Edict->GetClassName(), "player") == 0
-				&& visibleTarget->Priority == PRIORITY_FRIENDLY
+		{
+			Entity visibleEntity = visibleTarget->Entity;
+			if (visibleEntity.Exists() && visibleEntity.IsPlayer() && visibleTarget->Priority == PRIORITY_FRIENDLY
 				&& botPos.DistTo(visibleTarget->Pos) < _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
 			{
-				_CurrentHealTarget = visibleTarget->Edict;
-				newTaskQueue.push(new BotTaskMedHealTarget(bot, _CurrentHealTarget));
+				_CurrentHealTarget = visibleEntity.GetEdict();
+				_SetBotTask(new BotTaskMedHealTarget(bot, _CurrentHealTarget));
 				break;
 			}
+		}
 	}
-
-	if (!newTaskQueue.empty())
-		SetTaskQueue(newTaskQueue);
 }
 
 void BotBrainMed::_OnSpawn()

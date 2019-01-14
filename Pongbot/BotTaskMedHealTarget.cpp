@@ -9,14 +9,15 @@ std::queue<Vector> _ChaseTargetQueue;
 bool BotTaskMedHealTarget::_OnThink()
 {
 	Bot *bot = _GetBot();
+	Player targetPlayer = Player(_TargetHealEdict);
 
-	if (!_TargetHealEdict)
+	if (!targetPlayer.Exists())
 		return true; // Target disappeared
 
 	Vector botPos = bot->GetPos();
-	Vector targetEdictPos = Util::GetEdictOrigin(_TargetHealEdict);
+	Vector targetPlayerPos = targetPlayer.GetPos();
 
-	if (botPos.DistTo(targetEdictPos) > _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
+	if (botPos.DistTo(targetPlayerPos) > _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
 		return true; // Target is too far away
 
 	float botDistanceToTarget = _ConVarHolder->CVarBotMedTargetDistance->GetFloat();
@@ -29,17 +30,17 @@ bool BotTaskMedHealTarget::_OnThink()
 		_ChaseTargetQueue.pop();
 
 	// Walk target's path even if target isn't visible before giving up
-	if (bot->GetBotVisibles()->IsEntityVisible(_TargetHealEdict))
+	if (bot->GetBotVisibles()->IsEntityVisible(targetPlayer))
 	{
 		Vector lastTargetPos = _ChaseTargetQueue.empty() ? botPos : _ChaseTargetQueue.back();
-		if (lastTargetPos.DistTo(targetEdictPos) > botDistanceToTarget && _ChaseTargetQueue.size() < 10)
-			_ChaseTargetQueue.push(targetEdictPos);
+		if (lastTargetPos.DistTo(targetPlayerPos) > botDistanceToTarget && _ChaseTargetQueue.size() < 10)
+			_ChaseTargetQueue.push(targetPlayerPos);
 	}
 	else if (_ChaseTargetQueue.empty())
 		return true;
 
 	_OverrideBotViewAngle();
-	_SetBotLookAt(targetEdictPos); // TODO: Don't look at feet as if the bot has a feet fetish
+	_SetBotLookAt(targetPlayer.GetHeadPos());
 	_SetBotWeaponSlot(WEAPON_SECONDARY);
 	_AddBotPressedButton(IN_ATTACK);
 	_AddBotPressedButton(IN_ATTACK2); // TODO: Only uber if there's a reason to

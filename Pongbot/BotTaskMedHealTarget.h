@@ -1,11 +1,12 @@
 #pragma once
 #include "BotTask.h"
+#include "Player.h"
 #include <queue>
 
 class BotTaskMedHealTarget : public BotTask
 {
 public:
-	BotTaskMedHealTarget(Bot *bot, edict_t *targetEdict) : BotTask(bot), _TargetHealEdict(targetEdict)
+	BotTaskMedHealTarget(Bot *bot, Player targetPlayer) : BotTask(bot), _TargetHealEdict(targetPlayer.GetEdict())
 	{}
 
 private:

@@ -1,12 +1,12 @@
 #include "ObjectivesProvider.h"
 #include "Bot.h"
 #include "EntityProvider.h"
-#include "EntityDataProvider.h"
 #include "Util.h"
 #include "CTFFlagStatusType.h"
 #include "TFTeam.h"
 #include "BotManager.h"
 #include "ConVarHolder.h"
+#include "CTFFlag.h"
 #include <metamod/ISmmAPI.h>
 
 extern IVEngineServer *Engine;
@@ -66,12 +66,14 @@ void ObjectivesProvider::OnGameFrame()
 
 void ObjectivesProvider::_UpdateCTFObjectives()
 {
-	std::vector<edict_t*> itemFlags = _EntityProvider->SearchEdictsByClassname("item_teamflag");
-	for (edict_t *itemFlag : itemFlags)
+	std::vector<Entity> itemFlags = _EntityProvider->SearchEntitiesByClassname("item_teamflag");
+	for (Entity entity : itemFlags)
 	{
-		Objective objective(itemFlag, ITEMFLAG, Util::GetEdictOrigin(itemFlag),
-			_EntityDataProvider->GetDataFromEdict<int>(itemFlag, DATA_FLAG_STATUS));
-		if (_EntityDataProvider->GetDataFromEdict<TFTeam>(itemFlag, DATA_TEAM) == TEAM_RED)
+		CTFFlag entityFlag(entity);
+
+		Objective objective(entityFlag.GetEdict(), ITEMFLAG, entityFlag.GetPos(),
+			entityFlag.GetStatus());
+		if (entityFlag.GetTeam())
 			_RedObjectives.push_back(objective);
 		else
 			_BlueObjectives.push_back(objective);

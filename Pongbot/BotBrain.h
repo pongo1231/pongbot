@@ -2,8 +2,6 @@
 #include "Bot.h"
 #include "BotTask.h"
 #include "IEventHooker.h"
-#include <queue>
-#include <vector>
 
 enum BotState
 {
@@ -19,26 +17,27 @@ public:
 public:
 	void OnThink();
 	void OnSpawn();
-	void SetTaskQueue(std::queue<BotTask*> taskQueue);
 
 	virtual void OnObjectiveUpdate();
 
 protected:
 	Bot *_GetBot() const;
+	void _SetBotTask(BotTask *task);
+	bool _HasBotTask() const;
 	void _AddState(BotState state);
 	void _RemoveState(BotState state);
 	bool _HasState(BotState state) const;
 
 private:
 	Bot *_ABot;
-	std::queue<BotTask*> _BotTasks;
+	BotTask* _BotTask;
 	float _ThinkTime;
 	unsigned int _States;
 	bool _IsBotDead;
 	bool _IsBotInMeleeFight;
 
 	void _DefaultThink();
-	void _ClearTasks();
+	void _ClearTask();
 	void _ResetState();
 
 	virtual void _OnThink() = 0;

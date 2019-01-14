@@ -38,9 +38,6 @@
     <Filter Include="src\TF2\Events">
       <UniqueIdentifier>{002650f2-a60e-47bc-b836-b932fddfae1b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\TF2\EntityInfo">
-      <UniqueIdentifier>{7344e2e8-bfa2-4678-b1e0-a486768cec23}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -151,14 +148,14 @@
     <ClCompile Include="BotTaskSniperSnipe.cpp">
       <Filter>src\Bot\Brain\Tasks</Filter>
     </ClCompile>
-    <ClCompile Include="EntityInfo.cpp">
-      <Filter>src\TF2\EntityInfo</Filter>
+    <ClCompile Include="Entity.cpp">
+      <Filter>src\TF2\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="FlagInfo.cpp">
-      <Filter>src\TF2\EntityInfo</Filter>
+    <ClCompile Include="Player.cpp">
+      <Filter>src\TF2\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerInfo.cpp">
-      <Filter>src\TF2\EntityInfo</Filter>
+    <ClCompile Include="CTFFlag.cpp">
+      <Filter>src\TF2\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -288,14 +285,14 @@
     <ClInclude Include="BotTaskSniperSnipe.h">
       <Filter>src\Bot\Brain\Tasks</Filter>
     </ClInclude>
-    <ClInclude Include="EntityInfo.h">
-      <Filter>src\TF2\EntityInfo</Filter>
+    <ClInclude Include="Entity.h">
+      <Filter>src\TF2\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="FlagInfo.h">
-      <Filter>src\TF2\EntityInfo</Filter>
+    <ClInclude Include="Player.h">
+      <Filter>src\TF2\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerInfo.h">
-      <Filter>src\TF2\EntityInfo</Filter>
+    <ClInclude Include="CTFFlag.h">
+      <Filter>src\TF2\Entity</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,21 +1,22 @@
 #pragma once
 #include "IGameFramable.h"
-#include <hlsdk/public/edict.h>
+#include "Entity.h"
 #include <vector>
 
 class EntityProvider : public IGameFramable {
 private:
-	EntityProvider();
+	EntityProvider()
+	{}
 
 public:
 	static void Init();
 	static void Destroy();
 
-	std::vector<edict_t*> GetEdicts() const;
-	std::vector<edict_t*> SearchEdictsByClassname(const char *classname) const;
+	std::vector<Entity> GetEntities() const;
+	std::vector<Entity> SearchEntitiesByClassname(const char *classname) const;
 
 private:
-	std::vector<edict_t*> _Edicts;
+	std::vector<Entity> _Entities;
 
 	virtual void OnGameFrame();
 };

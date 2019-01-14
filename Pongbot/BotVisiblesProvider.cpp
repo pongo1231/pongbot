@@ -4,6 +4,7 @@
 #include "Util.h"
 #include "BotManager.h"
 #include "ConVarHolder.h"
+#include "Player.h"
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 
@@ -12,7 +13,7 @@ extern IPlayerInfoManager *IIPlayerInfoManager;
 
 BotVisiblesProvider *_BotVisiblesProvider;
 
-std::vector<edict_t*> _VisibleEdicts;
+std::vector<Entity> _VisibleEntities;
 
 void BotVisiblesProvider::Init()
 {
@@ -26,9 +27,9 @@ void BotVisiblesProvider::Destroy()
 		delete _BotVisiblesProvider;
 }
 
-std::vector<edict_t*> BotVisiblesProvider::GetVisibleEdicts() const
+std::vector<Entity> BotVisiblesProvider::GetVisibleEntities() const
 {
-	return _VisibleEdicts;
+	return _VisibleEntities;
 }
 
 void BotVisiblesProvider::OnGameFrame()
@@ -42,16 +43,15 @@ void BotVisiblesProvider::OnGameFrame()
 		return;
 	tickTime = currentTime + _ConVarHolder->CVarVisiblesProviderTick->GetFloat();
 
-	_VisibleEdicts.clear();
-	for (edict_t *edict : _EntityProvider->GetEdicts())
-		if (_IsEdictRelevant(edict))
-			_VisibleEdicts.push_back(edict);
+	_VisibleEntities.clear();
+	for (Entity entity : _EntityProvider->GetEntities())
+		if (_IsEntityRelevant(entity))
+			_VisibleEntities.push_back(entity);
 }
 
-bool BotVisiblesProvider::_IsEdictRelevant(edict_t *edict)
+bool BotVisiblesProvider::_IsEntityRelevant(Entity entity) const
 {
 	// TODO: more filters
-	const char *className = edict->GetClassName();
-	return (strcmp(className, "player") == 0 && !IIPlayerInfoManager->GetPlayerInfo(edict)->IsDead())
-		|| strcmp(className, "obj_sentrygun") == 0 || strcmp(className, "obj_dispenser") == 0;
+	const char *className = entity.GetEdict()->GetClassName();
+	return entity.GetHealth() != 0.f && (entity.IsPlayer() || strcmp(className, "obj_sentrygun") == 0 || strcmp(className, "obj_dispenser") == 0);
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "IGameFramable.h"
-#include <hlsdk/public/edict.h>
+#include "Entity.h"
 #include <vector>
 
 class BotVisiblesProvider : public IGameFramable
@@ -13,13 +13,13 @@ public:
 	static void Init();
 	static void Destroy();
 
-	std::vector<edict_t*> GetVisibleEdicts() const;
+	std::vector<Entity> GetVisibleEntities() const;
 	virtual void OnGameFrame();
 
 private:
-	std::vector<edict_t*> _Edicts;
+	std::vector<Entity> _VisibleEntities;
 
-	bool _IsEdictRelevant(edict_t *edict);
+	bool _IsEntityRelevant(Entity entity) const;
 };
 
 extern BotVisiblesProvider *_BotVisiblesProvider;

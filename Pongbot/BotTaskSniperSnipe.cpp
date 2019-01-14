@@ -2,7 +2,7 @@
 #include "BotVisibles.h"
 #include "Util.h"
 #include "ConVarHolder.h"
-#include "PlayerInfo.h"
+#include "Player.h"
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/edict.h>
 
@@ -15,7 +15,7 @@ bool BotTaskSniperSnipe::_OnThink()
 	// TODO: Check for ammo!!!!
 
 	Bot *bot = _GetBot();
-	PlayerInfo playerInfo(bot->GetEdict());
+	Player botInfo(bot->GetEdict());
 
 	BotVisibleTarget *visibleTarget = bot->GetBotVisibles()->GetMostImportantTarget();
 	Vector visibleTargetPos;
@@ -26,16 +26,16 @@ bool BotTaskSniperSnipe::_OnThink()
 		// Abort if enemy too near
 		if (visibleTarget && Util::DistanceToNoZ(bot->GetPos(), visibleTargetPos) < _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
 		{
-			if (playerInfo.IsSniperZoomedIn())
+			if (botInfo.IsSniperZoomedIn())
 				_AddBotPressedButton(IN_ATTACK2);
 			else
 				return true;
 		}
 
-		edict_t *targetEdict = visibleTarget->Edict;
+		Entity targetEntity = visibleTarget->Entity;
 		// Aim at head if it's a player
-		if (targetEdict && EntityInfo(targetEdict).IsPlayer())
-			visibleTargetPos = PlayerInfo(targetEdict).GetHeadPos();
+		if (targetEntity.Exists() && targetEntity.IsPlayer())
+			visibleTargetPos = Player(targetEntity).GetHeadPos();
 
 		// Only shoot after a little time
 		float engineTime = Engine->Time();
@@ -47,11 +47,13 @@ bool BotTaskSniperSnipe::_OnThink()
 	}
 
 	// Zoom in if not already done so
-	if (!playerInfo.IsSniperZoomedIn())
+	if (!botInfo.IsSniperZoomedIn())
 		_AddBotPressedButton(IN_ATTACK2);
 
 	_OverrideBotViewAngle();
 	if (visibleTarget)
 		_SetBotLookAt(visibleTargetPos);
 	_SetBotWeaponSlot(WEAPON_PRIMARY);
+
+	return false;
 }

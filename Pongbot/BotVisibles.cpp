@@ -4,8 +4,8 @@
 #include "Util.h"
 #include "TraceFilters.h"
 #include "TFTeam.h"
-#include "EntityInfo.h"
-#include "PlayerInfo.h"
+#include "Entity.h"
+#include "Player.h"
 #include "ConVarHolder.h"
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/mathlib/vector.h>
@@ -49,13 +49,13 @@ BotVisibleTarget *BotVisibles::GetMostImportantTarget() const
 	return importantTarget;
 }
 
-bool BotVisibles::IsEntityVisible(edict_t *edict) const
+bool BotVisibles::IsEntityVisible(Entity entity) const
 {
-	if (!edict)
+	if (!entity.GetEdict())
 		return false;
 
 	for (BotVisibleTarget *visibleTarget : _VisibleTargets)
-		if (visibleTarget->Edict == edict)
+		if (visibleTarget->Entity == entity)
 			return true;
 
 	return false;
@@ -74,24 +74,26 @@ void BotVisibles::OnThink()
 	_VisibleTargets.clear();
 
 	Vector botPos = _MBot->GetEarPos();
-	for (edict_t *edict : _BotVisiblesProvider->GetVisibleEdicts())
+	for (Entity entity : _BotVisiblesProvider->GetVisibleEntities())
 	{
-		if (edict == _MBot->GetEdict())
+		edict_t *entityEdict = entity.GetEdict();
+
+		if (entityEdict == _MBot->GetEdict())
 			continue;
 
-		Vector edictPos = Util::GetEdictOrigin(edict);
-		if (_IsTargetInSight(edictPos))
+		Vector entityPos = entity.GetPos();
+		if (_IsTargetInSight(entityPos))
 		{
 			// Target center instead of feet if entity is player
-			if (EntityInfo(edict).IsPlayer())
-				edictPos += Vector(0.f, 0.f, (PlayerInfo(edict).GetHeadPos().z - edictPos.z) / 2.f);
+			if (entity.IsPlayer())
+				entityPos += Vector(0.f, 0.f, (Player(entity).GetHeadPos().z - entityPos.z) / 2.f);
 
-			bool clearLine = _HasClearLineToTarget(edict->GetIServerEntity(), edictPos);
+			bool clearLine = _HasClearLineToTarget(entityEdict->GetIServerEntity(), entityPos);
 			if (clearLine)
 			{
 				// Insert according to distance bot <-> edict
 				uint8_t insertIndex = 0;
-				vec_t edictBotDistance = edictPos.DistTo(botPos);
+				vec_t edictBotDistance = entityPos.DistTo(botPos);
 				for (uint8_t i = 0; i < _VisibleTargets.size(); i++)
 					if (_VisibleTargets[i]->Pos.DistTo(botPos) >= edictBotDistance)
 					{
@@ -99,22 +101,22 @@ void BotVisibles::OnThink()
 						break;
 					}
 
-				_AddEntity(edict, edictPos, insertIndex);
+				_AddEntity(entity, entityPos, insertIndex);
 			}
 
 			if (_DrawDebugBeams)
-				Util::DrawBeam(botPos, edictPos, clearLine ? 255 : 0, clearLine ? 0 : 255, 0, visibilityTick);
+				Util::DrawBeam(botPos, entityPos, clearLine ? 255 : 0, clearLine ? 0 : 255, 0, visibilityTick);
 		}
 	}
 }
 
-void BotVisibles::_AddEntity(edict_t *edict, Vector edictPos, uint8_t insertIndex)
+void BotVisibles::_AddEntity(Entity entity, Vector edictPos, uint8_t insertIndex)
 {
 	BotTargetPriority targetPriority = PRIORITY_FRIENDLY;
-	if (EntityInfo(edict).GetTeam() != _MBot->GetTeam())
+	if (entity.GetTeam() != _MBot->GetTeam())
 		targetPriority = PRIORITY_NORMAL;
 		
-	_VisibleTargets.insert(_VisibleTargets.begin() + insertIndex, new BotVisibleTarget(edictPos, targetPriority, edict));
+	_VisibleTargets.insert(_VisibleTargets.begin() + insertIndex, new BotVisibleTarget(edictPos, targetPriority, entity));
 }
 
 bool BotVisibles::_IsTargetInSight(Vector targetPos) const

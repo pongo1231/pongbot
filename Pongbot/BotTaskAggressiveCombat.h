@@ -1,13 +1,12 @@
 #pragma once
 #include "BotTask.h"
-
-struct edict_t;
+#include "Entity.h"
 
 class BotTaskAggressiveCombat : public BotTask
 {
 public:
-	BotTaskAggressiveCombat(Bot *bot, edict_t *targetEdict, WeaponSlot weaponSlot) : BotTask(bot),
-		_TargetEdict(targetEdict), _MWeaponSlot(weaponSlot)
+	BotTaskAggressiveCombat(Bot *bot, Entity targetEntity, WeaponSlot weaponSlot) : BotTask(bot),
+		_TargetEdict(targetEntity.GetEdict()), _MWeaponSlot(weaponSlot)
 	{}
 
 private:

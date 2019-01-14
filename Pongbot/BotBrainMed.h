@@ -1,6 +1,8 @@
 #pragma once
 #include "BotBrain.h"
 
+class Player;
+
 class BotBrainMed : public BotBrain
 {
 public:
