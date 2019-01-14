@@ -6,20 +6,19 @@
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <hlsdk/public/edict.h>
 
-edict_t *_TargetEdict;
-WeaponSlot _MWeaponSlot;
+extern const Entity _TargetEntity;
+extern const WeaponSlot _MWeaponSlot;
 
 bool BotTaskAggressiveCombat::_OnThink()
 {
 	Bot *bot = _GetBot();
-	Entity targetEntity = Entity(_TargetEdict);
 
-	if (!_TargetEdict || !bot->GetBotVisibles()->IsEntityVisible(targetEntity))
+	if (!_TargetEntity.Exists() || !bot->GetBotVisibles()->IsEntityVisible(_TargetEntity))
 		return true; // Removed or Gone otherwise (e.g. death)
 
-	Vector targetPos = Entity(_TargetEdict).GetPos();
-	if (targetEntity.IsPlayer())
-		targetPos += Player(targetEntity).GetHeadPos();
+	Vector targetPos = _TargetEntity.GetPos();
+	if (_TargetEntity.IsPlayer())
+		targetPos += Player(_TargetEntity).GetHeadPos();
 
 	// Determine max distance to target before task aborts
 	float maxDistance;

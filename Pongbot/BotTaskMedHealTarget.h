@@ -6,11 +6,11 @@
 class BotTaskMedHealTarget : public BotTask
 {
 public:
-	BotTaskMedHealTarget(Bot *bot, Player targetPlayer) : BotTask(bot), _TargetHealEdict(targetPlayer.GetEdict())
+	BotTaskMedHealTarget(Bot *bot, Player targetPlayer) : BotTask(bot), _TargetHealPlayer(targetPlayer)
 	{}
 
 private:
-	edict_t *_TargetHealEdict;
+	const Player _TargetHealPlayer;
 	std::queue<Vector> _ChaseTargetQueue;
 
 	virtual bool _OnThink();

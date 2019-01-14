@@ -3,19 +3,18 @@
 #include "Util.h"
 #include "ConVarHolder.h"
 
-edict_t *_TargetHealEdict;
+extern const Player _TargetHealPlayer;
 std::queue<Vector> _ChaseTargetQueue;
 
 bool BotTaskMedHealTarget::_OnThink()
 {
 	Bot *bot = _GetBot();
-	Player targetPlayer = Player(_TargetHealEdict);
 
-	if (!targetPlayer.Exists())
+	if (!_TargetHealPlayer.Exists())
 		return true; // Target disappeared
 
 	Vector botPos = bot->GetPos();
-	Vector targetPlayerPos = targetPlayer.GetPos();
+	Vector targetPlayerPos = _TargetHealPlayer.GetPos();
 
 	if (botPos.DistTo(targetPlayerPos) > _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
 		return true; // Target is too far away
@@ -30,7 +29,7 @@ bool BotTaskMedHealTarget::_OnThink()
 		_ChaseTargetQueue.pop();
 
 	// Walk target's path even if target isn't visible before giving up
-	if (bot->GetBotVisibles()->IsEntityVisible(targetPlayer))
+	if (bot->GetBotVisibles()->IsEntityVisible(_TargetHealPlayer))
 	{
 		Vector lastTargetPos = _ChaseTargetQueue.empty() ? botPos : _ChaseTargetQueue.back();
 		if (lastTargetPos.DistTo(targetPlayerPos) > botDistanceToTarget && _ChaseTargetQueue.size() < 10)
@@ -40,7 +39,7 @@ bool BotTaskMedHealTarget::_OnThink()
 		return true;
 
 	_OverrideBotViewAngle();
-	_SetBotLookAt(targetPlayer.GetHeadPos());
+	_SetBotLookAt(_TargetHealPlayer.GetHeadPos());
 	_SetBotWeaponSlot(WEAPON_SECONDARY);
 	_AddBotPressedButton(IN_ATTACK);
 	_AddBotPressedButton(IN_ATTACK2); // TODO: Only uber if there's a reason to

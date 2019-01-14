@@ -12,11 +12,11 @@ public:
 
 private:
 	std::queue<Vector> _TargetPosQueue;
-	Vector _TargetPos;
+	const Vector _TargetPos;
 	Vector _LastPos;
 	uint8_t _PosStuckTime;
-	bool _ShortestWay;
-	int _NodeFlagBlacklist;
+	const bool _ShortestWay;
+	const int _NodeFlagBlacklist;
 	float _DebugBeamDrawTime;
 
 	virtual bool _OnThink();

@@ -17,11 +17,11 @@ extern IVEngineServer *Engine;
 static bool _DrawDebugBeam = false;
 
 std::queue<Vector> _TargetPosQueue;
-Vector _TargetPos;
+extern const Vector _TargetPos;
 Vector _LastPos;
 uint8_t _PosStuckTime;
-bool _ShortestWay;
-int _NodeFlagBlacklist;
+extern const bool _ShortestWay;
+extern const int _NodeFlagBlacklist;
 float _DebugBeamDrawTime;
 
 BotTaskGoto::BotTaskGoto(Bot *bot, Vector targetPos, bool shortestWay, int nodeFlagBlacklist) : BotTask(bot),

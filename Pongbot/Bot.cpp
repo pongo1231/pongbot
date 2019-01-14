@@ -298,6 +298,8 @@ const char *Bot::_TFClassToJoinName(TFClass tfClass) const
 	case SPY:
 		return "spy";
 	}
+
+	return "random";
 }
 
 void Bot::_RandomClass()

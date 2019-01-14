@@ -6,12 +6,12 @@ class BotTaskAggressiveCombat : public BotTask
 {
 public:
 	BotTaskAggressiveCombat(Bot *bot, Entity targetEntity, WeaponSlot weaponSlot) : BotTask(bot),
-		_TargetEdict(targetEntity.GetEdict()), _MWeaponSlot(weaponSlot)
+		_TargetEntity(targetEntity), _MWeaponSlot(weaponSlot)
 	{}
 
 private:
-	edict_t *_TargetEdict;
-	WeaponSlot _MWeaponSlot;
+	const Entity _TargetEntity;
+	const WeaponSlot _MWeaponSlot;
 
 	virtual bool _OnThink();
 };
