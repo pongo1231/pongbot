@@ -36,8 +36,3 @@ bool Entity::Exists() const
 {
 	return GetEdict();
 }
-
-bool Entity::IsDead() const
-{
-	return GetHealth() <= 0.f;
-}

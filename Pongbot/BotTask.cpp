@@ -21,7 +21,7 @@ bool BotTask::OnThink()
 	if (!_IsBotViewAngleOverriden)
 		_ShootAtBadGuys();
 
-	// Avoid jittering around when standing still
+	// Avoid jittering around when supposed to stand still
 	if (Util::DistanceToNoZ(_Bot->GetPos(), _BotTargetPos) < _ConVarHolder->CVarBotMovementIgnoreRadius->GetFloat())
 		_Bot->SetMovement(Vector2D());
 	else

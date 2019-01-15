@@ -77,10 +77,14 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>lib</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>lib/hlsdk/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>legacy_stdio_definitions.lib;tier0.lib;tier1.lib;vstdlib.lib;mathlib.lib</AdditionalDependencies>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;tier0.lib;tier1.lib;tier2.lib;tier3.lib;vstdlib.lib;mathlib.lib</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(TargetDir)$(TargetName).dll" "C:\Users\pongo\tf2server\tf2\tf\addons\pongbot\$(TargetName).dll"</Command>

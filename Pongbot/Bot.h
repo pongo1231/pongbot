@@ -10,6 +10,7 @@ class BotVisibles;
 struct TFClassInfo;
 class IBotController;
 class IPlayerInfo;
+struct edict_t;
 
 class Bot
 {
@@ -22,6 +23,7 @@ public:
 
 	void Think();
 	const Player GetPlayer() const;
+	edict_t *GetEdict() const;
 	bool Exists() const;
 	bool IsConnected() const;
 	Vector GetPos() const;
@@ -42,6 +44,7 @@ public:
 
 private:
 	const Player _Player;
+	edict_t *_Edict;
 	IPlayerInfo *_IPlayerInfo;
 	IBotController *_IBotController;
 	BotBrain *_BotBrain;

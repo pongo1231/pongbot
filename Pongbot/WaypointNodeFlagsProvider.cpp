@@ -1,6 +1,7 @@
 #include "WaypointNodeFlagsProvider.h"
 #include "Bot.h"
 #include "TFTeam.h"
+#include "Util.h"
 
 WaypointNodeFlagsProvider *_WaypointNodeFlagsProvider;
 
@@ -9,13 +10,21 @@ std::map<WaypointNodeFlagType, WaypointNodeFlagInfo> _WaypointNodeFlags;
 void WaypointNodeFlagsProvider::Init()
 {
 	if (!_WaypointNodeFlagsProvider)
+	{
+		Util::DebugLog("INIT WaypointNodeFlagsProvider");
+
 		_WaypointNodeFlagsProvider = new WaypointNodeFlagsProvider();
+	}
 }
 
 void WaypointNodeFlagsProvider::Destroy()
 {
 	if (_WaypointNodeFlagsProvider)
+	{
+		Util::DebugLog("DESTROY WaypointNodeFlagsProvider");
+
 		delete _WaypointNodeFlagsProvider;
+	}
 }
 
 std::map<WaypointNodeFlagType, WaypointNodeFlagInfo> WaypointNodeFlagsProvider::GetAllNodeFlags() const

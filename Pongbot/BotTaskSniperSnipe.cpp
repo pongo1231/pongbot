@@ -15,7 +15,7 @@ bool BotTaskSniperSnipe::_OnThink()
 	// TODO: Check for ammo!!!!
 
 	Bot *bot = _GetBot();
-	Player botInfo(bot->GetPlayer().GetEdict());
+	Player botInfo(bot->GetEdict());
 
 	BotVisibleTarget *visibleTarget = bot->GetBotVisibles()->GetMostImportantTarget();
 	Vector visibleTargetPos;

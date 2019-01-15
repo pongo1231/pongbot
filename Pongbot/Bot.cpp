@@ -17,7 +17,6 @@
 #include "ConVarHolder.h"
 #include <metamod/ISmmPlugin.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
-#include <hlsdk/public/edict.h>
 #include <string>
 
 extern IVEngineServer *Engine;
@@ -27,6 +26,7 @@ extern IPlayerInfoManager *IIPlayerInfoManager;
 
 extern const char *Name;
 extern const Player _Player;
+edict_t *_Edict;
 IPlayerInfo *_IPlayerInfo;
 IBotController *_IBotController;
 BotBrain *_BotBrain;
@@ -38,14 +38,16 @@ int _PressedButtons;
 TFClassInfo *_ClassInfo;
 WeaponSlot _SelectedWeaponSlot;
 
-Bot::Bot(Player player, const char *name) : Name(name), _Player(player),
-	_IBotController(IIBotManager->GetBotController(player.GetEdict())),
-	_IPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(player.GetEdict()))
+Bot::Bot(Player player, const char *name) : Name(name), _Player(player), _Edict(player.GetEdict()),
+	_IBotController(IIBotManager->GetBotController(_Edict)),
+	_IPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(_Edict))
 {
 	_BotVisibles = new BotVisibles(this);
 
 	_SwitchToFittingTeam();
 	_RandomClass();
+
+	Util::DebugLog("Bot fully initialized!");
 }
 
 Bot::~Bot()
@@ -81,6 +83,11 @@ void Bot::Think()
 const Player Bot::GetPlayer() const
 {
 	return _Player;
+}
+
+edict_t *Bot::GetEdict() const
+{
+	return _Edict;
 }
 
 bool Bot::Exists() const
@@ -192,7 +199,7 @@ void Bot::ExecClientCommand(const char *command, ...) const
 	vsnprintf(fullCommand, sizeof(fullCommand), command, args);
 	va_end(args);
 
-	IIServerPluginHelpers->ClientCommand(_Player.GetEdict(), fullCommand);
+	IIServerPluginHelpers->ClientCommand(GetEdict(), fullCommand);
 }
 
 WeaponSlot Bot::GetIdealWeaponForRange(float range) const
@@ -276,6 +283,8 @@ void Bot::_UpdateBotBrain()
 		_BotBrain = new BotBrainSpy(this);
 		break;
 	}
+
+	Util::DebugLog("Created new bot brain (%s) for bot %s (Edict Index: %d)", _TFClassToJoinName(GetClass()), Name, GetEdict()->m_iIndex);
 }
 
 const char *Bot::_TFClassToJoinName(TFClass tfClass) const

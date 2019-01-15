@@ -51,7 +51,7 @@ BotVisibleTarget *BotVisibles::GetMostImportantTarget() const
 
 bool BotVisibles::IsEntityVisible(Entity entity) const
 {
-	if (!entity.GetEdict())
+	if (!entity.Exists())
 		return false;
 
 	for (BotVisibleTarget *visibleTarget : _VisibleTargets)
@@ -133,7 +133,7 @@ bool BotVisibles::_HasClearLineToTarget(IServerEntity *targetEntity, Vector targ
 	Ray_t traceLine;
 	traceLine.Init(_MBot->GetEarPos(), targetPos);
 	trace_t traceResult;
-	IIEngineTrace->TraceRay(traceLine, MASK_SOLID, &TraceFilterSimple(_MBot->GetPlayer().GetEdict()->GetIServerEntity(),
+	IIEngineTrace->TraceRay(traceLine, MASK_SOLID, &TraceFilterSimple(_MBot->GetEdict()->GetIServerEntity(),
 		targetEntity), &traceResult);
 
 	return !traceResult.DidHit();

@@ -42,3 +42,8 @@ bool Player::IsConnected() const
 {
 	return _IIPlayerInfo->IsConnected();
 }
+
+bool Player::IsDead() const
+{
+	return _IIPlayerInfo->IsDead();
+}

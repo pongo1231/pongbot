@@ -26,6 +26,8 @@ void WaypointManager::Init()
 {
 	if (!_WaypointManager)
 	{
+		Util::DebugLog("INIT WaypointManager");
+
 		_WaypointNodes.clear();
 		WaypointFileManager::Init(&_WaypointNodes);
 		WaypointNodeFlagsProvider::Init();
@@ -41,6 +43,8 @@ void WaypointManager::Destroy()
 {
 	if (_WaypointManager)
 	{
+		Util::DebugLog("DESTROY WaypointManager");
+
 		WaypointFileManager::Destroy();
 		WaypointNodeFlagsProvider::Destroy();
 

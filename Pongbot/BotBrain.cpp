@@ -93,7 +93,7 @@ void BotBrain::_DefaultThink()
 				CTFFlagStatusType itemFlagStatus = (CTFFlagStatusType) closestObjective->Status;
 				if (itemFlagStatus == CTF_UNTOUCHED || itemFlagStatus == CTF_DROPPED) // The flag should be picked up
 					_SetBotTask(new BotTaskGoto(bot, closestObjective->Pos, false));
-				else if (CTFFlag(closestObjective->Edict).GetOwner() == Engine->IndexOfEdict(bot->GetPlayer().GetEdict()))
+				else if (CTFFlag(closestObjective->Edict).GetOwner() == bot->GetEdict()->m_iIndex)
 				{
 					// I'm carrying the flag
 					WaypointNode *targetNode = _WaypointManager->GetClosestWaypointNode(botPos,

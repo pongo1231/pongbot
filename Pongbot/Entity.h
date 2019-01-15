@@ -21,7 +21,6 @@ public:
 	Vector GetPos() const;
 	bool IsPlayer() const;
 	bool Exists() const;
-	bool IsDead() const;
 
 private:
 	edict_t *_MEdict;

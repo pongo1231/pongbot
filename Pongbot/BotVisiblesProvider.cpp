@@ -18,13 +18,21 @@ std::vector<Entity> _VisibleEntities;
 void BotVisiblesProvider::Init()
 {
 	if (!_BotVisiblesProvider)
+	{
+		Util::DebugLog("INIT BotVisiblesProvider");
+
 		_BotVisiblesProvider = new BotVisiblesProvider();
+	}
 }
 
 void BotVisiblesProvider::Destroy()
 {
 	if (_BotVisiblesProvider)
+	{
+		Util::DebugLog("DESTROY BotVisiblesProvider");
+
 		delete _BotVisiblesProvider;
+	}
 }
 
 std::vector<Entity> BotVisiblesProvider::GetVisibleEntities() const

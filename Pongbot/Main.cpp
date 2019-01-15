@@ -9,6 +9,7 @@
 #include "ObjectivesProvider.h"
 #include "ConVarHolder.h"
 #include "EventHooksProvider.h"
+#include "Util.h"
 #include <hlsdk/game/shared/IEffects.h>
 #include <hlsdk/public/eiface.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
@@ -31,6 +32,12 @@ SH_DECL_HOOK1_void(IServerGameDLL, GameFrame, SH_NOATTRIB, 0, bool);
 
 bool Main::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bool late)
 {
+	Util::DebugLog("-------------------------------------------");
+	Util::DebugLog("NOTE: This is a debug build of pongbot.");
+	Util::DebugLog("This should only be used for debugging purposes.");
+	Util::DebugLog("!!! DO NOT USE ON PRODUCTION SERVERS !!!");
+	Util::DebugLog("-------------------------------------------");
+
 	PLUGIN_SAVEVARS();
 	GET_V_IFACE_CURRENT(GetEngineFactory, Engine, IVEngineServer, INTERFACEVERSION_VENGINESERVER);
 	GET_V_IFACE_CURRENT(GetServerFactory, IIBotManager, IBotManager, INTERFACEVERSION_PLAYERBOTMANAGER);

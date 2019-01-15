@@ -2,6 +2,7 @@
 #include "IEventHooker.h"
 #include "BotManager.h"
 #include "ConVarHolder.h"
+#include "Util.h"
 #include <metamod/ISmmAPI.h>
 
 extern IVEngineServer *Engine;
@@ -14,13 +15,21 @@ std::vector<Objective> _PrevObjectives;
 void EventHooksProvider::Init()
 {
 	if (!_EventHooksProvider)
+	{
+		Util::DebugLog("INIT EventHooksProvider");
+
 		_EventHooksProvider = new EventHooksProvider();
+	}
 }
 
 void EventHooksProvider::Destroy()
 {
 	if (_EventHooksProvider)
+	{
+		Util::DebugLog("DESTROY EventHooksProvider");
+
 		delete _EventHooksProvider;
+	}
 }
 
 void EventHooksProvider::AddEventHooker(IEventHooker *eventHooker)

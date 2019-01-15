@@ -2,7 +2,7 @@
 #include "EntityDataProvider.h"
 #include "BotManager.h"
 #include "ConVarHolder.h"
-#include "Entity.h"
+#include "Player.h"
 #include <metamod/ISmmAPI.h>
 
 extern IVEngineServer *Engine;
@@ -15,6 +15,8 @@ void EntityProvider::Init()
 {
 	if (!_EntityProvider)
 	{
+		Util::DebugLog("INIT EntityProvider");
+
 		EntityDataProvider::Init();
 		_EntityProvider = new EntityProvider();
 	}
@@ -24,6 +26,8 @@ void EntityProvider::Destroy()
 {
 	if (_EntityProvider)
 	{
+		Util::DebugLog("DESTROY EntityProvider");
+
 		EntityDataProvider::Destroy();
 		delete _EntityProvider;
 	}
@@ -61,8 +65,7 @@ void EntityProvider::OnGameFrame()
 		Entity entity(Engine->PEntityOfEntIndex(i));
 		if (entity.Exists())
 		{
-			bool isPlayer = entity.IsPlayer();
-			if (!isPlayer || (isPlayer && entity.GetTeam() != TEAM_SPEC && !entity.IsDead()))
+			if (!entity.IsPlayer() || (entity.GetTeam() != TEAM_SPEC && !Player(entity).IsDead()))
 				_Entities.push_back(entity);
 		}
 	}

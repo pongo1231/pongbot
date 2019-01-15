@@ -15,6 +15,7 @@ public:
 	Vector GetHeadPos() const;
 	bool IsReloading() const;
 	bool IsConnected() const;
+	bool IsDead() const;
 
 private:
 	IPlayerInfo *_IIPlayerInfo;

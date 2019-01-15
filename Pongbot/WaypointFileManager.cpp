@@ -26,6 +26,8 @@ void WaypointFileManager::Init(std::vector<WaypointNode*> *waypointNodes)
 {
 	if (!_WaypointFileManager)
 	{
+		Util::DebugLog("INIT WaypointFileManager");
+
 		_WaypointNodes = waypointNodes;
 		_WaypointFileManager = new WaypointFileManager();
 		SH_ADD_HOOK(IServerGameDLL, LevelInit, Server, SH_MEMBER(_WaypointFileManager, &WaypointFileManager::_OnLevelInit), true);
@@ -36,6 +38,8 @@ void WaypointFileManager::Destroy()
 {
 	if (_WaypointFileManager)
 	{
+		Util::DebugLog("DESTROY WaypointFileManager");
+
 		SH_REMOVE_HOOK(IServerGameDLL, LevelInit, Server, SH_MEMBER(_WaypointFileManager, &WaypointFileManager::_OnLevelInit), true);
 		delete _WaypointFileManager;
 	}
@@ -134,6 +138,8 @@ bool WaypointFileManager::_CheckDir(char *fileName) {
 			Util::Log("Error while creating directory!");
 			return false;
 		}
+
+		Util::DebugLog("Created missing dir waypoints/");
 	}
 
 	char _fileName[64];

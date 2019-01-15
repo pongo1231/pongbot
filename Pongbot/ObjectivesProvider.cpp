@@ -19,13 +19,21 @@ std::vector<Objective> _BlueObjectives;
 void ObjectivesProvider::Init()
 {
 	if (!_ObjectivesProvider)
+	{
+		Util::DebugLog("INIT ObjectivesProvider");
+
 		_ObjectivesProvider = new ObjectivesProvider();
+	}
 }
 
 void ObjectivesProvider::Destroy()
 {
 	if (_ObjectivesProvider)
+	{
+		Util::DebugLog("DESTROY ObjectivesProvider");
+
 		delete _ObjectivesProvider;
+	}
 }
 
 std::vector<Objective> ObjectivesProvider::GetBotPushObjectives(Bot *bot) const
