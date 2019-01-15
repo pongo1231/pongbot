@@ -2,6 +2,7 @@
 #include "Util.h"
 #include "Bot.h"
 #include "BotVisiblesProvider.h"
+#include "Player.h"
 #include <metamod/ISmmAPI.h>
 #include <metamod/sourcehook.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
@@ -39,7 +40,7 @@ void BotManager::Destroy()
 void BotManager::KickBot(Bot *bot)
 {
 	char command[64];
-	sprintf(command, "kickid %d Bot Removed\n", Engine->GetPlayerUserId(bot->GetEdict()));
+	sprintf(command, "kickid %d Bot Removed\n", Engine->GetPlayerUserId(bot->GetPlayer().GetEdict()));
 	Engine->ServerCommand(command);
 }
 
@@ -59,7 +60,7 @@ void BotManager::OnGameFrame()
 	for (uint8_t i = 0; i < _Bots.size(); i++)
 	{
 		Bot *bot = _Bots[i];
-		if (!bot->Exists())
+		if (!bot->IsConnected())
 		{
 			delete bot;
 			_Bots.erase(_Bots.begin() + i);
@@ -71,11 +72,11 @@ void BotManager::OnGameFrame()
 
 CON_COMMAND(pongbot_bot_add, "Adds a new bot")
 {
-	edict_t *botEdict = IIBotManager->CreateBot("Pongbot");
-	if (!botEdict)
+	Player botPlayer(IIBotManager->CreateBot("Pongbot"));
+	if (!botPlayer.Exists())
 		Util::Log("Error while creating bot!");
 	else
-		_Bots.push_back(new Bot(botEdict, "Pongbot"));
+		_Bots.push_back(new Bot(botPlayer, "Pongbot"));
 };
 
 CON_COMMAND(pongbot_bot_kickall, "Kicks all bots")

@@ -2,6 +2,7 @@
 #include "EntityDataProvider.h"
 #include "BotManager.h"
 #include "ConVarHolder.h"
+#include "Entity.h"
 #include <metamod/ISmmAPI.h>
 
 extern IVEngineServer *Engine;
@@ -57,8 +58,12 @@ void EntityProvider::OnGameFrame()
 	_Entities.clear();
 	for (int i = 1; i < Engine->GetEntityCount(); i++)
 	{
-		edict_t *edict = Engine->PEntityOfEntIndex(i);
-		if (edict)
-			_Entities.push_back(Entity(edict));
+		Entity entity(Engine->PEntityOfEntIndex(i));
+		if (entity.Exists())
+		{
+			bool isPlayer = entity.IsPlayer();
+			if (!isPlayer || (isPlayer && entity.GetTeam() != TEAM_SPEC && !entity.IsDead()))
+				_Entities.push_back(entity);
+		}
 	}
 }

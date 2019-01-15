@@ -15,7 +15,7 @@ void BotBrainPyro::_OnThink()
 		if (!_IsRushingEnemy)
 		{
 			_IsRushingEnemy = true;
-			_SetBotTask(new BotTaskAggressiveCombat(bot, currentTarget->Entity, WEAPON_PRIMARY));
+			_SetBotTask(new BotTaskAggressiveCombat(bot, currentTarget->GetEntity(), WEAPON_PRIMARY));
 		}
 	}
 	else

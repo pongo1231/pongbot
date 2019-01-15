@@ -3,10 +3,10 @@
 
 int CTFFlag::GetOwner() const
 {
-	return _EntityDataProvider->GetDataFromEdict<int>(GetEdict(), DATA_FLAG_OWNER);
+	return _EntityDataProvider->GetDataFromEntity<int>(*this, DATA_FLAG_OWNER);
 }
 
 CTFFlagStatusType CTFFlag::GetStatus() const
 {
-	return _EntityDataProvider->GetDataFromEdict<CTFFlagStatusType>(GetEdict(), DATA_FLAG_STATUS);
+	return _EntityDataProvider->GetDataFromEntity<CTFFlagStatusType>(*this, DATA_FLAG_STATUS);
 }

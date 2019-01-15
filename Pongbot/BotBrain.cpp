@@ -17,14 +17,14 @@ extern IVEngineServer *Engine;
 
 Bot *_ABot;
 BotTask *_BotTask;
-float _ThinkTime = 0.f;
-unsigned int _States = 0;
-bool _IsBotDead = false;
-bool _IsBotInMeleeFight = false;
+float _ThinkTime;
+unsigned int _States;
+bool _IsBotDead;
+bool _IsBotInMeleeFight;
 
 void BotBrain::OnThink()
 {
-	if (_ABot->IsDead())
+	if (_GetBot()->IsDead())
 		_IsBotDead = true;
 	else
 	{
@@ -46,35 +46,19 @@ void BotBrain::OnThink()
 
 void BotBrain::_DefaultThink()
 {
+	Bot *bot = _GetBot();
 	Vector botPos = _ABot->GetPos();
-
-	/* Check for objectives */
-
-	std::vector<Objective> pushObjectives = _ObjectivesProvider->GetBotPushObjectives(_ABot);
-	// Get closest objective
-	Objective *closestObjective = nullptr;
-	float closestObjectiveDistance = 99999.f;
-	for (Objective pushObjective : pushObjectives)
-	{
-		float distance = botPos.DistTo(pushObjective.Pos);
-		if (distance < closestObjectiveDistance)
-		{
-			delete closestObjective;
-			closestObjective = new Objective(pushObjective);
-			closestObjectiveDistance = distance;
-		}
-	}
 
 	/* Tasks which should be able to override current ones */
 
 	// Melee combat
-	BotVisibleTarget *currentTarget = _ABot->GetBotVisibles()->GetMostImportantTarget();
-	if (currentTarget && _ABot->GetSelectedWeaponSlot() == WEAPON_MELEE)
+	BotVisibleTarget *currentTarget = bot->GetBotVisibles()->GetMostImportantTarget();
+	if (currentTarget && bot->GetSelectedWeaponSlot() == WEAPON_MELEE)
 	{
 		if (!_IsBotInMeleeFight)
 		{
 			_IsBotInMeleeFight = true;
-			_SetBotTask(new BotTaskAggressiveCombat(_ABot, currentTarget->Entity, WEAPON_MELEE));
+			_SetBotTask(new BotTaskAggressiveCombat(bot, currentTarget->GetEntity(), WEAPON_MELEE));
 		}
 	}
 	else
@@ -84,6 +68,23 @@ void BotBrain::_DefaultThink()
 
 	if (!_HasBotTask())
 	{
+		/* Check for objectives */
+
+		std::vector<Objective> pushObjectives = _ObjectivesProvider->GetBotPushObjectives(bot);
+		// Get closest objective
+		Objective *closestObjective = nullptr;
+		float closestObjectiveDistance = 99999.f;
+		for (Objective pushObjective : pushObjectives)
+		{
+			float distance = botPos.DistTo(pushObjective.Pos);
+			if (distance < closestObjectiveDistance)
+			{
+				delete closestObjective;
+				closestObjective = new Objective(pushObjective);
+				closestObjectiveDistance = distance;
+			}
+		}
+
 		if (closestObjective)
 		{
 			// CTF Flag stuff
@@ -91,32 +92,32 @@ void BotBrain::_DefaultThink()
 			{
 				CTFFlagStatusType itemFlagStatus = (CTFFlagStatusType) closestObjective->Status;
 				if (itemFlagStatus == CTF_UNTOUCHED || itemFlagStatus == CTF_DROPPED) // The flag should be picked up
-					_SetBotTask(new BotTaskGoto(_ABot, closestObjective->Pos, false));
-				else if (CTFFlag(closestObjective->Edict).GetOwner() == Engine->IndexOfEdict(_ABot->GetEdict()))
+					_SetBotTask(new BotTaskGoto(bot, closestObjective->Pos, false));
+				else if (CTFFlag(closestObjective->Edict).GetOwner() == Engine->IndexOfEdict(bot->GetPlayer().GetEdict()))
 				{
 					// I'm carrying the flag
 					WaypointNode *targetNode = _WaypointManager->GetClosestWaypointNode(botPos,
-						-1, _ABot->GetTeam() == TEAM_RED ? NODE_ITEMFLAG_RED : NODE_ITEMFLAG_BLUE);
+						-1, bot->GetTeam() == TEAM_RED ? NODE_ITEMFLAG_RED : NODE_ITEMFLAG_BLUE);
 					if (targetNode) // Map doesn't have a ITEMFLAG_RED/ITEMFLAG_BLUE node!
-						_SetBotTask(new BotTaskGoto(_ABot, targetNode->Pos, true, NODE_SPAWN_RED | NODE_SPAWN_BLUE)); // Don't walk through spawns
+						_SetBotTask(new BotTaskGoto(bot, targetNode->Pos, true, NODE_SPAWN_RED | NODE_SPAWN_BLUE)); // Don't walk through spawns
 				}
 			}
 
-			// Free Roaming if still no task
+			delete closestObjective;
+
+			// Free Roam if still no task
 			if (!_HasBotTask())
-				_SetBotTask(new BotTaskGoto(_ABot, _WaypointManager->GetRandomWaypointNode(
+				_SetBotTask(new BotTaskGoto(bot, _WaypointManager->GetRandomWaypointNode(
 					_WaypointNodeFlagsProvider->GetInaccessibleNodeFlagsForBot(_ABot))->Pos, false));
 		}
 	}
-
-	delete closestObjective;
 }
 
 void BotBrain::OnSpawn()
 {
 	_ClearTask();
 	_ResetState();
-	_ABot->SetSelectedWeapon(WEAPON_PRIMARY);
+	_GetBot()->SetSelectedWeapon(WEAPON_PRIMARY);
 	_OnSpawn();
 }
 
@@ -138,7 +139,7 @@ void BotBrain::_SetBotTask(BotTask *task)
 
 bool BotBrain::_HasBotTask() const
 {
-	return _BotTask != nullptr;
+	return _BotTask;
 }
 
 void BotBrain::_ClearTask()

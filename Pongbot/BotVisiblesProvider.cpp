@@ -53,5 +53,5 @@ bool BotVisiblesProvider::_IsEntityRelevant(Entity entity) const
 {
 	// TODO: more filters
 	const char *className = entity.GetEdict()->GetClassName();
-	return entity.GetHealth() != 0.f && (entity.IsPlayer() || strcmp(className, "obj_sentrygun") == 0 || strcmp(className, "obj_dispenser") == 0);
+	return entity.IsPlayer() || strcmp(className, "obj_sentrygun") == 0 || strcmp(className, "obj_dispenser") == 0;
 }

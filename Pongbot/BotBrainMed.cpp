@@ -23,7 +23,7 @@ void BotBrainMed::_OnThink()
 		// TODO: Target most important target for healing instead of first one
 		for (BotVisibleTarget *visibleTarget : botVisibleTargets)
 		{
-			Entity visibleEntity = visibleTarget->Entity;
+			Entity visibleEntity = visibleTarget->GetEntity();
 			if (visibleEntity.Exists() && visibleEntity.IsPlayer() && visibleTarget->Priority == PRIORITY_FRIENDLY
 				&& botPos.DistTo(visibleTarget->Pos) < _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
 			{

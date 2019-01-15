@@ -15,7 +15,6 @@
 #include "Util.h"
 #include "TFClassInfoProvider.h"
 #include "ConVarHolder.h"
-#include "Player.h"
 #include <metamod/ISmmPlugin.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <hlsdk/public/edict.h>
@@ -23,13 +22,13 @@
 
 extern IVEngineServer *Engine;
 extern IBotManager *IIBotManager;
-extern IPlayerInfoManager *IIPlayerInfoManager;
 extern IServerPluginHelpers *IIServerPluginHelpers;
+extern IPlayerInfoManager *IIPlayerInfoManager;
 
-const char *Name;
-edict_t *_Edict;
-IBotController *_IIBotController;
-IPlayerInfo *_IIPlayerInfo;
+extern const char *Name;
+extern const Player _Player;
+IPlayerInfo *_IPlayerInfo;
+IBotController *_IBotController;
 BotBrain *_BotBrain;
 BotVisibles *_BotVisibles;
 TFClass _CurrentClass;
@@ -39,9 +38,9 @@ int _PressedButtons;
 TFClassInfo *_ClassInfo;
 WeaponSlot _SelectedWeaponSlot;
 
-Bot::Bot(edict_t *edict, const char *name) : Name(name), _Edict(edict),
-	_IIBotController(IIBotManager->GetBotController(edict)),
-	_IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(edict))
+Bot::Bot(Player player, const char *name) : Name(name), _Player(player),
+	_IBotController(IIBotManager->GetBotController(player.GetEdict())),
+	_IPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(player.GetEdict()))
 {
 	_BotVisibles = new BotVisibles(this);
 
@@ -57,6 +56,9 @@ Bot::~Bot()
 
 void Bot::Think()
 {
+	if (!Exists() || !IsConnected())
+		return;
+
 	if (_BotVisibles && _ConVarHolder->CVarBotEnableVisibility->GetBool())
 		_BotVisibles->OnThink();
 	if (_BotBrain && _ConVarHolder->CVarBotEnableBrain->GetBool())
@@ -66,39 +68,44 @@ void Bot::Think()
 	QAngle currentViewAngle = GetViewAngle();
 	QAngle finalViewAngle = Util::CorrectViewAngle(_TargetViewAngle - currentViewAngle)
 		/ _ConVarHolder->CVarBotAimSensivity->GetFloat() + currentViewAngle;
-	finalViewAngle.x *= 2;
+	finalViewAngle.x *= 2; // Pitch should be doubled
 
 	CBotCmd cmd;
 	cmd.buttons = _PressedButtons;
 	cmd.forwardmove = _Movement.x;
 	cmd.sidemove = _Movement.y;
 	cmd.viewangles = finalViewAngle;
-	_IIBotController->RunPlayerMove(&cmd);
+	_IBotController->RunPlayerMove(&cmd);
 }
 
-edict_t *Bot::GetEdict() const
+const Player Bot::GetPlayer() const
 {
-	return _Edict;
+	return _Player;
 }
 
 bool Bot::Exists() const
 {
-	return _IIPlayerInfo->IsConnected();
+	return GetPlayer().Exists();
+}
+
+bool Bot::IsConnected() const
+{
+	return GetPlayer().IsConnected();
 }
 
 Vector Bot::GetPos() const
 {
-	return _IIBotController->GetLocalOrigin();
+	return GetPlayer().GetPos();
 }
 
 Vector Bot::GetEarPos() const
 {
-	return Player(_Edict).GetHeadPos();
+	return _Player.GetHeadPos();
 }
 
 QAngle Bot::GetViewAngle() const
 {
-	return _IIBotController->GetLocalAngles();
+	return _IPlayerInfo->GetAbsAngles();
 }
 
 void Bot::SetViewAngle(QAngle angle)
@@ -113,7 +120,7 @@ TFClass Bot::GetClass() const
 
 TFTeam Bot::GetTeam() const
 {
-	return (TFTeam) _IIPlayerInfo->GetTeamIndex();
+	return GetPlayer().GetTeam();
 }
 
 BotVisibles *Bot::GetBotVisibles() const
@@ -129,11 +136,6 @@ void Bot::SetMovement(Vector2D movement)
 void Bot::SetPressedButtons(int pressedButtons)
 {
 	_PressedButtons = pressedButtons;
-}
-
-const char *Bot::GetSelectedWeaponName() const
-{
-	return _IIPlayerInfo->GetWeaponName();
 }
 
 WeaponSlot Bot::GetSelectedWeaponSlot() const
@@ -169,7 +171,7 @@ void Bot::SetSelectedWeapon(WeaponSlot weapon)
 
 bool Bot::IsDead() const
 {
-	return _IIPlayerInfo->IsDead();
+	return GetPlayer().IsDead();
 }
 
 void Bot::ChangeClass(TFClass tfClass)
@@ -190,7 +192,7 @@ void Bot::ExecClientCommand(const char *command, ...) const
 	vsnprintf(fullCommand, sizeof(fullCommand), command, args);
 	va_end(args);
 
-	IIServerPluginHelpers->ClientCommand(_Edict, fullCommand);
+	IIServerPluginHelpers->ClientCommand(_Player.GetEdict(), fullCommand);
 }
 
 WeaponSlot Bot::GetIdealWeaponForRange(float range) const
@@ -229,16 +231,16 @@ void Bot::_SwitchToFittingTeam()
 {
 	uint8_t red = 0;
 	uint8_t blue = 0;
-	for (edict_t *edict : Util::GetAllPlayers())
+	for (Player player : Util::GetAllPlayers())
 	{
-		TFTeam team = Player(edict).GetTeam();
+		TFTeam team = player.GetTeam();
 		if (team == TEAM_RED)
 			red++;
 		else if (team == TEAM_BLUE)
 			blue++;
 	}
 
-	_IIPlayerInfo->ChangeTeam(blue < red ? TEAM_BLUE : TEAM_RED);
+	_IPlayerInfo->ChangeTeam(blue < red ? TEAM_BLUE : TEAM_RED);
 }
 
 void Bot::_UpdateBotBrain()

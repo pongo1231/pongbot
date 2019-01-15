@@ -20,7 +20,7 @@ extern IPlayerInfoManager *IIPlayerInfoManager;
 
 static bool _DrawDebugBeams = false;
 
-Bot *_MBot;
+extern const Bot *_MBot;
 std::vector<BotVisibleTarget*> _VisibleTargets;
 float _TickTime;
 
@@ -55,7 +55,7 @@ bool BotVisibles::IsEntityVisible(Entity entity) const
 		return false;
 
 	for (BotVisibleTarget *visibleTarget : _VisibleTargets)
-		if (visibleTarget->Entity == entity)
+		if (visibleTarget->GetEntity() == entity)
 			return true;
 
 	return false;
@@ -76,9 +76,7 @@ void BotVisibles::OnThink()
 	Vector botPos = _MBot->GetEarPos();
 	for (Entity entity : _BotVisiblesProvider->GetVisibleEntities())
 	{
-		edict_t *entityEdict = entity.GetEdict();
-
-		if (entityEdict == _MBot->GetEdict())
+		if (entity == _MBot->GetPlayer())
 			continue;
 
 		Vector entityPos = entity.GetPos();
@@ -88,7 +86,7 @@ void BotVisibles::OnThink()
 			if (entity.IsPlayer())
 				entityPos += Vector(0.f, 0.f, (Player(entity).GetHeadPos().z - entityPos.z) / 2.f);
 
-			bool clearLine = _HasClearLineToTarget(entityEdict->GetIServerEntity(), entityPos);
+			bool clearLine = _HasClearLineToTarget(entity.GetEdict()->GetIServerEntity(), entityPos);
 			if (clearLine)
 			{
 				// Insert according to distance bot <-> edict
@@ -135,7 +133,7 @@ bool BotVisibles::_HasClearLineToTarget(IServerEntity *targetEntity, Vector targ
 	Ray_t traceLine;
 	traceLine.Init(_MBot->GetEarPos(), targetPos);
 	trace_t traceResult;
-	IIEngineTrace->TraceRay(traceLine, MASK_SOLID, &TraceFilterSimple(_MBot->GetEdict()->GetIServerEntity(),
+	IIEngineTrace->TraceRay(traceLine, MASK_SOLID, &TraceFilterSimple(_MBot->GetPlayer().GetEdict()->GetIServerEntity(),
 		targetEntity), &traceResult);
 
 	return !traceResult.DidHit();

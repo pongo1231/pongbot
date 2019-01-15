@@ -1,19 +1,17 @@
 #pragma once
 #include "TFTeam.h"
-#include <hlsdk/public/edict.h>
+
+struct edict_t;
+class Vector;
 
 class Entity
 {
 public:
 	Entity(edict_t *edict) : _MEdict(edict)
 	{}
-	bool operator==(const Entity &other)
+	bool operator ==(Entity other)
 	{
-		return GetEdict() == other.GetEdict();
-	}
-	bool operator!=(const Entity &other)
-	{
-		return GetEdict() != other.GetEdict();
+		return Exists() && GetEdict() == other.GetEdict();
 	}
 
 public:
@@ -23,6 +21,7 @@ public:
 	Vector GetPos() const;
 	bool IsPlayer() const;
 	bool Exists() const;
+	bool IsDead() const;
 
 private:
 	edict_t *_MEdict;

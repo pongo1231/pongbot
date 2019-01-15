@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <vector>
 
-class IPlayerInfo;
+class Player;
 struct edict_t;
 class Bot;
 
@@ -14,8 +14,7 @@ namespace Util
 	void Log(const char *text, ...);
 	float DistanceToNoZ(Vector a, Vector b);
 	void DrawBeam(Vector startPos, Vector endPos, uint8_t r, uint8_t g, uint8_t b, float lifeTime);
-	std::vector<edict_t*> GetAllPlayers();
-	Vector GetEdictOrigin(edict_t *edict);
+	std::vector<Player> GetAllPlayers();
 
 	QAngle GetLookAtAngleForPos(Bot *bot, Vector lookAtPos);
 	Vector2D GetIdealMoveSpeedsToPos(Bot *bot, Vector targetPos);

@@ -1,6 +1,8 @@
 #include "Entity.h"
 #include "EntityDataProvider.h"
 #include "Util.h"
+#include <hlsdk/public/edict.h>
+#include <hlsdk/public/mathlib/vector.h>
 
 edict_t *_MEdict;
 
@@ -11,17 +13,18 @@ edict_t *Entity::GetEdict() const
 
 float Entity::GetHealth() const
 {
-	return _EntityDataProvider->GetDataFromEdict<float>(GetEdict(), DATA_HEALTH);
+	return _EntityDataProvider->GetDataFromEntity<float>(*this, DATA_HEALTH);
 }
 
 TFTeam Entity::GetTeam() const
 {
-	return _EntityDataProvider->GetDataFromEdict<TFTeam>(GetEdict(), DATA_TEAM);
+	return _EntityDataProvider->GetDataFromEntity<TFTeam>(*this, DATA_TEAM);
 }
 
 Vector Entity::GetPos() const
 {
-	return Util::GetEdictOrigin(GetEdict());
+	ICollideable *collideable = GetEdict()->GetCollideable();
+	return collideable ? collideable->GetCollisionOrigin() : Vector();
 }
 
 bool Entity::IsPlayer() const
@@ -31,5 +34,10 @@ bool Entity::IsPlayer() const
 
 bool Entity::Exists() const
 {
-	return GetEdict() != nullptr;
+	return GetEdict();
+}
+
+bool Entity::IsDead() const
+{
+	return GetHealth() <= 0.f;
 }

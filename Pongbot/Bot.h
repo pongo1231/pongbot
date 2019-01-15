@@ -2,27 +2,28 @@
 #include "TFClass.h"
 #include "WeaponSlot.h"
 #include "TFTeam.h"
+#include "Player.h"
 #include <hlsdk/public/mathlib/mathlib.h>
 
 class BotBrain;
 class BotVisibles;
 struct TFClassInfo;
-struct edict_t;
 class IBotController;
 class IPlayerInfo;
 
 class Bot
 {
 public:
-	Bot(edict_t *edict, const char *name);
+	Bot(Player player, const char *name);
 	~Bot();
 
 public:
 	const char *Name;
 
 	void Think();
-	edict_t *GetEdict() const;
+	const Player GetPlayer() const;
 	bool Exists() const;
+	bool IsConnected() const;
 	Vector GetPos() const;
 	Vector GetEarPos() const;
 	QAngle GetViewAngle() const;
@@ -31,7 +32,6 @@ public:
 	TFTeam GetTeam() const;
 	void SetMovement(Vector2D movement);
 	void SetPressedButtons(int pressedButtons);
-	const char *GetSelectedWeaponName() const;
 	WeaponSlot GetSelectedWeaponSlot() const;
 	void SetSelectedWeapon(WeaponSlot weapon);
 	BotVisibles *GetBotVisibles() const;
@@ -41,9 +41,9 @@ public:
 	WeaponSlot GetIdealWeaponForRange(float range) const;
 
 private:
-	edict_t *_Edict;
-	IBotController *_IIBotController;
-	IPlayerInfo *_IIPlayerInfo;
+	const Player _Player;
+	IPlayerInfo *_IPlayerInfo;
+	IBotController *_IBotController;
 	BotBrain *_BotBrain;
 	BotVisibles *_BotVisibles;
 	TFClass _CurrentClass;

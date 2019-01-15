@@ -1,6 +1,7 @@
 #include "Util.h"
 #include "Bot.h"
 #include "TFClassInfoProvider.h"
+#include "Player.h"
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/mathlib/mathlib.h>
 #include <hlsdk/game/shared/IEffects.h>
@@ -54,23 +55,17 @@ namespace Util
 			0, 0, 1, lifeTime, 1, 1, 255, 1, r, g, b, 255, 10);
 	}
 
-	std::vector<edict_t*> GetAllPlayers()
+	std::vector<Player> GetAllPlayers()
 	{
-		std::vector<edict_t*> players;
+		std::vector<Player> players;
 		for (uint8_t i = 1; i < 33; i++)
 		{
-			edict_t *edict = Engine->PEntityOfEntIndex(i);
-			if (edict && strcmp(edict->GetClassName(), "player") == 0)
-				players.push_back(edict);
+			Player player(Engine->PEntityOfEntIndex(i));
+			if (player.Exists())
+				players.push_back(player);
 		}
 
 		return players;
-	}
-
-	Vector GetEdictOrigin(edict_t *edict)
-	{
-		ICollideable *collideable = edict->GetCollideable();
-		return collideable ? collideable->GetCollisionOrigin() : Vector();
 	}
 
 	QAngle GetLookAtAngleForPos(Bot *bot, Vector lookAtPos)

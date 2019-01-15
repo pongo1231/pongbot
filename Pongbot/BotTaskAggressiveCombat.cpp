@@ -1,9 +1,7 @@
 #include "BotTaskAggressiveCombat.h"
-#include "Util.h"
 #include "Player.h"
 #include "ConVarHolder.h"
 #include "BotVisibles.h"
-#include <hlsdk/public/game/server/iplayerinfo.h>
 #include <hlsdk/public/edict.h>
 
 extern const Entity _TargetEntity;

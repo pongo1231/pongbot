@@ -73,7 +73,7 @@ void ObjectivesProvider::_UpdateCTFObjectives()
 
 		Objective objective(entityFlag.GetEdict(), ITEMFLAG, entityFlag.GetPos(),
 			entityFlag.GetStatus());
-		if (entityFlag.GetTeam())
+		if (entityFlag.GetTeam() == TEAM_RED)
 			_RedObjectives.push_back(objective);
 		else
 			_BlueObjectives.push_back(objective);

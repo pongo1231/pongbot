@@ -53,16 +53,16 @@ CON_COMMAND(pongbot_debug_getdata, "Outputs specified entity data")
 		}
 		else if (strcmp(data, "PLAYER_CURRENTWEAPON") == 0)
 		{
-			std::vector<edict_t*> players = Util::GetAllPlayers();
+			std::vector<Player> players = Util::GetAllPlayers();
 			for (unsigned int i = 0; i < players.size(); i++)
-				Util::Log("Player %d: %d", i, _EntityDataProvider->GetDataFromEdict<int>(players[i], DATA_PLAYER_CURRENTWEAPON));
+				Util::Log("Player %d: %d", i, _EntityDataProvider->GetDataFromEntity<int>(players[i], DATA_PLAYER_CURRENTWEAPON));
 		}
-		else if (strcmp(data, "PLAYER_WEAPON_RELOADING") == 0)
+		/*else if (strcmp(data, "PLAYER_WEAPON_RELOADING") == 0)
 		{
 			std::vector<edict_t*> players = Util::GetAllPlayers();
 			for (unsigned int i = 0; i < players.size(); i++)
 				Util::Log("Player %d: %d", i, _EntityDataProvider->GetDataFromEdict<int>(players[i],
 					(EntityDataType) _EntityDataProvider->GetDataFromEdict<int>(players[i], DATA_PLAYER_CURRENTWEAPON)) + DATA_WEAPON_RELOADING);
-		}
+		}*/
 	}
 }

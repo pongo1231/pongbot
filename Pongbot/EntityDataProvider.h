@@ -1,4 +1,6 @@
 #pragma once
+#include "Util.h"
+#include "Entity.h"
 #include <hlsdk/public/edict.h>
 #include <map>
 
@@ -24,9 +26,12 @@ public:
 	static void Destroy();
 
 	template<typename T>
-	T GetDataFromEdict(edict_t *edict, EntityDataType dataType)
+	T GetDataFromEntity(Entity entity, EntityDataType dataType)
 	{
-		return (T) *((char*) edict->GetUnknown()->GetBaseEntity() + _EntityOffsets.at(dataType));
+		if (!entity.Exists() || !entity.GetEdict()->GetUnknown())
+			return (T) 0;
+
+		return (T) *((char*) entity.GetEdict()->GetUnknown()->GetBaseEntity() + _EntityOffsets.at(dataType));
 	}
 
 private:

@@ -63,7 +63,7 @@ void WaypointFileManager::Read()
 			char *token = strtok_s(fileBuffer, ":", &context);
 			do
 				strcpy_s(lineBuffer[j++], token);
-			while ((token = strtok_s(nullptr, ":", &context)) != nullptr);
+			while (token = strtok_s(nullptr, ":", &context));
 
 			WaypointNode *node = new WaypointNode(atoi(lineBuffer[0]),
 				Vector(atof(lineBuffer[1]), atof(lineBuffer[2]), atof(lineBuffer[3])));

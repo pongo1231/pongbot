@@ -4,10 +4,10 @@
 #include "WaypointNodeFlagsProvider.h"
 #include "TraceFilters.h"
 #include "ConVarHolder.h"
+#include "Player.h"
 #include <metamod/ISmmPlugin.h>
 #include <metamod/sourcehook.h>
 #include <hlsdk/public/mathlib/mathlib.h>
-#include <hlsdk/public/edict.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <map>
 
@@ -213,8 +213,8 @@ void WaypointManager::OnGameFrame()
 	float debugBeamTick = _ConVarHolder->CVarWaypointNodeDebugBeamTick->GetFloat();
 	tickTime = currentTime + debugBeamTick;
 
-	edict_t *edict = Engine->PEntityOfEntIndex(1);
-	if (edict && strcmp(edict->GetClassName(), "player") == 0)
+	Player firstPlayer(Engine->PEntityOfEntIndex(1));
+	if (firstPlayer.Exists() && firstPlayer.IsPlayer())
 	{
 		std::vector<WaypointNode*> drawnNodes;
 		for (WaypointNode *node : _WaypointNodes)
@@ -229,7 +229,7 @@ void WaypointManager::OnGameFrame()
 			if (!alreadyDrawn)
 			{
 				Vector startPos = node->Pos;
-				if (startPos.DistTo(Util::GetEdictOrigin(edict)) <= _ConVarHolder->CVarWaypointNodeDebugBeamDist->GetFloat())
+				if (startPos.DistTo(firstPlayer.GetPos()) <= _ConVarHolder->CVarWaypointNodeDebugBeamDist->GetFloat())
 				{
 					Vector endPos = startPos + Vector(0.f, 0.f, 75.f);
 					Util::DrawBeam(startPos, endPos, node->Flags != 0 ? 255 : 0, 255, 0, debugBeamTick);

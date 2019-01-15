@@ -30,7 +30,7 @@ WaypointNodeFlagInfo WaypointNodeFlagsProvider::GetInfoOfFlagType(WaypointNodeFl
 
 int WaypointNodeFlagsProvider::GetInaccessibleNodeFlagsForBot(Bot *bot) const
 {
-	int inaccessibleNodeFlags = 0;
+	unsigned int inaccessibleNodeFlags = 0;
 	inaccessibleNodeFlags |= bot->GetTeam() == TEAM_RED ? NODE_SPAWN_BLUE : NODE_SPAWN_RED;
 	return inaccessibleNodeFlags;
 }

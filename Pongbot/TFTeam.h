@@ -2,8 +2,7 @@
 
 enum TFTeam
 {
-	TEAM_UNKNOWN,
-	TEAM_SPEC,
+	TEAM_SPEC = 1,
 	TEAM_RED,
 	TEAM_BLUE
 };

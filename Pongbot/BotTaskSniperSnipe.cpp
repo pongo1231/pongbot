@@ -15,7 +15,7 @@ bool BotTaskSniperSnipe::_OnThink()
 	// TODO: Check for ammo!!!!
 
 	Bot *bot = _GetBot();
-	Player botInfo(bot->GetEdict());
+	Player botInfo(bot->GetPlayer().GetEdict());
 
 	BotVisibleTarget *visibleTarget = bot->GetBotVisibles()->GetMostImportantTarget();
 	Vector visibleTargetPos;
@@ -32,7 +32,7 @@ bool BotTaskSniperSnipe::_OnThink()
 				return true;
 		}
 
-		Entity targetEntity = visibleTarget->Entity;
+		Entity targetEntity = visibleTarget->GetEntity();
 		// Aim at head if it's a player
 		if (targetEntity.Exists() && targetEntity.IsPlayer())
 			visibleTargetPos = Player(targetEntity).GetHeadPos();
