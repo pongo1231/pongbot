@@ -15,7 +15,7 @@
 #include "Util.h"
 #include "TFClassInfoProvider.h"
 #include "ConVarHolder.h"
-#include <metamod/ISmmPlugin.h>
+#include <metamod/ISmmAPI.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <string>
 

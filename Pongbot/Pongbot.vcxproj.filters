@@ -157,6 +157,7 @@
     <ClCompile Include="CTFFlag.cpp">
       <Filter>src\TF2\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Util.h">
@@ -294,5 +295,6 @@
     <ClInclude Include="CTFFlag.h">
       <Filter>src\TF2\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="stdafx.h" />
   </ItemGroup>
 </Project>
