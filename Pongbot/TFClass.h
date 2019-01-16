@@ -2,7 +2,7 @@
 
 enum TFClass
 {
-	CLASS_UNKNOWN = -1,
+	CLASS_UNK = -1,
 	SCOUT,
 	SOLDIER,
 	PYRO,

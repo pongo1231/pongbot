@@ -12,7 +12,8 @@ enum EntityDataType
 	DATA_HEALTH,
 	DATA_PLAYER_FOV,
 	DATA_PLAYER_CURRENTWEAPON,
-	DATA_WEAPON_RELOADING
+	DATA_WEAPON_RELOADING,
+	DATA_PLAYER_HEADSCALE
 };
 
 class EntityDataProvider
@@ -34,6 +35,13 @@ public:
 		return (T) *((char*) entity.GetEdict()->GetUnknown()->GetBaseEntity() + _EntityOffsets.at(dataType));
 	}
 
+	template<typename T>
+	void SetDataFromEntity(Entity entity, EntityDataType dataType, T data)
+	{
+		if (entity.Exists() && entity.GetEdict()->GetUnknown())
+			*((char*) entity.GetEdict()->GetUnknown()->GetBaseEntity() + _EntityOffsets.at(dataType)) = data;
+	}
+
 private:
 	const std::map<EntityDataType, unsigned int> _EntityOffsets =
 	{
@@ -42,8 +50,7 @@ private:
 		{DATA_FLAG_STATUS, 1632},
 		{DATA_HEALTH, 244},
 		{DATA_PLAYER_FOV, 2876},
-		{DATA_PLAYER_CURRENTWEAPON, 2052},
-		{DATA_WEAPON_RELOADING, 1706}
+		{DATA_PLAYER_CURRENTWEAPON, 2052}
 	};
 };
 

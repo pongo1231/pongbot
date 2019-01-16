@@ -1,4 +1,5 @@
 #pragma once
+#include "Util.h"
 #include <metamod/ISmmAPI.h>
 #include <metamod/sourcehook.h>
 #include <hlsdk/game/shared/IEffects.h>
@@ -8,3 +9,6 @@
 #include <windows.h>
 #include <fstream>
 #include <string>
+#include <vector>
+#include <queue>
+#include <stack>

@@ -9,6 +9,7 @@
 #include <hlsdk/public/server_class.h>
 #include <fstream>
 
+extern IVEngineServer *Engine;
 extern IServerGameDLL *Server;
 
 CON_COMMAND(pongbot_debug_dumpoffsets, "Dumps all offsets to addons/pongbot/offsets_dump.txt")
@@ -59,10 +60,12 @@ CON_COMMAND(pongbot_debug_getdata, "Outputs specified entity data")
 		}
 		/*else if (strcmp(data, "PLAYER_WEAPON_RELOADING") == 0)
 		{
-			std::vector<edict_t*> players = Util::GetAllPlayers();
+			std::vector<Player> players = Util::GetAllPlayers();
 			for (unsigned int i = 0; i < players.size(); i++)
-				Util::Log("Player %d: %d", i, _EntityDataProvider->GetDataFromEdict<int>(players[i],
-					(EntityDataType) _EntityDataProvider->GetDataFromEdict<int>(players[i], DATA_PLAYER_CURRENTWEAPON)) + DATA_WEAPON_RELOADING);
+			{
+				edict_t *weapon = Engine->PEntityOfEntIndex(_EntityDataProvider->GetDataFromEntity<int>(players[i], DATA_PLAYER_CURRENTWEAPON));
+				Util::Log("Player %d: %d", i, _EntityDataProvider->GetDataFromEntity<int>(weapon, DATA_WEAPON_RELOADING));
+			}
 		}*/
 	}
 }

@@ -58,7 +58,7 @@ Bot::~Bot()
 
 void Bot::Think()
 {
-	if (!Exists() || !IsConnected())
+	if (!Exists())
 		return;
 
 	if (_BotVisibles && _ConVarHolder->CVarBotEnableVisibility->GetBool())

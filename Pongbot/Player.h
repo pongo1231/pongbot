@@ -16,7 +16,9 @@ public:
 	bool IsReloading() const;
 	bool IsConnected() const;
 	bool IsDead() const;
+	bool Exists() const;
 
 private:
 	IPlayerInfo *_IIPlayerInfo;
+	bool _IsPlayerInvalid;
 };

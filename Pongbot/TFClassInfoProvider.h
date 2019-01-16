@@ -47,7 +47,7 @@ public:
 private:
 	const std::map<TFClass, TFClassInfo> _ClassInfos =
 	{
-		{CLASS_UNKNOWN, TFClassInfo(0.f, TFClassInfoWeapon(""), TFClassInfoWeapon(""), TFClassInfoWeapon(""))},
+		{CLASS_UNK, TFClassInfo(0.f, TFClassInfoWeapon(""), TFClassInfoWeapon(""), TFClassInfoWeapon(""))},
 
 		{SCOUT, TFClassInfo(133.f,
 			TFClassInfoWeapon("TF_WEAPON_SCATTERGUN", WEAPONFLAG_PRIORITIZE_MIDDLEDIST | WEAPONFLAG_PRIORITIZE_SHORTDIST),
