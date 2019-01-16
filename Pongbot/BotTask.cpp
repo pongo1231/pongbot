@@ -13,6 +13,7 @@ WeaponSlot _WeaponSlot;
 
 bool BotTask::OnThink()
 {
+	_BotTargetPos.Zero();
 	_IsBotViewAngleOverriden = false;
 	_BotPressedButtons = 0;
 
@@ -22,7 +23,7 @@ bool BotTask::OnThink()
 		_ShootAtBadGuys();
 
 	// Avoid jittering around when supposed to stand still
-	if (Util::DistanceToNoZ(_Bot->GetPos(), _BotTargetPos) < _ConVarHolder->CVarBotMovementIgnoreRadius->GetFloat())
+	if (_BotTargetPos.IsZero() || Util::DistanceToNoZ(_Bot->GetPos(), _BotTargetPos) < _ConVarHolder->CVarBotMovementIgnoreRadius->GetFloat())
 		_Bot->SetMovement(Vector2D());
 	else
 		_Bot->SetMovement(Util::GetIdealMoveSpeedsToPos(_Bot, _BotTargetPos));

@@ -27,7 +27,10 @@ bool BotTaskSniperSnipe::_OnThink()
 		if (visibleTarget && Util::DistanceToNoZ(bot->GetPos(), visibleTargetPos) < _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
 		{
 			if (botInfo.IsSniperZoomedIn())
+			{
 				_AddBotPressedButton(IN_ATTACK2);
+				return false;
+			}
 			else
 				return true;
 		}

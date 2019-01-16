@@ -114,7 +114,7 @@ Vector Bot::GetEarPos() const
 
 QAngle Bot::GetViewAngle() const
 {
-	return _IPlayerInfo->GetAbsAngles();
+	return _IBotController->GetLocalAngles();
 }
 
 void Bot::SetViewAngle(QAngle angle)

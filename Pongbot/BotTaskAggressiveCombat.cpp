@@ -16,7 +16,7 @@ bool BotTaskAggressiveCombat::_OnThink()
 
 	Vector targetPos = _TargetEntity.GetPos();
 	if (_TargetEntity.IsPlayer())
-		targetPos += Player(_TargetEntity).GetHeadPos();
+		targetPos = Player(_TargetEntity).GetHeadPos();
 
 	// Determine max distance to target before task aborts
 	float maxDistance;
