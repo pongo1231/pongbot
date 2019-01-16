@@ -47,6 +47,8 @@ Bot::Bot(Player player, const char *name) : Name(name), _Player(player), _Edict(
 	_SwitchToFittingTeam();
 	_RandomClass();
 
+	ExecClientCommand("cl_autorezoom 0");
+
 	Util::DebugLog("Bot fully initialized!");
 }
 
