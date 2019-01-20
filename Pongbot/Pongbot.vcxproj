@@ -87,7 +87,7 @@
       </IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
-      <Command>copy /Y "$(TargetDir)$(TargetName).dll" "C:\Users\pongo\tf2server\tf2\tf\addons\pongbot\$(TargetName).dll"</Command>
+      <Command>copy /Y "$(TargetDir)$(TargetName).dll" "D:\Projects\tf2\server\tf2\tf\addons\pongbot\$(TargetName).dll"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -130,7 +130,7 @@
       </Command>
     </CustomBuildStep>
     <PostBuildEvent>
-      <Command>copy /Y "$(TargetDir)$(TargetName).dll" "C:\Users\pongo\tf2server\tf2\tf\addons\pongbot\$(TargetName).dll"</Command>
+      <Command>copy /Y "$(TargetDir)$(TargetName).dll" "D:\Projects\tf2\server\tf2\tf\addons\pongbot\$(TargetName).dll"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

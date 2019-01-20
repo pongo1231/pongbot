@@ -59,7 +59,10 @@ void BotVisiblesProvider::OnGameFrame()
 
 bool BotVisiblesProvider::_IsEntityRelevant(Entity entity) const
 {
+	if (!entity.Exists())
+		return false;
+
 	// TODO: more filters
-	const char *className = entity.GetEdict()->GetClassName();
+	const char *className = entity.GetEdictClassName();
 	return entity.IsPlayer() || strcmp(className, "obj_sentrygun") == 0 || strcmp(className, "obj_dispenser") == 0;
 }

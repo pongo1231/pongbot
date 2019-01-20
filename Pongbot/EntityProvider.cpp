@@ -42,7 +42,7 @@ std::vector<Entity> EntityProvider::SearchEntitiesByClassname(const char *classn
 {
 	std::vector<Entity> foundEntities;
 	for (Entity entity : _Entities)
-		if (strcmp(entity.GetEdict()->GetClassName(), classname) == 0)
+		if (entity.Exists() && strcmp(entity.GetEdictClassName(), classname) == 0)
 			foundEntities.push_back(entity);
 
 	return foundEntities;

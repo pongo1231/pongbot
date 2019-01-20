@@ -37,7 +37,7 @@ CON_COMMAND(pongbot_debug_getdata, "Outputs specified entity data")
 {
 	const char *data = args.Arg(1);
 	if (strcmp(data, "") == 0)
-		Util::Log("FLAG_OWNER | FLAG_STATUS | PLAYER_CURRENTWEAPON | PLAYER_WEAPON_RELOADING");
+		Util::Log("FLAG_OWNER | FLAG_STATUS | PLAYER_CURRENTWEAPON | PLAYER_HEALTH");
 	else
 	{
 		if (strcmp(data, "FLAG_OWNER") == 0)
@@ -58,14 +58,11 @@ CON_COMMAND(pongbot_debug_getdata, "Outputs specified entity data")
 			for (unsigned int i = 0; i < players.size(); i++)
 				Util::Log("Player %d: %d", i, _EntityDataProvider->GetDataFromEntity<int>(players[i], DATA_PLAYER_CURRENTWEAPON));
 		}
-		/*else if (strcmp(data, "PLAYER_WEAPON_RELOADING") == 0)
+		else if (strcmp(data, "PLAYER_HEALTH") == 0)
 		{
 			std::vector<Player> players = Util::GetAllPlayers();
 			for (unsigned int i = 0; i < players.size(); i++)
-			{
-				edict_t *weapon = Engine->PEntityOfEntIndex(_EntityDataProvider->GetDataFromEntity<int>(players[i], DATA_PLAYER_CURRENTWEAPON));
-				Util::Log("Player %d: %d", i, _EntityDataProvider->GetDataFromEntity<int>(weapon, DATA_WEAPON_RELOADING));
-			}
-		}*/
+				Util::Log("Player %d: %f", i, players[i].GetHealth());
+		}
 	}
 }

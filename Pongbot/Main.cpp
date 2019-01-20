@@ -50,6 +50,10 @@ bool Main::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bool lat
 
 	SH_ADD_HOOK(IServerGameDLL, GameFrame, Server, SH_MEMBER(this, &Main::_OnGameFrame), true);
 
+	float initStartTime = Engine->Time();
+	Util::Log("Initializing...");
+	Util::Log("!!! Don't forget to set sv_quota_stringcmdspersecond to some high value (e.g. 999999) to stop crashing on bot join !!!");
+
 	BotManager::Init();
 	WaypointManager::Init();
 	EntityProvider::Init();
@@ -58,11 +62,16 @@ bool Main::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bool lat
 	ConVarHolder::Init();
 	EventHooksProvider::Init();
 
+	Util::Log("Initializion done! (Took %.2f seconds)", Engine->Time() - initStartTime);
+
 	return true;
 }
 
 bool Main::Unload(char *error, size_t len)
 {
+	float destroyStartTime = Engine->Time();
+	Util::Log("Shutting down...");
+
 	BotManager::Destroy();
 	WaypointManager::Destroy();
 	EntityProvider::Destroy();
@@ -72,6 +81,8 @@ bool Main::Unload(char *error, size_t len)
 	EventHooksProvider::Destroy();
 
 	SH_REMOVE_HOOK(IServerGameDLL, GameFrame, Server, SH_MEMBER(this, &Main::_OnGameFrame), true);
+
+	Util::Log("Shutdown successful! (Took %.2f seconds)", Engine->Time() - destroyStartTime);
 
 	return true;
 }

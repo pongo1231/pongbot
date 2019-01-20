@@ -38,11 +38,19 @@ Vector Entity::GetPos() const
 
 bool Entity::IsPlayer() const
 {
-	return Exists() && strcmp(GetEdict()->GetClassName(), "player") == 0;
+	return Exists() && strcmp(GetEdictClassName(), "player") == 0;
 }
 
 bool Entity::Exists() const
 {
 	edict_t *edict = GetEdict();
 	return edict && !edict->IsFree();
+}
+
+const char *Entity::GetEdictClassName() const
+{
+	if (!Exists())
+		return nullptr;
+
+	return GetEdict()->GetClassName();
 }

@@ -64,7 +64,7 @@ void BotManager::OnGameFrame()
 	for (uint8_t i = 0; i < _Bots.size(); i++)
 	{
 		Bot *bot = _Bots[i];
-		if (!bot->IsConnected())
+		if (!bot->Exists())
 		{
 			delete bot;
 			_Bots.erase(_Bots.begin() + i);

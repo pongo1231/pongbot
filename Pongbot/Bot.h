@@ -25,7 +25,6 @@ public:
 	const Player GetPlayer() const;
 	edict_t *GetEdict() const;
 	bool Exists() const;
-	bool IsConnected() const;
 	Vector GetPos() const;
 	Vector GetEarPos() const;
 	QAngle GetViewAngle() const;

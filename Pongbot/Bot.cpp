@@ -97,11 +97,6 @@ bool Bot::Exists() const
 	return GetPlayer().Exists();
 }
 
-bool Bot::IsConnected() const
-{
-	return GetPlayer().IsConnected();
-}
-
 Vector Bot::GetPos() const
 {
 	return GetPlayer().GetPos();
