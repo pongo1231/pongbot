@@ -44,7 +44,7 @@ bool Entity::IsPlayer() const
 bool Entity::Exists() const
 {
 	edict_t *edict = GetEdict();
-	return edict && !edict->IsFree();
+	return edict;
 }
 
 const char *Entity::GetEdictClassName() const

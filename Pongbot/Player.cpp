@@ -1,14 +1,26 @@
 #include "Player.h"
 #include "EntityDataProvider.h"
 #include <metamod/ISmmAPI.h>
+#include <hlsdk/public/game/server/iplayerinfo.h>
 
 extern IServerGameClients *IIServerGameClients;
+extern IPlayerInfoManager *IIPlayerInfoManager;
 
-Player::Player(edict_t *edict) : Entity(edict)
+IPlayerInfo *_IIPlayerInfo;
+
+Player::Player(edict_t *edict) : Entity(edict), _IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(edict))
 {}
 
-Player::Player(Entity entity) : Entity(entity)
+Player::Player(Entity entity) : Entity(entity), _IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(entity.GetEdict()))
 {}
+
+float Player::GetHealth() const
+{
+	if (!Exists())
+		return -1;
+
+	return _IIPlayerInfo->GetHealth();
+}
 
 float Player::GetFOV() const
 {

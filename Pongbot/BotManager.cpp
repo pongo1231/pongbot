@@ -20,7 +20,6 @@ void BotManager::Init()
 	if (!_BotManager)
 	{
 		Util::DebugLog("INIT BotManager");
-
 		_Bots.clear();
 		BotVisiblesProvider::Init();
 
@@ -33,7 +32,6 @@ void BotManager::Destroy()
 	if (_BotManager)
 	{
 		Util::DebugLog("DESTROY BotManager");
-
 		BotVisiblesProvider::Destroy();
 
 		_BotManager->KickAllBots();
@@ -68,8 +66,7 @@ void BotManager::OnGameFrame()
 		{
 			delete bot;
 			_Bots.erase(_Bots.begin() + i);
-
-			Util::DebugLog("Removed Bot %s (Edict Index: %d)", bot->Name, bot->GetEdict()->m_iIndex);
+			Util::Log("Removed Bot %s (Edict Index: %d)", bot->Name, bot->GetEdict()->m_iIndex);
 		}
 		else
 			bot->Think();
@@ -85,14 +82,12 @@ CON_COMMAND(pongbot_bot_add, "Adds a new bot")
 	{
 		Bot *bot = new Bot(botPlayer, "Pongbot");
 		_Bots.push_back(bot);
-
-		Util::DebugLog("Created Bot %s (Edict Index: %d)", bot->Name, bot->GetEdict()->m_iIndex);
+		Util::Log("Created Bot %s (Edict Index: %d)", bot->Name, bot->GetEdict()->m_iIndex);
 	}
 };
 
 CON_COMMAND(pongbot_bot_kickall, "Kicks all bots")
 {
 	_BotManager->KickAllBots();
-
-	Util::DebugLog("Kicked all bots");
+	Util::Log("Kicked all bots");
 };
