@@ -57,7 +57,7 @@ bool Player::IsReloading() const
 
 bool Player::IsDead() const
 {
-	return _IIPlayerInfo->IsDead();
+	return GetHealth() <= 1.f; // Apparently 1 equals to dead
 }
 
 bool Player::Exists() const
