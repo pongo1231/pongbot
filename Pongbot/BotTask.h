@@ -6,7 +6,7 @@
 class BotTask
 {
 public:
-	BotTask(Bot *bot) : _Bot(bot)
+	BotTask(Bot* bot) : _Bot(bot)
 	{}
 
 public:
@@ -18,10 +18,10 @@ protected:
 	void _OverrideBotViewAngle();
 	void _AddBotPressedButton(int button);
 	void _SetBotWeaponSlot(WeaponSlot weaponSlot);
-	Bot *_GetBot() const;
+	Bot* _GetBot() const;
 
 private:
-	Bot *_Bot;
+	Bot* _Bot;
 	Vector _BotTargetPos;
 	Vector _BotTargetLookAt;
 	bool _IsBotViewAngleOverriden;

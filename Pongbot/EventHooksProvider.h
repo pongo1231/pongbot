@@ -15,8 +15,8 @@ public:
 	static void Init();
 	static void Destroy();
 
-	void AddEventHooker(IEventHooker *eventHooker);
-	void RemoveEventHooker(IEventHooker *eventHooker);
+	void AddEventHooker(IEventHooker* eventHooker);
+	void RemoveEventHooker(IEventHooker* eventHooker);
 
 	virtual void OnGameFrame();
 
@@ -27,4 +27,4 @@ private:
 	void _CheckObjectiveUpdates();
 };
 
-extern EventHooksProvider *_EventHooksProvider;
+extern EventHooksProvider* _EventHooksProvider;

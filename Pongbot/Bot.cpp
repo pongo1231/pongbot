@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Bot.h"
 #include "BotManager.h"
 #include "Util.h"
@@ -19,12 +20,12 @@
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <string>
 
-extern IVEngineServer *Engine;
-extern IBotManager *IIBotManager;
-extern IServerPluginHelpers *IIServerPluginHelpers;
-extern IPlayerInfoManager *IIPlayerInfoManager;
+extern IVEngineServer* Engine;
+extern IBotManager* IIBotManager;
+extern IServerPluginHelpers* IIServerPluginHelpers;
+extern IPlayerInfoManager* IIPlayerInfoManager;
 
-Bot::Bot(Player player, const char *name) : Name(name), _Player(player), _Edict(player.GetEdict()),
+Bot::Bot(Player player, const char* name) : Name(name), _Player(player), _Edict(player.GetEdict()),
 	_IBotController(IIBotManager->GetBotController(_Edict)),
 	_IPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(_Edict))
 {
@@ -119,7 +120,7 @@ TFTeam Bot::GetTeam() const
 	return GetPlayer().GetTeam();
 }
 
-BotVisibles *Bot::GetBotVisibles() const
+BotVisibles* Bot::GetBotVisibles() const
 {
 	return _BotVisibles;
 }
@@ -180,7 +181,7 @@ void Bot::ChangeClass(TFClass tfClass)
 	_UpdateBotBrain();
 }
 
-void Bot::ExecClientCommand(const char *command, ...) const
+void Bot::ExecClientCommand(const char* command, ...) const
 {
 	char fullCommand[128];
 	va_list args;
@@ -208,11 +209,17 @@ WeaponSlot Bot::GetIdealWeaponForRange(float range) const
 	{
 		unsigned int weaponFlags = weaponInfos[i].WeaponFlags;
 		if (weaponFlags & WEAPONFLAG_PRIORITIZE_LONGDIST)
-			longRangeWeaponSlot = (WeaponSlot) i;
+		{
+			longRangeWeaponSlot = (WeaponSlot)i;
+		}
 		if (weaponFlags & WEAPONFLAG_PRIORITIZE_MIDDLEDIST)
-			middleRangeWeaponSlot = (WeaponSlot) i;
+		{
+			middleRangeWeaponSlot = (WeaponSlot)i;
+		}
 		if (weaponFlags & WEAPONFLAG_PRIORITIZE_SHORTDIST)
-			shortRangeWeaponSlot = (WeaponSlot) i;
+		{
+			shortRangeWeaponSlot = (WeaponSlot)i;
+		}
 	}
 
 	if (range < _ConVarHolder->CVarBotWeaponMiddleRangeDist->GetFloat())
@@ -237,9 +244,13 @@ void Bot::_SwitchToFittingTeam()
 	{
 		TFTeam team = player.GetTeam();
 		if (team == TEAM_RED)
+		{
 			red++;
+		}
 		else if (team == TEAM_BLUE)
+		{
 			blue++;
+		}
 	}
 
 	_IPlayerInfo->ChangeTeam(blue < red ? TEAM_BLUE : TEAM_RED);
@@ -282,7 +293,7 @@ void Bot::_UpdateBotBrain()
 	Util::DebugLog("Created new bot brain (%s) for bot %s (Edict Index: %d)", _TFClassToJoinName(GetClass()), Name, GetEdict()->m_iIndex);
 }
 
-const char *Bot::_TFClassToJoinName(TFClass tfClass) const
+const char* Bot::_TFClassToJoinName(TFClass tfClass) const
 {
 	switch (tfClass) {
 	case SCOUT:

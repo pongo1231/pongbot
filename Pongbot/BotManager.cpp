@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "BotManager.h"
 #include "Util.h"
 #include "Bot.h"
@@ -8,10 +9,10 @@
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <iostream>
 
-extern IVEngineServer *Engine;
-extern IBotManager *IIBotManager;
+extern IVEngineServer* Engine;
+extern IBotManager* IIBotManager;
 
-BotManager *_BotManager;
+BotManager* _BotManager;
 
 static std::vector<Bot*> _Bots;
 
@@ -48,8 +49,10 @@ void BotManager::KickBot(Bot *bot)
 
 void BotManager::KickAllBots()
 {
-	for (Bot *bot : _Bots)
+	for (Bot* bot : _Bots)
+	{
 		KickBot(bot);
+	}
 }
 
 bool BotManager::BotsInGame() const
@@ -61,7 +64,7 @@ void BotManager::OnGameFrame()
 {
 	for (uint8_t i = 0; i < _Bots.size(); i++)
 	{
-		Bot *bot = _Bots[i];
+		Bot* bot = _Bots[i];
 		if (!bot->Exists())
 		{
 			delete bot;
@@ -69,7 +72,9 @@ void BotManager::OnGameFrame()
 			Util::Log("Removed Bot %s (Edict Index: %d)", bot->Name, bot->GetEdict()->m_iIndex);
 		}
 		else
+		{
 			bot->Think();
+		}
 	}
 }
 
@@ -77,10 +82,12 @@ CON_COMMAND(pongbot_bot_add, "Adds a new bot")
 {
 	Player botPlayer(IIBotManager->CreateBot("Pongbot"));
 	if (!botPlayer.Exists())
+	{
 		Util::Log("Error while creating bot!");
+	}
 	else
 	{
-		Bot *bot = new Bot(botPlayer, "Pongbot");
+		Bot* bot = new Bot(botPlayer, "Pongbot");
 		_Bots.push_back(bot);
 		Util::Log("Created Bot %s (Edict Index: %d)", bot->Name, bot->GetEdict()->m_iIndex);
 	}

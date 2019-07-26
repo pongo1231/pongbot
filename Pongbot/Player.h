@@ -6,7 +6,7 @@ class IPlayerInfo;
 class Player : public Entity
 {
 public:
-	Player(edict_t *edict);
+	Player(edict_t* edict);
 	Player(Entity entity);
 
 public:
@@ -19,5 +19,5 @@ public:
 	bool Exists() const;
 
 private:
-	IPlayerInfo *_IIPlayerInfo;
+	IPlayerInfo* _IIPlayerInfo;
 };

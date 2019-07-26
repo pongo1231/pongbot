@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "WaypointFileManager.h"
 #include "Util.h"
 #include "WaypointNode.h"
@@ -9,20 +10,18 @@
 #define FILE_DIR "tf/addons/pongbot/waypoints/"
 #define FILE_EXTENSION "pbw"
 
-extern IServerGameDLL *Server;
-extern SourceHook::ISourceHook *g_SHPtr;
+extern IServerGameDLL* Server;
+extern SourceHook::ISourceHook* g_SHPtr;
 extern PluginId g_PLID;
 
-WaypointFileManager *_WaypointFileManager;
+WaypointFileManager* _WaypointFileManager;
 
-static std::vector<WaypointNode*> *_WaypointNodes;
+static std::vector<WaypointNode*>* _WaypointNodes;
 
-char _CurrentMapName[32];
+SH_DECL_HOOK6(IServerGameDLL, LevelInit, SH_NOATTRIB, 0, bool, char const*, char const*,
+	char const*, char const*, bool, bool);
 
-SH_DECL_HOOK6(IServerGameDLL, LevelInit, SH_NOATTRIB, 0, bool, char const *, char const *,
-	char const *, char const *, bool, bool);
-
-void WaypointFileManager::Init(std::vector<WaypointNode*> *waypointNodes)
+void WaypointFileManager::Init(std::vector<WaypointNode*>* waypointNodes)
 {
 	if (!_WaypointFileManager)
 	{
@@ -62,26 +61,31 @@ void WaypointFileManager::Read()
 		while (file.getline(fileBuffer, sizeof(fileBuffer)))
 		{
 			char lineBuffer[256][16];
-			char *context = nullptr;
+			char* context = nullptr;
 			uint8_t j = 0;
-			char *token = strtok_s(fileBuffer, ":", &context);
+			char* token = strtok_s(fileBuffer, ":", &context);
 			do
+			{
 				strcpy_s(lineBuffer[j++], token);
+			}
 			while (token = strtok_s(nullptr, ":", &context));
 
-			WaypointNode *node = new WaypointNode(atoi(lineBuffer[0]),
-				Vector(atof(lineBuffer[1]), atof(lineBuffer[2]), atof(lineBuffer[3])));
+			WaypointNode* node = new WaypointNode(atoi(lineBuffer[0]), Vector(atof(lineBuffer[1]), atof(lineBuffer[2]), atof(lineBuffer[3])));
 			node->Flags = atoi(lineBuffer[4]);
 			_WaypointNodes->push_back(node);
 
 			// Store connected node ids for reference
 			for (uint8_t k = 5; k < 256; k++)
 			{
-				char *content = lineBuffer[k];
+				char* content = lineBuffer[k];
 				if (strcmp(content, "\\") == 0)
+				{
 					break;
+				}
 				else
+				{
 					connectedNodeIds[i][k - 5] = atoi(content);
+				}
 			}
 
 			i++;
@@ -89,13 +93,25 @@ void WaypointFileManager::Read()
 
 		// Now handle the node connections
 		for (i = 0; i < _WaypointNodes->size(); i++)
+		{
 			for (uint8_t j = 0; j < 256; j++)
+			{
 				if (connectedNodeIds[i][j] == -1)
+				{
 					break;
+				}
 				else
-					for (WaypointNode *nodeToConnect : *_WaypointNodes)
+				{
+					for (WaypointNode* nodeToConnect : *_WaypointNodes)
+					{
 						if (nodeToConnect->Id == connectedNodeIds[i][j])
+						{
 							(*_WaypointNodes)[i]->ConnectToNode(nodeToConnect);
+						}
+					}
+				}
+			}
+		}
 
 		file.close();
 		Util::Log("Waypoint loaded!");
@@ -109,14 +125,16 @@ void WaypointFileManager::Write()
 	{
 		std::ofstream file(fileName);
 		// Write all nodes to file
-		for (WaypointNode *node : *_WaypointNodes)
+		for (WaypointNode* node : *_WaypointNodes)
 		{
 			Vector pos = node->Pos;
 			file << node->Id << ":" << pos.x << ":" << pos.y << ":" << pos.z << ":" << node->Flags;
 
 			// Also write IDs of saved nodes to file too
-			for (WaypointNode *connectedNode : node->GetConnectedNodes())
+			for (WaypointNode* connectedNode : node->GetConnectedNodes())
+			{
 				file << ":" << connectedNode->Id;
+			}
 
 			file << ":\\" << std::endl;
 		}
@@ -126,7 +144,7 @@ void WaypointFileManager::Write()
 	}
 }
 
-bool WaypointFileManager::_CheckDir(char *fileName) {
+bool WaypointFileManager::_CheckDir(char* fileName) {
 	struct stat info;
 	stat(FILE_DIR, &info);
 	if (~info.st_mode & S_IFDIR)
@@ -149,8 +167,8 @@ bool WaypointFileManager::_CheckDir(char *fileName) {
 	return true;
 }
 
-bool WaypointFileManager::_OnLevelInit(const char *pMapName, char const *pMapEntities,
-	char const *pOldLevel, char const *pLandmarkName, bool loadGame, bool background)
+bool WaypointFileManager::_OnLevelInit(const char* pMapName, char const* pMapEntities,
+	char const* pOldLevel, char const* pLandmarkName, bool loadGame, bool background)
 {
 	strcpy(_CurrentMapName, pMapName);
 	_WaypointFileManager->Read();

@@ -1,7 +1,8 @@
+#include "stdafx.h"
 #include "EntityDataProvider.h"
 #include "Util.h"
 
-EntityDataProvider *_EntityDataProvider;
+EntityDataProvider* _EntityDataProvider;
 
 void EntityDataProvider::Init()
 {

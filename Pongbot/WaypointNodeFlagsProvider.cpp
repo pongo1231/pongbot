@@ -1,11 +1,10 @@
+#include "stdafx.h"
 #include "WaypointNodeFlagsProvider.h"
 #include "Bot.h"
 #include "TFTeam.h"
 #include "Util.h"
 
-WaypointNodeFlagsProvider *_WaypointNodeFlagsProvider;
-
-std::map<WaypointNodeFlagType, WaypointNodeFlagInfo> _WaypointNodeFlags;
+WaypointNodeFlagsProvider* _WaypointNodeFlagsProvider;
 
 void WaypointNodeFlagsProvider::Init()
 {
@@ -37,7 +36,7 @@ WaypointNodeFlagInfo WaypointNodeFlagsProvider::GetInfoOfFlagType(WaypointNodeFl
 	return _WaypointNodeFlags.at(flagType);
 }
 
-int WaypointNodeFlagsProvider::GetInaccessibleNodeFlagsForBot(Bot *bot) const
+int WaypointNodeFlagsProvider::GetInaccessibleNodeFlagsForBot(Bot* bot) const
 {
 	unsigned int inaccessibleNodeFlags = 0;
 	inaccessibleNodeFlags |= bot->GetTeam() == TEAM_RED ? NODE_SPAWN_BLUE : NODE_SPAWN_RED;

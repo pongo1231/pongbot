@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "BotVisiblesProvider.h"
 #include "TFTeam.h"
 #include "EntityProvider.h"
@@ -8,12 +9,10 @@
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 
-extern IVEngineServer *Engine;
-extern IPlayerInfoManager *IIPlayerInfoManager;
+extern IVEngineServer* Engine;
+extern IPlayerInfoManager* IIPlayerInfoManager;
 
-BotVisiblesProvider *_BotVisiblesProvider;
-
-std::vector<Entity> _VisibleEntities;
+BotVisiblesProvider* _BotVisiblesProvider;
 
 void BotVisiblesProvider::Init()
 {
@@ -43,26 +42,36 @@ std::vector<Entity> BotVisiblesProvider::GetVisibleEntities() const
 void BotVisiblesProvider::OnGameFrame()
 {
 	if (!_BotManager->BotsInGame())
+	{
 		return;
+	}
 
 	static float tickTime;
 	float currentTime = Engine->Time();
 	if (tickTime > currentTime)
+	{
 		return;
+	}
 	tickTime = currentTime + _ConVarHolder->CVarVisiblesProviderTick->GetFloat();
 
 	_VisibleEntities.clear();
 	for (Entity entity : _EntityProvider->GetEntities())
+	{
 		if (_IsEntityRelevant(entity))
+		{
 			_VisibleEntities.push_back(entity);
+		}
+	}
 }
 
 bool BotVisiblesProvider::_IsEntityRelevant(Entity entity) const
 {
 	if (!entity.Exists())
+	{
 		return false;
+	}
 
 	// TODO: more filters
-	const char *className = entity.GetEdictClassName();
+	const char* className = entity.GetEdictClassName();
 	return entity.IsPlayer() || strcmp(className, "obj_sentrygun") == 0 || strcmp(className, "obj_dispenser") == 0;
 }

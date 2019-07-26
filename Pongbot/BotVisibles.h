@@ -37,18 +37,18 @@ private:
 class BotVisibles
 {
 public:
-	BotVisibles(Bot *bot) : _MBot(bot)
+	BotVisibles(Bot* bot) : _MBot(bot)
 	{}
 
 public:
 	std::vector<BotVisibleTarget*> GetVisibleTargets() const;
-	BotVisibleTarget *GetMostImportantTarget() const;
+	BotVisibleTarget* GetMostImportantTarget() const;
 	bool IsEntityVisible(Entity entity) const;
 
 	void OnThink();
 
 private:
-	const Bot *_MBot;
+	const Bot* _MBot;
 	std::vector<BotVisibleTarget*> _VisibleTargets;
 	float _TickTime;
 

@@ -15,10 +15,10 @@ enum ObjectiveType
 
 struct Objective
 {
-	Objective(edict_t *edict, ObjectiveType type, Vector pos, int status) : Edict(edict), Type(type), Pos(pos), Status(status)
+	Objective(edict_t* edict, ObjectiveType type, Vector pos, int status) : Edict(edict), Type(type), Pos(pos), Status(status)
 	{}
 
-	edict_t *Edict;
+	edict_t* Edict;
 	ObjectiveType Type;
 	Vector Pos;
 	int Status;
@@ -34,8 +34,8 @@ public:
 	static void Init();
 	static void Destroy();
 
-	std::vector<Objective> GetBotPushObjectives(Bot *bot) const;
-	std::vector<Objective> GetBotDefendObjectives(Bot *bot) const;
+	std::vector<Objective> GetBotPushObjectives(Bot* bot) const;
+	std::vector<Objective> GetBotDefendObjectives(Bot* bot) const;
 	std::vector<Objective> GetAllObjectives() const;
 
 	virtual void OnGameFrame();
@@ -47,4 +47,4 @@ private:
 	void _UpdateCTFObjectives();
 };
 
-extern ObjectivesProvider *_ObjectivesProvider;
+extern ObjectivesProvider* _ObjectivesProvider;

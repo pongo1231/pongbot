@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "IGameFramable.h"
 #include "Main.h"
 

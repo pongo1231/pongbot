@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "ObjectivesProvider.h"
 #include "Bot.h"
 #include "EntityProvider.h"
@@ -9,12 +10,9 @@
 #include "CTFFlag.h"
 #include <metamod/ISmmAPI.h>
 
-extern IVEngineServer *Engine;
+extern IVEngineServer* Engine;
 
-ObjectivesProvider *_ObjectivesProvider;
-
-std::vector<Objective> _RedObjectives;
-std::vector<Objective> _BlueObjectives;
+ObjectivesProvider* _ObjectivesProvider;
 
 void ObjectivesProvider::Init()
 {
@@ -36,12 +34,12 @@ void ObjectivesProvider::Destroy()
 	}
 }
 
-std::vector<Objective> ObjectivesProvider::GetBotPushObjectives(Bot *bot) const
+std::vector<Objective> ObjectivesProvider::GetBotPushObjectives(Bot* bot) const
 {
 	return bot->GetTeam() == TEAM_RED ? _BlueObjectives : _RedObjectives;
 }
 
-std::vector<Objective> ObjectivesProvider::GetBotDefendObjectives(Bot *bot) const
+std::vector<Objective> ObjectivesProvider::GetBotDefendObjectives(Bot* bot) const
 {
 	return bot->GetTeam() == TEAM_RED ? _RedObjectives : _BlueObjectives;
 }
@@ -51,7 +49,9 @@ std::vector<Objective> ObjectivesProvider::GetAllObjectives() const
 	// Merge both objective lists
 	std::vector<Objective> objectives = _RedObjectives;
 	for (Objective objective : _BlueObjectives)
+	{
 		objectives.push_back(objective);
+	}
 
 	return objectives;
 }
@@ -59,12 +59,16 @@ std::vector<Objective> ObjectivesProvider::GetAllObjectives() const
 void ObjectivesProvider::OnGameFrame()
 {
 	if (!_BotManager->BotsInGame())
+	{
 		return;
+	}
 
 	static float tickTime;
 	float engineTime = Engine->Time();
 	if (tickTime > engineTime)
+	{
 		return;
+	}
 	tickTime = engineTime + _ConVarHolder->CVarObjectiveUpdateTick->GetFloat();
 
 	_RedObjectives.clear();
@@ -82,8 +86,12 @@ void ObjectivesProvider::_UpdateCTFObjectives()
 		Objective objective(entityFlag.GetEdict(), ITEMFLAG, entityFlag.GetPos(),
 			entityFlag.GetStatus());
 		if (entityFlag.GetTeam() == TEAM_RED)
+		{
 			_RedObjectives.push_back(objective);
+		}
 		else
+		{
 			_BlueObjectives.push_back(objective);
+		}
 	}
 }

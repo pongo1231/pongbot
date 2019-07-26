@@ -7,5 +7,5 @@ public:
 	IConVarBase();
 
 private:
-	bool RegisterConCommandBase(ConCommandBase *pVar);
+	bool RegisterConCommandBase(ConCommandBase* pVar);
 };

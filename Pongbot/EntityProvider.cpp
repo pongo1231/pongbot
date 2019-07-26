@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "EntityProvider.h"
 #include "EntityDataProvider.h"
 #include "BotManager.h"
@@ -5,11 +6,9 @@
 #include "Player.h"
 #include <metamod/ISmmAPI.h>
 
-extern IVEngineServer *Engine;
+extern IVEngineServer* Engine;
 
-EntityProvider *_EntityProvider;
-
-std::vector<Entity> _Entities;
+EntityProvider* _EntityProvider;
 
 void EntityProvider::Init()
 {
@@ -38,12 +37,16 @@ std::vector<Entity> EntityProvider::GetEntities() const
 	return _Entities;
 }
 
-std::vector<Entity> EntityProvider::SearchEntitiesByClassname(const char *classname) const
+std::vector<Entity> EntityProvider::SearchEntitiesByClassname(const char* classname) const
 {
 	std::vector<Entity> foundEntities;
 	for (Entity entity : _Entities)
+	{
 		if (entity.Exists() && strcmp(entity.GetEdictClassName(), classname) == 0)
+		{
 			foundEntities.push_back(entity);
+		}
+	}
 
 	return foundEntities;
 }
@@ -51,12 +54,16 @@ std::vector<Entity> EntityProvider::SearchEntitiesByClassname(const char *classn
 void EntityProvider::OnGameFrame()
 {
 	if (!_BotManager->BotsInGame())
+	{
 		return;
+	}
 
 	static float tickTime;
 	float currentTime = Engine->Time();
 	if (tickTime > currentTime)
+	{
 		return;
+	}
 	tickTime = currentTime + _ConVarHolder->CVarEntityProviderTick->GetFloat();
 
 	_Entities.clear();
@@ -66,7 +73,9 @@ void EntityProvider::OnGameFrame()
 		if (entity.Exists())
 		{
 			if (!entity.IsPlayer() || (entity.GetTeam() != TEAM_SPEC && !Player(entity).IsDead()))
+			{
 				_Entities.push_back(entity);
+			}
 		}
 	}
 }

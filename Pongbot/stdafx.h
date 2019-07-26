@@ -1,15 +1,8 @@
 #pragma once
-#include "Util.h"
-#include <metamod/ISmmAPI.h>
+#include <metamod/ISmmPlugin.h>
 #include <metamod/sourcehook.h>
 #include <hlsdk/game/shared/IEffects.h>
 #include <hlsdk/public/eiface.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <hlsdk/public/mathlib/mathlib.h>
-#include <windows.h>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <cmath>
+#include <hlsdk/public/edict.h>

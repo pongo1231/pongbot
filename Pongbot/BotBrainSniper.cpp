@@ -1,16 +1,15 @@
+#include "stdafx.h"
 #include "BotBrainSniper.h"
 #include "BotVisibles.h"
 #include "ConVarHolder.h"
 #include "BotTaskSniperSnipe.h"
 #include "Util.h"
 
-bool _IsBotSniping;
-
 void BotBrainSniper::_OnThink()
 {
-	Bot *bot = _GetBot();
+	Bot* bot = _GetBot();
 
-	BotVisibleTarget *visibleTarget = bot->GetBotVisibles()->GetMostImportantTarget();
+	BotVisibleTarget* visibleTarget = bot->GetBotVisibles()->GetMostImportantTarget();
 	if (visibleTarget)
 	{
 		if (Util::DistanceToNoZ(bot->GetPos(), visibleTarget->Pos) > _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
@@ -22,7 +21,9 @@ void BotBrainSniper::_OnThink()
 			}
 		}
 		else
+		{
 			_IsBotSniping = false;
+		}
 	}
 }
 

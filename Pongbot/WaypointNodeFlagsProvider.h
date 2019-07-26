@@ -7,11 +7,11 @@ class Bot;
 
 struct WaypointNodeFlagInfo
 {
-	WaypointNodeFlagInfo(const char *name, const char *desc) : Name(name), Desc(desc)
+	WaypointNodeFlagInfo(const char* name, const char* desc) : Name(name), Desc(desc)
 	{}
 
-	const char *Name;
-	const char *Desc;
+	const char* Name;
+	const char* Desc;
 };
 
 class WaypointNodeFlagsProvider
@@ -26,7 +26,7 @@ public:
 
 	std::map<WaypointNodeFlagType, WaypointNodeFlagInfo> GetAllNodeFlags() const;
 	WaypointNodeFlagInfo GetInfoOfFlagType(WaypointNodeFlagType flagType) const;
-	int GetInaccessibleNodeFlagsForBot(Bot *bot) const;
+	int GetInaccessibleNodeFlagsForBot(Bot* bot) const;
 
 private:
 	std::map<WaypointNodeFlagType, WaypointNodeFlagInfo> _WaypointNodeFlags =
@@ -42,4 +42,4 @@ private:
 	};
 };
 
-extern WaypointNodeFlagsProvider *_WaypointNodeFlagsProvider;
+extern WaypointNodeFlagsProvider* _WaypointNodeFlagsProvider;

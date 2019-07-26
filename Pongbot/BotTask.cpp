@@ -1,15 +1,9 @@
+#include "stdafx.h"
 #include "BotTask.h"
 #include "BotVisibles.h"
 #include "Util.h"
 #include "TFClassInfoProvider.h"
 #include "ConVarHolder.h"
-
-Bot *_Bot;
-Vector _BotTargetPos;
-Vector _BotTargetLookAt;
-bool _IsBotViewAngleOverriden;
-int _BotPressedButtons;
-WeaponSlot _WeaponSlot;
 
 bool BotTask::OnThink()
 {
@@ -20,13 +14,19 @@ bool BotTask::OnThink()
 	bool taskResult = _OnThink();
 
 	if (!_IsBotViewAngleOverriden)
+	{
 		_ShootAtBadGuys();
+	}
 
 	// Avoid jittering around when supposed to stand still
 	if (_BotTargetPos.IsZero() || Util::DistanceToNoZ(_Bot->GetPos(), _BotTargetPos) < _ConVarHolder->CVarBotMovementIgnoreRadius->GetFloat())
+	{
 		_Bot->SetMovement(Vector2D());
+	}
 	else
+	{
 		_Bot->SetMovement(Util::GetIdealMoveSpeedsToPos(_Bot, _BotTargetPos));
+	}
 	_Bot->SetViewAngle(Util::GetLookAtAngleForPos(_Bot, _BotTargetLookAt));
 	_Bot->SetPressedButtons(_BotPressedButtons);
 	_Bot->SetSelectedWeapon(_WeaponSlot);
@@ -36,7 +36,7 @@ bool BotTask::OnThink()
 
 void BotTask::_ShootAtBadGuys()
 {
-	BotVisibleTarget *enemyTarget = _Bot->GetBotVisibles()->GetMostImportantTarget();
+	BotVisibleTarget* enemyTarget = _Bot->GetBotVisibles()->GetMostImportantTarget();
 	if (enemyTarget)
 	{
 		Vector targetPos = enemyTarget->Pos;

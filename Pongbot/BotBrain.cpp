@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "BotBrain.h"
 #include "BotTaskGoto.h"
 #include "BotTaskAggressiveCombat.h"
@@ -13,23 +14,20 @@
 #include <metamod/ISmmAPI.h>
 #include <stdint.h> // uint8_t for Linux
 
-extern IVEngineServer *Engine;
-
-Bot *_ABot;
-BotTask *_BotTask;
-float _ThinkTime;
-unsigned int _States;
-bool _IsBotDead;
-bool _IsBotInMeleeFight;
+extern IVEngineServer* Engine;
 
 void BotBrain::OnThink()
 {
 	if (_GetBot()->IsDead())
+	{
 		_IsBotDead = true;
+	}
 	else
 	{
 		if (_IsBotDead)
+		{
 			OnSpawn();
+		}
 
 		float engineTime = Engine->Time();
 		if (_ThinkTime < engineTime)
@@ -40,13 +38,15 @@ void BotBrain::OnThink()
 		}
 
 		if (_HasBotTask() && _BotTask->OnThink())
+		{
 			_ClearTask();
+		}
 	}
 }
 
 void BotBrain::_DefaultThink()
 {
-	Bot *bot = _GetBot();
+	Bot* bot = _GetBot();
 	Vector botPos = _ABot->GetPos();
 
 	/* Tasks which should be able to override current ones */
@@ -62,7 +62,9 @@ void BotBrain::_DefaultThink()
 		}
 	}
 	else
+	{
 		_IsBotInMeleeFight = false;
+	}
 
 	/* Filler Tasks in case the bot has nothing to do */
 
@@ -92,14 +94,18 @@ void BotBrain::_DefaultThink()
 			{
 				CTFFlagStatusType itemFlagStatus = (CTFFlagStatusType) closestObjective->Status;
 				if (itemFlagStatus == CTF_UNTOUCHED || itemFlagStatus == CTF_DROPPED) // The flag should be picked up
+				{
 					_SetBotTask(new BotTaskGoto(bot, closestObjective->Pos, false));
+				}
 				else if (CTFFlag(closestObjective->Edict).GetOwner() == bot->GetEdict()->m_iIndex)
 				{
 					// I'm carrying the flag
-					WaypointNode *targetNode = _WaypointManager->GetClosestWaypointNode(botPos,
+					WaypointNode* targetNode = _WaypointManager->GetClosestWaypointNode(botPos,
 						-1, bot->GetTeam() == TEAM_RED ? NODE_ITEMFLAG_RED : NODE_ITEMFLAG_BLUE);
 					if (targetNode) // Map doesn't have a ITEMFLAG_RED/ITEMFLAG_BLUE node!
+					{
 						_SetBotTask(new BotTaskGoto(bot, targetNode->Pos, true, NODE_SPAWN_RED | NODE_SPAWN_BLUE)); // Don't walk through spawns
+					}
 				}
 			}
 
@@ -107,8 +113,10 @@ void BotBrain::_DefaultThink()
 
 			// Free Roam if still no task
 			if (!_HasBotTask())
+			{
 				_SetBotTask(new BotTaskGoto(bot, _WaypointManager->GetRandomWaypointNode(
 					_WaypointNodeFlagsProvider->GetInaccessibleNodeFlagsForBot(_ABot))->Pos, false));
+			}
 		}
 	}
 }
@@ -131,7 +139,7 @@ Bot *BotBrain::_GetBot() const
 	return _ABot;
 }
 
-void BotBrain::_SetBotTask(BotTask *task)
+void BotBrain::_SetBotTask(BotTask* task)
 {
 	_ClearTask();
 	_BotTask = task;

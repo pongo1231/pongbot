@@ -6,7 +6,7 @@
 class BotTaskMedHealTarget : public BotTask
 {
 public:
-	BotTaskMedHealTarget(Bot *bot, Player targetPlayer) : BotTask(bot), _TargetHealPlayer(targetPlayer)
+	BotTaskMedHealTarget(Bot* bot, Player targetPlayer) : BotTask(bot), _TargetHealPlayer(targetPlayer)
 	{}
 
 private:

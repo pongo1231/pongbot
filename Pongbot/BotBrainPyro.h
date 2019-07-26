@@ -4,7 +4,7 @@
 class BotBrainPyro : public BotBrain
 {
 public:
-	BotBrainPyro(Bot *bot) : BotBrain(bot)
+	BotBrainPyro(Bot* bot) : BotBrain(bot), _IsRushingEnemy(false)
 	{}
 
 private:

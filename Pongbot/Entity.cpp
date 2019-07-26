@@ -1,12 +1,11 @@
+#include "stdafx.h"
 #include "Entity.h"
 #include "EntityDataProvider.h"
 #include "Util.h"
 #include <hlsdk/public/edict.h>
 #include <hlsdk/public/mathlib/vector.h>
 
-edict_t *_MEdict;
-
-edict_t *Entity::GetEdict() const
+edict_t* Entity::GetEdict() const
 {
 	return _MEdict;
 }
@@ -14,7 +13,9 @@ edict_t *Entity::GetEdict() const
 float Entity::GetHealth() const
 {
 	if (!Exists())
+	{
 		return -1;
+	}
 
 	return _EntityDataProvider->GetDataFromEntity<float>(*this, DATA_HEALTH);
 }
@@ -22,7 +23,9 @@ float Entity::GetHealth() const
 TFTeam Entity::GetTeam() const
 {
 	if (!Exists())
+	{
 		return TEAM_UNK;
+	}
 
 	return _EntityDataProvider->GetDataFromEntity<TFTeam>(*this, DATA_TEAM);
 }
@@ -30,9 +33,11 @@ TFTeam Entity::GetTeam() const
 Vector Entity::GetPos() const
 {
 	if (!Exists())
+	{
 		return Vector();
+	}
 
-	ICollideable *collideable = GetEdict()->GetCollideable();
+	ICollideable* collideable = GetEdict()->GetCollideable();
 	return collideable ? collideable->GetCollisionOrigin() : Vector();
 }
 
@@ -43,14 +48,16 @@ bool Entity::IsPlayer() const
 
 bool Entity::Exists() const
 {
-	edict_t *edict = GetEdict();
+	edict_t* edict = GetEdict();
 	return edict;
 }
 
-const char *Entity::GetEdictClassName() const
+const char* Entity::GetEdictClassName() const
 {
 	if (!Exists())
+	{
 		return nullptr;
+	}
 
 	return GetEdict()->GetClassName();
 }

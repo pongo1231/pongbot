@@ -5,7 +5,7 @@
 class BotTaskAggressiveCombat : public BotTask
 {
 public:
-	BotTaskAggressiveCombat(Bot *bot, Entity targetEntity, WeaponSlot weaponSlot) : BotTask(bot),
+	BotTaskAggressiveCombat(Bot* bot, Entity targetEntity, WeaponSlot weaponSlot) : BotTask(bot),
 		_TargetEntity(targetEntity), _MWeaponSlot(weaponSlot)
 	{}
 

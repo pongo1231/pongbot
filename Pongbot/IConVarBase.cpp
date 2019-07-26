@@ -1,8 +1,9 @@
+#include "stdafx.h"
 #include "IConVarBase.h"
 #include <metamod/ISmmPlugin.h>
 
-extern ISmmAPI *g_SMAPI;
-extern ISmmPlugin *g_PLAPI;
+extern ISmmAPI* g_SMAPI;
+extern ISmmPlugin* g_PLAPI;
 
 IConVarBase::IConVarBase()
 {
@@ -10,7 +11,7 @@ IConVarBase::IConVarBase()
 	ConVar_Register(0, this);
 }
 
-bool IConVarBase::RegisterConCommandBase(ConCommandBase *cVar)
+bool IConVarBase::RegisterConCommandBase(ConCommandBase* cVar)
 {
 	return META_REGCVAR(cVar);
 }

@@ -1,26 +1,7 @@
+#include "stdafx.h"
 #include "ConVarHolder.h"
 
-ConVarHolder *_ConVarHolder;
-
-ConVar *CVarBotAimSensivity;
-ConVar *CVarBotNodeTouchRadius;
-ConVar *CVarBotPosStuckPanicTime;
-ConVar *CVarBotTargetPosDebugBeamTick;
-ConVar *CVarBotWeaponLongRangeDist;
-ConVar *CVarBotWeaponMiddleRangeDist;
-ConVar *CVarBotBrainThinkTick;
-ConVar *CVarBotVisibilityTick;
-ConVar *CVarVisiblesProviderTick;
-ConVar *CVarEntityProviderTick;
-ConVar *CVarObjectiveUpdateTick;
-ConVar *CVarWaypointNodeDebugBeamTick;
-ConVar *CVarWaypointNodeDebugBeamDist;
-ConVar *CVarEventProviderTick;
-ConVar *CVarBotMaxVisibleDist;
-ConVar *CVarBotEnableVisibility;
-ConVar *CVarBotEnableBrain;
-ConVar *CVarBotMedTargetDistance;
-ConVar *CVarBotMovementIgnoreRadius;
+ConVarHolder* _ConVarHolder;
 
 void ConVarHolder::Init()
 {

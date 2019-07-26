@@ -13,7 +13,7 @@ public:
 	static void Destroy();
 
 	std::vector<Entity> GetEntities() const;
-	std::vector<Entity> SearchEntitiesByClassname(const char *classname) const;
+	std::vector<Entity> SearchEntitiesByClassname(const char* classname) const;
 
 private:
 	std::vector<Entity> _Entities;
@@ -21,4 +21,4 @@ private:
 	virtual void OnGameFrame();
 };
 
-extern EntityProvider *_EntityProvider;
+extern EntityProvider* _EntityProvider;

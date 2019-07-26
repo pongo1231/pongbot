@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Util.h"
 #include "Bot.h"
 #include "TFClassInfoProvider.h"
@@ -10,17 +11,19 @@
 #include <algorithm>
 #include <cmath>
 
-extern IVEngineServer *Engine;
-extern IPlayerInfoManager *IIPlayerInfoManager;
-extern ISmmAPI *g_SMAPI;
-extern IEffects *IIEffects;
+extern IVEngineServer* Engine;
+extern IPlayerInfoManager* IIPlayerInfoManager;
+extern ISmmAPI* g_SMAPI;
+extern IEffects* IIEffects;
 
 namespace Util
 {
 	int RandomInt(int min, int max)
 	{
 		if (min >= max)
+		{
 			return min;
+		}
 
 		return rand() % (max - min + 1) + min;
 	}
@@ -28,12 +31,14 @@ namespace Util
 	float RandomFloat(float min, float max)
 	{
 		if (min >= max)
+		{
 			return min;
+		}
 
 		return std::fmod(rand(), (max - min + 1.f) + min);
 	}
 
-	void Log(const char *text, ...)
+	void Log(const char* text, ...)
 	{
 		char userText[512], prefixedText[524];
 		va_list args;
@@ -45,7 +50,7 @@ namespace Util
 		g_SMAPI->ConPrintf(prefixedText);
 	}
 
-	void DebugLog(const char *text, ...)
+	void DebugLog(const char* text, ...)
 	{
 #ifdef DEBUG
 		Log(text, args);
@@ -59,8 +64,7 @@ namespace Util
 
 	void DrawBeam(Vector startPos, Vector endPos, uint8_t r, uint8_t g, uint8_t b, float lifeTime)
 	{
-		IIEffects->Beam(startPos, endPos, Engine->PrecacheModel("sprites/lgtning.vmt"),
-			0, 0, 1, lifeTime, 1, 1, 255, 1, r, g, b, 255, 10);
+		IIEffects->Beam(startPos, endPos, Engine->PrecacheModel("sprites/lgtning.vmt"), 0, 0, 1, lifeTime, 1, 1, 255, 1, r, g, b, 255, 10);
 	}
 
 	std::vector<Player> GetAllPlayers()
@@ -70,13 +74,15 @@ namespace Util
 		{
 			Player player(Engine->PEntityOfEntIndex(i));
 			if (player.Exists())
+			{
 				players.push_back(player);
+			}
 		}
 
 		return players;
 	}
 
-	QAngle GetLookAtAngleForPos(Bot *bot, Vector lookAtPos)
+	QAngle GetLookAtAngleForPos(Bot* bot, Vector lookAtPos)
 	{
 		Vector vectorAngle = lookAtPos - bot->GetEarPos();
 		QAngle angle;
@@ -85,11 +91,10 @@ namespace Util
 		return CorrectViewAngle(angle);
 	}
 
-	Vector2D GetIdealMoveSpeedsToPos(Bot *bot, Vector targetPos)
+	Vector2D GetIdealMoveSpeedsToPos(Bot* bot, Vector targetPos)
 	{
 		Vector2D sins;
-		SinCos(DEG2RAD(bot->GetViewAngle().y - GetLookAtAngleForPos(bot, targetPos).y),
-			&sins.y, &sins.x);
+		SinCos(DEG2RAD(bot->GetViewAngle().y - GetLookAtAngleForPos(bot, targetPos).y), &sins.y, &sins.x);
 		sins = sins / sins.Length() * _TFClassInfoProvider->GetClassInfo(bot->GetClass()).Speed * 3.f;
 
 		return sins;

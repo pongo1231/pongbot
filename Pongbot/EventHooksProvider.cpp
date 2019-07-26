@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "EventHooksProvider.h"
 #include "IEventHooker.h"
 #include "BotManager.h"
@@ -5,12 +6,9 @@
 #include "Util.h"
 #include <metamod/ISmmAPI.h>
 
-extern IVEngineServer *Engine;
+extern IVEngineServer* Engine;
 
-EventHooksProvider *_EventHooksProvider;
-
-std::vector<IEventHooker*> _EventHookers;
-std::vector<Objective> _PrevObjectives;
+EventHooksProvider* _EventHooksProvider;
 
 void EventHooksProvider::Init()
 {
@@ -32,24 +30,30 @@ void EventHooksProvider::Destroy()
 	}
 }
 
-void EventHooksProvider::AddEventHooker(IEventHooker *eventHooker)
+void EventHooksProvider::AddEventHooker(IEventHooker* eventHooker)
 {
 	// Check if list doesn't contain it first
-	for (IEventHooker *listEventHooker : _EventHookers)
+	for (IEventHooker* listEventHooker : _EventHookers)
+	{
 		if (listEventHooker == eventHooker)
+		{
 			return;
+		}
+	}
 
 	_EventHookers.push_back(eventHooker);
 }
 
-void EventHooksProvider::RemoveEventHooker(IEventHooker *eventHooker)
+void EventHooksProvider::RemoveEventHooker(IEventHooker* eventHooker)
 {
 	for (unsigned int i = 0; i < _EventHookers.size(); i++)
+	{
 		if (_EventHookers[i] == eventHooker)
 		{
 			_EventHookers.erase(_EventHookers.begin() + i);
 			return;
 		}
+	}
 }
 
 void EventHooksProvider::OnGameFrame()

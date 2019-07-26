@@ -4,7 +4,7 @@
 class BotBrainScout : public BotBrain
 {
 public:
-	BotBrainScout(Bot *bot) : BotBrain(bot)
+	BotBrainScout(Bot* bot) : BotBrain(bot)
 	{}
 
 private:

@@ -15,7 +15,7 @@ struct edict_t;
 class Bot
 {
 public:
-	Bot(Player player, const char *name);
+	Bot(Player player, const char* name);
 	~Bot();
 
 public:
@@ -23,7 +23,7 @@ public:
 
 	void Think();
 	const Player GetPlayer() const;
-	edict_t *GetEdict() const;
+	edict_t* GetEdict() const;
 	bool Exists() const;
 	Vector GetPos() const;
 	Vector GetEarPos() const;
@@ -35,29 +35,29 @@ public:
 	void SetPressedButtons(int pressedButtons);
 	WeaponSlot GetSelectedWeaponSlot() const;
 	void SetSelectedWeapon(WeaponSlot weapon);
-	BotVisibles *GetBotVisibles() const;
+	BotVisibles* GetBotVisibles() const;
 	bool IsDead() const;
 	void ChangeClass(TFClass tfClass);
-	void ExecClientCommand(const char *command, ...) const;
+	void ExecClientCommand(const char* command, ...) const;
 	WeaponSlot GetIdealWeaponForRange(float range) const;
 
 private:
 	const Player _Player;
-	edict_t *_Edict;
-	IPlayerInfo *_IPlayerInfo;
-	IBotController *_IBotController;
-	BotBrain *_BotBrain;
-	BotVisibles *_BotVisibles;
+	edict_t* _Edict;
+	IPlayerInfo* _IPlayerInfo;
+	IBotController* _IBotController;
+	BotBrain* _BotBrain;
+	BotVisibles* _BotVisibles;
 	TFClass _CurrentClass;
 	QAngle _TargetViewAngle;
 	Vector2D _Movement;
 	int _PressedButtons;
-	TFClassInfo *_ClassInfo;
+	TFClassInfo* _ClassInfo;
 	WeaponSlot _SelectedWeaponSlot;
 
 	void _SwitchToFittingTeam();
 	void _UpdateBotBrain();
-	const char *_TFClassToJoinName(TFClass tfClass) const;
+	const char* _TFClassToJoinName(TFClass tfClass) const;
 	void _RandomClass();
 };
 

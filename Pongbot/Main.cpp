@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Main.h"
 #include "Info.h"
 #include "BotManager.h"
@@ -16,21 +17,21 @@
 #include <cstdlib>
 
 Main _Main;
-IVEngineServer *Engine;
-IBotManager *IIBotManager;
-IServerGameDLL *Server;
-IPlayerInfoManager *IIPlayerInfoManager;
-IServerPluginHelpers *IIServerPluginHelpers;
-IServerGameClients *IIServerGameClients;
-IEffects *IIEffects;
-IEngineTrace *IIEngineTrace;
+IVEngineServer* Engine;
+IBotManager* IIBotManager;
+IServerGameDLL* Server;
+IPlayerInfoManager* IIPlayerInfoManager;
+IServerPluginHelpers* IIServerPluginHelpers;
+IServerGameClients* IIServerGameClients;
+IEffects* IIEffects;
+IEngineTrace* IIEngineTrace;
 
 std::vector<IGameFramable*> _IGameFramables;
 
 PLUGIN_EXPOSE(Main, _Main);
 SH_DECL_HOOK1_void(IServerGameDLL, GameFrame, SH_NOATTRIB, 0, bool);
 
-bool Main::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bool late)
+bool Main::Load(PluginId id, ISmmAPI* ismm, char* error, size_t maxlen, bool late)
 {
 	Util::DebugLog("-------------------------------------------");
 	Util::DebugLog("NOTE: This is a debug build of pongbot.");
@@ -67,7 +68,7 @@ bool Main::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bool lat
 	return true;
 }
 
-bool Main::Unload(char *error, size_t len)
+bool Main::Unload(char* error, size_t len)
 {
 	float destroyStartTime = Engine->Time();
 	Util::Log("Shutting down...");
@@ -87,64 +88,74 @@ bool Main::Unload(char *error, size_t len)
 	return true;
 }
 
-const char *Main::GetAuthor()
+const char* Main::GetAuthor()
 {
 	return Info::Author;
 }
 
-const char *Main::GetName()
+const char* Main::GetName()
 {
 	return Info::Name;
 }
 
-const char *Main::GetDescription()
+const char* Main::GetDescription()
 {
 	return Info::Description;
 }
 
-const char *Main::GetURL()
+const char* Main::GetURL()
 {
 	return Info::URL;
 }
 
-const char *Main::GetLicense()
+const char* Main::GetLicense()
 {
 	return Info::License;
 }
 
-const char *Main::GetVersion()
+const char* Main::GetVersion()
 {
 	return Info::Version;
 }
 
-const char *Main::GetDate()
+const char* Main::GetDate()
 {
 	return Info::Date;
 }
 
-const char *Main::GetLogTag()
+const char* Main::GetLogTag()
 {
 	return Info::Name;
 }
 
-void Main::RegisterIGameFramable(IGameFramable *framable)
+void Main::RegisterIGameFramable(IGameFramable* framable)
 {
 	// Check if not already registered
-	for (IGameFramable *registeredFramable : _IGameFramables)
+	for (IGameFramable* registeredFramable : _IGameFramables)
+	{
 		if (registeredFramable == framable)
+		{
 			return;
+		}
+	}
 	_IGameFramables.push_back(framable);
 }
 
-void Main::UnregisterIGameFramable(IGameFramable *framable)
+void Main::UnregisterIGameFramable(IGameFramable* framable)
 {
 	for (uint8_t i = 0; i < _IGameFramables.size(); i++)
+	{
 		if (_IGameFramables[i] == framable)
+		{
 			_IGameFramables.erase(_IGameFramables.begin() + i);
+		}
+	}
 }
 
 void Main::_OnGameFrame(bool simulation)
 {
-	for (IGameFramable *framable : _IGameFramables)
+	for (IGameFramable* framable : _IGameFramables)
+	{
 		framable->OnGameFrame();
+	}
 }

@@ -30,7 +30,9 @@ public:
 	T GetDataFromEntity(Entity entity, EntityDataType dataType)
 	{
 		if (!entity.Exists() || !entity.GetEdict()->GetUnknown())
+		{
 			return (T) 0;
+		}
 
 		return (T) *((char*) entity.GetEdict()->GetUnknown()->GetBaseEntity() + _EntityOffsets.at(dataType));
 	}
@@ -39,7 +41,9 @@ public:
 	void SetDataFromEntity(Entity entity, EntityDataType dataType, T data)
 	{
 		if (entity.Exists() && entity.GetEdict()->GetUnknown())
-			*((char*) entity.GetEdict()->GetUnknown()->GetBaseEntity() + _EntityOffsets.at(dataType)) = data;
+		{
+			*((char*)entity.GetEdict()->GetUnknown()->GetBaseEntity() + _EntityOffsets.at(dataType)) = data;
+		}
 	}
 
 private:
@@ -54,4 +58,4 @@ private:
 	};
 };
 
-extern EntityDataProvider *_EntityDataProvider;
+extern EntityDataProvider* _EntityDataProvider;

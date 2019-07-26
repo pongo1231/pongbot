@@ -12,10 +12,10 @@ enum TFClassInfoWeaponFlags
 
 struct TFClassInfoWeapon
 {
-	TFClassInfoWeapon(const char *weaponName, unsigned int weaponFlags = 0) : WeaponName(weaponName), WeaponFlags(weaponFlags)
+	TFClassInfoWeapon(const char* weaponName, unsigned int weaponFlags = 0) : WeaponName(weaponName), WeaponFlags(weaponFlags)
 	{}
 
-	const char *WeaponName;
+	const char* WeaponName;
 	const unsigned int WeaponFlags;
 };
 

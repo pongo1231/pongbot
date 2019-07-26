@@ -5,7 +5,7 @@
 class CTFFlag : public Entity
 {
 public:
-	CTFFlag(edict_t *edict) : Entity(edict)
+	CTFFlag(edict_t* edict) : Entity(edict)
 	{}
 	CTFFlag(Entity entity) : Entity(entity.GetEdict())
 	{}

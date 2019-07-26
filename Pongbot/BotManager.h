@@ -15,7 +15,7 @@ public:
 	static void Init();
 	static void Destroy();
 
-	void KickBot(Bot *bot);
+	void KickBot(Bot* bot);
 	void KickAllBots();
 	bool BotsInGame() const;
 	virtual void OnGameFrame();

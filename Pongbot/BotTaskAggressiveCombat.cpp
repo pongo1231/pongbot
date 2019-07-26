@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "BotTaskAggressiveCombat.h"
 #include "Player.h"
 #include "ConVarHolder.h"
@@ -9,14 +10,18 @@ extern const WeaponSlot _MWeaponSlot;
 
 bool BotTaskAggressiveCombat::_OnThink()
 {
-	Bot *bot = _GetBot();
+	Bot* bot = _GetBot();
 
 	if (!_TargetEntity.Exists() || !bot->GetBotVisibles()->IsEntityVisible(_TargetEntity))
+	{
 		return true; // Removed or Gone otherwise (e.g. death)
+	}
 
 	Vector targetPos = _TargetEntity.GetPos();
 	if (_TargetEntity.IsPlayer())
+	{
 		targetPos = Player(_TargetEntity).GetHeadPos();
+	}
 
 	// Determine max distance to target before task aborts
 	float maxDistance;
@@ -34,7 +39,9 @@ bool BotTaskAggressiveCombat::_OnThink()
 	}
 
 	if (bot->GetPos().DistTo(targetPos) > maxDistance)
+	{
 		return true; // Too far away or not visible
+	}
 	else
 	{
 		_OverrideBotViewAngle();

@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Player.h"
 #include "EntityDataProvider.h"
 #include <metamod/ISmmAPI.h>
@@ -6,9 +7,9 @@
 extern IServerGameClients *IIServerGameClients;
 extern IPlayerInfoManager *IIPlayerInfoManager;
 
-IPlayerInfo *_IIPlayerInfo;
+IPlayerInfo* _IIPlayerInfo;
 
-Player::Player(edict_t *edict) : Entity(edict), _IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(edict))
+Player::Player(edict_t* edict) : Entity(edict), _IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(edict))
 {}
 
 Player::Player(Entity entity) : Entity(entity), _IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(entity.GetEdict()))
@@ -17,7 +18,9 @@ Player::Player(Entity entity) : Entity(entity), _IIPlayerInfo(IIPlayerInfoManage
 float Player::GetHealth() const
 {
 	if (!Exists())
+	{
 		return -1;
+	}
 
 	return _IIPlayerInfo->GetHealth();
 }
@@ -25,7 +28,9 @@ float Player::GetHealth() const
 float Player::GetFOV() const
 {
 	if (!Exists())
+	{
 		return -1;
+	}
 
 	return _EntityDataProvider->GetDataFromEntity<float>(*this, DATA_PLAYER_FOV);
 }
@@ -33,7 +38,9 @@ float Player::GetFOV() const
 bool Player::IsSniperZoomedIn() const
 {
 	if (!Exists())
+	{
 		return false;
+	}
 
 	return GetFOV() == 20.f;
 }
@@ -41,7 +48,9 @@ bool Player::IsSniperZoomedIn() const
 Vector Player::GetHeadPos() const
 {
 	if (!Exists())
+	{
 		return Vector();
+	}
 
 	Vector headPos;
 	IIServerGameClients->ClientEarPosition(GetEdict(), &headPos);

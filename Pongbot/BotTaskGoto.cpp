@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "BotTaskGoto.h"
 #include "Bot.h"
 #include "WaypointNode.h"
@@ -12,19 +13,11 @@
 #include <metamod/ISmmAPI.h>
 #include <stack>
 
-extern IVEngineServer *Engine;
+extern IVEngineServer* Engine;
 
 static bool _DrawDebugBeam = false;
 
-std::queue<Vector> _TargetPosQueue;
-extern const Vector _TargetPos;
-Vector _LastPos;
-uint8_t _PosStuckTime;
-extern const bool _ShortestWay;
-extern const int _NodeFlagBlacklist;
-float _DebugBeamDrawTime;
-
-BotTaskGoto::BotTaskGoto(Bot *bot, Vector targetPos, bool shortestWay, int nodeFlagBlacklist) : BotTask(bot),
+BotTaskGoto::BotTaskGoto(Bot* bot, Vector targetPos, bool shortestWay, int nodeFlagBlacklist) : BotTask(bot),
 	_TargetPos(targetPos), _ShortestWay(shortestWay), _NodeFlagBlacklist(nodeFlagBlacklist)
 {
 	_NewTargetNodeStack();
@@ -32,7 +25,7 @@ BotTaskGoto::BotTaskGoto(Bot *bot, Vector targetPos, bool shortestWay, int nodeF
 
 bool BotTaskGoto::_OnThink()
 {
-	Bot *bot = _GetBot();
+	Bot* bot = _GetBot();
 	Vector currentPos = bot->GetPos();
 	float nodeTouchRadius = _ConVarHolder->CVarBotNodeTouchRadius->GetFloat();
 
@@ -61,12 +54,16 @@ bool BotTaskGoto::_OnThink()
 	}
 
 	if (_TargetPosQueue.empty())
+	{
 		return true;
+	}
 	else
 	{
 		Vector targetPos = _TargetPosQueue.front();
 		if (currentPos.DistTo(targetPos) <= nodeTouchRadius)
+		{
 			_TargetPosQueue.pop();
+		}
 		else
 		{
 			_BotMoveTo(targetPos);
@@ -86,24 +83,30 @@ bool BotTaskGoto::_OnThink()
 
 void BotTaskGoto::_NewTargetNodeStack()
 {
-	Bot *bot = _GetBot();
+	Bot* bot = _GetBot();
 	Vector currentPos = bot->GetPos();
-	WaypointNode *closestNode = _WaypointManager->GetClosestWaypointNode(currentPos);
+	WaypointNode* closestNode = _WaypointManager->GetClosestWaypointNode(currentPos);
 	if (closestNode)
 	{
-		WaypointNode *targetNode = _WaypointManager->GetClosestWaypointNode(_TargetPos);
+		WaypointNode* targetNode = _WaypointManager->GetClosestWaypointNode(_TargetPos);
 		int nodeFlagBlacklist = _WaypointNodeFlagsProvider->GetInaccessibleNodeFlagsForBot(bot);
 
 		if (!targetNode)
+		{
 			targetNode = _WaypointManager->GetRandomWaypointNode();
+		}
 
 		std::stack<WaypointNode*> _WaypointNodeStack;
 		if (_ShortestWay)
+		{
 			_WaypointManager->GetShortestWaypointNodeRouteToTargetNode(closestNode, targetNode, &_WaypointNodeStack,
 				nodeFlagBlacklist | _NodeFlagBlacklist);
+		}
 		else
+		{
 			_WaypointManager->GetRandomWaypointNodeRouteToTargetNode(closestNode, targetNode, &_WaypointNodeStack,
 				nodeFlagBlacklist | _NodeFlagBlacklist);
+		}
 		
 		_TargetPosQueue = std::queue<Vector>();
 		while (!_WaypointNodeStack.empty())

@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "BotVisibles.h"
 #include "Bot.h"
 #include "BotVisiblesProvider.h"
@@ -13,28 +14,24 @@
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <cmath>
 
-extern IVEngineServer *Engine;
-extern IEngineTrace *IIEngineTrace;
-extern BotVisiblesProvider *_BotVisiblesProvider;
-extern IPlayerInfoManager *IIPlayerInfoManager;
+extern IVEngineServer* Engine;
+extern IEngineTrace* IIEngineTrace;
+extern BotVisiblesProvider* _BotVisiblesProvider;
+extern IPlayerInfoManager* IIPlayerInfoManager;
 
 static bool _DrawDebugBeams = false;
-
-extern const Bot *_MBot;
-std::vector<BotVisibleTarget*> _VisibleTargets;
-float _TickTime;
 
 std::vector<BotVisibleTarget*> BotVisibles::GetVisibleTargets() const
 {
 	return _VisibleTargets;
 }
 
-BotVisibleTarget *BotVisibles::GetMostImportantTarget() const
+BotVisibleTarget* BotVisibles::GetMostImportantTarget() const
 {
 	Vector botPos = _MBot->GetPos();
-	BotVisibleTarget *importantTarget = nullptr;
+	BotVisibleTarget* importantTarget = nullptr;
 	float importantTargetDist = _ConVarHolder->CVarBotMaxVisibleDist->GetFloat();
-	for (BotVisibleTarget *visibleTarget : _VisibleTargets)
+	for (BotVisibleTarget* visibleTarget : _VisibleTargets)
 	{
 		BotTargetPriority targetPriority = visibleTarget->Priority;
 		float targetDist = visibleTarget->Pos.DistTo(botPos);
@@ -148,7 +145,7 @@ bool BotVisibles::_IsTargetInSight(Vector targetPos) const
 	return true;
 }
 
-bool BotVisibles::_HasClearLineToTarget(IServerEntity *targetEntity, Vector targetPos) const
+bool BotVisibles::_HasClearLineToTarget(IServerEntity* targetEntity, Vector targetPos) const
 {
 	Ray_t traceLine;
 	traceLine.Init(_MBot->GetEarPos(), targetPos);

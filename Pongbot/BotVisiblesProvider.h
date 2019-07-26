@@ -22,4 +22,4 @@ private:
 	bool _IsEntityRelevant(Entity entity) const;
 };
 
-extern BotVisiblesProvider *_BotVisiblesProvider;
+extern BotVisiblesProvider* _BotVisiblesProvider;

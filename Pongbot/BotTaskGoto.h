@@ -8,7 +8,7 @@ class Bot;
 class BotTaskGoto : public BotTask
 {
 public:
-	BotTaskGoto(Bot *bot, Vector targetPos, bool shortestWay = true, int nodeFlagBlacklist = 0);
+	BotTaskGoto(Bot* bot, Vector targetPos, bool shortestWay = true, int nodeFlagBlacklist = 0);
 
 private:
 	std::queue<Vector> _TargetPosQueue;

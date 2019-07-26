@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "IEventHooker.h"
 #include "EventHooksProvider.h"
 
