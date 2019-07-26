@@ -19,7 +19,7 @@ public:
 	~Bot();
 
 public:
-	const char *Name;
+	const char* Name;
 
 	void Think();
 	const Player GetPlayer() const;

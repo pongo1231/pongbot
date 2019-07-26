@@ -1,15 +1,13 @@
 # Pongbot
 
-<a href="https://discord.gg/BbxR5wY" title="Chat on Discord"><img alt="Discord Status" src="https://discordapp.com/api/guilds/323526874200276994/widget.png"></a>
-
 A new tf2 bot fully written from scratch.
-As of now, it is only working on Windows. Linux support being considered later on.
+As of now, it is only working on Windows. Linux support is being considered later on.
 
 [Steam Group](https://steamcommunity.com/groups/pongbot)
 
 ## Building & Developing
 
-Import the project to Visual Studio (preferably 2017) on Windows.
+Import the project to Visual Studio (preferably 2019) on Windows.
 Afterwards follow these steps to set the project up properly:
 ```
 - Select Release build flavour (Debug won't compile as of now)

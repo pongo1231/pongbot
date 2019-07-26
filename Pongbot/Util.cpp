@@ -8,6 +8,7 @@
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <cstdlib>
 #include <algorithm>
+#include <cmath>
 
 extern IVEngineServer *Engine;
 extern IPlayerInfoManager *IIPlayerInfoManager;

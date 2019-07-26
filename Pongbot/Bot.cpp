@@ -24,20 +24,6 @@ extern IBotManager *IIBotManager;
 extern IServerPluginHelpers *IIServerPluginHelpers;
 extern IPlayerInfoManager *IIPlayerInfoManager;
 
-extern const char *Name;
-extern const Player _Player;
-edict_t *_Edict;
-IPlayerInfo *_IPlayerInfo;
-IBotController *_IBotController;
-BotBrain *_BotBrain;
-BotVisibles *_BotVisibles;
-TFClass _CurrentClass;
-QAngle _TargetViewAngle;
-Vector2D _Movement;
-int _PressedButtons;
-TFClassInfo *_ClassInfo;
-WeaponSlot _SelectedWeaponSlot;
-
 Bot::Bot(Player player, const char *name) : Name(name), _Player(player), _Edict(player.GetEdict()),
 	_IBotController(IIBotManager->GetBotController(_Edict)),
 	_IPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(_Edict))
@@ -61,12 +47,18 @@ Bot::~Bot()
 void Bot::Think()
 {
 	if (!Exists())
+	{
 		return;
+	}
 
 	if (_BotVisibles && _ConVarHolder->CVarBotEnableVisibility->GetBool())
+	{
 		_BotVisibles->OnThink();
+	}
 	if (_BotBrain && _ConVarHolder->CVarBotEnableBrain->GetBool())
+	{
 		_BotBrain->OnThink();
+	}
 	
 	// Smoothed out aiming
 	QAngle currentViewAngle = GetViewAngle();
@@ -224,11 +216,17 @@ WeaponSlot Bot::GetIdealWeaponForRange(float range) const
 	}
 
 	if (range < _ConVarHolder->CVarBotWeaponMiddleRangeDist->GetFloat())
+	{
 		return shortRangeWeaponSlot;
+	}
 	else if (range < _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
+	{
 		return middleRangeWeaponSlot;
+	}
 	else
+	{
 		return longRangeWeaponSlot;
+	}
 }
 
 void Bot::_SwitchToFittingTeam()
