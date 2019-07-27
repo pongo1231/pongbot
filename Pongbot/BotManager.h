@@ -8,8 +8,7 @@ class Bot;
 class BotManager : public IConVarBase, public IGameFramable
 {
 private:
-	BotManager()
-	{}
+	BotManager() {}
 
 public:
 	static void Init();

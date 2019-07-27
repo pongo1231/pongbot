@@ -4,8 +4,7 @@
 class BotBrainSniper : public BotBrain
 {
 public:
-	BotBrainSniper(Bot* bot) : BotBrain(bot), _IsBotSniping(false)
-	{}
+	BotBrainSniper(Bot* bot) : BotBrain(bot), _IsBotSniping(false) {}
 
 private:
 	bool _IsBotSniping;

@@ -7,7 +7,7 @@
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/edict.h>
 
-extern IVEngineServer *Engine;
+extern IVEngineServer* Engine;
 
 bool BotTaskSniperSnipe::_OnThink()
 {
@@ -18,22 +18,19 @@ bool BotTaskSniperSnipe::_OnThink()
 
 	BotVisibleTarget* visibleTarget = bot->GetBotVisibles()->GetMostImportantTarget();
 	Vector visibleTargetPos;
-	if (visibleTarget)
+
+	if (!visibleTarget)
+	{
+		return true;
+	}
+	else
 	{
 		visibleTargetPos = visibleTarget->Pos;
 
 		// Abort if enemy too near
-		if (visibleTarget && Util::DistanceToNoZ(bot->GetPos(), visibleTargetPos) < _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
+		if (/*visibleTarget &&*/ Util::DistanceToNoZ(bot->GetPos(), visibleTargetPos) < _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
 		{
-			if (botInfo.IsSniperZoomedIn())
-			{
-				_AddBotPressedButton(IN_ATTACK2);
-				return false;
-			}
-			else
-			{
-				return true;
-			}
+			return true;
 		}
 
 		Entity targetEntity = visibleTarget->GetEntity();
@@ -66,4 +63,13 @@ bool BotTaskSniperSnipe::_OnThink()
 	_SetBotWeaponSlot(WEAPON_PRIMARY);
 
 	return false;
+}
+
+void BotTaskSniperSnipe::_OnStop()
+{
+	if (Player(_GetBot()->GetEdict()).IsSniperZoomedIn())
+	{
+		// Don't walk around zoomed in lol
+		_AddBotPressedButton(IN_ATTACK2);
+	}
 }

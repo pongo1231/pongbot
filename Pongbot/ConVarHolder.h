@@ -4,8 +4,7 @@
 class ConVarHolder
 {
 private:
-	ConVarHolder()
-	{}
+	ConVarHolder() {}
 
 public:
 	static void Init();

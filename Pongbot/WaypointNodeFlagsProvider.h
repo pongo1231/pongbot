@@ -7,8 +7,7 @@ class Bot;
 
 struct WaypointNodeFlagInfo
 {
-	WaypointNodeFlagInfo(const char* name, const char* desc) : Name(name), Desc(desc)
-	{}
+	WaypointNodeFlagInfo(const char* name, const char* desc) : Name(name), Desc(desc) {}
 
 	const char* Name;
 	const char* Desc;
@@ -17,8 +16,7 @@ struct WaypointNodeFlagInfo
 class WaypointNodeFlagsProvider
 {
 private:
-	WaypointNodeFlagsProvider()
-	{}
+	WaypointNodeFlagsProvider() {}
 
 public:
 	static void Init();

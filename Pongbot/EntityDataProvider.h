@@ -19,8 +19,7 @@ enum EntityDataType
 class EntityDataProvider
 {
 private:
-	EntityDataProvider()
-	{}
+	EntityDataProvider() {}
 
 public:
 	static void Init();

@@ -6,8 +6,7 @@
 class WaypointNode
 {
 public:
-	WaypointNode(uint8_t id, Vector pos) : Id(id), Pos(pos)
-	{}
+	WaypointNode(uint8_t id, Vector pos) : Id(id), Pos(pos) {}
 
 public:
 	const unsigned int Id;

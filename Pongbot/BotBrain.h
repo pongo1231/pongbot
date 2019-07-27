@@ -11,8 +11,7 @@ enum BotState
 class BotBrain : public IEventHooker
 {
 public:
-	BotBrain(Bot* bot) : _ABot(bot), _IsBotDead(true) /* To invoke OnSpawn() */
-	{}
+	BotBrain(Bot* bot) : _ABot(bot), _IsBotDead(true) {} /* To invoke OnSpawn() */
 
 public:
 	void OnThink();

@@ -12,7 +12,12 @@ namespace Util
 	int RandomInt(int min, int max);
 	float RandomFloat(float min, float max);
 	void Log(const char* text, ...);
-	void DebugLog(const char* text, ...);
+	inline void DebugLog(const char* text, ...)
+	{
+#ifdef DEBUG
+		Log(text, args);
+#endif
+	}
 	float DistanceToNoZ(Vector a, Vector b);
 	void DrawBeam(Vector startPos, Vector endPos, uint8_t r, uint8_t g, uint8_t b, float lifeTime);
 	std::vector<Player> GetAllPlayers();

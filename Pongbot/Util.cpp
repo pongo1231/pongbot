@@ -50,13 +50,6 @@ namespace Util
 		g_SMAPI->ConPrintf(prefixedText);
 	}
 
-	void DebugLog(const char* text, ...)
-	{
-#ifdef DEBUG
-		Log(text, args);
-#endif
-	}
-
 	float DistanceToNoZ(Vector a, Vector b)
 	{
 		return abs((a.x + a.y) - (b.x + b.y));

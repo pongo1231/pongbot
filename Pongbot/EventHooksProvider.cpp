@@ -59,14 +59,18 @@ void EventHooksProvider::RemoveEventHooker(IEventHooker* eventHooker)
 void EventHooksProvider::OnGameFrame()
 {
 	if (!_BotManager->BotsInGame())
+	{
 		return;
+	}
 
 	// Timer might make it less accurate for some events
 	// So remove if an event needs to be accurate
 	static float tickTime;
 	float currentTime = Engine->Time();
 	if (tickTime > currentTime)
+	{
 		return;
+	}
 	tickTime = currentTime + _ConVarHolder->CVarEventProviderTick->GetFloat();
 
 	_CheckObjectiveUpdates();
@@ -78,16 +82,22 @@ void EventHooksProvider::_CheckObjectiveUpdates()
 
 	// Compare new objectives with previous ones
 	for (Objective newObjective : newObjectives)
+	{
 		for (Objective prevObjective : _PrevObjectives)
+		{
 			// Either same edict (e.g. itemflags) or same pos (capture points) means it's the same objective
 			if (((newObjective.Edict && newObjective.Edict == prevObjective.Edict)
 				|| newObjective.Pos == prevObjective.Pos) && newObjective.Status != prevObjective.Status)
 			{
 				// Status changed
-				for (IEventHooker *eventHooker : _EventHookers)
+				for (IEventHooker* eventHooker : _EventHookers)
+				{
 					eventHooker->OnObjectiveUpdate();
+				}
 				break;
 			}
+		}
+	}
 
 	_PrevObjectives = newObjectives;
 }

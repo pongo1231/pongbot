@@ -8,8 +8,7 @@ class IEventHooker;
 class EventHooksProvider : public IGameFramable
 {
 private:
-	EventHooksProvider()
-	{}
+	EventHooksProvider() {}
 
 public:
 	static void Init();

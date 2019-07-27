@@ -5,8 +5,7 @@ class TraceFilterSimple : public CTraceFilter
 {
 public:
 	TraceFilterSimple(IHandleEntity* passEntity, IHandleEntity* passEntity2)
-		: _PassEntity(passEntity), _PassEntity2(passEntity2)
-	{}
+		: _PassEntity(passEntity), _PassEntity2(passEntity2) {}
 
 public:
 	virtual bool ShouldHitEntity(IHandleEntity* iHandleEntity, int contentsMask);

@@ -7,6 +7,5 @@ public:
 	~IEventHooker();
 
 public:
-	virtual void OnObjectiveUpdate()
-	{}
+	virtual void OnObjectiveUpdate() {}
 };

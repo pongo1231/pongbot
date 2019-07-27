@@ -19,8 +19,7 @@ enum BotTargetPriority
 
 struct BotVisibleTarget
 {
-	BotVisibleTarget(Vector pos, BotTargetPriority priority, Entity entity) : Pos(pos), Priority(priority), _Entity(entity)
-	{}
+	BotVisibleTarget(Vector pos, BotTargetPriority priority, Entity entity) : Pos(pos), Priority(priority), _Entity(entity) {}
 
 	const Vector Pos;
 	const BotTargetPriority Priority;
@@ -37,8 +36,7 @@ private:
 class BotVisibles
 {
 public:
-	BotVisibles(Bot* bot) : _MBot(bot)
-	{}
+	BotVisibles(Bot* bot) : _MBot(bot) {}
 
 public:
 	std::vector<BotVisibleTarget*> GetVisibleTargets() const;

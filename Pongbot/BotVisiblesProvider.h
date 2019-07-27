@@ -6,8 +6,7 @@
 class BotVisiblesProvider : public IGameFramable
 {
 private:
-	BotVisiblesProvider()
-	{}
+	BotVisiblesProvider() {}
 
 public:
 	static void Init();

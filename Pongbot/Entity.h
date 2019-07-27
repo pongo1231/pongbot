@@ -7,8 +7,7 @@ class Vector;
 class Entity
 {
 public:
-	Entity(edict_t* edict) : _MEdict(edict)
-	{}
+	Entity(edict_t* edict) : _MEdict(edict) {}
 	bool operator ==(Entity other)
 	{
 		return Exists() && GetEdict() == other.GetEdict();

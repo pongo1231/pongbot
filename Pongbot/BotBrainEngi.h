@@ -4,8 +4,7 @@
 class BotBrainEngi : public BotBrain
 {
 public:
-	BotBrainEngi(Bot* bot) : BotBrain(bot)
-	{}
+	BotBrainEngi(Bot* bot) : BotBrain(bot) {}
 
 private:
 	virtual void _OnThink();

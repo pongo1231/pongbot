@@ -12,6 +12,10 @@ bool BotTask::OnThink()
 	_BotPressedButtons = 0;
 
 	bool taskResult = _OnThink();
+	if (taskResult)
+	{
+		_OnStop();
+	}
 
 	if (!_IsBotViewAngleOverriden)
 	{
@@ -71,9 +75,4 @@ void BotTask::_AddBotPressedButton(int button)
 void BotTask::_SetBotWeaponSlot(WeaponSlot weaponSlot)
 {
 	_WeaponSlot = weaponSlot;
-}
-
-Bot *BotTask::_GetBot() const
-{
-	return _Bot;
 }

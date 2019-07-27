@@ -6,11 +6,10 @@
 class BotTask
 {
 public:
-	BotTask(Bot* bot) : _Bot(bot)
-	{}
+	BotTask(Bot* bot) : _Bot(bot) {}
 
 public:
-	bool OnThink(); 
+	bool OnThink();
 
 protected:
 	void _BotMoveTo(Vector pos);
@@ -18,7 +17,10 @@ protected:
 	void _OverrideBotViewAngle();
 	void _AddBotPressedButton(int button);
 	void _SetBotWeaponSlot(WeaponSlot weaponSlot);
-	Bot* _GetBot() const;
+	inline Bot* _GetBot() const
+	{
+		return _Bot;
+	}
 
 private:
 	Bot* _Bot;
@@ -31,4 +33,5 @@ private:
 	void _ShootAtBadGuys();
 
 	virtual bool _OnThink() = 0; // true == Task done
+	virtual void _OnStop() {}
 };
