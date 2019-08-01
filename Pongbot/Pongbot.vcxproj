@@ -114,7 +114,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>lib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>lib;.</AdditionalIncludeDirectories>
       <ShowIncludes>true</ShowIncludes>
       <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
@@ -154,171 +154,103 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Bot.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="BotTask.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="BotBrain.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="BotTaskGoto.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="BotBrainDemo.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="BotBrainEngi.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="BotBrainHeavy.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="BotBrainMed.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="BotBrainPyro.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="BotBrainScout.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="BotBrainSniper.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="BotBrainSoldier.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="BotBrainSpy.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="BotTaskAggressiveCombat.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="BotTaskMedHealTarget.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="BotTaskSniperSnipe.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="BotVisibles.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="BotVisiblesProvider.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="Bot\Bot.cpp" />
+    <ClCompile Include="Bot\BotManager.cpp" />
+    <ClCompile Include="Bot\Brain\BotBrain.cpp" />
+    <ClCompile Include="Bot\Brain\BotBrainDemo.cpp" />
+    <ClCompile Include="Bot\Brain\BotBrainEngi.cpp" />
+    <ClCompile Include="Bot\Brain\BotBrainHeavy.cpp" />
+    <ClCompile Include="Bot\Brain\BotBrainMed.cpp" />
+    <ClCompile Include="Bot\Brain\BotBrainPyro.cpp" />
+    <ClCompile Include="Bot\Brain\BotBrainScout.cpp" />
+    <ClCompile Include="Bot\Brain\BotBrainSniper.cpp" />
+    <ClCompile Include="Bot\Brain\BotBrainSoldier.cpp" />
+    <ClCompile Include="Bot\Brain\BotBrainSpy.cpp" />
+    <ClCompile Include="Bot\Brain\Tasks\BotTask.cpp" />
+    <ClCompile Include="Bot\Brain\Tasks\BotTaskAggressiveCombat.cpp" />
+    <ClCompile Include="Bot\Brain\Tasks\BotTaskGoto.cpp" />
+    <ClCompile Include="Bot\Brain\Tasks\BotTaskMedHealTarget.cpp" />
+    <ClCompile Include="Bot\Brain\Tasks\BotTaskSniperSnipe.cpp" />
+    <ClCompile Include="Bot\Visibles\BotVisibles.cpp" />
+    <ClCompile Include="Bot\Visibles\BotVisiblesProvider.cpp" />
     <ClCompile Include="ConVarHolder.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="DebugCommands.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="EntityDataProvider.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="EventHooksProvider.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="CTFFlag.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="IConVarBase.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="EntityProvider.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="IEventHooker.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="IGameFramable.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="ObjectivesProvider.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="TFClassInfoProvider.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="TraceFilters.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="WaypointFileManager.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="WaypointManager.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="WaypointNode.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="WaypointNodeFlagsProvider.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClInclude Include="BotBrain.h" />
-    <ClInclude Include="BotTaskGoto.h" />
-    <ClInclude Include="BotBrainDemo.h" />
-    <ClInclude Include="BotBrainEngi.h" />
-    <ClInclude Include="BotBrainHeavy.h" />
-    <ClInclude Include="BotBrainMed.h" />
-    <ClInclude Include="BotBrainPyro.h" />
-    <ClInclude Include="BotBrainScout.h" />
-    <ClInclude Include="BotBrainSniper.h" />
-    <ClInclude Include="BotBrainSoldier.h" />
-    <ClInclude Include="BotBrainSpy.h" />
-    <ClInclude Include="BotTaskAggressiveCombat.h" />
-    <ClInclude Include="BotTaskMedHealTarget.h" />
-    <ClInclude Include="BotTaskSniperSnipe.h" />
-    <ClInclude Include="BotVisibles.h" />
-    <ClInclude Include="BotVisiblesProvider.h" />
+    <ClCompile Include="TF2\Class\TFClassInfoProvider.cpp" />
+    <ClCompile Include="TF2\DebugCommands.cpp" />
+    <ClCompile Include="TF2\Entity\CTFFlag.cpp" />
+    <ClCompile Include="TF2\Entity\Entity.cpp" />
+    <ClCompile Include="TF2\Entity\EntityDataProvider.cpp" />
+    <ClCompile Include="TF2\Entity\EntityProvider.cpp" />
+    <ClCompile Include="TF2\Entity\Player.cpp" />
+    <ClCompile Include="TF2\Events\EventHooksProvider.cpp" />
+    <ClCompile Include="TF2\Events\IEventHooker.cpp" />
+    <ClCompile Include="TF2\Objectives\ObjectivesProvider.cpp" />
+    <ClCompile Include="TF2\Trace\TraceFilters.cpp" />
+    <ClCompile Include="Waypoint\WaypointFileManager.cpp" />
+    <ClCompile Include="Waypoint\WaypointManager.cpp" />
+    <ClCompile Include="Waypoint\WaypointNode.cpp" />
+    <ClCompile Include="Waypoint\WaypointNodeFlagsProvider.cpp" />
+    <ClInclude Include="Bot\Bot.h" />
+    <ClInclude Include="Bot\BotManager.h" />
+    <ClInclude Include="Bot\Brain\BotBrain.h" />
+    <ClInclude Include="Bot\Brain\BotBrainDemo.h" />
+    <ClInclude Include="Bot\Brain\BotBrainEngi.h" />
+    <ClInclude Include="Bot\Brain\BotBrainHeavy.h" />
+    <ClInclude Include="Bot\Brain\BotBrainMed.h" />
+    <ClInclude Include="Bot\Brain\BotBrainPyro.h" />
+    <ClInclude Include="Bot\Brain\BotBrainScout.h" />
+    <ClInclude Include="Bot\Brain\BotBrainSniper.h" />
+    <ClInclude Include="Bot\Brain\BotBrainSoldier.h" />
+    <ClInclude Include="Bot\Brain\BotBrainSpy.h" />
+    <ClInclude Include="Bot\Brain\Tasks\BotTask.h" />
+    <ClInclude Include="Bot\Brain\Tasks\BotTaskAggressiveCombat.h" />
+    <ClInclude Include="Bot\Brain\Tasks\BotTaskGoto.h" />
+    <ClInclude Include="Bot\Brain\Tasks\BotTaskMedHealTarget.h" />
+    <ClInclude Include="Bot\Brain\Tasks\BotTaskSniperSnipe.h" />
+    <ClInclude Include="Bot\Visibles\BotVisibles.h" />
+    <ClInclude Include="Bot\Visibles\BotVisiblesProvider.h" />
     <ClInclude Include="ConVarHolder.h" />
-    <ClInclude Include="CTFFlagStatusType.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="EventHooksProvider.h" />
-    <ClInclude Include="CTFFlag.h" />
     <ClInclude Include="IConVarBase.h" />
-    <ClInclude Include="EntityProvider.h" />
-    <ClInclude Include="EntityDataProvider.h" />
-    <ClInclude Include="IEventHooker.h" />
     <ClInclude Include="IGameFramable.h" />
-    <ClInclude Include="BotTask.h" />
-    <ClCompile Include="BotManager.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Util.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClInclude Include="ObjectivesProvider.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="TFClass.h" />
-    <ClInclude Include="TFClassInfoProvider.h" />
-    <ClInclude Include="TFTeam.h" />
-    <ClInclude Include="TraceFilters.h" />
-    <ClInclude Include="TraceHeaders.h" />
-    <ClInclude Include="WaypointFileManager.h" />
-    <ClInclude Include="WaypointManager.h" />
-    <ClInclude Include="WaypointNode.h" />
-    <ClInclude Include="WaypointNodeFlagTypes.h" />
-    <ClInclude Include="WaypointNodeFlagsProvider.h" />
-    <ClInclude Include="WeaponSlot.h" />
+    <ClInclude Include="TF2\Class\TFClass.h" />
+    <ClInclude Include="TF2\Class\TFClassInfoProvider.h" />
+    <ClInclude Include="TF2\Entity\CTFFlag.h" />
+    <ClInclude Include="TF2\Entity\Entity.h" />
+    <ClInclude Include="TF2\Entity\EntityDataProvider.h" />
+    <ClInclude Include="TF2\Entity\EntityProvider.h" />
+    <ClInclude Include="TF2\Entity\Player.h" />
+    <ClInclude Include="TF2\Events\EventHooksProvider.h" />
+    <ClInclude Include="TF2\Events\IEventHooker.h" />
+    <ClInclude Include="TF2\Objectives\CTFFlagStatusType.h" />
+    <ClInclude Include="TF2\Objectives\ObjectivesProvider.h" />
+    <ClInclude Include="TF2\TFTeam.h" />
+    <ClInclude Include="TF2\Trace\TraceFilters.h" />
+    <ClInclude Include="TF2\Trace\TraceHeaders.h" />
+    <ClInclude Include="TF2\WeaponSlot.h" />
+    <ClInclude Include="Waypoint\WaypointFileManager.h" />
+    <ClInclude Include="Waypoint\WaypointManager.h" />
+    <ClInclude Include="Waypoint\WaypointNode.h" />
+    <ClInclude Include="Waypoint\WaypointNodeFlagsProvider.h" />
+    <ClInclude Include="Waypoint\WaypointNodeFlagTypes.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bot.h" />
-    <ClInclude Include="BotManager.h" />
     <ClInclude Include="Info.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Util.h" />

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "Util.h"
-#include "Bot.h"
-#include "TFClassInfoProvider.h"
-#include "Player.h"
+#include "Bot/Bot.h"
+#include "TF2/Class/TFClassInfoProvider.h"
+#include "TF2/Entity/Player.h"
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/mathlib/mathlib.h>
 #include <hlsdk/game/shared/IEffects.h>

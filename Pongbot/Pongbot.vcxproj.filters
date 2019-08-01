@@ -43,29 +43,8 @@
     <ClCompile Include="Main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="BotManager.cpp">
-      <Filter>src\Bot</Filter>
-    </ClCompile>
-    <ClCompile Include="Bot.cpp">
-      <Filter>src\Bot</Filter>
-    </ClCompile>
     <ClCompile Include="Util.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="WaypointNode.cpp">
-      <Filter>src\Waypoint</Filter>
-    </ClCompile>
-    <ClCompile Include="WaypointManager.cpp">
-      <Filter>src\Waypoint</Filter>
-    </ClCompile>
-    <ClCompile Include="WaypointFileManager.cpp">
-      <Filter>src\Waypoint</Filter>
-    </ClCompile>
-    <ClCompile Include="BotVisibles.cpp">
-      <Filter>src\Bot\Visibles</Filter>
-    </ClCompile>
-    <ClCompile Include="BotVisiblesProvider.cpp">
-      <Filter>src\Bot\Visibles</Filter>
     </ClCompile>
     <ClCompile Include="IConVarBase.cpp">
       <Filter>src</Filter>
@@ -73,91 +52,112 @@
     <ClCompile Include="IGameFramable.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="DebugCommands.cpp">
-      <Filter>src\TF2</Filter>
-    </ClCompile>
-    <ClCompile Include="WaypointNodeFlagsProvider.cpp">
-      <Filter>src\Waypoint</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityProvider.cpp">
-      <Filter>src\TF2\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="TraceFilters.cpp">
-      <Filter>src\TF2\Trace</Filter>
-    </ClCompile>
-    <ClCompile Include="TFClassInfoProvider.cpp">
-      <Filter>src\TF2\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityDataProvider.cpp">
-      <Filter>src\TF2\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="BotTask.cpp">
-      <Filter>src\Bot\Brain\Tasks</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectivesProvider.cpp">
-      <Filter>src\TF2\Objectives</Filter>
-    </ClCompile>
-    <ClCompile Include="BotTaskGoto.cpp">
-      <Filter>src\Bot\Brain\Tasks</Filter>
-    </ClCompile>
-    <ClCompile Include="BotBrain.cpp">
-      <Filter>src\Bot\Brain</Filter>
-    </ClCompile>
-    <ClCompile Include="BotBrainDemo.cpp">
-      <Filter>src\Bot\Brain</Filter>
-    </ClCompile>
-    <ClCompile Include="BotBrainEngi.cpp">
-      <Filter>src\Bot\Brain</Filter>
-    </ClCompile>
-    <ClCompile Include="BotBrainHeavy.cpp">
-      <Filter>src\Bot\Brain</Filter>
-    </ClCompile>
-    <ClCompile Include="BotBrainMed.cpp">
-      <Filter>src\Bot\Brain</Filter>
-    </ClCompile>
-    <ClCompile Include="BotBrainPyro.cpp">
-      <Filter>src\Bot\Brain</Filter>
-    </ClCompile>
-    <ClCompile Include="BotBrainScout.cpp">
-      <Filter>src\Bot\Brain</Filter>
-    </ClCompile>
-    <ClCompile Include="BotBrainSniper.cpp">
-      <Filter>src\Bot\Brain</Filter>
-    </ClCompile>
-    <ClCompile Include="BotBrainSoldier.cpp">
-      <Filter>src\Bot\Brain</Filter>
-    </ClCompile>
-    <ClCompile Include="BotBrainSpy.cpp">
-      <Filter>src\Bot\Brain</Filter>
-    </ClCompile>
     <ClCompile Include="ConVarHolder.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="IEventHooker.cpp">
-      <Filter>src\TF2\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="EventHooksProvider.cpp">
-      <Filter>src\TF2\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="BotTaskAggressiveCombat.cpp">
-      <Filter>src\Bot\Brain\Tasks</Filter>
-    </ClCompile>
-    <ClCompile Include="BotTaskMedHealTarget.cpp">
-      <Filter>src\Bot\Brain\Tasks</Filter>
-    </ClCompile>
-    <ClCompile Include="BotTaskSniperSnipe.cpp">
-      <Filter>src\Bot\Brain\Tasks</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>src\TF2\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>src\TF2\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="CTFFlag.cpp">
-      <Filter>src\TF2\Entity</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Bot\Bot.cpp">
+      <Filter>src\Bot</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot\BotManager.cpp">
+      <Filter>src\Bot</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot\Brain\BotBrainHeavy.cpp">
+      <Filter>src\Bot\Brain</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot\Brain\BotBrainMed.cpp">
+      <Filter>src\Bot\Brain</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot\Brain\BotBrainPyro.cpp">
+      <Filter>src\Bot\Brain</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot\Brain\BotBrainScout.cpp">
+      <Filter>src\Bot\Brain</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot\Brain\BotBrainSniper.cpp">
+      <Filter>src\Bot\Brain</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot\Brain\BotBrainSoldier.cpp">
+      <Filter>src\Bot\Brain</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot\Brain\BotBrainSpy.cpp">
+      <Filter>src\Bot\Brain</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot\Brain\BotBrain.cpp">
+      <Filter>src\Bot\Brain</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot\Brain\BotBrainDemo.cpp">
+      <Filter>src\Bot\Brain</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot\Brain\BotBrainEngi.cpp">
+      <Filter>src\Bot\Brain</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot\Brain\Tasks\BotTaskGoto.cpp">
+      <Filter>src\Bot\Brain\Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot\Brain\Tasks\BotTaskMedHealTarget.cpp">
+      <Filter>src\Bot\Brain\Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot\Brain\Tasks\BotTaskSniperSnipe.cpp">
+      <Filter>src\Bot\Brain\Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot\Brain\Tasks\BotTask.cpp">
+      <Filter>src\Bot\Brain\Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot\Brain\Tasks\BotTaskAggressiveCombat.cpp">
+      <Filter>src\Bot\Brain\Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot\Visibles\BotVisiblesProvider.cpp">
+      <Filter>src\Bot\Visibles</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot\Visibles\BotVisibles.cpp">
+      <Filter>src\Bot\Visibles</Filter>
+    </ClCompile>
+    <ClCompile Include="TF2\Class\TFClassInfoProvider.cpp">
+      <Filter>src\TF2\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="TF2\DebugCommands.cpp">
+      <Filter>src\TF2</Filter>
+    </ClCompile>
+    <ClCompile Include="TF2\Entity\Entity.cpp">
+      <Filter>src\TF2\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="TF2\Entity\EntityDataProvider.cpp">
+      <Filter>src\TF2\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="TF2\Entity\EntityProvider.cpp">
+      <Filter>src\TF2\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="TF2\Entity\Player.cpp">
+      <Filter>src\TF2\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="TF2\Entity\CTFFlag.cpp">
+      <Filter>src\TF2\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="TF2\Events\IEventHooker.cpp">
+      <Filter>src\TF2\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="TF2\Events\EventHooksProvider.cpp">
+      <Filter>src\TF2\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="TF2\Objectives\ObjectivesProvider.cpp">
+      <Filter>src\TF2\Objectives</Filter>
+    </ClCompile>
+    <ClCompile Include="TF2\Trace\TraceFilters.cpp">
+      <Filter>src\TF2\Trace</Filter>
+    </ClCompile>
+    <ClCompile Include="Waypoint\WaypointNode.cpp">
+      <Filter>src\Waypoint</Filter>
+    </ClCompile>
+    <ClCompile Include="Waypoint\WaypointNodeFlagsProvider.cpp">
+      <Filter>src\Waypoint</Filter>
+    </ClCompile>
+    <ClCompile Include="Waypoint\WaypointFileManager.cpp">
+      <Filter>src\Waypoint</Filter>
+    </ClCompile>
+    <ClCompile Include="Waypoint\WaypointManager.cpp">
+      <Filter>src\Waypoint</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Util.h">
@@ -169,132 +169,132 @@
     <ClInclude Include="Main.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="WaypointFileManager.h">
-      <Filter>src\Waypoint</Filter>
-    </ClInclude>
-    <ClInclude Include="WaypointManager.h">
-      <Filter>src\Waypoint</Filter>
-    </ClInclude>
-    <ClInclude Include="WaypointNode.h">
-      <Filter>src\Waypoint</Filter>
-    </ClInclude>
-    <ClInclude Include="BotVisibles.h">
-      <Filter>src\Bot\Visibles</Filter>
-    </ClInclude>
-    <ClInclude Include="BotVisiblesProvider.h">
-      <Filter>src\Bot\Visibles</Filter>
-    </ClInclude>
-    <ClInclude Include="Bot.h">
-      <Filter>src\Bot</Filter>
-    </ClInclude>
-    <ClInclude Include="BotManager.h">
-      <Filter>src\Bot</Filter>
-    </ClInclude>
-    <ClInclude Include="TFTeam.h">
-      <Filter>src\TF2</Filter>
-    </ClInclude>
     <ClInclude Include="IConVarBase.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="IGameFramable.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="EntityDataProvider.h">
-      <Filter>src\TF2\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="WaypointNodeFlagsProvider.h">
-      <Filter>src\Waypoint</Filter>
-    </ClInclude>
-    <ClInclude Include="WaypointNodeFlagTypes.h">
-      <Filter>src\Waypoint</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityProvider.h">
-      <Filter>src\TF2\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="TraceFilters.h">
-      <Filter>src\TF2\Trace</Filter>
-    </ClInclude>
-    <ClInclude Include="TraceHeaders.h">
-      <Filter>src\TF2\Trace</Filter>
-    </ClInclude>
-    <ClInclude Include="TFClass.h">
-      <Filter>src\TF2\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="TFClassInfoProvider.h">
-      <Filter>src\TF2\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="CTFFlagStatusType.h">
-      <Filter>src\TF2\Objectives</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTask.h">
-      <Filter>src\Bot\Brain\Tasks</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectivesProvider.h">
-      <Filter>src\TF2\Objectives</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskGoto.h">
-      <Filter>src\Bot\Brain\Tasks</Filter>
-    </ClInclude>
-    <ClInclude Include="BotBrain.h">
-      <Filter>src\Bot\Brain</Filter>
-    </ClInclude>
-    <ClInclude Include="BotBrainDemo.h">
-      <Filter>src\Bot\Brain</Filter>
-    </ClInclude>
-    <ClInclude Include="BotBrainEngi.h">
-      <Filter>src\Bot\Brain</Filter>
-    </ClInclude>
-    <ClInclude Include="BotBrainHeavy.h">
-      <Filter>src\Bot\Brain</Filter>
-    </ClInclude>
-    <ClInclude Include="BotBrainMed.h">
-      <Filter>src\Bot\Brain</Filter>
-    </ClInclude>
-    <ClInclude Include="BotBrainPyro.h">
-      <Filter>src\Bot\Brain</Filter>
-    </ClInclude>
-    <ClInclude Include="BotBrainScout.h">
-      <Filter>src\Bot\Brain</Filter>
-    </ClInclude>
-    <ClInclude Include="BotBrainSniper.h">
-      <Filter>src\Bot\Brain</Filter>
-    </ClInclude>
-    <ClInclude Include="BotBrainSoldier.h">
-      <Filter>src\Bot\Brain</Filter>
-    </ClInclude>
-    <ClInclude Include="BotBrainSpy.h">
-      <Filter>src\Bot\Brain</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponSlot.h">
-      <Filter>src\TF2</Filter>
-    </ClInclude>
     <ClInclude Include="ConVarHolder.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="IEventHooker.h">
-      <Filter>src\TF2\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="EventHooksProvider.h">
-      <Filter>src\TF2\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskAggressiveCombat.h">
-      <Filter>src\Bot\Brain\Tasks</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskMedHealTarget.h">
-      <Filter>src\Bot\Brain\Tasks</Filter>
-    </ClInclude>
-    <ClInclude Include="BotTaskSniperSnipe.h">
-      <Filter>src\Bot\Brain\Tasks</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>src\TF2\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>src\TF2\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="CTFFlag.h">
-      <Filter>src\TF2\Entity</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Bot\BotManager.h">
+      <Filter>src\Bot</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot\Bot.h">
+      <Filter>src\Bot</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot\Brain\BotBrainHeavy.h">
+      <Filter>src\Bot\Brain</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot\Brain\BotBrainMed.h">
+      <Filter>src\Bot\Brain</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot\Brain\BotBrainPyro.h">
+      <Filter>src\Bot\Brain</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot\Brain\BotBrainScout.h">
+      <Filter>src\Bot\Brain</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot\Brain\BotBrainSniper.h">
+      <Filter>src\Bot\Brain</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot\Brain\BotBrainSoldier.h">
+      <Filter>src\Bot\Brain</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot\Brain\BotBrainSpy.h">
+      <Filter>src\Bot\Brain</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot\Brain\BotBrain.h">
+      <Filter>src\Bot\Brain</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot\Brain\BotBrainDemo.h">
+      <Filter>src\Bot\Brain</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot\Brain\BotBrainEngi.h">
+      <Filter>src\Bot\Brain</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot\Brain\Tasks\BotTaskAggressiveCombat.h">
+      <Filter>src\Bot\Brain\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot\Brain\Tasks\BotTaskGoto.h">
+      <Filter>src\Bot\Brain\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot\Brain\Tasks\BotTaskMedHealTarget.h">
+      <Filter>src\Bot\Brain\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot\Brain\Tasks\BotTaskSniperSnipe.h">
+      <Filter>src\Bot\Brain\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot\Brain\Tasks\BotTask.h">
+      <Filter>src\Bot\Brain\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot\Visibles\BotVisibles.h">
+      <Filter>src\Bot\Visibles</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot\Visibles\BotVisiblesProvider.h">
+      <Filter>src\Bot\Visibles</Filter>
+    </ClInclude>
+    <ClInclude Include="TF2\Class\TFClassInfoProvider.h">
+      <Filter>src\TF2\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="TF2\Class\TFClass.h">
+      <Filter>src\TF2\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="TF2\TFTeam.h">
+      <Filter>src\TF2</Filter>
+    </ClInclude>
+    <ClInclude Include="TF2\WeaponSlot.h">
+      <Filter>src\TF2</Filter>
+    </ClInclude>
+    <ClInclude Include="TF2\Entity\Entity.h">
+      <Filter>src\TF2\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="TF2\Entity\EntityDataProvider.h">
+      <Filter>src\TF2\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="TF2\Entity\EntityProvider.h">
+      <Filter>src\TF2\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="TF2\Entity\Player.h">
+      <Filter>src\TF2\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="TF2\Entity\CTFFlag.h">
+      <Filter>src\TF2\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="TF2\Events\EventHooksProvider.h">
+      <Filter>src\TF2\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="TF2\Events\IEventHooker.h">
+      <Filter>src\TF2\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="TF2\Objectives\ObjectivesProvider.h">
+      <Filter>src\TF2\Objectives</Filter>
+    </ClInclude>
+    <ClInclude Include="TF2\Objectives\CTFFlagStatusType.h">
+      <Filter>src\TF2\Objectives</Filter>
+    </ClInclude>
+    <ClInclude Include="TF2\Trace\TraceHeaders.h">
+      <Filter>src\TF2\Trace</Filter>
+    </ClInclude>
+    <ClInclude Include="TF2\Trace\TraceFilters.h">
+      <Filter>src\TF2\Trace</Filter>
+    </ClInclude>
+    <ClInclude Include="Waypoint\WaypointNode.h">
+      <Filter>src\Waypoint</Filter>
+    </ClInclude>
+    <ClInclude Include="Waypoint\WaypointNodeFlagsProvider.h">
+      <Filter>src\Waypoint</Filter>
+    </ClInclude>
+    <ClInclude Include="Waypoint\WaypointNodeFlagTypes.h">
+      <Filter>src\Waypoint</Filter>
+    </ClInclude>
+    <ClInclude Include="Waypoint\WaypointFileManager.h">
+      <Filter>src\Waypoint</Filter>
+    </ClInclude>
+    <ClInclude Include="Waypoint\WaypointManager.h">
+      <Filter>src\Waypoint</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
