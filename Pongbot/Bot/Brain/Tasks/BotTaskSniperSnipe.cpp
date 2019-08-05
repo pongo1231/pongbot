@@ -1,9 +1,9 @@
 #include <stdafx.h>
 #include "BotTaskSniperSnipe.h"
 #include "../../Visibles/BotVisibles.h"
-#include "../Util.h"
-#include "../ConVarHolder.h"
-#include "../TF2/Entity/Player.h"
+#include "../../../Util.h"
+#include "../../../ConVarHolder.h"
+#include "../../../TF2/Entity/Player.h"
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/edict.h>
 

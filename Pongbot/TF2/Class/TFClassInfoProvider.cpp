@@ -1,6 +1,6 @@
 #include <stdafx.h>
 #include "TFClassInfoProvider.h"
-#include "../Util.h"
+#include "../../Util.h"
 
 TFClassInfoProvider* _TFClassInfoProvider;
 

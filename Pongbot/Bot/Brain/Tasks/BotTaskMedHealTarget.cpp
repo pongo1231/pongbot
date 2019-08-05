@@ -1,8 +1,8 @@
 #include <stdafx.h>
 #include "BotTaskMedHealTarget.h"
 #include "../../Visibles/BotVisibles.h"
-#include "../Util.h"
-#include "../ConVarHolder.h"
+#include "../../../Util.h"
+#include "../../../ConVarHolder.h"
 
 bool BotTaskMedHealTarget::_OnThink()
 {

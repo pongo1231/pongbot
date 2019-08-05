@@ -1,6 +1,6 @@
 #pragma once
 #include "BotTask.h"
-#include "../TF2/Entity/Entity.h"
+#include "../../../TF2/Entity/Entity.h"
 
 class BotTaskAggressiveCombat : public BotTask
 {

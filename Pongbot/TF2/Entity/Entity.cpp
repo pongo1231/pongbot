@@ -1,7 +1,7 @@
 #include <stdafx.h>
 #include "Entity.h"
 #include "EntityDataProvider.h"
-#include "../Util.h"
+#include "../../Util.h"
 #include <hlsdk/public/edict.h>
 #include <hlsdk/public/mathlib/vector.h>
 

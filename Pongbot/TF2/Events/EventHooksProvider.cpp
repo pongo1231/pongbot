@@ -1,9 +1,9 @@
 #include <stdafx.h>
 #include "EventHooksProvider.h"
 #include "IEventHooker.h"
-#include "../Bot/BotManager.h"
-#include "../ConVarHolder.h"
-#include "../Util.h"
+#include "../../Bot/BotManager.h"
+#include "../../ConVarHolder.h"
+#include "../../Util.h"
 #include <metamod/ISmmAPI.h>
 
 extern IVEngineServer* Engine;

@@ -2,9 +2,9 @@
 #include "BotBrainMed.h"
 #include "../Visibles/BotVisibles.h"
 #include "Tasks/BotTaskMedHealTarget.h"
-#include "../Util.h"
-#include "../ConVarHolder.h"
-#include "../TF2/Entity/Player.h"
+#include "../../Util.h"
+#include "../../ConVarHolder.h"
+#include "../../TF2/Entity/Player.h"
 #include <hlsdk/public/edict.h>
 
 void BotBrainMed::_OnThink()

@@ -7,10 +7,13 @@
 #include "../ConVarHolder.h"
 #include "../TF2/Entity/Player.h"
 #include <metamod/ISmmPlugin.h>
-#include <metamod/sourcehook.h>
+#include <metamod/sourcehook/sourcehook.h>
 #include <hlsdk/public/mathlib/mathlib.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <map>
+#ifdef _LINUX
+#define strcat_s(destination, placeholder, source) (strcat(destination, source))
+#endif
 
 extern IVEngineServer* Engine;
 extern IPlayerInfoManager* IIPlayerInfoManager;
@@ -512,7 +515,11 @@ CON_COMMAND(pongbot_waypoint_togglenodeflag, "Adds/Removes a flag to a waypoint 
 				for (auto const &pair : nodeFlags)
 				{
 					WaypointNodeFlagInfo info = pair.second;
+					#ifdef _WIN32
 					if (_strcmpi(flagName, info.Name) == 0)
+					#elif LINUX
+					if (strcmpi(flagName, info.Name) == 0)
+					#endif
 					{
 						int flag = pair.first;
 						if (node->Flags & flag)

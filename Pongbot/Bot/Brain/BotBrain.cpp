@@ -2,16 +2,15 @@
 #include "BotBrain.h"
 #include "Tasks/BotTaskGoto.h"
 #include "Tasks/BotTaskAggressiveCombat.h"
-#include "../Waypoint/WaypointManager.h"
-#include "../Waypoint/WaypointNodeFlagsProvider.h"
-#include "../TF2/Objectives/ObjectivesProvider.h"
-#include "../Tf2/Objectives/CTFFlagStatusType.h"
-#include "../Util.h"
+#include "../../Waypoint/WaypointManager.h"
+#include "../../Waypoint/WaypointNodeFlagsProvider.h"
+#include "../../TF2/Objectives/ObjectivesProvider.h"
+#include "../../TF2/Objectives/CTFFlagStatusType.h"
+#include "../../Util.h"
 #include "../Visibles/BotVisibles.h"
-#include "../ConVarHolder.h"
-#include "../TF2/WeaponSlot.h"
-#include "../TF2/Entity/CTFFlag.h"
-#include <metamod/ISmmAPI.h>
+#include "../../ConVarHolder.h"
+#include "../../TF2/WeaponSlot.h"
+#include "../../TF2/Entity/CTFFlag.h"
 #include <stdint.h> // uint8_t for Linux
 
 extern IVEngineServer* Engine;

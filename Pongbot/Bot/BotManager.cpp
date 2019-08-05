@@ -4,8 +4,6 @@
 #include "Bot.h"
 #include "Visibles/BotVisiblesProvider.h"
 #include "../TF2/Entity/Player.h"
-#include <metamod/ISmmAPI.h>
-#include <metamod/sourcehook.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <iostream>
 

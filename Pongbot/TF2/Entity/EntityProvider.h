@@ -1,5 +1,5 @@
 #pragma once
-#include "../IGameFramable.h"
+#include "../../IGameFramable.h"
 #include "Entity.h"
 #include <vector>
 

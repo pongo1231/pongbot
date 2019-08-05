@@ -1,11 +1,11 @@
 #include <stdafx.h>
 #include "BotVisiblesProvider.h"
-#include "../TF2/TFTeam.h"
-#include "../TF2/Entity/EntityProvider.h"
-#include "../Util.h"
+#include "../../TF2/TFTeam.h"
+#include "../../TF2/Entity/EntityProvider.h"
+#include "../../Util.h"
 #include "../BotManager.h"
-#include "../ConVarHolder.h"
-#include "../TF2/Entity/Player.h"
+#include "../../ConVarHolder.h"
+#include "../../TF2/Entity/Player.h"
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
 

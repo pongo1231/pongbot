@@ -1,12 +1,12 @@
 #include <stdafx.h>
 #include "ObjectivesProvider.h"
-#include "../Bot/Bot.h"
+#include "../../Bot/Bot.h"
 #include "../Entity/EntityProvider.h"
-#include "../Util.h"
+#include "../../Util.h"
 #include "CTFFlagStatusType.h"
 #include "../TFTeam.h"
-#include "../Bot/BotManager.h"
-#include "../ConVarHolder.h"
+#include "../../Bot/BotManager.h"
+#include "../../ConVarHolder.h"
 #include "../Entity/CTFFlag.h"
 #include <metamod/ISmmAPI.h>
 

@@ -1,7 +1,7 @@
 #include <stdafx.h>
 #include "BotTaskAggressiveCombat.h"
-#include "../TF2/Entity/Player.h"
-#include "../ConVarHolder.h"
+#include "../../../TF2/Entity/Player.h"
+#include "../../../ConVarHolder.h"
 #include "../../Visibles/BotVisibles.h"
 #include <hlsdk/public/edict.h>
 

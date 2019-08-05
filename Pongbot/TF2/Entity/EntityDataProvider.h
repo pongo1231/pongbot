@@ -1,5 +1,5 @@
 #pragma once
-#include "../Util.h"
+#include "../../Util.h"
 #include "Entity.h"
 #include <hlsdk/public/edict.h>
 #include <map>

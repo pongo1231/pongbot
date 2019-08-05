@@ -1,9 +1,9 @@
 #include <stdafx.h>
 #include "BotBrainSniper.h"
 #include "../Visibles/BotVisibles.h"
-#include "../ConVarHolder.h"
+#include "../../ConVarHolder.h"
 #include "Tasks/BotTaskSniperSnipe.h"
-#include "../Util.h"
+#include "../../Util.h"
 
 void BotBrainSniper::_OnThink()
 {

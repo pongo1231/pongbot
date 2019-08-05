@@ -1,6 +1,6 @@
 #pragma once
-#include "../IGameFramable.h"
-#include "../TF2/Entity/Entity.h"
+#include "../../IGameFramable.h"
+#include "../../TF2/Entity/Entity.h"
 #include <hlsdk/public/mathlib/vector.h>
 #include <vector>
 #include <cstdint>

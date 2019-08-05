@@ -1,6 +1,6 @@
 #pragma once
-#include "../IGameFramable.h"
-#include "../TF2/Entity/Entity.h"
+#include "../../IGameFramable.h"
+#include "../../TF2/Entity/Entity.h"
 #include <vector>
 
 class BotVisiblesProvider : public IGameFramable

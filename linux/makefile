@@ -6,7 +6,7 @@ BUILD_PATH = build
 BIN_PATH = $(BUILD_PATH)/bin
 
 # executable # 
-BIN_NAME = runner
+BIN_NAME = Pongbot.so
 
 # extensions #
 SRC_EXT = cpp
@@ -22,16 +22,20 @@ OBJECTS = $(SOURCES:$(SRC_PATH)/%.$(SRC_EXT)=$(BUILD_PATH)/%.o)
 DEPS = $(OBJECTS:.o=.d)
 
 # flags #
-COMPILE_FLAGS = -std=c++11 -Wall -Wextra -g
-INCLUDES = -I include/ -I /usr/local/include -I ../Pongbot/lib
+COMPILE_FLAGS = -Wall -Wextra -g -fpermissive -w -DPOSIX -Dstricmp=strcasecmp -D_stricmp=strcasecmp -D_strnicmp=strncasecmp \
+	-Dstrnicmp=strncasecmp -D_snprintf=snprintf -D_vsnprintf=vsnprintf -D_alloca=alloca \
+	-Dstrcmpi=strcasecmp -DCOMPILER_GCC -Wall -Wno-non-virtual-dtor -Wno-overloaded-virtual \
+	-Werror -fPIC -fno-exceptions -fno-rtti -msse -m32 -fno-strict-aliasing -D_LINUX -shared
+INCLUDES = -I $(MLIBS) -I $(MLIBS)/hlsdk $(addprefix -I,$(shell find $(MLIBS)/hlsdk/public -type d -print)) -I $(MLIBS)/hlsdk/engine -I $(MLIBS)/hlsdk/mathlib -I $(MLIBS)/hlsdk/vstdlib -I $(MLIBS)/hlsdk/tier0 -I $(MLIBS)/hlsdk/tier1 -I $(MLIBS)/hlsdk/game/server -I $(MLIBS)/metamod -I $(MLIBS)/metamod/sourcehook -I ../Pongbot
+
 # Space-separated pkg-config libraries used by this project
-LIBS = -Llibs -llibtier0_srv.so -llibvstdlib_srv.so -lmathlib_i486.a -ltier1_i486.a -ltier2_i486.a -ltier3_i486.a
+LIBS = -L$(MLIBS)/hlsdk/lib/linux -ltier0_srv -lvstdlib_srv -l:mathlib_i486.a -l:tier1_i486.a -l:tier2_i486.a -l:tier3_i486.a -ldl
 
 .PHONY: default_target
 default_target: release
 
 .PHONY: release
-release: export CXXFLAGS := $(CXXFLAGS) $(COMPILE_FLAGS) -D_LINUX -DLINUX -DPOSIX -DSTATIC_TIER0 -fpermissive -w
+release: export CXXFLAGS := $(CXXFLAGS) $(COMPILE_FLAGS)
 release: dirs
 	@$(MAKE) all
 
@@ -59,7 +63,7 @@ all: $(BIN_PATH)/$(BIN_NAME)
 # Creation of the executable
 $(BIN_PATH)/$(BIN_NAME): $(OBJECTS)
 	@echo "Linking: $@"
-	$(CXX) $(OBJECTS) -o $@
+	$(CXX) $(CXXFLAGS) $(OBJECTS) $(LIBS) -o $@
 
 # Add dependency files, if they exist
 -include $(DEPS)
@@ -69,4 +73,4 @@ $(BIN_PATH)/$(BIN_NAME): $(OBJECTS)
 # dependency files to provide header dependencies
 $(BUILD_PATH)/%.o: $(SRC_PATH)/%.$(SRC_EXT)
 	@echo "Compiling: $< -> $@"
-	$(CXX) $(CXXFLAGS) $(LIBS) $(INCLUDES) -MP -MMD -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(LIBS) -MP -MMD -c $< -o $@

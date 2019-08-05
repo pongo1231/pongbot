@@ -1,8 +1,8 @@
 #include <stdafx.h>
 #include "EntityProvider.h"
 #include "EntityDataProvider.h"
-#include "../Bot/BotManager.h"
-#include "../ConVarHolder.h"
+#include "../../Bot/BotManager.h"
+#include "../../ConVarHolder.h"
 #include "Player.h"
 #include <metamod/ISmmAPI.h>
 

@@ -2,6 +2,7 @@
 #include <hlsdk/public/mathlib/mathlib.h>
 #include <vector>
 #include <cstdlib>
+#include <stdint.h> 
 
 class WaypointNode
 {

@@ -1,7 +1,7 @@
 #pragma once
 #include "../Bot.h"
 #include "Tasks/BotTask.h"
-#include "../TF2/Events/IEventHooker.h"
+#include "../../TF2/Events/IEventHooker.h"
 
 enum BotState
 {

@@ -1,6 +1,6 @@
 #include <stdafx.h>
 #include "EntityDataProvider.h"
-#include "../Util.h"
+#include "../../Util.h"
 
 EntityDataProvider* _EntityDataProvider;
 

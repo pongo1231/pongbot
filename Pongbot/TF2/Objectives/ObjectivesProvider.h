@@ -1,6 +1,6 @@
 #pragma once
-#include "../IGameFramable.h"
-#include "hlsdk/public/mathlib/mathlib.h"
+#include "../../IGameFramable.h"
+#include <hlsdk/public/mathlib/mathlib.h>
 #include <hlsdk/public/edict.h>
 #include <vector>
 #include <map>

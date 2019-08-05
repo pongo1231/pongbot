@@ -2,7 +2,7 @@
 #include "BotBrainPyro.h"
 #include "../Visibles/BotVisibles.h"
 #include "Tasks/BotTaskAggressiveCombat.h"
-#include "../TF2/Entity/Entity.h"
+#include "../../TF2/Entity/Entity.h"
 
 void BotBrainPyro::_OnThink()
 {

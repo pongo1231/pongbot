@@ -1,9 +1,9 @@
 #include <stdafx.h>
 #include "BotTask.h"
 #include "../../Visibles/BotVisibles.h"
-#include "../Util.h"
-#include "../TF2/Class/TFClassInfoProvider.h"
-#include "../ConVarHolder.h"
+#include "../../../Util.h"
+#include "../../../TF2/Class/TFClassInfoProvider.h"
+#include "../../../ConVarHolder.h"
 
 bool BotTask::OnThink()
 {

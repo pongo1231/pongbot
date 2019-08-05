@@ -3,8 +3,12 @@
 #include "../Util.h"
 #include "WaypointNode.h"
 #include <metamod/ISmmAPI.h>
-#include <metamod/sourcehook.h>
+#include <metamod/sourcehook/sourcehook.h>
+#ifdef _WIN32
 #include <windows.h>
+#elif _LINUX
+#include <sys/stat.h>
+#endif
 #include <fstream>
 
 #define FILE_DIR "tf/addons/pongbot/waypoints/"
@@ -63,12 +67,24 @@ void WaypointFileManager::Read()
 			char lineBuffer[256][16];
 			char* context = nullptr;
 			uint8_t j = 0;
+			#ifdef _WIN32
 			char* token = strtok_s(fileBuffer, ":", &context);
+			#elif _LINUX
+			char* token = strtok_r(fileBuffer, ":", &context);
+			#endif
 			do
 			{
+				#ifdef _WIN32
 				strcpy_s(lineBuffer[j++], token);
+				#elif _LINUX
+				strncpy(lineBuffer[j++], token, sizeof(lineBuffer));
+				#endif
 			}
+			#ifdef _WIN32
 			while (token = strtok_s(nullptr, ":", &context));
+			#elif _LINUX
+			while (token = strtok_r(nullptr, ":", &context));
+			#endif
 
 			WaypointNode* node = new WaypointNode(atoi(lineBuffer[0]), Vector(atof(lineBuffer[1]), atof(lineBuffer[2]), atof(lineBuffer[3])));
 			node->Flags = atoi(lineBuffer[4]);
@@ -150,7 +166,11 @@ bool WaypointFileManager::_CheckDir(char* fileName) {
 	if (~info.st_mode & S_IFDIR)
 	{
 		// Create dir
+		#ifdef _WIN32
 		bool created = CreateDirectory(FILE_DIR, nullptr);
+		#elif _LINUX
+		bool created = mkdir(FILE_DIR, 0755);
+		#endif
 		if (!created)
 		{
 			Util::Log("Error while creating directory!");
@@ -161,8 +181,13 @@ bool WaypointFileManager::_CheckDir(char* fileName) {
 	}
 
 	char _fileName[64];
+	#ifdef _WIN32
 	sprintf_s(_fileName, "%s%s.%s", FILE_DIR, _CurrentMapName, FILE_EXTENSION);
 	strcpy_s(fileName, sizeof(_fileName), _fileName);
+	#elif _LINUX
+	sprintf(_fileName, "%s%s.%s", FILE_DIR, _CurrentMapName, FILE_EXTENSION);
+	strncpy(fileName, sizeof(_fileName), _fileName);
+	#endif
 
 	return true;
 }
@@ -170,7 +195,11 @@ bool WaypointFileManager::_CheckDir(char* fileName) {
 bool WaypointFileManager::_OnLevelInit(const char* pMapName, char const* pMapEntities,
 	char const* pOldLevel, char const* pLandmarkName, bool loadGame, bool background)
 {
+	#ifdef _WIN32
 	strcpy_s(_CurrentMapName, sizeof(_CurrentMapName), pMapName);
+	#elif _LINUX
+	strncpy(_CurrentMapName, sizeof(_CurrentMapName), pMapName);
+	#endif
 	_WaypointFileManager->Read();
 
 	return true;

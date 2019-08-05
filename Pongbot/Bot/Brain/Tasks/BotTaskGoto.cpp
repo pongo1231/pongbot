@@ -1,15 +1,15 @@
 #include <stdafx.h>
 #include "BotTaskGoto.h"
 #include "../../Bot.h"
-#include "../Waypoint/WaypointNode.h"
-#include "../Waypoint/WaypointManager.h"
-#include "../TF2/Entity/EntityProvider.h"
-#include "../TF2/Entity/EntityDataProvider.h"
-#include "../TF2/TFTeam.h"
-#include "../Waypoint/WaypointNodeFlagTypes.h"
-#include "../Util.h"
-#include "../Waypoint/WaypointNodeFlagsProvider.h"
-#include "../ConVarHolder.h"
+#include "../../../Waypoint/WaypointNode.h"
+#include "../../../Waypoint/WaypointManager.h"
+#include "../../../TF2/Entity/EntityProvider.h"
+#include "../../../TF2/Entity/EntityDataProvider.h"
+#include "../../../TF2/TFTeam.h"
+#include "../../../Waypoint/WaypointNodeFlagTypes.h"
+#include "../../../Util.h"
+#include "../../../Waypoint/WaypointNodeFlagsProvider.h"
+#include "../../../ConVarHolder.h"
 #include <metamod/ISmmAPI.h>
 #include <stack>
 
