@@ -26,7 +26,8 @@ extern IPlayerInfoManager* IIPlayerInfoManager;
 
 Bot::Bot(Player player, const char* name) : Name(name), _Player(player), _Edict(player.GetEdict()),
 	_IBotController(IIBotManager->GetBotController(_Edict)),
-	_IPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(_Edict))
+	_IPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(_Edict)),
+	_BotBrain(nullptr), _BotVisibles(nullptr), _ClassInfo(nullptr)
 {
 	_BotVisibles = new BotVisibles(this);
 
@@ -68,8 +69,8 @@ void Bot::Think()
 
 	CBotCmd cmd;
 	cmd.buttons = _PressedButtons;
-	cmd.forwardmove = _Movement.x;
-	cmd.sidemove = _Movement.y;
+	/*cmd.forwardmove = _Movement.x;
+	cmd.sidemove = _Movement.y;*/
 	cmd.viewangles = finalViewAngle;
 	_IBotController->RunPlayerMove(&cmd);
 }
@@ -258,6 +259,7 @@ void Bot::_SwitchToFittingTeam()
 void Bot::_UpdateBotBrain()
 {
 	delete _BotBrain;
+
 	switch (_CurrentClass)
 	{
 	case SCOUT:

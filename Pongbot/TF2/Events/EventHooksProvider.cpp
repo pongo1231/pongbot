@@ -8,7 +8,7 @@
 
 extern IVEngineServer* Engine;
 
-EventHooksProvider* _EventHooksProvider;
+EventHooksProvider* _EventHooksProvider = nullptr;
 
 void EventHooksProvider::Init()
 {

@@ -9,6 +9,7 @@ class Bot;
 
 enum ObjectiveType
 {
+	UNK = -1,
 	ITEMFLAG,
 	CAPTURE_POINT
 };

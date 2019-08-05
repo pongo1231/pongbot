@@ -7,8 +7,6 @@
 extern IServerGameClients *IIServerGameClients;
 extern IPlayerInfoManager *IIPlayerInfoManager;
 
-IPlayerInfo* _IIPlayerInfo;
-
 Player::Player(edict_t* edict) : Entity(edict), _IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(edict))
 {}
 
@@ -32,7 +30,7 @@ float Player::GetFOV() const
 		return -1;
 	}
 
-	return _EntityDataProvider->GetDataFromEntity<float>(*this, DATA_PLAYER_FOV);
+	return _EntityDataProvider->GetDataFromEntity<float>(*this, EntityDataType::DATA_PLAYER_FOV);
 }
 
 bool Player::IsSniperZoomedIn() const

@@ -12,7 +12,7 @@
 
 extern IVEngineServer* Engine;
 
-ObjectivesProvider* _ObjectivesProvider;
+ObjectivesProvider* _ObjectivesProvider = nullptr;
 
 void ObjectivesProvider::Init()
 {
@@ -83,8 +83,7 @@ void ObjectivesProvider::_UpdateCTFObjectives()
 	{
 		CTFFlag entityFlag(entity);
 
-		Objective objective(entityFlag.GetEdict(), ITEMFLAG, entityFlag.GetPos(),
-			entityFlag.GetStatus());
+		Objective objective(entityFlag.GetEdict(), ITEMFLAG, entityFlag.GetPos(), entityFlag.GetStatus());
 		if (entityFlag.GetTeam() == TEAM_RED)
 		{
 			_RedObjectives.push_back(objective);

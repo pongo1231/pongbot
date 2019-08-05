@@ -12,7 +12,7 @@
 extern IVEngineServer* Engine;
 extern IPlayerInfoManager* IIPlayerInfoManager;
 
-BotVisiblesProvider* _BotVisiblesProvider;
+BotVisiblesProvider* _BotVisiblesProvider = nullptr;
 
 void BotVisiblesProvider::Init()
 {

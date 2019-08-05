@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 #endif
 #include <fstream>
+#include <stdint.h>
 
 #define FILE_DIR "tf/addons/pongbot/waypoints/"
 #define FILE_EXTENSION "pbw"
@@ -18,9 +19,9 @@ extern IServerGameDLL* Server;
 extern SourceHook::ISourceHook* g_SHPtr;
 extern PluginId g_PLID;
 
-WaypointFileManager* _WaypointFileManager;
+WaypointFileManager* _WaypointFileManager = nullptr;
 
-static std::vector<WaypointNode*>* _WaypointNodes;
+static std::vector<WaypointNode*>* _WaypointNodes = nullptr;
 
 SH_DECL_HOOK6(IServerGameDLL, LevelInit, SH_NOATTRIB, 0, bool, char const*, char const*,
 	char const*, char const*, bool, bool);
@@ -69,20 +70,17 @@ void WaypointFileManager::Read()
 			uint8_t j = 0;
 			#ifdef _WIN32
 			char* token = strtok_s(fileBuffer, ":", &context);
-			#elif _LINUX
-			char* token = strtok_r(fileBuffer, ":", &context);
-			#endif
 			do
 			{
-				#ifdef _WIN32
 				strcpy_s(lineBuffer[j++], token);
-				#elif _LINUX
-				strncpy(lineBuffer[j++], token, sizeof(lineBuffer));
-				#endif
 			}
-			#ifdef _WIN32
 			while (token = strtok_s(nullptr, ":", &context));
 			#elif _LINUX
+			char* token = strtok_r(fileBuffer, ":", &context);
+			do
+			{
+				strncpy(lineBuffer[j++], token, sizeof(lineBuffer));
+			}
 			while (token = strtok_r(nullptr, ":", &context));
 			#endif
 
@@ -91,10 +89,10 @@ void WaypointFileManager::Read()
 			_WaypointNodes->push_back(node);
 
 			// Store connected node ids for reference
-			for (uint8_t k = 5; k < 256; k++)
+			for (uint16_t k = 5; k < 260; k++)
 			{
 				char* content = lineBuffer[k];
-				if (strcmp(content, "\\") == 0)
+				if (content[0] == '\\')
 				{
 					break;
 				}
@@ -110,7 +108,7 @@ void WaypointFileManager::Read()
 		// Now handle the node connections
 		for (i = 0; i < _WaypointNodes->size(); i++)
 		{
-			for (uint8_t j = 0; j < 256; j++)
+			for (uint8_t j = 0; ; j++)
 			{
 				if (connectedNodeIds[i][j] == -1)
 				{
@@ -125,6 +123,11 @@ void WaypointFileManager::Read()
 							(*_WaypointNodes)[i]->ConnectToNode(nodeToConnect);
 						}
 					}
+				}
+
+				if (j == 255)
+				{
+					break;
 				}
 			}
 		}
@@ -168,16 +171,17 @@ bool WaypointFileManager::_CheckDir(char* fileName) {
 		// Create dir
 		#ifdef _WIN32
 		bool created = CreateDirectory(FILE_DIR, nullptr);
-		#elif _LINUX
-		bool created = mkdir(FILE_DIR, 0755);
-		#endif
 		if (!created)
+		#elif _LINUX
+		int created = mkdir(FILE_DIR, 0755);
+		if (created == -1)
+		#endif
 		{
-			Util::Log("Error while creating directory!");
+			Util::Log("Error while creating directory %s!", fileName);
 			return false;
 		}
 
-		Util::DebugLog("Created missing dir waypoints/");
+		Util::DebugLog("Created directory %s", fileName);
 	}
 
 	char _fileName[64];
@@ -186,7 +190,7 @@ bool WaypointFileManager::_CheckDir(char* fileName) {
 	strcpy_s(fileName, sizeof(_fileName), _fileName);
 	#elif _LINUX
 	sprintf(_fileName, "%s%s.%s", FILE_DIR, _CurrentMapName, FILE_EXTENSION);
-	strncpy(fileName, sizeof(_fileName), _fileName);
+	strncpy(fileName, _fileName, sizeof(_fileName));
 	#endif
 
 	return true;
@@ -198,7 +202,7 @@ bool WaypointFileManager::_OnLevelInit(const char* pMapName, char const* pMapEnt
 	#ifdef _WIN32
 	strcpy_s(_CurrentMapName, sizeof(_CurrentMapName), pMapName);
 	#elif _LINUX
-	strncpy(_CurrentMapName, sizeof(_CurrentMapName), pMapName);
+	strncpy(_CurrentMapName, pMapName, sizeof(_CurrentMapName));
 	#endif
 	_WaypointFileManager->Read();
 

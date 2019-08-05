@@ -50,6 +50,20 @@ namespace Util
 		g_SMAPI->ConPrintf(prefixedText);
 	}
 
+	void DebugLog(const char* text, ...)
+	{
+		#ifdef _DEBUG
+		char userText[512], prefixedText[524];
+		va_list args;
+		va_start(args, text);
+		vsnprintf(userText, sizeof(userText), text, args);
+		va_end(args);
+		sprintf(prefixedText, "[Pongbot] %s\n", userText);
+
+		g_SMAPI->ConPrintf(prefixedText);
+		#endif
+	}
+
 	float DistanceToNoZ(Vector a, Vector b)
 	{
 		return abs((a.x + a.y) - (b.x + b.y));

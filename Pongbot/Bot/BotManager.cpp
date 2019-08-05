@@ -10,7 +10,7 @@
 extern IVEngineServer* Engine;
 extern IBotManager* IIBotManager;
 
-BotManager* _BotManager;
+BotManager* _BotManager = nullptr;
 
 static std::vector<Bot*> _Bots;
 
@@ -65,9 +65,9 @@ void BotManager::OnGameFrame()
 		Bot* bot = _Bots[i];
 		if (!bot->Exists())
 		{
+			Util::DebugLog("Removed Bot %s (Edict Index: %d)", bot->Name, bot->GetEdict()->m_iIndex);
 			delete bot;
 			_Bots.erase(_Bots.begin() + i);
-			Util::Log("Removed Bot %s (Edict Index: %d)", bot->Name, bot->GetEdict()->m_iIndex);
 		}
 		else
 		{

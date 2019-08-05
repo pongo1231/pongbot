@@ -8,7 +8,7 @@
 
 extern IVEngineServer* Engine;
 
-EntityProvider* _EntityProvider;
+EntityProvider* _EntityProvider = nullptr;
 
 void EntityProvider::Init()
 {

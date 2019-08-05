@@ -22,10 +22,10 @@ OBJECTS = $(SOURCES:$(SRC_PATH)/%.$(SRC_EXT)=$(BUILD_PATH)/%.o)
 DEPS = $(OBJECTS:.o=.d)
 
 # flags #
-COMPILE_FLAGS = -Wall -Wextra -g -fpermissive -w -DPOSIX -Dstricmp=strcasecmp -D_stricmp=strcasecmp -D_strnicmp=strncasecmp \
+COMPILE_FLAGS = -std=c++11 -Wall -Wextra -g -fpermissive -w -DPOSIX -Dstricmp=strcasecmp -D_stricmp=strcasecmp -D_strnicmp=strncasecmp \
 	-Dstrnicmp=strncasecmp -D_snprintf=snprintf -D_vsnprintf=vsnprintf -D_alloca=alloca \
 	-Dstrcmpi=strcasecmp -DCOMPILER_GCC -Wall -Wno-non-virtual-dtor -Wno-overloaded-virtual \
-	-Werror -fPIC -fno-exceptions -fno-rtti -msse -m32 -fno-strict-aliasing -D_LINUX -shared
+	-Werror -fPIC -fno-exceptions -fno-rtti -msse -m32 -fno-strict-aliasing -D_LINUX -shared -D_DEBUG
 INCLUDES = -I $(MLIBS) -I $(MLIBS)/hlsdk $(addprefix -I,$(shell find $(MLIBS)/hlsdk/public -type d -print)) -I $(MLIBS)/hlsdk/engine -I $(MLIBS)/hlsdk/mathlib -I $(MLIBS)/hlsdk/vstdlib -I $(MLIBS)/hlsdk/tier0 -I $(MLIBS)/hlsdk/tier1 -I $(MLIBS)/hlsdk/game/server -I $(MLIBS)/metamod -I $(MLIBS)/metamod/sourcehook -I ../Pongbot
 
 # Space-separated pkg-config libraries used by this project
@@ -53,14 +53,9 @@ clean:
 	@$(RM) -r $(BUILD_PATH)
 	@$(RM) -r $(BIN_PATH)
 
-# checks the executable and symlinks to the output
+# Creation of the executable
 .PHONY: all
 all: $(BIN_PATH)/$(BIN_NAME)
-	@echo "Making symlink: $(BIN_NAME) -> $<"
-	@$(RM) $(BIN_NAME)
-	@ln -s $(BIN_PATH)/$(BIN_NAME) $(BIN_NAME)
-
-# Creation of the executable
 $(BIN_PATH)/$(BIN_NAME): $(OBJECTS)
 	@echo "Linking: $@"
 	$(CXX) $(CXXFLAGS) $(OBJECTS) $(LIBS) -o $@

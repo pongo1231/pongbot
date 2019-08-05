@@ -6,14 +6,12 @@
 
 enum EntityDataType
 {
-	DATA_TEAM,
-	DATA_FLAG_OWNER,
-	DATA_FLAG_STATUS,
-	DATA_HEALTH,
-	DATA_PLAYER_FOV,
-	DATA_PLAYER_CURRENTWEAPON,
-	DATA_WEAPON_RELOADING,
-	DATA_PLAYER_HEADSCALE
+	DATA_TEAM, // CBaseEntity::m_iTeamNum
+	DATA_FLAG_OWNER, // CCaptureFlag::m_hPrevOwner
+	DATA_FLAG_STATUS, // CCaptureFlag::m_nFlagStatus
+	DATA_HEALTH, // CBaseObject::m_iHealth
+	DATA_PLAYER_FOV, // CBasePlayer::m_iFOV
+	DATA_PLAYER_CURRENTWEAPON // CBaseCombatCharacter::m_hActiveWeapon
 };
 
 class EntityDataProvider
@@ -48,12 +46,21 @@ public:
 private:
 	const std::map<EntityDataType, unsigned int> _EntityOffsets =
 	{
+		#ifdef _WIN32
 		{DATA_TEAM, 516},
 		{DATA_FLAG_OWNER, 1648},
 		{DATA_FLAG_STATUS, 1632},
 		{DATA_HEALTH, 244},
 		{DATA_PLAYER_FOV, 2876},
 		{DATA_PLAYER_CURRENTWEAPON, 2052}
+		#elif _LINUX
+		{DATA_TEAM, 536},
+		{DATA_FLAG_OWNER, 1668},
+		{DATA_FLAG_STATUS, 1652},
+		{DATA_HEALTH, 264},
+		{DATA_PLAYER_FOV, 2896},
+		{DATA_PLAYER_CURRENTWEAPON, 2072}
+		#endif
 	};
 };
 

@@ -21,7 +21,7 @@ public:
 		std::vector<WaypointNode*>* _alreadyTraversedWaypointNodesStack = nullptr);
 	bool GetRandomWaypointNodeRouteToTargetNode(WaypointNode* startNode, WaypointNode* targetNode,
 		std::stack<WaypointNode*>* waypointNodesStack, unsigned int flagBlacklist = 0,
-		std::vector<WaypointNode*>* _alreadyTraversedWaypointNodesStack = nullptr);
+		std::vector<WaypointNode*> _alreadyTraversedWaypointNodesStack = std::vector<WaypointNode*>());
 	virtual void OnGameFrame();
 };
 

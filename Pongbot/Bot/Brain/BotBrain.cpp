@@ -51,13 +51,13 @@ void BotBrain::_DefaultThink()
 	/* Tasks which should be able to override current ones */
 
 	// Melee combat
-	BotVisibleTarget *currentTarget = bot->GetBotVisibles()->GetMostImportantTarget();
-	if (currentTarget && bot->GetSelectedWeaponSlot() == WEAPON_MELEE)
+	BotVisibleTarget* currentTarget = bot->GetBotVisibles()->GetMostImportantTarget();
+	if (currentTarget && bot->GetSelectedWeaponSlot() == WeaponSlot::WEAPON_MELEE)
 	{
 		if (!_IsBotInMeleeFight)
 		{
 			_IsBotInMeleeFight = true;
-			_SetBotTask(new BotTaskAggressiveCombat(bot, currentTarget->GetEntity(), WEAPON_MELEE));
+			_SetBotTask(new BotTaskAggressiveCombat(bot, currentTarget->GetEntity(), WeaponSlot::WEAPON_MELEE));
 		}
 	}
 	else
@@ -73,41 +73,40 @@ void BotBrain::_DefaultThink()
 
 		std::vector<Objective> pushObjectives = _ObjectivesProvider->GetBotPushObjectives(bot);
 		// Get closest objective
-		Objective* closestObjective = nullptr;
+		bool foundObjective = false;
+		Objective closestObjective(nullptr, ObjectiveType::UNK, Vector(), 0); // Placeholder
 		float closestObjectiveDistance = 99999.f;
 		for (Objective pushObjective : pushObjectives)
 		{
 			float distance = botPos.DistTo(pushObjective.Pos);
 			if (distance < closestObjectiveDistance)
 			{
-				delete closestObjective;
-				closestObjective = new Objective(pushObjective);
+				foundObjective = true;
+				closestObjective = pushObjective;
 				closestObjectiveDistance = distance;
 			}
 		}
 
-		if (closestObjective)
+		if (foundObjective)
 		{
 			// CTF Flag stuff
-			if (closestObjective->Type == ITEMFLAG)
+			if (closestObjective.Type == ITEMFLAG)
 			{
-				CTFFlagStatusType itemFlagStatus = (CTFFlagStatusType) closestObjective->Status;
-				if (itemFlagStatus == CTF_UNTOUCHED || itemFlagStatus == CTF_DROPPED) // The flag should be picked up
+				CTFFlagStatusType itemFlagStatus = (CTFFlagStatusType) closestObjective.Status;
+				if (itemFlagStatus == CTFFlagStatusType::CTF_UNTOUCHED || itemFlagStatus == CTFFlagStatusType::CTF_DROPPED) // The flag should be picked up
 				{
-					_SetBotTask(new BotTaskGoto(bot, closestObjective->Pos, false));
+					_SetBotTask(new BotTaskGoto(bot, closestObjective.Pos, false));
 				}
-				else if (CTFFlag(closestObjective->Edict).GetOwner() == bot->GetEdict()->m_iIndex)
+				else if (CTFFlag(closestObjective.Edict).GetOwner() == bot->GetEdict()->m_iIndex)
 				{
 					// I'm carrying the flag
-					WaypointNode* targetNode = _WaypointManager->GetClosestWaypointNode(botPos, -1, bot->GetTeam() == TEAM_RED ? NODE_ITEMFLAG_RED : NODE_ITEMFLAG_BLUE);
+					WaypointNode* targetNode = _WaypointManager->GetClosestWaypointNode(botPos, -1, bot->GetTeam() == TFTeam::TEAM_RED ? WaypointNodeFlagType::NODE_ITEMFLAG_RED : WaypointNodeFlagType::NODE_ITEMFLAG_BLUE);
 					if (targetNode) // Map doesn't have a ITEMFLAG_RED/ITEMFLAG_BLUE node!
 					{
 						_SetBotTask(new BotTaskGoto(bot, targetNode->Pos, true, NODE_SPAWN_RED | NODE_SPAWN_BLUE)); // Don't walk through spawns
 					}
 				}
 			}
-
-			delete closestObjective;
 
 			// Free Roam if still no task
 			if (!_HasBotTask())

@@ -2,7 +2,7 @@
 #include "EntityDataProvider.h"
 #include "../../Util.h"
 
-EntityDataProvider* _EntityDataProvider;
+EntityDataProvider* _EntityDataProvider = nullptr;
 
 void EntityDataProvider::Init()
 {

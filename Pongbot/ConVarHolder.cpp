@@ -1,12 +1,14 @@
 #include "stdafx.h"
 #include "ConVarHolder.h"
+#include "Util.h"
 
-ConVarHolder* _ConVarHolder;
+ConVarHolder* _ConVarHolder = nullptr;
 
 void ConVarHolder::Init()
 {
 	if (!_ConVarHolder)
 	{
+		Util::DebugLog("INIT ConVarHolder");
 		_ConVarHolder = new ConVarHolder();
 
 		_ConVarHolder->CVarBotAimSensivity = new ConVar("pongbot_bot_aimsensivity", "3.0", 0, "Bot aim sensivity");

@@ -4,7 +4,7 @@
 #include "../TF2/TFTeam.h"
 #include "../Util.h"
 
-WaypointNodeFlagsProvider* _WaypointNodeFlagsProvider;
+WaypointNodeFlagsProvider* _WaypointNodeFlagsProvider = nullptr;
 
 void WaypointNodeFlagsProvider::Init()
 {

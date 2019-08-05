@@ -19,10 +19,10 @@ extern IVEngineServer* Engine;
 extern IPlayerInfoManager* IIPlayerInfoManager;
 extern IEngineTrace* IIEngineTrace;
 
-WaypointManager* _WaypointManager;
+WaypointManager* _WaypointManager = nullptr;
 
 static std::vector<WaypointNode*> _WaypointNodes;
-static WaypointNode* _SelectedNode;
+static WaypointNode* _SelectedNode = nullptr;
 static bool _NodeBiConnect;
 static bool _DrawBeams;
 
@@ -189,7 +189,7 @@ float WaypointManager::GetShortestWaypointNodeRouteToTargetNode(WaypointNode* st
 
 bool WaypointManager::GetRandomWaypointNodeRouteToTargetNode(WaypointNode* startNode,
 	WaypointNode* targetNode, std::stack<WaypointNode*>* waypointNodesStack, unsigned int flagBlacklist,
-	std::vector<WaypointNode*>* _alreadyTraversedWaypointNodesStack)
+	std::vector<WaypointNode*> _alreadyTraversedWaypointNodesStack)
 {
 	if (!startNode || !targetNode || !waypointNodesStack || (flagBlacklist != 0 && flagBlacklist & startNode->Flags /* Abort if flag is filtered */))
 	{
@@ -200,28 +200,29 @@ bool WaypointManager::GetRandomWaypointNodeRouteToTargetNode(WaypointNode* start
 		waypointNodesStack->push(startNode);
 		return true;
 	}
-	else if (!_alreadyTraversedWaypointNodesStack)
-	{
-		_alreadyTraversedWaypointNodesStack = &std::vector<WaypointNode*>();
-	}
+
+	Util::Log("Searching waypoint to %d, currently %d", targetNode->Id, startNode->Id);
 
 	// Check if this node was already traversed to avoid infinite recursive calls
-	for (WaypointNode* node : *_alreadyTraversedWaypointNodesStack)
+	for (WaypointNode* node : _alreadyTraversedWaypointNodesStack)
 	{
 		if (node == startNode)
 		{
 			return false;
 		}
 	}
-	_alreadyTraversedWaypointNodesStack->push_back(startNode);
+	_alreadyTraversedWaypointNodesStack.push_back(startNode);
 
 	std::vector<WaypointNode*> connectedNodes = startNode->GetConnectedNodes();
+	for (WaypointNode* node : connectedNodes)
+	{
+		Util::Log("%d", node->Id);
+	}
 	while (!connectedNodes.empty())
 	{
-		int randomNodeIndex = Util::RandomInt(0, connectedNodes.size() - 1);
+		uint8_t randomNodeIndex = Util::RandomInt(0, connectedNodes.size() - 1);
 		WaypointNode* randomNode = connectedNodes[randomNodeIndex];
-		if (GetRandomWaypointNodeRouteToTargetNode(randomNode, targetNode, waypointNodesStack, flagBlacklist,
-			_alreadyTraversedWaypointNodesStack))
+		if (GetRandomWaypointNodeRouteToTargetNode(randomNode, targetNode, waypointNodesStack, flagBlacklist, _alreadyTraversedWaypointNodesStack))
 		{
 			waypointNodesStack->push(startNode);
 			return true;
