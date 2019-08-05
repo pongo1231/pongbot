@@ -21,6 +21,7 @@ void TFClassInfoProvider::Destroy()
 		Util::DebugLog("DESTROY TFClassInfoProvider");
 
 		delete _TFClassInfoProvider;
+		_TFClassInfoProvider = nullptr;
 	}
 }
 

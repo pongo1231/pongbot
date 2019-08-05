@@ -58,6 +58,7 @@ void WaypointManager::Destroy()
 			_WaypointNodes.erase(_WaypointNodes.begin() + i);
 		}
 		delete _WaypointManager;
+		_WaypointManager = nullptr;
 	}
 }
 
@@ -427,7 +428,7 @@ CON_COMMAND(pongbot_waypoint_clearnode, "Removes the nearest node")
 			uint8_t nodeIndex = 0;
 			for (uint8_t i = 0; i < _WaypointNodes.size(); i++)
 			{
-				WaypointNode *listNode = _WaypointNodes[i];
+				WaypointNode* listNode = _WaypointNodes[i];
 				if (listNode == node)
 				{
 					nodeIndex = i;

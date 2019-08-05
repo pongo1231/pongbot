@@ -35,10 +35,11 @@ void BotManager::Destroy()
 
 		_BotManager->KickAllBots();
 		delete _BotManager;
+		_BotManager = nullptr;
 	}
 }
 
-void BotManager::KickBot(Bot *bot)
+void BotManager::KickBot(Bot* bot)
 {
 	char command[64];
 	snprintf(command, sizeof(command), "kickid %d Bot Removed\n", Engine->GetPlayerUserId(bot->GetEdict()));

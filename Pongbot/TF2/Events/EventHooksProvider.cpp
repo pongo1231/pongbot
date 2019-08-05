@@ -27,6 +27,7 @@ void EventHooksProvider::Destroy()
 		Util::DebugLog("DESTROY EventHooksProvider");
 
 		delete _EventHooksProvider;
+		_EventHooksProvider = nullptr;
 	}
 }
 

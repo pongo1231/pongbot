@@ -21,5 +21,6 @@ void EntityDataProvider::Destroy()
 		Util::DebugLog("DESTROY EntityDataProvider");
 
 		delete _EntityDataProvider;
+		_EntityDataProvider = nullptr;
 	}
 }

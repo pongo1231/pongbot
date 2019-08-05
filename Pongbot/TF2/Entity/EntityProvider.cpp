@@ -29,6 +29,7 @@ void EntityProvider::Destroy()
 
 		EntityDataProvider::Destroy();
 		delete _EntityProvider;
+		_EntityProvider = nullptr;
 	}
 }
 

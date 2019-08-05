@@ -46,6 +46,7 @@ void WaypointFileManager::Destroy()
 
 		SH_REMOVE_HOOK(IServerGameDLL, LevelInit, Server, SH_MEMBER(_WaypointFileManager, &WaypointFileManager::_OnLevelInit), true);
 		delete _WaypointFileManager;
+		_WaypointFileManager = nullptr;
 	}
 }
 

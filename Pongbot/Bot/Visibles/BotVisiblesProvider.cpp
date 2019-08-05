@@ -31,6 +31,7 @@ void BotVisiblesProvider::Destroy()
 		Util::DebugLog("DESTROY BotVisiblesProvider");
 
 		delete _BotVisiblesProvider;
+		_BotVisiblesProvider = nullptr;
 	}
 }
 

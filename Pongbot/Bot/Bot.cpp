@@ -259,7 +259,6 @@ void Bot::_SwitchToFittingTeam()
 void Bot::_UpdateBotBrain()
 {
 	delete _BotBrain;
-
 	switch (_CurrentClass)
 	{
 	case SCOUT:

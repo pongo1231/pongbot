@@ -23,6 +23,7 @@ void WaypointNodeFlagsProvider::Destroy()
 		Util::DebugLog("DESTROY WaypointNodeFlagsProvider");
 
 		delete _WaypointNodeFlagsProvider;
+		_WaypointNodeFlagsProvider = nullptr;
 	}
 }
 

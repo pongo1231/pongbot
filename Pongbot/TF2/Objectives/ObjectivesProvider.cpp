@@ -31,6 +31,7 @@ void ObjectivesProvider::Destroy()
 		Util::DebugLog("DESTROY ObjectivesProvider");
 
 		delete _ObjectivesProvider;
+		_ObjectivesProvider = nullptr;
 	}
 }
 

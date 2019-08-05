@@ -56,5 +56,6 @@ void ConVarHolder::Destroy()
 		delete _ConVarHolder->CVarBotMovementIgnoreRadius;
 
 		delete _ConVarHolder;
+		_ConVarHolder = nullptr;
 	}
 }

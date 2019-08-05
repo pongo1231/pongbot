@@ -6,6 +6,9 @@
 # Linux builds
 linux/build/
 
+# VS Code
+.vscode/
+
 # User-specific files
 *.rsuser
 *.suo
