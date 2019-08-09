@@ -25,7 +25,7 @@ void TFClassInfoProvider::Destroy()
 	}
 }
 
-TFClassInfo TFClassInfoProvider::GetClassInfo(TFClass tfClass) const
+const TFClassInfo* TFClassInfoProvider::GetClassInfo(TFClass tfClass) const
 {
-	return _ClassInfos.at(tfClass);
+	return &_ClassInfos.at(tfClass);
 }

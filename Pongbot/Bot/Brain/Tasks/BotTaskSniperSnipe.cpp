@@ -16,16 +16,16 @@ bool BotTaskSniperSnipe::_OnThink()
 	Bot* bot = _GetBot();
 	Player botInfo(bot->GetEdict());
 
-	BotVisibleTarget* visibleTarget = bot->GetBotVisibles()->GetMostImportantTarget();
+	BotVisibleTarget visibleTarget = bot->GetBotVisibles()->GetMostImportantTarget();
 	Vector visibleTargetPos;
 
-	if (!visibleTarget)
+	if (!visibleTarget.IsValid())
 	{
 		return true;
 	}
 	else
 	{
-		visibleTargetPos = visibleTarget->Pos;
+		visibleTargetPos = visibleTarget.GetPos();
 
 		// Abort if enemy too near
 		if (/*visibleTarget &&*/ Util::DistanceToNoZ(bot->GetPos(), visibleTargetPos) < _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
@@ -33,7 +33,7 @@ bool BotTaskSniperSnipe::_OnThink()
 			return true;
 		}
 
-		Entity targetEntity = visibleTarget->GetEntity();
+		Entity targetEntity = visibleTarget.GetEntity();
 		// Aim at head if it's a player
 		if (targetEntity.Exists() && targetEntity.IsPlayer())
 		{
@@ -56,7 +56,7 @@ bool BotTaskSniperSnipe::_OnThink()
 	}
 
 	_OverrideBotViewAngle();
-	if (visibleTarget)
+	if (visibleTarget.IsValid())
 	{
 		_SetBotLookAt(visibleTargetPos);
 	}

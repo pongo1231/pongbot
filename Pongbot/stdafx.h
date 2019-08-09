@@ -7,3 +7,4 @@
 #include <hlsdk/public/game/server/iplayerinfo.h>
 #include <hlsdk/public/mathlib/mathlib.h>
 #include <hlsdk/public/edict.h>
+#include <hlsdk/public/tier1/convar.h>

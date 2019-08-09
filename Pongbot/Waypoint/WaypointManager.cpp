@@ -121,9 +121,8 @@ WaypointNode* WaypointManager::GetClosestWaypointNode(Vector pos, float maxDista
 
 float WaypointManager::GetShortestWaypointNodeRouteToTargetNode(WaypointNode* startNode,
 	WaypointNode* targetNode, std::stack<WaypointNode*>* waypointNodesStack, unsigned int flagBlacklist,
-	std::vector<WaypointNode*>* _alreadyTraversedWaypointNodesStack)
+	std::vector<WaypointNode*> _alreadyTraversedWaypointNodesStack)
 {
-	bool firstNode = false;
 	if (!startNode || !targetNode || !waypointNodesStack || (flagBlacklist != 0 && startNode->Flags & flagBlacklist /* Abort if flag is filtered */))
 	{
 		return -1;
@@ -132,33 +131,26 @@ float WaypointManager::GetShortestWaypointNodeRouteToTargetNode(WaypointNode* st
 	{
 		return 0.f;
 	}
-	else if (!_alreadyTraversedWaypointNodesStack)
-	{
-		/* Very likely first traversed node (unless _alreadyTraversedWaypointNodesStack was already provided) */
-		firstNode = true;
-		_alreadyTraversedWaypointNodesStack = &std::vector<WaypointNode*>();
-	}
 
 	// Check if this node was already traversed to avoid infinite recursive calls
-	for (WaypointNode* node : *_alreadyTraversedWaypointNodesStack)
+	for (WaypointNode* node : _alreadyTraversedWaypointNodesStack)
 	{
 		if (node == startNode)
 		{
 			return -1;
 		}
 	}
-	_alreadyTraversedWaypointNodesStack->push_back(startNode);
+	_alreadyTraversedWaypointNodesStack.push_back(startNode);
 
 	std::map<WaypointNode*, float> distances;
 	for (WaypointNode* node : startNode->GetConnectedNodes())
 	{
-		float distance = GetShortestWaypointNodeRouteToTargetNode(node, targetNode,
-			waypointNodesStack, flagBlacklist, _alreadyTraversedWaypointNodesStack);
-		// Distance under 0 = no connetion to target node
-		// Distance of 0 = Target Node
-		if (distance >= 0.f)
+		// Value < 0 = No connection to Target Node
+		// Value == 0 = Target Node
+		// Value > 0 = Leads to Target Node
+		if (GetShortestWaypointNodeRouteToTargetNode(node, targetNode, waypointNodesStack, flagBlacklist, _alreadyTraversedWaypointNodesStack) >= 0.f)
 		{
-			distances.insert(std::make_pair(node, distance));
+			distances.insert(std::make_pair(node, startNode->Pos.DistTo(node->Pos)));
 		}
 	}
 
@@ -176,13 +168,11 @@ float WaypointManager::GetShortestWaypointNodeRouteToTargetNode(WaypointNode* st
 			}
 		}
 
-		waypointNodesStack->push(closestDistanceNode);
-		return closestDistance + closestDistanceNode->Pos.DistTo(startNode->Pos);
-	}
-
-	if (firstNode)
-	{
-		waypointNodesStack->push(startNode);
+		if (closestDistanceNode)
+		{
+			waypointNodesStack->push(closestDistanceNode);
+			return closestDistance;
+		}
 	}
 
 	return -1;
@@ -202,8 +192,6 @@ bool WaypointManager::GetRandomWaypointNodeRouteToTargetNode(WaypointNode* start
 		return true;
 	}
 
-	Util::Log("Searching waypoint to %d, currently %d", targetNode->Id, startNode->Id);
-
 	// Check if this node was already traversed to avoid infinite recursive calls
 	for (WaypointNode* node : _alreadyTraversedWaypointNodesStack)
 	{
@@ -215,10 +203,6 @@ bool WaypointManager::GetRandomWaypointNodeRouteToTargetNode(WaypointNode* start
 	_alreadyTraversedWaypointNodesStack.push_back(startNode);
 
 	std::vector<WaypointNode*> connectedNodes = startNode->GetConnectedNodes();
-	for (WaypointNode* node : connectedNodes)
-	{
-		Util::Log("%d", node->Id);
-	}
 	while (!connectedNodes.empty())
 	{
 		uint8_t randomNodeIndex = Util::RandomInt(0, connectedNodes.size() - 1);

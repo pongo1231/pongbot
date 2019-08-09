@@ -32,7 +32,9 @@ public:
 	TFClass GetClass() const;
 	TFTeam GetTeam() const;
 	void SetMovement(Vector2D movement);
+	Vector2D GetMovement() const;
 	void SetPressedButtons(int pressedButtons);
+	int GetPressedButtons() const;
 	WeaponSlot GetSelectedWeaponSlot() const;
 	void SetSelectedWeapon(WeaponSlot weapon);
 	BotVisibles* GetBotVisibles() const;
@@ -52,7 +54,7 @@ private:
 	QAngle _TargetViewAngle;
 	Vector2D _Movement;
 	int _PressedButtons;
-	TFClassInfo* _ClassInfo;
+	const TFClassInfo* _ClassInfo;
 	WeaponSlot _SelectedWeaponSlot;
 
 	void _SwitchToFittingTeam();

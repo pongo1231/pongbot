@@ -40,10 +40,10 @@ bool BotTask::OnThink()
 
 void BotTask::_ShootAtBadGuys()
 {
-	BotVisibleTarget* enemyTarget = _Bot->GetBotVisibles()->GetMostImportantTarget();
-	if (enemyTarget)
+	BotVisibleTarget enemyTarget = _Bot->GetBotVisibles()->GetMostImportantTarget();
+	if (enemyTarget.IsValid())
 	{
-		Vector targetPos = enemyTarget->Pos;
+		Vector targetPos = enemyTarget.GetPos();
 
 		_BotTargetLookAt = targetPos;
 		_BotPressedButtons |= IN_ATTACK;
@@ -75,4 +75,9 @@ void BotTask::_AddBotPressedButton(int button)
 void BotTask::_SetBotWeaponSlot(WeaponSlot weaponSlot)
 {
 	_WeaponSlot = weaponSlot;
+}
+
+Bot* BotTask::_GetBot() const
+{
+	return _Bot;
 }

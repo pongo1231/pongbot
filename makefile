@@ -1,7 +1,7 @@
 CXX ?= gcc
 
 # path #
-SRC_PATH = ../Pongbot
+SRC_PATH = Pongbot
 BUILD_PATH = build
 BIN_PATH = $(BUILD_PATH)/bin
 
@@ -22,12 +22,14 @@ OBJECTS = $(SOURCES:$(SRC_PATH)/%.$(SRC_EXT)=$(BUILD_PATH)/%.o)
 DEPS = $(OBJECTS:.o=.d)
 
 # flags #
-COMPILE_FLAGS = -Wall -Wextra -g -fpermissive -w -DPOSIX -Dstricmp=strcasecmp -D_stricmp=strcasecmp -D_strnicmp=strncasecmp \
+COMPILE_FLAGS = -Wall -Wextra -fpermissive -w -DPOSIX -Dstricmp=strcasecmp -D_stricmp=strcasecmp -D_strnicmp=strncasecmp \
 	-Dstrnicmp=strncasecmp -D_snprintf=snprintf -D_vsnprintf=vsnprintf -D_alloca=alloca \
 	-Dstrcmpi=strcasecmp -DCOMPILER_GCC -Wall -Wno-non-virtual-dtor -Wno-overloaded-virtual \
-	-Werror -fPIC -fno-exceptions -fno-rtti -msse -m32 -fno-strict-aliasing -D_LINUX -shared
+	-Werror -fPIC -fno-exceptions -fno-rtti -msse -m32 -fno-strict-aliasing -D_LINUX -shared -ggdb
 	#-D_DEBUG
-INCLUDES = -I $(MLIBS) -I $(MLIBS)/hlsdk $(addprefix -I,$(shell find $(MLIBS)/hlsdk/public -type d -print)) -I $(MLIBS)/hlsdk/engine -I $(MLIBS)/hlsdk/mathlib -I $(MLIBS)/hlsdk/vstdlib -I $(MLIBS)/hlsdk/tier0 -I $(MLIBS)/hlsdk/tier1 -I $(MLIBS)/hlsdk/game/server -I $(MLIBS)/metamod -I $(MLIBS)/metamod/sourcehook -I ../Pongbot
+INCLUDES = -I $(MLIBS) -I $(MLIBS)/hlsdk $(addprefix -I,$(shell find $(MLIBS)/hlsdk/public -type d -print)) -I $(MLIBS)/hlsdk/engine \
+	-I $(MLIBS)/hlsdk/mathlib -I $(MLIBS)/hlsdk/vstdlib -I $(MLIBS)/hlsdk/game -I $(MLIBS)/hlsdk/game/tier1 -I $(MLIBS)/hlsdk/game/tier0 \
+	-I $(MLIBS)/hlsdk/tier0 -I $(MLIBS)/hlsdk/tier1 -I $(MLIBS)/hlsdk/game/server -I $(MLIBS)/metamod -I $(MLIBS)/metamod/sourcehook -I Pongbot
 
 # Space-separated pkg-config libraries used by this project
 LIBS = -L$(MLIBS)/hlsdk/lib/linux -ltier0_srv -lvstdlib_srv -l:mathlib_i486.a -l:tier1_i486.a -l:tier2_i486.a -l:tier3_i486.a -ldl

@@ -64,7 +64,7 @@ void ObjectivesProvider::OnGameFrame()
 		return;
 	}
 
-	static float tickTime;
+	static float tickTime = 0.f;
 	float engineTime = Engine->Time();
 	if (tickTime > engineTime)
 	{

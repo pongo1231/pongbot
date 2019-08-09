@@ -6,7 +6,7 @@
 class BotTask
 {
 public:
-	BotTask(Bot* bot) : _Bot(bot) {}
+	BotTask(Bot* bot) : _Bot(bot), _IsBotViewAngleOverriden(false), _BotPressedButtons(0), _WeaponSlot(WEAPON_UNKNOWN) {}
 
 public:
 	bool OnThink();
@@ -17,10 +17,7 @@ protected:
 	void _OverrideBotViewAngle();
 	void _AddBotPressedButton(int button);
 	void _SetBotWeaponSlot(WeaponSlot weaponSlot);
-	inline Bot* _GetBot() const
-	{
-		return _Bot;
-	}
+	Bot* _GetBot() const;
 
 private:
 	Bot* _Bot;

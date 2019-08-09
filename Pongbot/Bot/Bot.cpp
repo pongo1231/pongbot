@@ -26,11 +26,10 @@ extern IPlayerInfoManager* IIPlayerInfoManager;
 
 Bot::Bot(Player player, const char* name) : Name(name), _Player(player), _Edict(player.GetEdict()),
 	_IBotController(IIBotManager->GetBotController(_Edict)),
-	_IPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(_Edict)),
-	_BotBrain(nullptr), _BotVisibles(nullptr), _ClassInfo(nullptr)
+	_ClassInfo(_TFClassInfoProvider->GetClassInfo(TFClass::CLASS_UNK)),
+	_IPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(_Edict)), _BotVisibles(new BotVisibles(this)),
+	_BotBrain(nullptr)
 {
-	_BotVisibles = new BotVisibles(this);
-
 	_SwitchToFittingTeam();
 	_RandomClass();
 
@@ -69,8 +68,8 @@ void Bot::Think()
 
 	CBotCmd cmd;
 	cmd.buttons = _PressedButtons;
-	/*cmd.forwardmove = _Movement.x;
-	cmd.sidemove = _Movement.y;*/
+	cmd.forwardmove = _Movement.x;
+	cmd.sidemove = _Movement.y;
 	cmd.viewangles = finalViewAngle;
 	_IBotController->RunPlayerMove(&cmd);
 }
@@ -130,9 +129,19 @@ void Bot::SetMovement(Vector2D movement)
 	_Movement = movement;
 }
 
+Vector2D Bot::GetMovement() const
+{
+	return _Movement;
+}
+
 void Bot::SetPressedButtons(int pressedButtons)
 {
 	_PressedButtons = pressedButtons;
+}
+
+int Bot::GetPressedButtons() const
+{
+	return _PressedButtons;
 }
 
 WeaponSlot Bot::GetSelectedWeaponSlot() const
@@ -142,27 +151,29 @@ WeaponSlot Bot::GetSelectedWeaponSlot() const
 
 void Bot::SetSelectedWeapon(WeaponSlot weapon)
 {
-	if (_ClassInfo)
+	if (!_ClassInfo->IsValid())
 	{
-		const char *weaponName = nullptr;
-		switch (weapon)
-		{
-		case WEAPON_PRIMARY:
-			weaponName = _ClassInfo->Primary.WeaponName;
-			break;
-		case WEAPON_SECONDARY:
-			weaponName = _ClassInfo->Secondary.WeaponName;
-			break;
-		case WEAPON_MELEE:
-			weaponName = _ClassInfo->Melee.WeaponName;
-			break;
-		}
+		return;
+	}
 
-		if (weaponName)
-		{
-			_SelectedWeaponSlot = weapon;
-			ExecClientCommand("use %s", weaponName);
-		}
+	const char *weaponName = nullptr;
+	switch (weapon)
+	{
+	case WEAPON_PRIMARY:
+		weaponName = _ClassInfo->Primary.WeaponName;
+		break;
+	case WEAPON_SECONDARY:
+		weaponName = _ClassInfo->Secondary.WeaponName;
+		break;
+	case WEAPON_MELEE:
+		weaponName = _ClassInfo->Melee.WeaponName;
+		break;
+	}
+
+	if (weaponName)
+	{
+		_SelectedWeaponSlot = weapon;
+		ExecClientCommand("use %s", weaponName);
 	}
 }
 
@@ -176,8 +187,7 @@ void Bot::ChangeClass(TFClass tfClass)
 	ExecClientCommand("joinclass %s", _TFClassToJoinName(tfClass));
 
 	_CurrentClass = tfClass;
-	delete _ClassInfo;
-	_ClassInfo = new TFClassInfo(_TFClassInfoProvider->GetClassInfo(tfClass));
+	_ClassInfo = _TFClassInfoProvider->GetClassInfo(tfClass);
 	_UpdateBotBrain();
 }
 

@@ -21,29 +21,38 @@ extern IPlayerInfoManager* IIPlayerInfoManager;
 
 static bool _DrawDebugBeams = false;
 
-std::vector<BotVisibleTarget*> BotVisibles::GetVisibleTargets() const
+std::vector<BotVisibleTarget> BotVisibles::GetVisibleTargets() const
 {
 	return _VisibleTargets;
 }
 
-BotVisibleTarget* BotVisibles::GetMostImportantTarget() const
+BotVisibleTarget BotVisibles::GetMostImportantTarget() const
 {
 	Vector botPos = _MBot->GetPos();
-	BotVisibleTarget* importantTarget = nullptr;
+	const BotVisibleTarget* importantTarget = nullptr;
 	float importantTargetDist = _ConVarHolder->CVarBotMaxVisibleDist->GetFloat();
-	for (BotVisibleTarget* visibleTarget : _VisibleTargets)
+	for (const BotVisibleTarget& visibleTarget : _VisibleTargets)
 	{
-		BotTargetPriority targetPriority = visibleTarget->Priority;
-		float targetDist = visibleTarget->Pos.DistTo(botPos);
-		if (targetPriority != PRIORITY_FRIENDLY && (!importantTarget || targetPriority > importantTarget->Priority
-			|| targetDist < importantTargetDist))
+		if (!visibleTarget.IsValid())
 		{
-			importantTarget = visibleTarget;
+			break;
+		}
+
+		BotTargetPriority targetPriority = visibleTarget.GetPriority();
+		float targetDist = visibleTarget.GetPos().DistTo(botPos);
+		if (targetPriority != PRIORITY_UNK && targetPriority != PRIORITY_FRIENDLY
+		&& (!importantTarget || targetPriority > importantTarget->GetPriority() || targetDist < importantTargetDist))
+		{
+			importantTarget = &visibleTarget;
 			importantTargetDist = targetDist;
 		}
 	}
 
-	return importantTarget;
+	if (!importantTarget)
+	{
+		return BotVisibleTarget();
+	}
+	return *importantTarget;
 }
 
 bool BotVisibles::IsEntityVisible(Entity entity) const
@@ -53,9 +62,9 @@ bool BotVisibles::IsEntityVisible(Entity entity) const
 		return false;
 	}
 
-	for (BotVisibleTarget* visibleTarget : _VisibleTargets)
+	for (BotVisibleTarget visibleTarget : _VisibleTargets)
 	{
-		if (visibleTarget->GetEntity() == entity)
+		if (visibleTarget.GetEntity() == entity)
 		{
 			return true;
 		}
@@ -74,10 +83,6 @@ void BotVisibles::OnThink()
 	float visibilityTick = _ConVarHolder->CVarBotVisibilityTick->GetFloat();
 	_TickTime = currentTime + visibilityTick;
 
-	for (BotVisibleTarget* visibleTarget : _VisibleTargets)
-	{
-		delete visibleTarget;
-	}
 	_VisibleTargets.clear();
 
 	Vector botPos = _MBot->GetEarPos();
@@ -105,7 +110,7 @@ void BotVisibles::OnThink()
 				vec_t edictBotDistance = entityPos.DistTo(botPos);
 				for (uint8_t i = 0; i < _VisibleTargets.size(); i++)
 				{
-					if (_VisibleTargets[i]->Pos.DistTo(botPos) >= edictBotDistance)
+					if (_VisibleTargets[i].GetPos().DistTo(botPos) >= edictBotDistance)
 					{
 						insertIndex = i;
 						break;
@@ -131,7 +136,7 @@ void BotVisibles::_AddEntity(Entity entity, Vector edictPos, uint8_t insertIndex
 		targetPriority = PRIORITY_NORMAL;
 	}
 		
-	_VisibleTargets.insert(_VisibleTargets.begin() + insertIndex, new BotVisibleTarget(edictPos, targetPriority, entity));
+	_VisibleTargets.emplace(_VisibleTargets.begin() + insertIndex, edictPos, targetPriority, entity);
 }
 
 bool BotVisibles::_IsTargetInSight(Vector targetPos) const

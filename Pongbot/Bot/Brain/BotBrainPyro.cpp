@@ -8,13 +8,13 @@ void BotBrainPyro::_OnThink()
 {
 	Bot* bot = _GetBot();
 
-	BotVisibleTarget* currentTarget = bot->GetBotVisibles()->GetMostImportantTarget();
-	if (currentTarget && bot->GetSelectedWeaponSlot() == WEAPON_PRIMARY)
+	BotVisibleTarget currentTarget = bot->GetBotVisibles()->GetMostImportantTarget();
+	if (currentTarget.IsValid() && bot->GetSelectedWeaponSlot() == WEAPON_PRIMARY)
 	{
 		if (!_IsRushingEnemy)
 		{
 			_IsRushingEnemy = true;
-			_SetBotTask(new BotTaskAggressiveCombat(bot, currentTarget->GetEntity(), WEAPON_PRIMARY));
+			_SetBotTask(new BotTaskAggressiveCombat(bot, currentTarget.GetEntity(), WEAPON_PRIMARY));
 		}
 	}
 	else

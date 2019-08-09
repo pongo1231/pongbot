@@ -12,42 +12,57 @@ enum TFClassInfoWeaponFlags
 
 struct TFClassInfoWeapon
 {
-	TFClassInfoWeapon(const char* weaponName, unsigned int weaponFlags = 0) : WeaponName(weaponName), WeaponFlags(weaponFlags)
-	{}
+	TFClassInfoWeapon() : WeaponName("UNK"), WeaponFlags(0), _Valid(false) {}
+	TFClassInfoWeapon(const char* weaponName, unsigned int weaponFlags = 0) : WeaponName(weaponName), WeaponFlags(weaponFlags), _Valid(true) {}
 
 	const char* WeaponName;
 	const unsigned int WeaponFlags;
+
+	bool IsValid() const
+	{
+		return _Valid;
+	}
+
+private:
+	bool _Valid;
 };
 
 struct TFClassInfo
 {
+	TFClassInfo() : Speed(0.f), _Valid(false) {}
 	TFClassInfo(float speed, TFClassInfoWeapon primary, TFClassInfoWeapon secondary,
-		TFClassInfoWeapon melee) : Speed(speed), Primary(primary), Secondary(secondary), Melee(melee)
-	{}
+		TFClassInfoWeapon melee) : Speed(speed), Primary(primary), Secondary(secondary), Melee(melee), _Valid(true) {}
 
 	const float Speed;
 	// TODO: Support for additional weapon types (for example buff banner)
 	const TFClassInfoWeapon Primary;
 	const TFClassInfoWeapon Secondary;
 	const TFClassInfoWeapon Melee;
+
+	bool IsValid() const
+	{
+		return _Valid && Primary.IsValid() && Secondary.IsValid() && Melee.IsValid();
+	}
+
+private:
+	bool _Valid;
 };
 
 class TFClassInfoProvider
 {
 private:
-	TFClassInfoProvider()
-	{}
+	TFClassInfoProvider() {}
 
 public:
 	static void Init();
 	static void Destroy();
 
-	TFClassInfo GetClassInfo(TFClass tfClass) const;
+	const TFClassInfo* GetClassInfo(TFClass tfClass) const;
 
 private:
 	const std::map<TFClass, TFClassInfo> _ClassInfos =
 	{
-		{CLASS_UNK, TFClassInfo(0.f, TFClassInfoWeapon(""), TFClassInfoWeapon(""), TFClassInfoWeapon(""))},
+		{CLASS_UNK, TFClassInfo()},
 
 		{SCOUT, TFClassInfo(133.f,
 			TFClassInfoWeapon("TF_WEAPON_SCATTERGUN", WEAPONFLAG_PRIORITIZE_MIDDLEDIST | WEAPONFLAG_PRIORITIZE_SHORTDIST),

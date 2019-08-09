@@ -48,7 +48,7 @@ bool Entity::IsPlayer() const
 
 bool Entity::Exists() const
 {
-	return GetEdict() != nullptr;
+	return GetEdict();
 }
 
 const char* Entity::GetEdictClassName() const

@@ -59,7 +59,7 @@ void EntityProvider::OnGameFrame()
 		return;
 	}
 
-	static float tickTime;
+	static float tickTime = 0.f;
 	float currentTime = Engine->Time();
 	if (tickTime > currentTime)
 	{

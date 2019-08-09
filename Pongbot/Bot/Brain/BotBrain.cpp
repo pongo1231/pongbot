@@ -51,13 +51,13 @@ void BotBrain::_DefaultThink()
 	/* Tasks which should be able to override current ones */
 
 	// Melee combat
-	BotVisibleTarget* currentTarget = bot->GetBotVisibles()->GetMostImportantTarget();
-	if (currentTarget && bot->GetSelectedWeaponSlot() == WeaponSlot::WEAPON_MELEE)
+	BotVisibleTarget currentTarget = bot->GetBotVisibles()->GetMostImportantTarget();
+	if (currentTarget.IsValid() && bot->GetSelectedWeaponSlot() == WeaponSlot::WEAPON_MELEE)
 	{
 		if (!_IsBotInMeleeFight)
 		{
 			_IsBotInMeleeFight = true;
-			_SetBotTask(new BotTaskAggressiveCombat(bot, currentTarget->GetEntity(), WeaponSlot::WEAPON_MELEE));
+			_SetBotTask(new BotTaskAggressiveCombat(bot, currentTarget.GetEntity(), WeaponSlot::WEAPON_MELEE));
 		}
 	}
 	else

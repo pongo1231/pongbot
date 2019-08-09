@@ -102,7 +102,7 @@ namespace Util
 	{
 		Vector2D sins;
 		SinCos(DEG2RAD(bot->GetViewAngle().y - GetLookAtAngleForPos(bot, targetPos).y), &sins.y, &sins.x);
-		sins = sins / sins.Length() * _TFClassInfoProvider->GetClassInfo(bot->GetClass()).Speed * 3.f;
+		sins = sins / sins.Length() * _TFClassInfoProvider->GetClassInfo(bot->GetClass())->Speed * 3.f;
 
 		return sins;
 	}

@@ -20,13 +20,13 @@ void BotBrainMed::_OnThink()
 	if (!_CurrentHealTarget)
 	{
 		Vector botPos = bot->GetPos();
-		std::vector<BotVisibleTarget*> botVisibleTargets = botVisibles->GetVisibleTargets();
+		std::vector<BotVisibleTarget> botVisibleTargets = botVisibles->GetVisibleTargets();
 		// TODO: Target most important target for healing instead of first one
-		for (BotVisibleTarget* visibleTarget : botVisibleTargets)
+		for (BotVisibleTarget visibleTarget : botVisibleTargets)
 		{
-			Entity visibleEntity = visibleTarget->GetEntity();
-			if (visibleEntity.Exists() && visibleEntity.IsPlayer() && visibleTarget->Priority == PRIORITY_FRIENDLY
-				&& botPos.DistTo(visibleTarget->Pos) < _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
+			Entity visibleEntity = visibleTarget.GetEntity();
+			if (visibleEntity.Exists() && visibleEntity.IsPlayer() && visibleTarget.GetPriority() == PRIORITY_FRIENDLY
+				&& botPos.DistTo(visibleTarget.GetPos()) < _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
 			{
 				_CurrentHealTarget = visibleEntity.GetEdict();
 				_SetBotTask(new BotTaskMedHealTarget(bot, _CurrentHealTarget));

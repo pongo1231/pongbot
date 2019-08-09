@@ -18,7 +18,7 @@ public:
 	WaypointNode* GetClosestWaypointNode(Vector pos, float maxDistance = -1, unsigned int nodeFlagWhitelist = 0) const;
 	float GetShortestWaypointNodeRouteToTargetNode(WaypointNode* startNode, WaypointNode* targetNode,
 		std::stack<WaypointNode*>* waypointNodesStack, unsigned int flagBlacklist = 0,
-		std::vector<WaypointNode*>* _alreadyTraversedWaypointNodesStack = nullptr);
+		std::vector<WaypointNode*> _alreadyTraversedWaypointNodesStack = std::vector<WaypointNode*>());
 	bool GetRandomWaypointNodeRouteToTargetNode(WaypointNode* startNode, WaypointNode* targetNode,
 		std::stack<WaypointNode*>* waypointNodesStack, unsigned int flagBlacklist = 0,
 		std::vector<WaypointNode*> _alreadyTraversedWaypointNodesStack = std::vector<WaypointNode*>());

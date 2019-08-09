@@ -7,6 +7,7 @@ class Vector;
 class Entity
 {
 public:
+	Entity() : _MEdict(nullptr) {}
 	Entity(edict_t* edict) : _MEdict(edict) {}
 	bool operator ==(Entity other)
 	{

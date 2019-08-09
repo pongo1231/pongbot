@@ -18,7 +18,8 @@ extern IVEngineServer* Engine;
 static bool _DrawDebugBeam = false;
 
 BotTaskGoto::BotTaskGoto(Bot* bot, Vector targetPos, bool shortestWay, int nodeFlagBlacklist) : BotTask(bot),
-	_TargetPos(targetPos), _ShortestWay(shortestWay), _NodeFlagBlacklist(nodeFlagBlacklist)
+	_TargetPos(targetPos), _ShortestWay(shortestWay), _NodeFlagBlacklist(nodeFlagBlacklist), _PosStuckTime(0),
+	_DebugBeamDrawTime(0.f)
 {
 	_NewTargetNodeStack();
 }
@@ -38,7 +39,9 @@ bool BotTaskGoto::_OnThink()
 		{
 			_PosStuckTime = 0;
 			if (!_ShortestWay)
+			{
 				_NewTargetNodeStack();
+			}
 		}
 		else if (_PosStuckTime > panicStuckTime)
 		{
@@ -112,8 +115,7 @@ void BotTaskGoto::_NewTargetNodeStack()
 		while (!_WaypointNodeStack.empty())
 		{
 			float nodeTouchRadius = _ConVarHolder->CVarBotNodeTouchRadius->GetFloat();
-			_TargetPosQueue.push(_WaypointNodeStack.top()->Pos
-				+ Vector(Util::RandomFloat(-nodeTouchRadius, nodeTouchRadius),
+			_TargetPosQueue.push(_WaypointNodeStack.top()->Pos + Vector(Util::RandomFloat(-nodeTouchRadius, nodeTouchRadius),
 					Util::RandomFloat(-nodeTouchRadius, nodeTouchRadius), 0.f));
 			_WaypointNodeStack.pop();
 		}

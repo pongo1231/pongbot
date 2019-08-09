@@ -9,10 +9,10 @@ void BotBrainSniper::_OnThink()
 {
 	Bot* bot = _GetBot();
 
-	BotVisibleTarget* visibleTarget = bot->GetBotVisibles()->GetMostImportantTarget();
-	if (visibleTarget)
+	BotVisibleTarget visibleTarget = bot->GetBotVisibles()->GetMostImportantTarget();
+	if (visibleTarget.IsValid())
 	{
-		if (Util::DistanceToNoZ(bot->GetPos(), visibleTarget->Pos) > _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
+		if (Util::DistanceToNoZ(bot->GetPos(), visibleTarget.GetPos()) > _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
 		{
 			if (!_IsBotSniping)
 			{
