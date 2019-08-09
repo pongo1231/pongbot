@@ -48,7 +48,7 @@ Now run the following in the project's root folder:
 MLIBS=/path/to/the/folder/containing/hlsdk/and/metamod make
 ```
 
-It should build and generate a Pongbot.so to build/bin/
+It should build and generate a Pongbot.so in build/bin/
 
 # Installation
 
