@@ -12,8 +12,10 @@ A new tf2 bot fully written from scratch.
 
 <details>
     <summary>Old Instructions</summary>
+    
     Import the project to Visual Studio (preferably 2019) on Windows.
     Afterwards follow these steps to set the project up properly:
+    
     ```
     - Select Release build flavour (Debug won't compile as of now)
     - Select x86 as target architecture (Can't compile hl2 sdk with x64 as target)
@@ -26,6 +28,7 @@ A new tf2 bot fully written from scratch.
     - Check if there's a command line set in Build Events -> Post-Build Events
         - If there is, either change it the path of your choosing or completely remove it
     ```
+    
     And everything should be ready to go!
 </details>
 
