@@ -35,13 +35,19 @@ A new tf2 bot fully written from scratch.
 ## Linux
 
 Install `gcc` and `make` first.
+
 Download the [hl2sdk](https://github.com/alliedmodders/hl2sdk/tree/tf2) (tf2-specific) and [metamod source code](https://github.com/alliedmodders/metamod-source).
+
 Put the hl2sdk in a folder and rename it to hlsdk.
+
 Put metamod/core into the same folder and rename it to metamod.
+
 Now run the following in the project's root folder:
+
 ```
 MLIBS=/path/to/the/folder/containing/hlsdk/and/metamod make
 ```
+
 It should build and generate a Pongbot.so to build/bin/
 
 # Installation
