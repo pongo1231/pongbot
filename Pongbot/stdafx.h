@@ -1,5 +1,7 @@
 #pragma once
+#include "TF2/Trace/TraceHeaders.h"
 #include <metamod/ISmmPlugin.h>
+#include <metamod/ISmmAPI.h>
 #include <metamod/sourcehook/sourcehook.h>
 #include <hlsdk/public/shake.h>
 #include <hlsdk/game/shared/IEffects.h>
@@ -8,3 +10,7 @@
 #include <hlsdk/public/mathlib/mathlib.h>
 #include <hlsdk/public/edict.h>
 #include <hlsdk/public/tier1/convar.h>
+#include <cstdlib>
+#include <algorithm>
+#include <cmath>
+#include <string>

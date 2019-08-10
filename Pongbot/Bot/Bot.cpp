@@ -13,7 +13,6 @@
 #include "Brain/BotBrainMed.h"
 #include "Brain/BotBrainSniper.h"
 #include "Brain/BotBrainSpy.h"
-#include "../TF2/Class/TFClassInfoProvider.h"
 #include "../ConVarHolder.h"
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/game/server/iplayerinfo.h>
@@ -28,7 +27,8 @@ Bot::Bot(Player player, const char* name) : Name(name), _Player(player), _Edict(
 	_IBotController(IIBotManager->GetBotController(_Edict)),
 	_ClassInfo(_TFClassInfoProvider->GetClassInfo(TFClass::CLASS_UNK)),
 	_IPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(_Edict)), _BotVisibles(new BotVisibles(this)),
-	_BotBrain(nullptr)
+	_BotBrain(nullptr), _Movement(Vector2D()), _TargetViewAngle(QAngle()), _PressedButtons(0),
+	_SelectedWeaponSlot(WEAPON_UNKNOWN)
 {
 	_SwitchToFittingTeam();
 	_RandomClass();
@@ -68,9 +68,15 @@ void Bot::Think()
 
 	CBotCmd cmd;
 	cmd.buttons = _PressedButtons;
-	cmd.forwardmove = _Movement.x;
-	cmd.sidemove = _Movement.y;
-	cmd.viewangles = finalViewAngle;
+	if (_Movement.IsValid())
+	{
+		cmd.forwardmove = _Movement.x;
+		cmd.sidemove = _Movement.y;
+	}
+	if (finalViewAngle.IsValid())
+	{
+		cmd.viewangles = finalViewAngle;
+	}
 	_IBotController->RunPlayerMove(&cmd);
 }
 
@@ -106,7 +112,10 @@ QAngle Bot::GetViewAngle() const
 
 void Bot::SetViewAngle(QAngle angle)
 {
-	_TargetViewAngle = angle;
+	if (angle.IsValid())
+	{
+		_TargetViewAngle = angle;
+	}
 }
 
 TFClass Bot::GetClass() const
@@ -126,7 +135,10 @@ BotVisibles* Bot::GetBotVisibles() const
 
 void Bot::SetMovement(Vector2D movement)
 {
-	_Movement = movement;
+	if (movement.IsValid())
+	{
+		_Movement = movement;
+	}
 }
 
 Vector2D Bot::GetMovement() const
@@ -151,7 +163,7 @@ WeaponSlot Bot::GetSelectedWeaponSlot() const
 
 void Bot::SetSelectedWeapon(WeaponSlot weapon)
 {
-	if (!_ClassInfo->IsValid())
+	if (!_ClassInfo.IsValid())
 	{
 		return;
 	}
@@ -160,13 +172,13 @@ void Bot::SetSelectedWeapon(WeaponSlot weapon)
 	switch (weapon)
 	{
 	case WEAPON_PRIMARY:
-		weaponName = _ClassInfo->Primary.WeaponName;
+		weaponName = _ClassInfo.GetPrimary().GetWeaponName();
 		break;
 	case WEAPON_SECONDARY:
-		weaponName = _ClassInfo->Secondary.WeaponName;
+		weaponName = _ClassInfo.GetSecondary().GetWeaponName();
 		break;
 	case WEAPON_MELEE:
-		weaponName = _ClassInfo->Melee.WeaponName;
+		weaponName = _ClassInfo.GetMelee().GetWeaponName();
 		break;
 	}
 
@@ -208,16 +220,16 @@ WeaponSlot Bot::GetIdealWeaponForRange(float range) const
 	// TODO: Take ammo into account
 	TFClassInfoWeapon weaponInfos[] =
 	{
-		_ClassInfo->Primary,
-		_ClassInfo->Secondary,
-		_ClassInfo->Melee
+		_ClassInfo.GetPrimary(),
+		_ClassInfo.GetSecondary(),
+		_ClassInfo.GetMelee()
 	};
 	WeaponSlot longRangeWeaponSlot = WEAPON_PRIMARY;
 	WeaponSlot middleRangeWeaponSlot = WEAPON_SECONDARY;
 	WeaponSlot shortRangeWeaponSlot = WEAPON_MELEE;
 	for (int i = 0; i < 3; i++)
 	{
-		unsigned int weaponFlags = weaponInfos[i].WeaponFlags;
+		unsigned int weaponFlags = weaponInfos[i].GetWeaponFlags();
 		if (weaponFlags & WEAPONFLAG_PRIORITIZE_LONGDIST)
 		{
 			longRangeWeaponSlot = (WeaponSlot)i;
