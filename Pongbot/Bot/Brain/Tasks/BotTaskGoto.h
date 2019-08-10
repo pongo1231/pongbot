@@ -8,7 +8,9 @@ class Bot;
 class BotTaskGoto : public BotTask
 {
 public:
-	BotTaskGoto(Bot* bot, Vector targetPos, bool shortestWay = true, int nodeFlagBlacklist = 0);
+	BotTaskGoto(Bot* bot, Vector targetPos, bool shortestWay = true, int nodeFlagBlacklist = 0) : BotTask(bot),
+		_TargetPos(targetPos), _ShortestWay(shortestWay), _NodeFlagBlacklist(nodeFlagBlacklist), _PosStuckTime(0),
+		_DebugBeamDrawTime(0.f), _Abort(!_NewTargetNodeStack()) {}
 
 private:
 	std::queue<Vector> _TargetPosQueue;
@@ -18,7 +20,8 @@ private:
 	const bool _ShortestWay;
 	const int _NodeFlagBlacklist;
 	float _DebugBeamDrawTime;
+	bool _Abort;
 
 	virtual bool _OnThink();
-	void _NewTargetNodeStack();
+	bool _NewTargetNodeStack();
 };

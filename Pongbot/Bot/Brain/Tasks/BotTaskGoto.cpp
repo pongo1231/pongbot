@@ -17,15 +17,13 @@ extern IVEngineServer* Engine;
 
 static bool _DrawDebugBeam = false;
 
-BotTaskGoto::BotTaskGoto(Bot* bot, Vector targetPos, bool shortestWay, int nodeFlagBlacklist) : BotTask(bot),
-	_TargetPos(targetPos), _ShortestWay(shortestWay), _NodeFlagBlacklist(nodeFlagBlacklist), _PosStuckTime(0),
-	_DebugBeamDrawTime(0.f)
-{
-	_NewTargetNodeStack();
-}
-
 bool BotTaskGoto::_OnThink()
 {
+	if (_Abort)
+	{
+		return true;
+	}
+
 	Bot* bot = _GetBot();
 	Vector currentPos = bot->GetPos();
 	float nodeTouchRadius = _ConVarHolder->CVarBotNodeTouchRadius->GetFloat();
@@ -38,9 +36,10 @@ bool BotTaskGoto::_OnThink()
 		if (_PosStuckTime > panicStuckTime + 50)
 		{
 			_PosStuckTime = 0;
-			if (!_ShortestWay)
+			if (!_ShortestWay && !_NewTargetNodeStack())
 			{
-				_NewTargetNodeStack();
+				// Can't get there
+				return true;
 			}
 		}
 		else if (_PosStuckTime > panicStuckTime)
@@ -84,7 +83,7 @@ bool BotTaskGoto::_OnThink()
 	return false;
 }
 
-void BotTaskGoto::_NewTargetNodeStack()
+bool BotTaskGoto::_NewTargetNodeStack()
 {
 	Bot* bot = _GetBot();
 	Vector currentPos = bot->GetPos();
@@ -110,6 +109,12 @@ void BotTaskGoto::_NewTargetNodeStack()
 			_WaypointManager->GetRandomWaypointNodeRouteToTargetNode(closestNode, targetNode, &_WaypointNodeStack,
 				nodeFlagBlacklist | _NodeFlagBlacklist);
 		}
+
+		if (_WaypointNodeStack.empty())
+		{
+			// Can't even get there, abort
+			return false;
+		}
 		
 		_TargetPosQueue = std::queue<Vector>();
 		while (!_WaypointNodeStack.empty())
@@ -121,6 +126,8 @@ void BotTaskGoto::_NewTargetNodeStack()
 		}
 		_TargetPosQueue.push(_TargetPos);
 	}
+
+	return true;
 }
 
 CON_COMMAND(pongbot_bot_goto_debug, "Draw a beam to the bots' target pos")
