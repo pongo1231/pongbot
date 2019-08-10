@@ -50,13 +50,13 @@ bool Main::Load(PluginId id, ISmmAPI* ismm, char* error, size_t maxlen, bool lat
 	float initStartTime = Engine->Time();
 	Util::Log("Initializing...");
 
-	BotManager::Init();
-	WaypointManager::Init();
+	EventHooksProvider::Init();
 	EntityProvider::Init();
 	TFClassInfoProvider::Init();
 	ObjectivesProvider::Init();
 	ConVarHolder::Init();
-	EventHooksProvider::Init();
+	WaypointManager::Init();
+	BotManager::Init();
 
 	Util::Log("Initializion done! (Took %.2f seconds)", Engine->Time() - initStartTime);
 	Util::Log("!!! Don't forget to set sv_quota_stringcmdspersecond to some high value (e.g. 999999) to prevent crashes !!!");

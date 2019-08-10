@@ -7,6 +7,12 @@
 #include <metamod/ISmmAPI.h>
 
 extern IVEngineServer* Engine;
+extern IServerGameDLL* Server;
+extern SourceHook::ISourceHook* g_SHPtr;
+extern PluginId g_PLID;
+
+SH_DECL_HOOK6(IServerGameDLL, LevelInit, SH_NOATTRIB, 0, bool, char const*, char const*,
+	char const*, char const*, bool, bool);
 
 EventHooksProvider* _EventHooksProvider = nullptr;
 
@@ -17,6 +23,7 @@ void EventHooksProvider::Init()
 		Util::DebugLog("INIT EventHooksProvider");
 
 		_EventHooksProvider = new EventHooksProvider();
+		SH_ADD_HOOK(IServerGameDLL, LevelInit, Server, SH_MEMBER(_EventHooksProvider, &EventHooksProvider::_OnLevelInit), true);
 	}
 }
 
@@ -26,6 +33,7 @@ void EventHooksProvider::Destroy()
 	{
 		Util::DebugLog("DESTROY EventHooksProvider");
 
+		SH_REMOVE_HOOK(IServerGameDLL, LevelInit, Server, SH_MEMBER(_EventHooksProvider, &EventHooksProvider::_OnLevelInit), true);
 		delete _EventHooksProvider;
 		_EventHooksProvider = nullptr;
 	}
@@ -101,4 +109,13 @@ void EventHooksProvider::_CheckObjectiveUpdates()
 	}
 
 	_PrevObjectives = newObjectives;
+}
+
+bool EventHooksProvider::_OnLevelInit(const char* pMapName, char const* pMapEntities,
+	char const* pOldLevel, char const* pLandmarkName, bool loadGame, bool background) const
+{
+	for (IEventHooker* eventHooker : _EventHookers)
+	{
+		eventHooker->OnLevelInit(pMapName, pMapEntities, pOldLevel, pLandmarkName, loadGame, background);
+	}
 }

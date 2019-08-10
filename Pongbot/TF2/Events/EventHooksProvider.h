@@ -24,6 +24,8 @@ private:
 	std::vector<Objective> _PrevObjectives;
 
 	void _CheckObjectiveUpdates();
+	bool _OnLevelInit(const char* pMapName, char const* pMapEntities,
+		char const* pOldLevel, char const* pLandmarkName, bool loadGame, bool background) const;
 };
 
 extern EventHooksProvider* _EventHooksProvider;

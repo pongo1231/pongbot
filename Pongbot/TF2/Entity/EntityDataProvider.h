@@ -11,7 +11,8 @@ enum EntityDataType
 	DATA_FLAG_STATUS, // CCaptureFlag::m_nFlagStatus
 	DATA_HEALTH, // CBaseObject::m_iHealth
 	DATA_PLAYER_FOV, // CBasePlayer::m_iFOV
-	DATA_PLAYER_CURRENTWEAPON // CBaseCombatCharacter::m_hActiveWeapon
+	DATA_PLAYER_CURRENTWEAPON, // CBaseCombatCharacter::m_hActiveWeapon
+	DATA_TIMER_STATE // CTeamRoundTimer::m_nState
 };
 
 class EntityDataProvider
@@ -35,7 +36,7 @@ public:
 	}
 
 	template<typename T>
-	void SetDataFromEntity(Entity entity, EntityDataType dataType, T data)
+	void SetDataOfEntity(Entity entity, EntityDataType dataType, T data)
 	{
 		if (entity.Exists() && entity.GetEdict()->GetUnknown())
 		{
@@ -52,14 +53,16 @@ private:
 		{DATA_FLAG_STATUS, 1632},
 		{DATA_HEALTH, 244},
 		{DATA_PLAYER_FOV, 2876},
-		{DATA_PLAYER_CURRENTWEAPON, 2052}
+		{DATA_PLAYER_CURRENTWEAPON, 2052},
+		{DATA_TIMER_STATE, 888}
 		#elif _LINUX
 		{DATA_TEAM, 536},
 		{DATA_FLAG_OWNER, 1668},
 		{DATA_FLAG_STATUS, 1652},
 		{DATA_HEALTH, 264},
 		{DATA_PLAYER_FOV, 2896},
-		{DATA_PLAYER_CURRENTWEAPON, 2072}
+		{DATA_PLAYER_CURRENTWEAPON, 2072},
+		{DATA_TIMER_STATE, 908}
 		#endif
 	};
 };

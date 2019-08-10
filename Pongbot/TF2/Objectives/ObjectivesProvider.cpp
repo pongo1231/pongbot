@@ -57,6 +57,11 @@ std::vector<Objective> ObjectivesProvider::GetAllObjectives() const
 	return objectives;
 }
 
+int ObjectivesProvider::GetRoundTimerStatus() const
+{
+
+}
+
 void ObjectivesProvider::OnGameFrame()
 {
 	if (!_BotManager->BotsInGame())

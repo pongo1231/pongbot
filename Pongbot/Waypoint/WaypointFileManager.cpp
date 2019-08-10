@@ -2,8 +2,6 @@
 #include "WaypointFileManager.h"
 #include "../Util.h"
 #include "WaypointNode.h"
-#include <metamod/ISmmAPI.h>
-#include <metamod/sourcehook/sourcehook.h>
 #ifdef _WIN32
 #include <windows.h>
 #elif _LINUX
@@ -15,16 +13,9 @@
 #define FILE_DIR "tf/addons/pongbot/waypoints/"
 #define FILE_EXTENSION "pbw"
 
-extern IServerGameDLL* Server;
-extern SourceHook::ISourceHook* g_SHPtr;
-extern PluginId g_PLID;
-
 WaypointFileManager* _WaypointFileManager = nullptr;
 
 static std::vector<WaypointNode*>* _WaypointNodes = nullptr;
-
-SH_DECL_HOOK6(IServerGameDLL, LevelInit, SH_NOATTRIB, 0, bool, char const*, char const*,
-	char const*, char const*, bool, bool);
 
 void WaypointFileManager::Init(std::vector<WaypointNode*>* waypointNodes)
 {
@@ -34,7 +25,6 @@ void WaypointFileManager::Init(std::vector<WaypointNode*>* waypointNodes)
 
 		_WaypointNodes = waypointNodes;
 		_WaypointFileManager = new WaypointFileManager();
-		SH_ADD_HOOK(IServerGameDLL, LevelInit, Server, SH_MEMBER(_WaypointFileManager, &WaypointFileManager::_OnLevelInit), true);
 	}
 }
 
@@ -44,7 +34,6 @@ void WaypointFileManager::Destroy()
 	{
 		Util::DebugLog("DESTROY WaypointFileManager");
 
-		SH_REMOVE_HOOK(IServerGameDLL, LevelInit, Server, SH_MEMBER(_WaypointFileManager, &WaypointFileManager::_OnLevelInit), true);
 		delete _WaypointFileManager;
 		_WaypointFileManager = nullptr;
 	}
@@ -164,6 +153,12 @@ void WaypointFileManager::Write()
 	}
 }
 
+void WaypointFileManager::OnLevelInit(const char* pMapName, char const* pMapEntities, char const* pOldLevel,
+		char const* pLandmarkName, bool loadGame, bool background)
+{
+	_OnLevelInit(pMapName);
+}
+
 bool WaypointFileManager::_CheckDir(char* fileName) {
 	struct stat info;
 	stat(FILE_DIR, &info);
@@ -197,8 +192,7 @@ bool WaypointFileManager::_CheckDir(char* fileName) {
 	return true;
 }
 
-bool WaypointFileManager::_OnLevelInit(const char* pMapName, char const* pMapEntities,
-	char const* pOldLevel, char const* pLandmarkName, bool loadGame, bool background)
+bool WaypointFileManager::_OnLevelInit(const char* pMapName)
 {
 	#ifdef _WIN32
 	strcpy_s(_CurrentMapName, sizeof(_CurrentMapName), pMapName);

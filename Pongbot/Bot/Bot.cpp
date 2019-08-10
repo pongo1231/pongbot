@@ -68,9 +68,15 @@ void Bot::Think()
 
 	CBotCmd cmd;
 	cmd.buttons = _PressedButtons;
-	cmd.forwardmove = _Movement.x;
-	cmd.sidemove = _Movement.y;
-	cmd.viewangles = finalViewAngle;
+	if (_Movement.IsValid())
+	{
+		cmd.forwardmove = _Movement.x;
+		cmd.sidemove = _Movement.y;
+	}
+	if (finalViewAngle.IsValid())
+	{
+		cmd.viewangles = finalViewAngle;
+	}
 	_IBotController->RunPlayerMove(&cmd);
 }
 
@@ -106,7 +112,10 @@ QAngle Bot::GetViewAngle() const
 
 void Bot::SetViewAngle(QAngle angle)
 {
-	_TargetViewAngle = angle;
+	if (angle.IsValid())
+	{
+		_TargetViewAngle = angle;
+	}
 }
 
 TFClass Bot::GetClass() const
@@ -126,7 +135,10 @@ BotVisibles* Bot::GetBotVisibles() const
 
 void Bot::SetMovement(Vector2D movement)
 {
-	_Movement = movement;
+	if (movement.IsValid())
+	{
+		_Movement = movement;
+	}
 }
 
 Vector2D Bot::GetMovement() const

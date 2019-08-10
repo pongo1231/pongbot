@@ -38,6 +38,7 @@ public:
 	std::vector<Objective> GetBotPushObjectives(Bot* bot) const;
 	std::vector<Objective> GetBotDefendObjectives(Bot* bot) const;
 	std::vector<Objective> GetAllObjectives() const;
+	int GetRoundTimerStatus() const;
 
 	virtual void OnGameFrame();
 
