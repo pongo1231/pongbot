@@ -3,11 +3,11 @@
 #include "../TF2/WeaponSlot.h"
 #include "../TF2/TFTeam.h"
 #include "../TF2/Entity/Player.h"
+#include "../TF2/Class/TFClassInfoProvider.h"
 #include <hlsdk/public/mathlib/mathlib.h>
 
 class BotBrain;
 class BotVisibles;
-struct TFClassInfo;
 class IBotController;
 class IPlayerInfo;
 struct edict_t;
@@ -54,7 +54,7 @@ private:
 	QAngle _TargetViewAngle;
 	Vector2D _Movement;
 	int _PressedButtons;
-	const TFClassInfo* _ClassInfo;
+	TFClassInfo _ClassInfo;
 	WeaponSlot _SelectedWeaponSlot;
 
 	void _SwitchToFittingTeam();

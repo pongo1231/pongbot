@@ -12,11 +12,24 @@ enum TFClassInfoWeaponFlags
 
 struct TFClassInfoWeapon
 {
-	TFClassInfoWeapon() : WeaponName("UNK"), WeaponFlags(0), _Valid(false) {}
-	TFClassInfoWeapon(const char* weaponName, unsigned int weaponFlags = 0) : WeaponName(weaponName), WeaponFlags(weaponFlags), _Valid(true) {}
+	TFClassInfoWeapon() : _WeaponName("UNK"), _WeaponFlags(0), _Valid(false) {}
+	TFClassInfoWeapon(const char* weaponName, unsigned int weaponFlags = 0) : _WeaponName(weaponName), _WeaponFlags(weaponFlags), _Valid(true) {}
+	int operator=(const TFClassInfoWeapon& target)
+	{
+		_WeaponName = target.GetWeaponName();
+		_WeaponFlags = target.GetWeaponFlags();
+		_Valid = target.IsValid();
+	}
 
-	const char* WeaponName;
-	const unsigned int WeaponFlags;
+	const char* GetWeaponName() const
+	{
+		return _WeaponName;
+	}
+
+	unsigned int GetWeaponFlags() const
+	{
+		return _WeaponFlags;
+	}
 
 	bool IsValid() const
 	{
@@ -24,27 +37,56 @@ struct TFClassInfoWeapon
 	}
 
 private:
+	const char* _WeaponName;
+	unsigned int _WeaponFlags;
 	bool _Valid;
 };
 
 struct TFClassInfo
 {
-	TFClassInfo() : Speed(0.f), _Valid(false) {}
+	TFClassInfo() : _Speed(0.f), _Valid(false) {}
 	TFClassInfo(float speed, TFClassInfoWeapon primary, TFClassInfoWeapon secondary,
-		TFClassInfoWeapon melee) : Speed(speed), Primary(primary), Secondary(secondary), Melee(melee), _Valid(true) {}
+		TFClassInfoWeapon melee) : _Speed(speed), _Primary(primary), _Secondary(secondary), _Melee(melee), _Valid(true) {}
+	int operator=(const TFClassInfo& target)
+	{
+		_Speed = target.GetSpeed();
+		_Primary = target.GetPrimary();
+		_Secondary = target.GetSecondary();
+		_Melee = target.GetMelee();
+		_Valid = target.IsValid();
+	}
 
-	const float Speed;
-	// TODO: Support for additional weapon types (for example buff banner)
-	const TFClassInfoWeapon Primary;
-	const TFClassInfoWeapon Secondary;
-	const TFClassInfoWeapon Melee;
+	float GetSpeed() const
+	{
+		return _Speed;
+	}
+
+	TFClassInfoWeapon GetPrimary() const
+	{
+		return _Primary;
+	}
+
+	TFClassInfoWeapon GetSecondary() const
+	{
+		return _Secondary;
+	}
+
+	TFClassInfoWeapon GetMelee() const
+	{
+		return _Melee;
+	}
 
 	bool IsValid() const
 	{
-		return _Valid && Primary.IsValid() && Secondary.IsValid() && Melee.IsValid();
+		return _Valid && _Primary.IsValid() && _Secondary.IsValid() && _Melee.IsValid();
 	}
 
 private:
+	float _Speed;
+	// TODO: Support for additional weapon types (for example buff banner)
+	TFClassInfoWeapon _Primary;
+	TFClassInfoWeapon _Secondary;
+	TFClassInfoWeapon _Melee;
 	bool _Valid;
 };
 
@@ -57,7 +99,7 @@ public:
 	static void Init();
 	static void Destroy();
 
-	const TFClassInfo* GetClassInfo(TFClass tfClass) const;
+	TFClassInfo GetClassInfo(TFClass tfClass) const;
 
 private:
 	const std::map<TFClass, TFClassInfo> _ClassInfos =

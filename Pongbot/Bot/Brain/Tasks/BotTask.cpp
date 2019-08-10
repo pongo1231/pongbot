@@ -23,7 +23,7 @@ bool BotTask::OnThink()
 	}
 
 	// Avoid jittering around when supposed to stand still
-	if (_BotTargetPos.IsZero() || Util::DistanceToNoZ(_Bot->GetPos(), _BotTargetPos) < _ConVarHolder->CVarBotMovementIgnoreRadius->GetFloat())
+	if (!_BotTargetPos.IsValid() || _BotTargetPos.IsZero() || Util::DistanceToNoZ(_Bot->GetPos(), _BotTargetPos) < _ConVarHolder->CVarBotMovementIgnoreRadius->GetFloat())
 	{
 		_Bot->SetMovement(Vector2D());
 	}
