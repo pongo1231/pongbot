@@ -38,18 +38,40 @@ std::vector<Entity> EntityProvider::GetEntities() const
 	return _Entities;
 }
 
-std::vector<Entity> EntityProvider::SearchEntitiesByClassname(const char* classname) const
+std::vector<Entity> EntityProvider::SearchEntitiesByClassname(const char* className)
 {
+	// If not cached, update first
+	if (_Entities.empty())
+	{
+		_UpdateEntities();
+	}
+
 	std::vector<Entity> foundEntities;
 	for (Entity entity : _Entities)
 	{
-		if (entity.Exists() && strcmp(entity.GetEdictClassName(), classname) == 0)
+		if (entity.Exists() && strcmp(entity.GetEdictClassName(), className) == 0)
 		{
 			foundEntities.push_back(entity);
 		}
 	}
 
 	return foundEntities;
+}
+
+void EntityProvider::_UpdateEntities()
+{
+	_Entities.clear();
+	for (int i = 1; i < Engine->GetEntityCount(); i++)
+	{
+		Entity entity(Engine->PEntityOfEntIndex(i));
+		if (entity.Exists())
+		{
+			if (!entity.IsPlayer() || (entity.GetTeam() != TEAM_SPEC && !Player(entity).IsDead()))
+			{
+				_Entities.push_back(entity);
+			}
+		}
+	}
 }
 
 void EntityProvider::OnGameFrame()
@@ -67,16 +89,5 @@ void EntityProvider::OnGameFrame()
 	}
 	tickTime = currentTime + _ConVarHolder->CVarEntityProviderTick->GetFloat();
 
-	_Entities.clear();
-	for (int i = 1; i < Engine->GetEntityCount(); i++)
-	{
-		Entity entity(Engine->PEntityOfEntIndex(i));
-		if (entity.Exists())
-		{
-			if (!entity.IsPlayer() || (entity.GetTeam() != TEAM_SPEC && !Player(entity).IsDead()))
-			{
-				_Entities.push_back(entity);
-			}
-		}
-	}
+	_UpdateEntities();
 }

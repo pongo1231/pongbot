@@ -13,11 +13,12 @@ public:
 	static void Destroy();
 
 	std::vector<Entity> GetEntities() const;
-	std::vector<Entity> SearchEntitiesByClassname(const char* classname) const;
+	std::vector<Entity> SearchEntitiesByClassname(const char* className);
 
 private:
 	std::vector<Entity> _Entities;
 
+	void _UpdateEntities();
 	virtual void OnGameFrame();
 };
 

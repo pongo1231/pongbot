@@ -7,11 +7,9 @@
 extern IServerGameClients *IIServerGameClients;
 extern IPlayerInfoManager *IIPlayerInfoManager;
 
-Player::Player(edict_t* edict) : Entity(edict), _IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(edict))
-{}
+Player::Player(edict_t* edict) : Entity(edict), _IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(edict)) {}
 
-Player::Player(Entity entity) : Entity(entity), _IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(entity.GetEdict()))
-{}
+Player::Player(Entity entity) : Entity(entity), _IIPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(entity.GetEdict())) {}
 
 float Player::GetHealth() const
 {
@@ -30,7 +28,7 @@ float Player::GetFOV() const
 		return -1;
 	}
 
-	return _EntityDataProvider->GetDataFromEntity<float>(*this, EntityDataType::DATA_PLAYER_FOV);
+	return _EntityDataProvider->GetDataFromEntity<float>(*this, DATA_PLAYER_FOV);
 }
 
 bool Player::IsSniperZoomedIn() const

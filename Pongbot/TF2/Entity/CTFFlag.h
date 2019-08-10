@@ -13,4 +13,5 @@ public:
 public:
 	int GetOwner() const;
 	CTFFlagStatusType GetStatus() const;
+	bool IsDisabled() const;
 };

@@ -77,3 +77,14 @@ CON_COMMAND(pongbot_debug_getdata, "Outputs specified entity data")
 		}
 	}
 }
+
+CON_COMMAND(pongbot_debug_dumpentitynames, "Dumps names of all currently existing entities on the map to addons/pongbot/entity_names_dump.txt")
+{
+	std::ofstream file("tf/addons/pongbot/entity_names_dump.txt");
+	for (Entity entity : _EntityProvider->GetEntities())
+	{
+		file << entity.GetEdict()->GetClassName() << std::endl;
+	}
+	Util::Log("Dumped all entity names!");
+	file.close();
+}

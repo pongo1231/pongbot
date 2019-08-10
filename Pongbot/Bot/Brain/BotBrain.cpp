@@ -78,7 +78,7 @@ void BotBrain::_DefaultThink()
 		float closestObjectiveDistance = 99999.f;
 		for (Objective pushObjective : pushObjectives)
 		{
-			float distance = botPos.DistTo(pushObjective.Pos);
+			float distance = botPos.DistTo(pushObjective.GetPos());
 			if (distance < closestObjectiveDistance)
 			{
 				foundObjective = true;
@@ -90,12 +90,12 @@ void BotBrain::_DefaultThink()
 		if (foundObjective)
 		{
 			// CTF Flag stuff
-			if (closestObjective.Type == ITEMFLAG)
+			if (closestObjective.GetType() == ITEMFLAG)
 			{
-				CTFFlagStatusType itemFlagStatus = (CTFFlagStatusType) closestObjective.Status;
+				CTFFlagStatusType itemFlagStatus = (CTFFlagStatusType) closestObjective.GetStatus();
 				if (itemFlagStatus == CTFFlagStatusType::CTF_UNTOUCHED || itemFlagStatus == CTFFlagStatusType::CTF_DROPPED) // The flag should be picked up
 				{
-					_SetBotTask(new BotTaskGoto(bot, closestObjective.Pos, false));
+					_SetBotTask(new BotTaskGoto(bot, closestObjective.GetPos(), false));
 				}
 				else if (CTFFlag(closestObjective.Edict).GetOwner() == bot->GetEdict()->m_iIndex)
 				{

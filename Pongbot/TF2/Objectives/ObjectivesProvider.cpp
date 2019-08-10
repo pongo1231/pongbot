@@ -59,7 +59,7 @@ std::vector<Objective> ObjectivesProvider::GetAllObjectives() const
 
 int ObjectivesProvider::GetRoundTimerStatus() const
 {
-
+	return _RoundTimer.GetRoundTimerStatus();
 }
 
 void ObjectivesProvider::OnGameFrame()
@@ -77,13 +77,20 @@ void ObjectivesProvider::OnGameFrame()
 	}
 	tickTime = engineTime + _ConVarHolder->CVarObjectiveUpdateTick->GetFloat();
 
-	_RedObjectives.clear();
-	_BlueObjectives.clear();
 	_UpdateCTFObjectives();
+}
+
+void ObjectivesProvider::OnLevelInit(const char* pMapName, char const* pMapEntities,
+		char const* pOldLevel, char const* pLandmarkName, bool loadGame, bool background)
+{
+	_UpdateRoundTimer();
 }
 
 void ObjectivesProvider::_UpdateCTFObjectives()
 {
+	_RedObjectives.clear();
+	_BlueObjectives.clear();
+
 	std::vector<Entity> itemFlags = _EntityProvider->SearchEntitiesByClassname("item_teamflag");
 	for (Entity entity : itemFlags)
 	{
@@ -98,5 +105,15 @@ void ObjectivesProvider::_UpdateCTFObjectives()
 		{
 			_BlueObjectives.push_back(objective);
 		}
+	}
+}
+
+void ObjectivesProvider::_UpdateRoundTimer()
+{
+	std::vector<Entity> roundTimers = _EntityProvider->SearchEntitiesByClassname("team_round_timer");
+	Util::DebugLog("RoundTimers: %d", roundTimers.size());
+	if (!roundTimers.empty())
+	{
+		_RoundTimer = roundTimers[0];
 	}
 }

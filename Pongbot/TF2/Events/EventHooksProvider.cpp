@@ -96,7 +96,7 @@ void EventHooksProvider::_CheckObjectiveUpdates()
 		{
 			// Either same edict (e.g. itemflags) or same pos (capture points) means it's the same objective
 			if (((newObjective.Edict && newObjective.Edict == prevObjective.Edict)
-				|| newObjective.Pos == prevObjective.Pos) && newObjective.Status != prevObjective.Status)
+				|| newObjective.GetPos() == prevObjective.GetPos()) && newObjective.GetStatus() != prevObjective.GetStatus())
 			{
 				// Status changed
 				for (IEventHooker* eventHooker : _EventHookers)

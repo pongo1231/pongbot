@@ -21,3 +21,8 @@ CTFFlagStatusType CTFFlag::GetStatus() const
 
 	return _EntityDataProvider->GetDataFromEntity<CTFFlagStatusType>(*this, DATA_FLAG_STATUS);
 }
+
+bool CTFFlag::IsDisabled() const
+{
+	return _EntityDataProvider->GetDataFromEntity<bool>(*this, DATA_FLAG_DISABLED); 
+}
