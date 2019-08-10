@@ -25,8 +25,7 @@ DEPS = $(OBJECTS:.o=.d)
 COMPILE_FLAGS = -Wall -Wextra -fpermissive -w -DPOSIX -Dstricmp=strcasecmp -D_stricmp=strcasecmp -D_strnicmp=strncasecmp \
 	-Dstrnicmp=strncasecmp -D_snprintf=snprintf -D_vsnprintf=vsnprintf -D_alloca=alloca \
 	-Dstrcmpi=strcasecmp -DCOMPILER_GCC -Wall -Wno-non-virtual-dtor -Wno-overloaded-virtual \
-	-Werror -fPIC -fno-exceptions -fno-rtti -msse -m32 -fno-strict-aliasing -D_LINUX -shared -ggdb
-	#-D_DEBUG
+	-Werror -fPIC -fno-exceptions -fno-rtti -msse -m32 -fno-strict-aliasing -D_LINUX -shared -ggdb -D_DEBUG
 INCLUDES = -I $(MLIBS) -I $(MLIBS)/hlsdk $(addprefix -I,$(shell find $(MLIBS)/hlsdk/public -type d -print)) -I $(MLIBS)/hlsdk/engine \
 	-I $(MLIBS)/hlsdk/mathlib -I $(MLIBS)/hlsdk/vstdlib -I $(MLIBS)/hlsdk/game -I $(MLIBS)/hlsdk/game/tier1 -I $(MLIBS)/hlsdk/game/tier0 \
 	-I $(MLIBS)/hlsdk/tier0 -I $(MLIBS)/hlsdk/tier1 -I $(MLIBS)/hlsdk/game/server -I $(MLIBS)/metamod -I $(MLIBS)/metamod/sourcehook -I Pongbot
