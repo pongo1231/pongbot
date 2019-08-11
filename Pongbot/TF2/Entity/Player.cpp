@@ -62,10 +62,20 @@ bool Player::IsReloading() const
 
 bool Player::IsDead() const
 {
-	return _IIPlayerInfo->IsDead();
+	return Exists() ? _IIPlayerInfo->IsDead() : true;
 }
 
 bool Player::Exists() const
 {
 	return Entity::Exists() && IsPlayer();
+}
+
+bool Player::IsBot() const
+{
+	return Exists() ? _IIPlayerInfo->IsFakeClient() : false;
+}
+
+IPlayerInfo* Player::GetPlayerInfo() const
+{
+	return _IIPlayerInfo;
 }

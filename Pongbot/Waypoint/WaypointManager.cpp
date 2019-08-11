@@ -293,12 +293,19 @@ void WaypointManager::OnGameFrame()
 
 static IPlayerInfo* _CheckCommandTargetPlayerExists()
 {
-	edict_t* playerEdict = Engine->PEntityOfEntIndex(1);
-	IPlayerInfo* playerInfo = IIPlayerInfoManager->GetPlayerInfo(playerEdict);
-	if (!playerEdict || !playerInfo || !playerInfo->IsPlayer())
+	IPlayerInfo* playerInfo = nullptr;
+	for (Player player : Util::GetAllPlayers())
+	{
+		if (player.Exists())
+		{
+			playerInfo = player.GetPlayerInfo();
+			break;
+		}
+	}
+	
+	if (!playerInfo)
 	{
 		Util::Log("No player found!");
-		return nullptr;
 	}
 	return playerInfo;
 }

@@ -17,6 +17,8 @@ public:
 	bool IsReloading() const;
 	bool IsDead() const;
 	bool Exists() const;
+	bool IsBot() const;
+	IPlayerInfo* GetPlayerInfo() const;
 
 private:
 	IPlayerInfo* _IIPlayerInfo;
