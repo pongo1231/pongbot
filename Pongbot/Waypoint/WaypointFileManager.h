@@ -5,7 +5,7 @@
 
 class WaypointNode;
 
-class WaypointFileManager : public IConVarBase, IEventHooker
+class WaypointFileManager : public IConVarBase, public IEventHooker
 {
 private:
 	WaypointFileManager() {}

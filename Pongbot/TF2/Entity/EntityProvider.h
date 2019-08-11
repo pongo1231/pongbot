@@ -3,7 +3,8 @@
 #include "Entity.h"
 #include <vector>
 
-class EntityProvider : public IGameFramable {
+class EntityProvider : public IGameFramable
+{
 private:
 	EntityProvider()
 	{}

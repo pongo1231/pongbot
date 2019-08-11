@@ -17,6 +17,7 @@ public:
 	void KickBot(Bot* bot);
 	void KickAllBots();
 	bool BotsInGame() const;
+
 	virtual void OnGameFrame();
 };
 

@@ -503,8 +503,8 @@ CON_COMMAND(pongbot_waypoint_togglenodeflag, "Adds/Removes a flag to a waypoint 
 					WaypointNodeFlagInfo info = pair.second;
 					#ifdef _WIN32
 					if (_strcmpi(flagName, info.Name) == 0)
-					#elif LINUX
-					if (strcmpi(flagName, info.Name) == 0)
+					#elif _LINUX
+					if (strcasecmp(flagName, info.Name) == 0)
 					#endif
 					{
 						int flag = pair.first;

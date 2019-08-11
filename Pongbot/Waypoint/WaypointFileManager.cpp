@@ -49,15 +49,13 @@ void WaypointFileManager::Read()
 		std::ifstream file(fileName);
 		char fileBuffer[512];
 		int connectedNodeIds[256][256];
-		// Fill connectedNodeIds with -1 to not confuse with node id 0 instead
-		memset(connectedNodeIds, -1, sizeof(connectedNodeIds));
 
-		uint8_t i = 0;
+		int i = 0;
 		while (file.getline(fileBuffer, sizeof(fileBuffer)))
 		{
 			char lineBuffer[256][16];
 			char* context = nullptr;
-			uint8_t j = 0;
+			int j = 0;
 			#ifdef _WIN32
 			char* token = strtok_s(fileBuffer, ":", &context);
 			do
@@ -69,7 +67,7 @@ void WaypointFileManager::Read()
 			char* token = strtok_r(fileBuffer, ":", &context);
 			do
 			{
-				strncpy(lineBuffer[j++], token, sizeof(lineBuffer));
+				strncpy(lineBuffer[j++], token, sizeof(lineBuffer[j]));
 			}
 			while (token = strtok_r(nullptr, ":", &context));
 			#endif
@@ -79,7 +77,8 @@ void WaypointFileManager::Read()
 			_WaypointNodes->push_back(node);
 
 			// Store connected node ids for reference
-			for (uint16_t k = 5; k < 260; k++)
+			int k;
+			for (k = 5; k < 260; k++)
 			{
 				char* content = lineBuffer[k];
 				if (content[0] == '\\')
@@ -91,6 +90,7 @@ void WaypointFileManager::Read()
 					connectedNodeIds[i][k - 5] = atoi(content);
 				}
 			}
+			connectedNodeIds[i][k - 5] = -1;
 
 			i++;
 		}
@@ -98,26 +98,14 @@ void WaypointFileManager::Read()
 		// Now handle the node connections
 		for (i = 0; i < _WaypointNodes->size(); i++)
 		{
-			for (uint8_t j = 0; ; j++)
+			for (int j = 0; connectedNodeIds[i][j] != -1 && j < 255; j++)
 			{
-				if (connectedNodeIds[i][j] == -1)
+				for (WaypointNode* nodeToConnect : *_WaypointNodes)
 				{
-					break;
-				}
-				else
-				{
-					for (WaypointNode* nodeToConnect : *_WaypointNodes)
+					if (nodeToConnect->Id == connectedNodeIds[i][j])
 					{
-						if (nodeToConnect->Id == connectedNodeIds[i][j])
-						{
-							(*_WaypointNodes)[i]->ConnectToNode(nodeToConnect);
-						}
+						(*_WaypointNodes)[i]->ConnectToNode(nodeToConnect);
 					}
-				}
-
-				if (j == 255)
-				{
-					break;
 				}
 			}
 		}

@@ -62,6 +62,11 @@ int ObjectivesProvider::GetRoundTimerStatus() const
 	return _RoundTimer.GetRoundTimerStatus();
 }
 
+bool ObjectivesProvider::IsRoundActive() const
+{
+	return _RoundActive;
+}
+
 void ObjectivesProvider::OnGameFrame()
 {
 	if (!_BotManager->BotsInGame())
@@ -84,6 +89,18 @@ void ObjectivesProvider::OnLevelInit(const char* pMapName, char const* pMapEntit
 		char const* pOldLevel, char const* pLandmarkName, bool loadGame, bool background)
 {
 	_UpdateRoundTimer();
+}
+
+void ObjectivesProvider::OnRoundStart()
+{
+	Util::DebugLog("RoundActive = false");
+	_RoundActive = false;
+}
+
+void ObjectivesProvider::OnRoundActive()
+{
+	Util::DebugLog("RoundActive = true");
+	_RoundActive = true;
 }
 
 void ObjectivesProvider::_UpdateCTFObjectives()

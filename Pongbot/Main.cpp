@@ -25,6 +25,7 @@ IServerPluginHelpers* IIServerPluginHelpers = nullptr;
 IServerGameClients* IIServerGameClients = nullptr;
 IEffects* IIEffects = nullptr;
 IEngineTrace* IIEngineTrace = nullptr;
+IGameEventManager2* IIGameEventManager = nullptr;
 
 std::vector<IGameFramable*> _IGameFramables;
 
@@ -34,7 +35,13 @@ SH_DECL_HOOK1_void(IServerGameDLL, GameFrame, SH_NOATTRIB, 0, bool);
 bool Main::Load(PluginId id, ISmmAPI* ismm, char* error, size_t maxlen, bool late)
 {
 	PLUGIN_SAVEVARS();
+
+	Util::DebugLog("DEBUG MODE IS ON");
+
 	GET_V_IFACE_CURRENT(GetEngineFactory, Engine, IVEngineServer, INTERFACEVERSION_VENGINESERVER);
+	float initStartTime = Engine->Time();
+	Util::Log("Initializing...");
+
 	GET_V_IFACE_CURRENT(GetServerFactory, IIBotManager, IBotManager, INTERFACEVERSION_PLAYERBOTMANAGER);
 	GET_V_IFACE_CURRENT(GetServerFactory, Server, IServerGameDLL, INTERFACEVERSION_SERVERGAMEDLL);
 	GET_V_IFACE_CURRENT(GetServerFactory, IIPlayerInfoManager, IPlayerInfoManager, INTERFACEVERSION_PLAYERINFOMANAGER);
@@ -42,13 +49,9 @@ bool Main::Load(PluginId id, ISmmAPI* ismm, char* error, size_t maxlen, bool lat
 	GET_V_IFACE_CURRENT(GetServerFactory, IIServerGameClients, IServerGameClients, INTERFACEVERSION_SERVERGAMECLIENTS);
 	GET_V_IFACE_CURRENT(GetServerFactory, IIEffects, IEffects, IEFFECTS_INTERFACE_VERSION);
 	GET_V_IFACE_CURRENT(GetEngineFactory, IIEngineTrace, IEngineTrace, INTERFACEVERSION_ENGINETRACE_SERVER);
-
-	Util::DebugLog("DEBUG MODE IS ON");
+	GET_V_IFACE_CURRENT(GetEngineFactory, IIGameEventManager, IGameEventManager2, INTERFACEVERSION_GAMEEVENTSMANAGER2);
 
 	SH_ADD_HOOK(IServerGameDLL, GameFrame, Server, SH_MEMBER(this, &Main::_OnGameFrame), true);
-
-	float initStartTime = Engine->Time();
-	Util::Log("Initializing...");
 
 	EventHooksProvider::Init();
 	EntityProvider::Init();

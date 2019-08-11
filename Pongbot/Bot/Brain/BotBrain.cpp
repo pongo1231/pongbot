@@ -28,6 +28,11 @@ void BotBrain::OnThink()
 			OnSpawn();
 		}
 
+		if (!_ObjectivesProvider->IsRoundActive())
+		{
+			return;
+		}
+
 		float engineTime = Engine->Time();
 		if (_ThinkTime < engineTime)
 		{

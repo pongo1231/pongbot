@@ -51,10 +51,10 @@ private:
 	int _Status;
 };
 
-class ObjectivesProvider : public IGameFramable, IEventHooker
+class ObjectivesProvider : public IGameFramable, public IEventHooker
 {
 private:
-	ObjectivesProvider() {}
+	ObjectivesProvider() : _RoundActive(false) {}
 
 public:
 	static void Init();
@@ -64,15 +64,19 @@ public:
 	std::vector<Objective> GetBotDefendObjectives(Bot* bot) const;
 	std::vector<Objective> GetAllObjectives() const;
 	int GetRoundTimerStatus() const;
+	bool IsRoundActive() const;
 
 	virtual void OnGameFrame();
 	virtual void OnLevelInit(const char* pMapName, char const* pMapEntities,
 		char const* pOldLevel, char const* pLandmarkName, bool loadGame, bool background);
-
+	virtual void OnRoundStart();
+	virtual void OnRoundActive();
+	
 private:
 	std::vector<Objective> _RedObjectives;
 	std::vector<Objective> _BlueObjectives;
 	RoundTimer _RoundTimer;
+	bool _RoundActive;
 
 	void _UpdateCTFObjectives();
 	void _UpdateRoundTimer();

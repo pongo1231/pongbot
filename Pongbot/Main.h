@@ -35,14 +35,4 @@ private:
 	void _OnGameFrame(bool simulation);
 };
 
-extern Main _Main;
-extern IVEngineServer* Engine;
-extern IBotManager* IIBotManager;
-extern IServerGameDLL* Server;
-extern IPlayerInfoManager* IIPlayerInfoManager;
-extern IServerPluginHelpers* IIServerPluginHelpers;
-extern IServerGameClients* IIServerGameClients;
-extern IEffects* IIEffects;
-extern IEngineTrace* IIEngineTrace;
-
 PLUGIN_GLOBALVARS();
