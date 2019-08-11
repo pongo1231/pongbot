@@ -6,6 +6,7 @@ class IPlayerInfo;
 class Player : public Entity
 {
 public:
+	Player() : _IIPlayerInfo(nullptr) {}
 	Player(edict_t* edict);
 	Player(Entity entity);
 
@@ -19,6 +20,8 @@ public:
 	bool Exists() const;
 	bool IsBot() const;
 	IPlayerInfo* GetPlayerInfo() const;
+	QAngle GetAngle() const;
+	void SetAngle(QAngle angle);
 
 private:
 	IPlayerInfo* _IIPlayerInfo;

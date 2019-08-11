@@ -12,8 +12,8 @@ void ConVarHolder::Init()
 		_ConVarHolder = new ConVarHolder();
 
 		_ConVarHolder->CVarBotAimSensivity = new ConVar("pongbot_bot_aimsensivity", "3.0", 0, "Bot aim sensivity");
-		_ConVarHolder->CVarBotNodeTouchRadius = new ConVar("pongbot_bot_goto_nodetouchradius", "30.0", 0, "Min distance to node to count as 'touched'");
-		_ConVarHolder->CVarBotPosStuckPanicTime = new ConVar("pongbot_bot_goto_stuckpanictime", "120.0", 0, "Time until bot starts panicing if stuck (crouch jump)");
+		_ConVarHolder->CVarBotPosStuckPanicTime = new ConVar("pongbot_bot_goto_stuckpanictime", "120.0", 0, "Time until bot starts panicking if stuck (crouch jump)");
+		_ConVarHolder->CVarBotPosStuckPanicRange = new ConVar("pongbot_bot_goto_stuckpanicrange", "10.0", 0, "Max dist from last pos bot has to be at to count as stuck");		
 		_ConVarHolder->CVarBotTargetPosDebugBeamTick = new ConVar("pongbot_bot_goto_debugbeamtick", "0.1", 0, "How often the goto debug beam gets updated");
 		_ConVarHolder->CVarBotWeaponLongRangeDist = new ConVar("pongbot_bot_wep_longrangedist", "700.0", 0, "Min distance where bots use their long range weapon");
 		_ConVarHolder->CVarBotWeaponMiddleRangeDist = new ConVar("pongbot_bot_wep_middlerangedist", "250.0", 0, "Min distance where bots use their middle range weapon");
@@ -24,6 +24,7 @@ void ConVarHolder::Init()
 		_ConVarHolder->CVarObjectiveUpdateTick = new ConVar("pongbot_objectiveprovider_tick", "0.5", 0, "How often all objectives get iterated through");
 		_ConVarHolder->CVarWaypointNodeDebugBeamTick = new ConVar("pongbot_waypoint_debugbeamtick", "0.5", 0, "How often the node debug beams get drawn");
 		_ConVarHolder->CVarWaypointNodeDebugBeamDist = new ConVar("pongbot_waypoint_debugbeamdist", "1000.0", 0, "Max draw distance of node debug beams");
+		_ConVarHolder->CVarWaypointNodeDefaultRange = new ConVar("pongbot_waypoint_nodedefaultrange", "30.0", 0, "Default range of newly created waypoint nodes");		
 		_ConVarHolder->CVarEventProviderTick = new ConVar("pongbot_eventprovider_tick", "0.2", 0, "How often the plugin checks for events");
 		_ConVarHolder->CVarBotMaxVisibleDist = new ConVar("pongbot_bot_visibility_maxdist", "1500.0", 0, "How far the bots can see");
 		_ConVarHolder->CVarBotEnableVisibility = new ConVar("pongbot_bot_visibility_enabled", "1", 0, "Bots should be able to see entities");
@@ -38,8 +39,8 @@ void ConVarHolder::Destroy()
 	if (_ConVarHolder)
 	{
 		delete _ConVarHolder->CVarBotAimSensivity;
-		delete _ConVarHolder->CVarBotNodeTouchRadius;
 		delete _ConVarHolder->CVarBotPosStuckPanicTime;
+		delete _ConVarHolder->CVarBotPosStuckPanicRange;
 		delete _ConVarHolder->CVarBotTargetPosDebugBeamTick;
 		delete _ConVarHolder->CVarBotWeaponLongRangeDist;
 		delete _ConVarHolder->CVarBotWeaponMiddleRangeDist;
@@ -50,6 +51,7 @@ void ConVarHolder::Destroy()
 		delete _ConVarHolder->CVarObjectiveUpdateTick;
 		delete _ConVarHolder->CVarWaypointNodeDebugBeamTick;
 		delete _ConVarHolder->CVarWaypointNodeDebugBeamDist;
+		delete _ConVarHolder->CVarWaypointNodeDefaultRange;
 		delete _ConVarHolder->CVarBotEnableVisibility;
 		delete _ConVarHolder->CVarBotEnableBrain;
 		delete _ConVarHolder->CVarBotMedTargetDistance;

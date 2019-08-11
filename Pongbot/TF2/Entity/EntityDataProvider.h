@@ -13,6 +13,7 @@ enum EntityDataType
 	DATA_HEALTH, // CBaseObject::m_iHealth
 	DATA_PLAYER_FOV, // CBasePlayer::m_iFOV
 	DATA_PLAYER_CURRENTWEAPON, // CBaseCombatCharacter::m_hActiveWeapon
+	DATA_PLAYER_ANGLE, // CBaseEntity::m_angRotation
 	DATA_ROUND_TIMER_STATE // CTeamRoundTimer::m_nState
 };
 
@@ -41,7 +42,7 @@ public:
 	{
 		if (entity.Exists() && entity.GetEdict()->GetUnknown())
 		{
-			*((char*)entity.GetEdict()->GetUnknown()->GetBaseEntity() + _EntityOffsets.at(dataType)) = data;
+			*((char*) entity.GetEdict()->GetUnknown()->GetBaseEntity() + _EntityOffsets.at(dataType)) = data;
 		}
 	}
 
@@ -56,6 +57,7 @@ private:
 		{DATA_HEALTH, 244},
 		{DATA_PLAYER_FOV, 2876},
 		{DATA_PLAYER_CURRENTWEAPON, 2052},
+		{DATA_PLAYER_ANGLE, 804},
 		{DATA_ROUND_TIMER_STATE, 888}
 		#elif _LINUX
 		{DATA_TEAM, 536},
@@ -65,6 +67,7 @@ private:
 		{DATA_HEALTH, 264},
 		{DATA_PLAYER_FOV, 2896},
 		{DATA_PLAYER_CURRENTWEAPON, 2072},
+		{DATA_PLAYER_ANGLE, 824},
 		{DATA_ROUND_TIMER_STATE, 908}
 		#endif
 	};

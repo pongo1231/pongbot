@@ -11,8 +11,8 @@ public:
 	static void Destroy();
 
 	ConVar* CVarBotAimSensivity = nullptr;
-	ConVar* CVarBotNodeTouchRadius = nullptr;
 	ConVar* CVarBotPosStuckPanicTime = nullptr;
+	ConVar* CVarBotPosStuckPanicRange = nullptr;
 	ConVar* CVarBotTargetPosDebugBeamTick = nullptr;
 	ConVar* CVarBotWeaponLongRangeDist = nullptr;
 	ConVar* CVarBotWeaponMiddleRangeDist = nullptr;
@@ -23,6 +23,7 @@ public:
 	ConVar* CVarObjectiveUpdateTick = nullptr;
 	ConVar* CVarWaypointNodeDebugBeamTick = nullptr;
 	ConVar* CVarWaypointNodeDebugBeamDist = nullptr;
+	ConVar* CVarWaypointNodeDefaultRange = nullptr;
 	ConVar* CVarEventProviderTick = nullptr;
 	ConVar* CVarBotMaxVisibleDist = nullptr;
 	ConVar* CVarBotEnableVisibility = nullptr;

@@ -79,3 +79,19 @@ void WaypointNode::UnconnectAllNodes(bool bidirectional)
 		UnconnectNode(node, bidirectional);
 	}
 }
+
+bool WaypointNode::SetRange(float range)
+{
+	if (range >= 0.f)
+	{
+		_Range = range;
+		return true;
+	}
+
+	return false;
+}
+
+float WaypointNode::GetRange() const
+{
+	return _Range;
+}

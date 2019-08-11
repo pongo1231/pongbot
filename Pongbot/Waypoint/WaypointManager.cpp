@@ -221,6 +221,25 @@ bool WaypointManager::GetRandomWaypointNodeRouteToTargetNode(WaypointNode* start
 	return false;
 }
 
+static Player _CheckCommandTargetPlayerExists(bool log = true)
+{
+	Player foundPlayer;
+	for (Player player : Util::GetAllPlayers())
+	{
+		if (player.Exists())
+		{
+			foundPlayer = player;
+			break;
+		}
+	}
+	
+	if (!foundPlayer.Exists() && log)
+	{
+		Util::Log("No player found!");
+	}
+	return foundPlayer;
+}
+
 /// Debug
 /// Draw beams for each waypoint & their connections
 void WaypointManager::OnGameFrame()
@@ -239,9 +258,11 @@ void WaypointManager::OnGameFrame()
 	float debugBeamTick = _ConVarHolder->CVarWaypointNodeDebugBeamTick->GetFloat();
 	tickTime = currentTime + debugBeamTick;
 
-	Player firstPlayer(Engine->PEntityOfEntIndex(1));
-	if (firstPlayer.Exists() && firstPlayer.IsPlayer())
+	Player player = _CheckCommandTargetPlayerExists(false);
+	if (player.Exists())
 	{
+		Vector playerPos = player.GetPos();
+		WaypointNode* closestNode = _WaypointManager->GetClosestWaypointNode(playerPos, 300.f);
 		std::vector<WaypointNode*> drawnNodes;
 		for (WaypointNode* node : _WaypointNodes)
 		{
@@ -257,10 +278,24 @@ void WaypointManager::OnGameFrame()
 			if (!alreadyDrawn)
 			{
 				Vector startPos = node->Pos;
-				if (startPos.DistTo(firstPlayer.GetPos()) <= _ConVarHolder->CVarWaypointNodeDebugBeamDist->GetFloat())
+				if (startPos.DistTo(playerPos) <= _ConVarHolder->CVarWaypointNodeDebugBeamDist->GetFloat())
 				{
+					// Draw node itself
 					Vector endPos = startPos + Vector(0.f, 0.f, 75.f);
 					Util::DrawBeam(startPos, endPos, node->Flags != 0 ? 255 : 0, 255, 0, debugBeamTick);
+
+					// Draw range if closest node
+					if (node == closestNode)
+					{
+						Vector middlePos = startPos + (endPos - startPos) / 2;
+						float range = node->GetRange();
+						Util::DrawBeam(middlePos, middlePos + Vector(range, 0.f, 0.f), 0, 255, 255, debugBeamTick);
+						Util::DrawBeam(middlePos, middlePos + Vector(-range, 0.f, 0.f), 0, 255, 255, debugBeamTick);
+						Util::DrawBeam(middlePos, middlePos + Vector(0.f, range, 0.f), 0, 255, 255, debugBeamTick);
+						Util::DrawBeam(middlePos, middlePos + Vector(0.f, -range, 0.f), 0, 255, 255, debugBeamTick);
+					}
+
+					// Draw connections
 					for (WaypointNode* connectedNode : node->GetConnectedNodes())
 					{
 						Util::DrawBeam(endPos, connectedNode->Pos, 255, 255, 255, debugBeamTick);
@@ -291,29 +326,10 @@ void WaypointManager::OnGameFrame()
 	}
 }
 
-static IPlayerInfo* _CheckCommandTargetPlayerExists()
-{
-	IPlayerInfo* playerInfo = nullptr;
-	for (Player player : Util::GetAllPlayers())
-	{
-		if (player.Exists())
-		{
-			playerInfo = player.GetPlayerInfo();
-			break;
-		}
-	}
-	
-	if (!playerInfo)
-	{
-		Util::Log("No player found!");
-	}
-	return playerInfo;
-}
-
 CON_COMMAND(pongbot_waypoint_createnode, "Creates a waypoint node wherever the first player is standing")
 {
-	IPlayerInfo* playerInfo = _CheckCommandTargetPlayerExists();
-	if (playerInfo)
+	Player player = _CheckCommandTargetPlayerExists();
+	if (player.Exists())
 	{
 		// Check for first empty id
 		for (uint8_t id = 0; id < 256; id++)
@@ -330,7 +346,7 @@ CON_COMMAND(pongbot_waypoint_createnode, "Creates a waypoint node wherever the f
 
 			if (isIdFree)
 			{
-				_WaypointNodes.push_back(new WaypointNode(id, playerInfo->GetAbsOrigin()));
+				_WaypointNodes.push_back(new WaypointNode(id, player.GetPos(), 0, _ConVarHolder->CVarWaypointNodeDefaultRange->GetFloat()));
 				Util::Log("Created waypoint node #%d", id);
 				break;
 			}
@@ -344,10 +360,10 @@ CON_COMMAND(pongbot_waypoint_createnode, "Creates a waypoint node wherever the f
 
 CON_COMMAND(pongbot_waypoint_connectnode1, "Selects nearest waypoint node for connection with another node")
 {
-	IPlayerInfo* playerInfo = _CheckCommandTargetPlayerExists();
-	if (playerInfo)
+	Player player = _CheckCommandTargetPlayerExists();
+	if (player.Exists())
 	{
-		_SelectedNode = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
+		_SelectedNode = _WaypointManager->GetClosestWaypointNode(player.GetPos());
 		Util::Log(!_SelectedNode ? "No waypoint node found!" : "Waypoint node #%d selected", _SelectedNode->Id);
 	}
 }
@@ -356,14 +372,14 @@ CON_COMMAND(pongbot_waypoint_connectnode2, "Connects previously selected waypoin
 {
 	if (!_SelectedNode)
 	{
-		Util::Log("Select a node via pongbot_connectnode1 first");
+		Util::Log("Select a node via pongbot_waypoint_connectnode1 first");
 	}
 	else
 	{
-		IPlayerInfo* playerInfo = _CheckCommandTargetPlayerExists();
-		if (playerInfo)
+		Player player = _CheckCommandTargetPlayerExists();
+		if (player.Exists())
 		{
-			WaypointNode* currentNode = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
+			WaypointNode* currentNode = _WaypointManager->GetClosestWaypointNode(player.GetPos());
 			if (_SelectedNode == currentNode)
 			{
 				Util::Log("Can't connect waypoint node to itself!");
@@ -405,10 +421,10 @@ CON_COMMAND(pongbot_waypoint_clearnodes, "Removes all waypoint nodes")
 
 CON_COMMAND(pongbot_waypoint_clearnode, "Removes the nearest node")
 {
-	IPlayerInfo* playerInfo = _CheckCommandTargetPlayerExists();
-	if (playerInfo)
+	Player player = _CheckCommandTargetPlayerExists();
+	if (player.Exists())
 	{
-		WaypointNode* node = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
+		WaypointNode* node = _WaypointManager->GetClosestWaypointNode(player.GetPos());
 		if (!node)
 		{
 			Util::Log("No waypoint node found!");
@@ -443,10 +459,10 @@ CON_COMMAND(pongbot_waypoint_clearnode, "Removes the nearest node")
 
 CON_COMMAND(pongbot_waypoint_clearnodeconnections, "Clears all connections of node")
 {
-	IPlayerInfo* playerInfo = _CheckCommandTargetPlayerExists();
-	if (playerInfo)
+	Player player = _CheckCommandTargetPlayerExists();
+	if (player.Exists())
 	{
-		WaypointNode* node = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
+		WaypointNode* node = _WaypointManager->GetClosestWaypointNode(player.GetPos());
 		if (!node)
 		{
 			Util::Log("No waypoint node found!");
@@ -467,10 +483,10 @@ CON_COMMAND(pongbot_waypoint_debug, "Toggle beams to visualize nodes & their con
 
 CON_COMMAND(pongbot_waypoint_getnodeid, "Outputs ID of closest node")
 {
-	IPlayerInfo* playerInfo = _CheckCommandTargetPlayerExists();
-	if (playerInfo)
+	Player player = _CheckCommandTargetPlayerExists();
+	if (player.Exists())
 	{
-		WaypointNode* node = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
+		WaypointNode* node = _WaypointManager->GetClosestWaypointNode(player.GetPos());
 		Util::Log(!node ? "No waypoint node found!" : "Node ID: %d", node->Id);
 	}
 }
@@ -493,10 +509,10 @@ CON_COMMAND(pongbot_waypoint_togglenodeflag, "Adds/Removes a flag to a waypoint 
 	}
 	else
 	{
-		IPlayerInfo* playerInfo = _CheckCommandTargetPlayerExists();
-		if (playerInfo)
+		Player player = _CheckCommandTargetPlayerExists();
+		if (player.Exists())
 		{
-			WaypointNode* node = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
+			WaypointNode* node = _WaypointManager->GetClosestWaypointNode(player.GetPos());
 			if (!node)
 			{
 				Util::Log("No waypoint node found!");
@@ -544,10 +560,10 @@ CON_COMMAND(pongbot_waypoint_togglenodeflag, "Adds/Removes a flag to a waypoint 
 
 CON_COMMAND(pongbot_waypoint_getnodeflags, "Outputs all flags of a waypoint node")
 {
-	IPlayerInfo* playerInfo = _CheckCommandTargetPlayerExists();
-	if (playerInfo)
+	Player player = _CheckCommandTargetPlayerExists();
+	if (player.Exists())
 	{
-		WaypointNode* node = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
+		WaypointNode* node = _WaypointManager->GetClosestWaypointNode(player.GetPos());
 		if (!node)
 		{
 			Util::Log("No waypoint node found!");
@@ -572,10 +588,10 @@ CON_COMMAND(pongbot_waypoint_getnodeflags, "Outputs all flags of a waypoint node
 
 CON_COMMAND(pongbot_waypoint_clearnodeflags, "Clears all flags of a waypoint node")
 {
-	IPlayerInfo* playerInfo = _CheckCommandTargetPlayerExists();
-	if (playerInfo)
+	Player player = _CheckCommandTargetPlayerExists();
+	if (player.Exists())
 	{
-		WaypointNode* node = _WaypointManager->GetClosestWaypointNode(playerInfo->GetAbsOrigin());
+		WaypointNode* node = _WaypointManager->GetClosestWaypointNode(player.GetPos());
 		if (!node)
 		{
 			Util::Log("No waypoint node found!");
@@ -584,6 +600,120 @@ CON_COMMAND(pongbot_waypoint_clearnodeflags, "Clears all flags of a waypoint nod
 		{
 			node->Flags = 0;
 			Util::Log("Cleared flags of node #%d", node->Id);
+		}
+	}
+}
+
+CON_COMMAND(pongbot_waypoint_setnoderange, "Set range of the closest waypoint node")
+{
+	Player player = _CheckCommandTargetPlayerExists();
+	if (player.Exists())
+	{
+		const char* rangeText = args[1];
+		if (strcmp(rangeText, "") == 0)
+		{
+			Util::Log("Specify a range!");
+		}
+		else
+		{
+			WaypointNode* node = _WaypointManager->GetClosestWaypointNode(player.GetPos());
+			if (!node)
+			{
+				Util::Log("No waypoint node found!");
+			}
+			else
+			{
+				float range = atof(rangeText);
+				if (!node->SetRange(range))
+				{
+					Util::Log("Range must be at least 0!");
+				}
+				else
+				{
+					Util::Log("Range of node #%d has been set!", node->Id);
+				}
+			}
+		}
+	}
+}
+
+CON_COMMAND(pongbot_waypoint_getnoderange, "Get range of the closest waypoint node")
+{
+	Player player = _CheckCommandTargetPlayerExists();
+	if (player.Exists())
+	{
+		WaypointNode* node = _WaypointManager->GetClosestWaypointNode(player.GetPos());
+		if (!node)
+		{
+			Util::Log("No waypoint node found!");
+		}
+		else
+		{
+			Util::Log("Range of node #%d is %f", node->Id, node->GetRange());
+		}
+	}
+}
+
+CON_COMMAND(pongbot_waypoint_setnodeprefangle, "Set the optimal angle of the closest waypoint node (used by bots)")
+{
+	Player player = _CheckCommandTargetPlayerExists();
+	if (player.Exists())
+	{
+		WaypointNode* node = _WaypointManager->GetClosestWaypointNode(player.GetPos());
+		if (!node)
+		{
+			Util::Log("No waypoint node found!");
+		}
+		else
+		{
+			node->OptimalViewAngle = player.GetAngle();
+			Util::Log("Optimal angle of node #%d has been set!", node->Id);
+		}
+	}
+}
+
+CON_COMMAND(pongbot_waypoint_getnodeprefangle, "Get the optimal angle of the closest waypoint node (used by bots)")
+{
+	Player player = _CheckCommandTargetPlayerExists();
+	if (player.Exists())
+	{
+		WaypointNode* node = _WaypointManager->GetClosestWaypointNode(player.GetPos());
+		if (!node)
+		{
+			Util::Log("No waypoint node found!");
+		}
+		else
+		{
+			QAngle viewAngle = node->OptimalViewAngle;
+			if (viewAngle.Length() == 0)
+			{
+				Util::Log("Node #%d has no optimal angle yet!", node->Id);
+			}
+			else
+			{
+				// TODO
+				//player.SetAngle(node->OptimalViewAngle);
+
+				Util::Log("Not implemented yet, whoops");
+			}
+		}
+	}
+}
+
+CON_COMMAND(pongbot_waypoint_clearnodeprefangle, "Clear the optimal angle of the closest waypoint node (used by bots)")
+{
+	Player player = _CheckCommandTargetPlayerExists();
+	if (player.Exists())
+	{
+		WaypointNode* node = _WaypointManager->GetClosestWaypointNode(player.GetPos());
+		if (!node)
+		{
+			Util::Log("No waypoint node found!");
+		}
+		else
+		{
+			node->OptimalViewAngle = QAngle(0.f, 0.f, 0.f);
+			Util::Log("Optimal range of node #%d has been cleared!", node->Id);
 		}
 	}
 }

@@ -6,8 +6,7 @@
 class EntityProvider : public IGameFramable
 {
 private:
-	EntityProvider()
-	{}
+	EntityProvider() {}
 
 public:
 	static void Init();

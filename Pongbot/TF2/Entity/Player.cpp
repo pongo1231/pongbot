@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "EntityDataProvider.h"
-#include <metamod/ISmmAPI.h>
-#include <hlsdk/public/game/server/iplayerinfo.h>
 
 extern IServerGameClients *IIServerGameClients;
 extern IPlayerInfoManager *IIPlayerInfoManager;
@@ -45,7 +43,7 @@ Vector Player::GetHeadPos() const
 {
 	if (!Exists())
 	{
-		return Vector();
+		return Vector(0.f, 0.f, 0.f);
 	}
 
 	Vector headPos;
@@ -56,6 +54,7 @@ Vector Player::GetHeadPos() const
 
 bool Player::IsReloading() const
 {
+	// TODO
 	//return _EntityDataProvider->GetDataFromEntity<edict_t*>(*this, DATA_PLAYER_CURRENTWEAPON);
 	return false;
 }
@@ -78,4 +77,18 @@ bool Player::IsBot() const
 IPlayerInfo* Player::GetPlayerInfo() const
 {
 	return _IIPlayerInfo;
+}
+
+QAngle Player::GetAngle() const
+{
+	return Exists() ? _IIPlayerInfo->GetAbsAngles() : QAngle(0.f, 0.f, 0.f);
+}
+
+void Player::SetAngle(QAngle angle)
+{
+	if (Exists())
+	{
+		// TODO
+		//_EntityDataProvider->SetDataOfEntity<QAngle>(*this, DATA_PLAYER_ANGLE, angle);
+	}
 }

@@ -5,10 +5,8 @@
 class CTFFlag : public Entity
 {
 public:
-	CTFFlag(edict_t* edict) : Entity(edict)
-	{}
-	CTFFlag(Entity entity) : Entity(entity.GetEdict())
-	{}
+	CTFFlag(edict_t* edict) : Entity(edict) {}
+	CTFFlag(Entity entity) : Entity(entity.GetEdict()) {}
 
 public:
 	int GetOwner() const;

@@ -26,9 +26,9 @@ bool BotTaskGoto::_OnThink()
 
 	Bot* bot = _GetBot();
 	Vector currentPos = bot->GetPos();
-	float nodeTouchRadius = _ConVarHolder->CVarBotNodeTouchRadius->GetFloat();
+	float stuckPosRange = _ConVarHolder->CVarBotPosStuckPanicRange->GetFloat();
 
-	if (Util::DistanceToNoZ(currentPos, _LastPos) < nodeTouchRadius)
+	if (Util::DistanceToNoZ(currentPos, _LastPos) < stuckPosRange)
 	{
 		_PosStuckTime++;
 
@@ -62,7 +62,7 @@ bool BotTaskGoto::_OnThink()
 	else
 	{
 		Vector targetPos = _TargetPosQueue.front();
-		if (currentPos.DistTo(targetPos) <= nodeTouchRadius)
+		if (Util::DistanceToNoZ(currentPos, targetPos) <= 5.f)
 		{
 			_TargetPosQueue.pop();
 		}
@@ -119,9 +119,9 @@ bool BotTaskGoto::_NewTargetNodeStack()
 		_TargetPosQueue = std::queue<Vector>();
 		while (!_WaypointNodeStack.empty())
 		{
-			float nodeTouchRadius = _ConVarHolder->CVarBotNodeTouchRadius->GetFloat();
-			_TargetPosQueue.push(_WaypointNodeStack.top()->Pos + Vector(Util::RandomFloat(-nodeTouchRadius, nodeTouchRadius),
-					Util::RandomFloat(-nodeTouchRadius, nodeTouchRadius), 0.f));
+			WaypointNode* node = _WaypointNodeStack.top();
+			float nodeTouchRadius = node->GetRange();
+			_TargetPosQueue.push(node->Pos + Vector(Util::RandomFloat(-nodeTouchRadius, nodeTouchRadius), Util::RandomFloat(-nodeTouchRadius, nodeTouchRadius), 0.f));
 			_WaypointNodeStack.pop();
 		}
 		_TargetPosQueue.push(_TargetPos);

@@ -18,6 +18,7 @@ enum ObjectiveType
 struct Objective
 {
 public:
+	Objective() : Edict(nullptr), _Type(ObjectiveType::UNK), _Status(0) {}
 	Objective(edict_t* edict, ObjectiveType type, Vector pos, int status) : Edict(edict), _Type(type), _Pos(pos), _Status(status) {}
 	int operator=(const Objective& target)
 	{

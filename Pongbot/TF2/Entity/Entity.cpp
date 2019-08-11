@@ -34,11 +34,11 @@ Vector Entity::GetPos() const
 {
 	if (!Exists())
 	{
-		return Vector();
+		return Vector(0.f, 0.f, 0.f);
 	}
 
 	ICollideable* collideable = GetEdict()->GetCollideable();
-	return collideable ? collideable->GetCollisionOrigin() : Vector();
+	return collideable ? collideable->GetCollisionOrigin() : Vector(0.f, 0.f, 0.f);
 }
 
 bool Entity::IsPlayer() const

@@ -53,6 +53,11 @@ void WaypointFileManager::Read()
 		int i = 0;
 		while (file.getline(fileBuffer, sizeof(fileBuffer)))
 		{
+			if (strlen(fileBuffer) == 0 || (fileBuffer[0] == '/' && fileBuffer[1] == '/'))
+			{
+				continue;
+			}
+
 			char lineBuffer[256][16];
 			char* context = nullptr;
 			int j = 0;
@@ -72,13 +77,13 @@ void WaypointFileManager::Read()
 			while (token = strtok_r(nullptr, ":", &context));
 			#endif
 
-			WaypointNode* node = new WaypointNode(atoi(lineBuffer[0]), Vector(atof(lineBuffer[1]), atof(lineBuffer[2]), atof(lineBuffer[3])));
-			node->Flags = atoi(lineBuffer[4]);
+			WaypointNode* node = new WaypointNode(atoi(lineBuffer[0]), Vector(atof(lineBuffer[1]), atof(lineBuffer[2]), atof(lineBuffer[3])),
+				atoi(lineBuffer[4]), atof(lineBuffer[5]), QAngle(atof(lineBuffer[6]), atof(lineBuffer[7]), atof(lineBuffer[8])));
 			_WaypointNodes->push_back(node);
 
 			// Store connected node ids for reference
 			int k;
-			for (k = 5; k < 260; k++)
+			for (k = 9; k < 255 + 9; k++)
 			{
 				char* content = lineBuffer[k];
 				if (content[0] == '\\')
@@ -87,10 +92,10 @@ void WaypointFileManager::Read()
 				}
 				else
 				{
-					connectedNodeIds[i][k - 5] = atoi(content);
+					connectedNodeIds[i][k - 9] = atoi(content);
 				}
 			}
-			connectedNodeIds[i][k - 5] = -1;
+			connectedNodeIds[i][k - 9] = -1;
 
 			i++;
 		}
@@ -121,11 +126,17 @@ void WaypointFileManager::Write()
 	if (_CheckDir(fileName))
 	{
 		std::ofstream file(fileName);
+		file << "// Format: " << std::endl;
+		file << "// ID : X : Y : Z : Flags : Range : PrefAngleX : PrefAngleY : PrefAngleZ : <Connected Node IDs> : \\" << std::endl;
+		file << std::endl;
+
 		// Write all nodes to file
 		for (WaypointNode* node : *_WaypointNodes)
 		{
 			Vector pos = node->Pos;
-			file << node->Id << ":" << pos.x << ":" << pos.y << ":" << pos.z << ":" << node->Flags;
+			QAngle angle = node->OptimalViewAngle;
+			file << node->Id << ":" << pos.x << ":" << pos.y << ":" << pos.z << ":" << node->Flags << ":" << node->GetRange()
+				<< ":" << angle.x << ":" << angle.y << ":" << angle.z;
 
 			// Also write IDs of saved nodes to file too
 			for (WaypointNode* connectedNode : node->GetConnectedNodes())

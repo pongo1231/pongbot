@@ -79,7 +79,7 @@ void BotBrain::_DefaultThink()
 		std::vector<Objective> pushObjectives = _ObjectivesProvider->GetBotPushObjectives(bot);
 		// Get closest objective
 		bool foundObjective = false;
-		Objective closestObjective(nullptr, ObjectiveType::UNK, Vector(), 0); // Placeholder
+		Objective closestObjective; // Placeholder
 		float closestObjectiveDistance = 99999.f;
 		for (Objective pushObjective : pushObjectives)
 		{

@@ -25,9 +25,9 @@ extern IPlayerInfoManager* IIPlayerInfoManager;
 
 Bot::Bot(Player player, const char* name) : Name(name), _Player(player), _Edict(player.GetEdict()),
 	_IBotController(IIBotManager->GetBotController(_Edict)),
-	_ClassInfo(_TFClassInfoProvider->GetClassInfo(TFClass::CLASS_UNK)),
+	_ClassInfo(_TFClassInfoProvider->GetClassInfo(CLASS_UNK)),
 	_IPlayerInfo(IIPlayerInfoManager->GetPlayerInfo(_Edict)), _BotVisibles(new BotVisibles(this)),
-	_BotBrain(nullptr), _Movement(Vector2D()), _TargetViewAngle(QAngle()), _PressedButtons(0),
+	_BotBrain(nullptr), _TargetViewAngle(0.f, 0.f, 0.f), _Movement(0.f, 0.f), _PressedButtons(0),
 	_SelectedWeaponSlot(WEAPON_UNKNOWN)
 {
 	_SwitchToFittingTeam();
@@ -48,6 +48,7 @@ void Bot::Think()
 {
 	if (!Exists())
 	{
+		Util::DebugLog("What happened to bot edict #%d?", _Edict->m_iIndex);
 		return;
 	}
 
@@ -68,15 +69,9 @@ void Bot::Think()
 
 	CBotCmd cmd;
 	cmd.buttons = _PressedButtons;
-	if (_Movement.IsValid())
-	{
-		cmd.forwardmove = _Movement.x;
-		cmd.sidemove = _Movement.y;
-	}
-	if (finalViewAngle.IsValid())
-	{
-		cmd.viewangles = finalViewAngle;
-	}
+	cmd.forwardmove = _Movement.x;
+	cmd.sidemove = _Movement.y;
+	cmd.viewangles = finalViewAngle;
 	_IBotController->RunPlayerMove(&cmd);
 }
 
@@ -112,10 +107,13 @@ QAngle Bot::GetViewAngle() const
 
 void Bot::SetViewAngle(QAngle angle)
 {
-	if (angle.IsValid())
+	if (!angle.IsValid())
 	{
-		_TargetViewAngle = angle;
+		Util::DebugLog("Invalid QAngle specified in Bot::SetViewAngle (Bot Edict #%d)!", _Edict->m_iIndex);
+		return;
 	}
+
+	_TargetViewAngle = angle;
 }
 
 TFClass Bot::GetClass() const
@@ -135,10 +133,13 @@ BotVisibles* Bot::GetBotVisibles() const
 
 void Bot::SetMovement(Vector2D movement)
 {
-	if (movement.IsValid())
+	if (!movement.IsValid())
 	{
-		_Movement = movement;
+		Util::DebugLog("Invalid Vector2D specified in Bot::SetMovement (Bot Edict #%d)!", _Edict->m_iIndex);
+		return;
 	}
+
+	_Movement = movement;
 }
 
 Vector2D Bot::GetMovement() const
@@ -163,11 +164,6 @@ WeaponSlot Bot::GetSelectedWeaponSlot() const
 
 void Bot::SetSelectedWeapon(WeaponSlot weapon)
 {
-	if (!_ClassInfo.IsValid())
-	{
-		return;
-	}
-
 	const char *weaponName = nullptr;
 	switch (weapon)
 	{
