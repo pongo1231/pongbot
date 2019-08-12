@@ -2,11 +2,11 @@
 
 namespace Info
 {
-	const char *Author = "pongo1231";
-	const char *Name = "Pongbot";
-	const char *Description = "A WIP TF2 bot";
-	const char *URL = "None"; // ...yet
-	const char *License = "AGPLv3";
-	const char *Version = "v0.0.8";
-	const char *Date = "x";
+	constexpr char* Author = "pongo1231";
+	constexpr char* Name = "Pongbot";
+	constexpr char* Description = "A WIP TF2 bot";
+	constexpr char* URL = "None"; // ...yet
+	constexpr char* License = "AGPLv3";
+	constexpr char* Version = "v0.0.9";
+	constexpr char* Date = "x";
 }
