@@ -22,6 +22,7 @@ public:
 	IPlayerInfo* GetPlayerInfo() const;
 	QAngle GetAngle() const;
 	void SetAngle(QAngle angle);
+	int GetUserId() const;
 
 private:
 	IPlayerInfo* _IIPlayerInfo;

@@ -17,34 +17,22 @@ extern IVEngineServer* Engine;
 
 void BotBrain::OnThink()
 {
-	if (_GetBot()->IsDead())
+	if (_GetBot()->IsDead() || !_ObjectivesProvider->IsRoundActive())
 	{
-		_IsBotDead = true;
+		return;
 	}
-	else
+
+	float engineTime = Engine->Time();
+	if (_ThinkTime < engineTime)
 	{
-		if (_IsBotDead)
-		{
-			OnSpawn();
-		}
+		_ThinkTime = engineTime + _ConVarHolder->CVarBotBrainThinkTick->GetFloat();
+		_OnThink();
+		_DefaultThink();
+	}
 
-		if (!_ObjectivesProvider->IsRoundActive())
-		{
-			return;
-		}
-
-		float engineTime = Engine->Time();
-		if (_ThinkTime < engineTime)
-		{
-			_ThinkTime = engineTime + _ConVarHolder->CVarBotBrainThinkTick->GetFloat();
-			_OnThink();
-			_DefaultThink();
-		}
-
-		if (_HasBotTask() && _BotTask->OnThink())
-		{
-			_ClearTask();
-		}
+	if (_HasBotTask() && _BotTask->OnThink())
+	{
+		_ClearTask();
 	}
 }
 
@@ -116,12 +104,15 @@ void BotBrain::_DefaultThink()
 	}
 }
 
-void BotBrain::OnSpawn()
+void BotBrain::OnSpawn(Player player)
 {
-	_ClearTask();
-	_ResetState();
-	_GetBot()->SetSelectedWeapon(WEAPON_PRIMARY);
-	_OnSpawn();
+	if (_ABot->GetPlayer() == player)
+	{
+		_ClearTask();
+		_ResetState();
+		_GetBot()->SetSelectedWeapon(WEAPON_PRIMARY);
+		_OnSpawn();
+	}
 }
 
 void BotBrain::OnObjectiveUpdate()
@@ -159,7 +150,6 @@ void BotBrain::_ClearTask()
 void BotBrain::_ResetState()
 {
 	_States = 0;
-	_IsBotDead = false;
 }
 
 void BotBrain::_AddState(BotState state)

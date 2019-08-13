@@ -22,6 +22,7 @@ namespace Util
 	std::vector<Player> GetAllPlayers();
 	void TraceLine(Vector startPos, Vector targetPos, unsigned int fMask, ITraceFilter* traceFilter,
 		trace_t* traceResult);
+	Player GetPlayerFromUserId(int userId);
 
 	QAngle GetLookAtAngleForPos(Bot* bot, Vector lookAtPos);
 	Vector2D GetIdealMoveSpeedsToPos(Bot* bot, Vector targetPos);

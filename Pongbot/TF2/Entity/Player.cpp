@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "EntityDataProvider.h"
 
+extern IVEngineServer* Engine;
 extern IServerGameClients *IIServerGameClients;
 extern IPlayerInfoManager *IIPlayerInfoManager;
 
@@ -91,4 +92,9 @@ void Player::SetAngle(QAngle angle)
 		// TODO
 		//_EntityDataProvider->SetDataOfEntity<QAngle>(*this, DATA_PLAYER_ANGLE, angle);
 	}
+}
+
+int Player::GetUserId() const
+{
+	return Exists() ? Engine->GetPlayerUserId(GetEdict()) : -1;
 }

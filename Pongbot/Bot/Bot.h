@@ -22,7 +22,7 @@ public:
 	const char* Name;
 
 	void Think();
-	const Player GetPlayer() const;
+	Player GetPlayer() const;
 	edict_t* GetEdict() const;
 	bool Exists() const;
 	Vector GetPos() const;
@@ -45,7 +45,7 @@ public:
 	IServerEntity* GetIServerEntity() const;
 
 private:
-	const Player _Player;
+	Player _Player;
 	edict_t* _Edict;
 	IPlayerInfo* _IPlayerInfo;
 	IBotController* _IBotController;

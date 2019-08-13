@@ -75,7 +75,7 @@ void Bot::Think()
 	_IBotController->RunPlayerMove(&cmd);
 }
 
-const Player Bot::GetPlayer() const
+Player Bot::GetPlayer() const
 {
 	return _Player;
 }
@@ -87,12 +87,12 @@ edict_t *Bot::GetEdict() const
 
 bool Bot::Exists() const
 {
-	return GetPlayer().Exists();
+	return _Player.Exists();
 }
 
 Vector Bot::GetPos() const
 {
-	return GetPlayer().GetPos();
+	return _Player.GetPos();
 }
 
 Vector Bot::GetEarPos() const
@@ -123,7 +123,7 @@ TFClass Bot::GetClass() const
 
 TFTeam Bot::GetTeam() const
 {
-	return GetPlayer().GetTeam();
+	return _Player.GetTeam();
 }
 
 BotVisibles* Bot::GetBotVisibles() const
@@ -187,7 +187,7 @@ void Bot::SetSelectedWeapon(WeaponSlot weapon)
 
 bool Bot::IsDead() const
 {
-	return GetPlayer().IsDead();
+	return _Player.IsDead();
 }
 
 void Bot::ChangeClass(TFClass tfClass)

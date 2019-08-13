@@ -1,4 +1,5 @@
 #pragma once
+#include "../Entity/Player.h"
 
 class IEventHooker
 {
@@ -12,4 +13,5 @@ public:
 		char const* pOldLevel, char const* pLandmarkName, bool loadGame, bool background) {}
 	virtual void OnRoundStart() {}
 	virtual void OnRoundActive() {}
+	virtual void OnSpawn(Player player) {}
 };

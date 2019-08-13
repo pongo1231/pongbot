@@ -8,16 +8,17 @@ enum BotState
 // TODO: Signal stuff like needing ammo or so here
 };
 
+class Player;
+
 class BotBrain : public IEventHooker
 {
 public:
-	BotBrain(Bot* bot) : _ABot(bot), _BotTask(nullptr), _IsBotDead(false), _ThinkTime(0.f),
-		_States(0) {} /* To invoke OnSpawn() */
+	BotBrain(Bot* bot) : _ABot(bot), _BotTask(nullptr),  _ThinkTime(0.f), _States(0) {} /* To invoke OnSpawn() */
 
 public:
 	void OnThink();
-	void OnSpawn();
 
+	virtual void OnSpawn(Player player);
 	virtual void OnObjectiveUpdate();
 
 protected:
@@ -34,7 +35,6 @@ private:
 	BotTask* _BotTask;
 	float _ThinkTime;
 	unsigned int _States;
-	bool _IsBotDead;
 
 	void _DefaultThink();
 	void _ClearTask();

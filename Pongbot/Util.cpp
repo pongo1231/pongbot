@@ -100,6 +100,24 @@ namespace Util
 		IIEngineTrace->TraceRay(traceLine, fMask, traceFilter, traceResult);
 	}
 
+	Player GetPlayerFromUserId(int userId)
+	{
+		if (userId < 0)
+		{
+			return Player();
+		}
+
+		for (Player player : GetAllPlayers())
+		{
+			if (player.GetUserId() == userId)
+			{
+				return player;
+			}
+		}
+
+		return Player();
+	}
+
 	QAngle GetLookAtAngleForPos(Bot* bot, Vector lookAtPos)
 	{
 		Vector vectorAngle = lookAtPos - bot->GetEarPos();

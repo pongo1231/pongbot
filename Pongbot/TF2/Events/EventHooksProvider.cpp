@@ -4,6 +4,7 @@
 #include "../../Bot/BotManager.h"
 #include "../../ConVarHolder.h"
 #include "../../Util.h"
+#include "../Entity/Player.h"
 
 extern IVEngineServer* Engine;
 extern IServerGameDLL* Server;
@@ -29,6 +30,7 @@ void EventHooksProvider::Init()
 
 		IIGameEventManager->AddListener(_EventHooksProvider, "teamplay_round_start", true);
 		IIGameEventManager->AddListener(_EventHooksProvider, "teamplay_round_active", true);
+		IIGameEventManager->AddListener(_EventHooksProvider, "player_spawn", true);
 	}
 }
 
@@ -152,6 +154,18 @@ bool EventHooksProvider::_OnFireEvent(IGameEvent* pEvent, bool bDontBroadcast) c
 		for (IEventHooker* eventHooker : _EventHookers)
 		{
 			eventHooker->OnRoundActive();
+		}
+	}
+	else if (strcmp(name, "player_spawn") == 0)
+	{
+		int userId = pEvent->GetInt("userid", -1);
+		Player player = Util::GetPlayerFromUserId(userId);
+		if (player.Exists())
+		{
+			for (IEventHooker* eventHooker : _EventHookers)
+			{
+				eventHooker->OnSpawn(player);
+			}
 		}
 	}
 
