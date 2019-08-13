@@ -6,6 +6,7 @@
 #include "../../../TF2/Entity/EntityProvider.h"
 #include "../../../TF2/Entity/EntityDataProvider.h"
 #include "../../../TF2/TFTeam.h"
+#include "../../../TF2/Trace/TraceFilters.h"
 #include "../../../Waypoint/WaypointNodeFlagTypes.h"
 #include "../../../Util.h"
 #include "../../../Waypoint/WaypointNodeFlagsProvider.h"
@@ -17,7 +18,7 @@ extern IVEngineServer* Engine;
 
 static bool _DrawDebugBeam = false;
 
-bool BotTaskGoto::_NewTargetNodeStack()
+void BotTaskGoto::_NewTargetNodeStack()
 {
 	Bot* bot = _GetBot();
 	Vector currentPos = bot->GetPos();
@@ -47,7 +48,8 @@ bool BotTaskGoto::_NewTargetNodeStack()
 		if (_WaypointNodeStack.empty())
 		{
 			// Can't even get there, abort
-			return false;
+			_AbortTask = true;
+			return;
 		}
 		
 		_TargetPosQueue = std::queue<Vector>();
@@ -61,8 +63,6 @@ bool BotTaskGoto::_NewTargetNodeStack()
 		}
 		_TargetPosQueue.push(_TargetPos);
 	}
-
-	return true;
 }
 
 bool BotTaskGoto::_OnThink()
@@ -93,6 +93,21 @@ bool BotTaskGoto::_OnThink()
 			Util::DrawBeam(bot->GetEarPos(), targetPos, 255, 0, 0, debugBeamTick);
 			_DebugBeamDrawTime = Engine->Time() + debugBeamTick;
 		}
+
+		// Switch to shortest way mode if target pos is visible and switchToShortestWayOnTargetPosVisible is on
+		if (_SwitchToShortestWayOnTargetPosVisible && !_ShortestWay)
+		{
+			trace_t traceResult;
+			Vector tracePos = targetPos;
+			tracePos.z += bot->GetEarPos().z;
+			Util::TraceLine(currentPos, tracePos, MASK_SOLID | MASK_OPAQUE,
+				&TraceFilterSimple(bot->GetIServerEntity(), nullptr), &traceResult);
+			if (!traceResult.DidHit())
+			{
+				_ShortestWay = true;
+				_NewTargetNodeStack();
+			}
+		}
 	}
 
 	return false;
@@ -110,11 +125,7 @@ void BotTaskGoto::_OnBotStuckPanic()
 
 void BotTaskGoto::_OnBotDefinitelyStuck()
 {
-	if (!_ShortestWay && !_NewTargetNodeStack())
-	{
-		// Can't get there
-		_AbortTask = true;
-	}
+	_NewTargetNodeStack();
 }
 
 CON_COMMAND(pongbot_bot_goto_debug, "Draw a beam to the bots' target pos")

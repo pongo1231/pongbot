@@ -101,7 +101,7 @@ void BotVisibles::OnThink()
 				entityPos += Vector(0.f, 0.f, (Player(entity).GetHeadPos().z - entityPos.z) / 2.f);
 			}
 
-			bool clearLine = _HasClearLineToTarget(entity.GetEdict()->GetIServerEntity(), entityPos);
+			bool clearLine = _HasClearLineToTarget(entity.GetIServerEntity(), entityPos);
 			if (clearLine)
 			{
 				// Insert according to distance bot <-> edict
@@ -153,7 +153,7 @@ bool BotVisibles::_HasClearLineToTarget(IServerEntity* targetEntity, Vector targ
 {
 	trace_t traceResult;
 	Util::TraceLine(_MBot->GetEarPos(), targetPos, MASK_SOLID | MASK_BLOCKLOS,
-		&TraceFilterSimple(_MBot->GetEdict()->GetIServerEntity(), targetEntity), &traceResult);
+		&TraceFilterSimple(_MBot->GetIServerEntity(), targetEntity), &traceResult);
 	return !traceResult.DidHit();
 }
 

@@ -207,7 +207,7 @@ void Bot::ExecClientCommand(const char* command, ...) const
 	vsnprintf(fullCommand, sizeof(fullCommand), command, args);
 	va_end(args);
 
-	IIServerPluginHelpers->ClientCommand(GetEdict(), fullCommand);
+	IIServerPluginHelpers->ClientCommand(_Edict, fullCommand);
 }
 
 WeaponSlot Bot::GetIdealWeaponForRange(float range) const
@@ -252,6 +252,11 @@ WeaponSlot Bot::GetIdealWeaponForRange(float range) const
 	{
 		return longRangeWeaponSlot;
 	}
+}
+
+IServerEntity* Bot::GetIServerEntity() const
+{
+	return _Edict->GetIServerEntity();
 }
 
 void Bot::_SwitchToFittingTeam()
@@ -308,7 +313,8 @@ void Bot::_UpdateBotBrain()
 		break;
 	}
 
-	Util::DebugLog("Created new bot brain (%s) for bot %s (Edict Index: %d)", _TFClassToJoinName(GetClass()), Name, GetEdict()->m_iIndex);
+	Util::DebugLog("Created new bot brain (%s) for bot %s (Edict Index: %d)", _TFClassToJoinName(GetClass()),
+		Name, _Edict->m_iIndex);
 }
 
 const char* Bot::_TFClassToJoinName(TFClass tfClass) const

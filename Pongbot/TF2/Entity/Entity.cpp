@@ -37,7 +37,7 @@ Vector Entity::GetPos() const
 		return Vector(0.f, 0.f, 0.f);
 	}
 
-	ICollideable* collideable = GetEdict()->GetCollideable();
+	ICollideable* collideable = _MEdict->GetCollideable();
 	return collideable ? collideable->GetCollisionOrigin() : Vector(0.f, 0.f, 0.f);
 }
 
@@ -48,7 +48,7 @@ bool Entity::IsPlayer() const
 
 bool Entity::Exists() const
 {
-	return GetEdict();
+	return _MEdict;
 }
 
 const char* Entity::GetEdictClassName() const
@@ -58,5 +58,10 @@ const char* Entity::GetEdictClassName() const
 		return nullptr;
 	}
 
-	return GetEdict()->GetClassName();
+	return _MEdict->GetClassName();
+}
+
+IServerEntity* Entity::GetIServerEntity() const
+{
+	return _MEdict->GetIServerEntity();
 }

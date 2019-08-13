@@ -22,6 +22,7 @@ public:
 	bool IsPlayer() const;
 	bool Exists() const;
 	const char* GetEdictClassName() const;
+	IServerEntity* GetIServerEntity() const;
 
 private:
 	edict_t* _MEdict;

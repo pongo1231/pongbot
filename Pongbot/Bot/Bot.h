@@ -42,6 +42,7 @@ public:
 	void ChangeClass(TFClass tfClass);
 	void ExecClientCommand(const char* command, ...) const;
 	WeaponSlot GetIdealWeaponForRange(float range) const;
+	IServerEntity* GetIServerEntity() const;
 
 private:
 	const Player _Player;
