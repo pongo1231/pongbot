@@ -6,6 +6,10 @@
 class Player;
 struct edict_t;
 class Bot;
+class CGameTrace;
+class ITraceFilter;
+
+typedef CGameTrace trace_t;
 
 namespace Util
 {
@@ -16,6 +20,8 @@ namespace Util
 	float DistanceToNoZ(Vector a, Vector b);
 	void DrawBeam(Vector startPos, Vector endPos, uint8_t r, uint8_t g, uint8_t b, float lifeTime);
 	std::vector<Player> GetAllPlayers();
+	void TraceLine(Vector startPos, Vector targetPos, unsigned int fMask, ITraceFilter* traceFilter,
+		trace_t* traceResult);
 
 	QAngle GetLookAtAngleForPos(Bot* bot, Vector lookAtPos);
 	Vector2D GetIdealMoveSpeedsToPos(Bot* bot, Vector targetPos);

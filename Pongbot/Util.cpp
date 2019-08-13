@@ -3,6 +3,7 @@
 #include "Bot/Bot.h"
 #include "TF2/Class/TFClassInfoProvider.h"
 #include "TF2/Entity/Player.h"
+#include "TF2/Trace/TraceFilters.h"
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/mathlib/mathlib.h>
 #include <hlsdk/game/shared/IEffects.h>
@@ -15,6 +16,7 @@ extern IVEngineServer* Engine;
 extern IPlayerInfoManager* IIPlayerInfoManager;
 extern ISmmAPI* g_SMAPI;
 extern IEffects* IIEffects;
+extern IEngineTrace* IIEngineTrace;
 
 namespace Util
 {
@@ -71,7 +73,8 @@ namespace Util
 
 	void DrawBeam(Vector startPos, Vector endPos, uint8_t r, uint8_t g, uint8_t b, float lifeTime)
 	{
-		IIEffects->Beam(startPos, endPos, Engine->PrecacheModel("sprites/lgtning.vmt"), 0, 0, 1, lifeTime, 1, 1, 255, 1, r, g, b, 255, 10);
+		IIEffects->Beam(startPos, endPos, Engine->PrecacheModel("sprites/lgtning.vmt"), 0, 0, 1,
+			lifeTime, 1, 1, 255, 1, r, g, b, 255, 10);
 	}
 
 	std::vector<Player> GetAllPlayers()
@@ -87,6 +90,14 @@ namespace Util
 		}
 
 		return players;
+	}
+
+	void TraceLine(Vector startPos, Vector targetPos, unsigned int fMask, ITraceFilter* traceFilter,
+		trace_t* traceResult)
+	{
+		Ray_t traceLine;
+		traceLine.Init(startPos, targetPos);
+		IIEngineTrace->TraceRay(traceLine, fMask, traceFilter, traceResult);
 	}
 
 	QAngle GetLookAtAngleForPos(Bot* bot, Vector lookAtPos)

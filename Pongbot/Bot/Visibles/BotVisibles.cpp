@@ -15,7 +15,6 @@
 #include <cmath>
 
 extern IVEngineServer* Engine;
-extern IEngineTrace* IIEngineTrace;
 extern BotVisiblesProvider* _BotVisiblesProvider;
 extern IPlayerInfoManager* IIPlayerInfoManager;
 
@@ -152,12 +151,9 @@ bool BotVisibles::_IsTargetInSight(Vector targetPos) const
 
 bool BotVisibles::_HasClearLineToTarget(IServerEntity* targetEntity, Vector targetPos) const
 {
-	Ray_t traceLine;
-	traceLine.Init(_MBot->GetEarPos(), targetPos);
 	trace_t traceResult;
-	IIEngineTrace->TraceRay(traceLine, MASK_SOLID, &TraceFilterSimple(_MBot->GetEdict()->GetIServerEntity(),
-		targetEntity), &traceResult);
-
+	Util::TraceLine(_MBot->GetEarPos(), targetPos, MASK_SOLID,
+		&TraceFilterSimple(_MBot->GetEdict()->GetIServerEntity(), targetEntity), &traceResult);
 	return !traceResult.DidHit();
 }
 

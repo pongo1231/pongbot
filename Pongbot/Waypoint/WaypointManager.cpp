@@ -101,18 +101,8 @@ WaypointNode* WaypointManager::GetClosestWaypointNode(Vector pos, float maxDista
 		float distance = node->Pos.DistTo(pos);
 		if (closestDistance > distance && (nodeFlagWhitelist == 0 || node->Flags & nodeFlagWhitelist))
 		{
-			// Do raytracing to check if node is reachable
-			/*Vector nodeRayTracePos = node->Pos;
-			nodeRayTracePos.z += 75.f;
-			Ray_t traceLine;
-			traceLine.Init(pos + 1.f \/* To be sure it's not inside the ground *\/, nodeRayTracePos);
-			trace_t traceResult;
-			IIEngineTrace->TraceRay(traceLine, MASK_SOLID, &TraceFilterWorld(), &traceResult);
-			if (!traceResult.DidHit())
-			{*/
-				closestNode = node;
-				closestDistance = distance;
-			/*}*/
+			closestNode = node;
+			closestDistance = distance;
 		}
 	}
 
