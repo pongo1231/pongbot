@@ -12,6 +12,7 @@ public:
 
 	ConVar* CVarBotAimSensivity = nullptr;
 	ConVar* CVarBotPosStuckPanicTime = nullptr;
+	ConVar* CVarBotPosStuckPanicTries = nullptr;
 	ConVar* CVarBotPosStuckPanicRange = nullptr;
 	ConVar* CVarBotTargetPosDebugBeamTick = nullptr;
 	ConVar* CVarBotWeaponLongRangeDist = nullptr;

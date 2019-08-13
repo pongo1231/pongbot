@@ -13,6 +13,7 @@ void ConVarHolder::Init()
 
 		_ConVarHolder->CVarBotAimSensivity = new ConVar("pongbot_bot_aimsensivity", "3.0", 0, "Bot aim sensivity");
 		_ConVarHolder->CVarBotPosStuckPanicTime = new ConVar("pongbot_bot_goto_stuckpanictime", "120.0", 0, "Time until bot starts panicking if stuck (crouch jump)");
+		_ConVarHolder->CVarBotPosStuckPanicTries = new ConVar("pongbot_bot_goto_stuckpanictries", "3", 0, "Time until bot starts panicking if stuck (crouch jump)");
 		_ConVarHolder->CVarBotPosStuckPanicRange = new ConVar("pongbot_bot_goto_stuckpanicrange", "10.0", 0, "Max dist from last pos bot has to be at to count as stuck");		
 		_ConVarHolder->CVarBotTargetPosDebugBeamTick = new ConVar("pongbot_bot_goto_debugbeamtick", "0.1", 0, "How often the goto debug beam gets updated");
 		_ConVarHolder->CVarBotWeaponLongRangeDist = new ConVar("pongbot_bot_wep_longrangedist", "700.0", 0, "Min distance where bots use their long range weapon");
@@ -40,6 +41,7 @@ void ConVarHolder::Destroy()
 	{
 		delete _ConVarHolder->CVarBotAimSensivity;
 		delete _ConVarHolder->CVarBotPosStuckPanicTime;
+		delete _ConVarHolder->CVarBotPosStuckPanicTries;
 		delete _ConVarHolder->CVarBotPosStuckPanicRange;
 		delete _ConVarHolder->CVarBotTargetPosDebugBeamTick;
 		delete _ConVarHolder->CVarBotWeaponLongRangeDist;

@@ -11,7 +11,7 @@ bool BotTask::OnThink()
 	_IsBotViewAngleOverriden = false;
 	_BotPressedButtons = 0;
 
-	bool taskResult = _OnThink();
+	bool taskResult = _OnThink() || _AbortTask;
 	if (taskResult)
 	{
 		_OnStop();
@@ -20,6 +20,11 @@ bool BotTask::OnThink()
 	if (!_IsBotViewAngleOverriden)
 	{
 		_ShootAtBadGuys();
+	}
+
+	if (_DoStuckPosPanicHandling)
+	{
+		_CheckIfStuckInPos();
 	}
 
 	// Avoid jittering around when supposed to stand still
@@ -49,6 +54,50 @@ void BotTask::_ShootAtBadGuys()
 		_BotPressedButtons |= IN_ATTACK;
 
 		_WeaponSlot = _Bot->GetIdealWeaponForRange(targetPos.DistTo(_Bot->GetPos()));
+	}
+}
+
+void BotTask::_CheckIfStuckInPos()
+{
+	Vector currentPos = _Bot->GetPos();
+
+	if (Util::DistanceToNoZ(currentPos, _LastPos) < _ConVarHolder->CVarBotPosStuckPanicRange->GetFloat())
+	{
+		int botPanicMaxTries = _ConVarHolder->CVarBotPosStuckPanicTries->GetInt();
+		if (_PosStuckTries > botPanicMaxTries)
+		{
+			return;
+		}
+
+		_PosStuckTime++;
+
+		float panicStuckTime = _ConVarHolder->CVarBotPosStuckPanicTime->GetFloat();
+		if (_PosStuckTime > panicStuckTime + 50.f)
+		{
+			_PosStuckTime = 0;
+			_PosStuckTries++;
+
+			if (_PosStuckTries > botPanicMaxTries)
+			{
+				_OnBotDefinitelyStuck();
+			}
+			else
+			{
+				_OnBotStuckPanic();
+			}
+		}
+		else if (_PosStuckTime > panicStuckTime)
+		{
+			_AddBotPressedButton(IN_JUMP);
+			_AddBotPressedButton(IN_DUCK);
+			_Bot->ExecClientCommand("voicemenu 2 5");
+		}
+	}
+	else
+	{
+		_PosStuckTime = 0;
+		_PosStuckTries = 0;
+		_LastPos = currentPos;
 	}
 }
 
