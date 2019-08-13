@@ -63,7 +63,7 @@ void BotTask::_CheckIfStuckInPos()
 
 	if (Util::DistanceToNoZ(currentPos, _LastPos) < _ConVarHolder->CVarBotPosStuckPanicRange->GetFloat())
 	{
-		int botPanicMaxTries = _ConVarHolder->CVarBotPosStuckPanicTries->GetInt();
+		int botPanicMaxTries = _ConVarHolder->CVarBotPosStuckPanicTries->GetInt() - 1;
 		if (_PosStuckTries > botPanicMaxTries)
 		{
 			return;
