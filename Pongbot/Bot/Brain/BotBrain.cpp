@@ -57,17 +57,10 @@ void BotBrain::_DefaultThink()
 
 	// Melee combat
 	BotVisibleTarget currentTarget = bot->GetBotVisibles()->GetMostImportantTarget();
-	if (currentTarget.IsValid() && bot->GetSelectedWeaponSlot() == WeaponSlot::WEAPON_MELEE)
+	if (currentTarget.IsValid() && bot->GetSelectedWeaponSlot() == WeaponSlot::WEAPON_MELEE
+		&& !_IsCurrentBotTaskOfType(typeid(BotTaskAggressiveCombat)))
 	{
-		if (!_IsBotInMeleeFight)
-		{
-			_IsBotInMeleeFight = true;
-			_SetBotTask(new BotTaskAggressiveCombat(bot, currentTarget.GetEntity(), WeaponSlot::WEAPON_MELEE));
-		}
-	}
-	else
-	{
-		_IsBotInMeleeFight = false;
+		_SetBotTask(new BotTaskAggressiveCombat(bot, currentTarget.GetEntity(), WeaponSlot::WEAPON_MELEE));
 	}
 
 	/* Filler Tasks in case the bot has nothing to do */
@@ -152,6 +145,11 @@ bool BotBrain::_HasBotTask() const
 	return _BotTask;
 }
 
+bool BotBrain::_IsCurrentBotTaskOfType(const std::type_info& type) const
+{
+	return typeid(_BotTask) == type;
+}
+
 void BotBrain::_ClearTask()
 {
 	delete _BotTask;
@@ -162,7 +160,6 @@ void BotBrain::_ResetState()
 {
 	_States = 0;
 	_IsBotDead = false;
-	_IsBotInMeleeFight = false;
 }
 
 void BotBrain::_AddState(BotState state)

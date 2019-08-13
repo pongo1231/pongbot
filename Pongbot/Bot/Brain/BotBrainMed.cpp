@@ -12,7 +12,8 @@ void BotBrainMed::_OnThink()
 	Bot* bot = _GetBot();
 
 	BotVisibles* botVisibles = bot->GetBotVisibles();
-	if (_CurrentHealTarget && !botVisibles->IsEntityVisible(_CurrentHealTarget))
+	if (!_IsCurrentBotTaskOfType(typeid(BotTaskMedHealTarget))
+		|| (_CurrentHealTarget && !botVisibles->IsEntityVisible(_CurrentHealTarget)))
 	{
 		_CurrentHealTarget = nullptr;
 	}

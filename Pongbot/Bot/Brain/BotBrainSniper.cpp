@@ -10,24 +10,10 @@ void BotBrainSniper::_OnThink()
 	Bot* bot = _GetBot();
 
 	BotVisibleTarget visibleTarget = bot->GetBotVisibles()->GetMostImportantTarget();
-	if (visibleTarget.IsValid())
+	if (visibleTarget.IsValid()
+		&& Util::DistanceToNoZ(bot->GetPos(), visibleTarget.GetPos()) > _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat()
+		&& !_IsCurrentBotTaskOfType(typeid(BotTaskSniperSnipe)))
 	{
-		if (Util::DistanceToNoZ(bot->GetPos(), visibleTarget.GetPos()) > _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
-		{
-			if (!_IsBotSniping)
-			{
-				_IsBotSniping = true;
-				_SetBotTask(new BotTaskSniperSnipe(bot));
-			}
-		}
-		else
-		{
-			_IsBotSniping = false;
-		}
+		_SetBotTask(new BotTaskSniperSnipe(bot));
 	}
-}
-
-void BotBrainSniper::_OnSpawn()
-{
-	_IsBotSniping = false;
 }
