@@ -4,7 +4,10 @@
 class BotTaskSniperSnipe : public BotTask
 {
 public:
-	BotTaskSniperSnipe(Bot *bot) : BotTask(bot), _ShootTime(0.f) {}
+	BotTaskSniperSnipe(Bot *bot) : BotTask(bot), _ShootTime(0.f)
+	{
+		_DoStuckPosPanicHandling = false;
+	}
 
 private:
 	float _ShootTime;

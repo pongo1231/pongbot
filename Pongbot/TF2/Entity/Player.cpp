@@ -49,7 +49,6 @@ Vector Player::GetHeadPos() const
 
 	Vector headPos;
 	IIServerGameClients->ClientEarPosition(GetEdict(), &headPos);
-
 	return headPos;
 }
 

@@ -140,13 +140,15 @@ void BotVisibles::_AddEntity(Entity entity, Vector edictPos, uint8_t insertIndex
 
 bool BotVisibles::_IsTargetInSight(Vector targetPos) const
 {
+	/* Thanks to rcbot2 */
 	Vector vectorForward;
 	AngleVectors(_MBot->GetViewAngle(), &vectorForward);
-	float dot = vectorForward.x * targetPos.x + vectorForward.y * targetPos.y + vectorForward.z * targetPos.z;
-	float angle = std::acos(dot / (vectorForward.Length() * targetPos.Length()));
 
-	// TODOOOOOOOOOOOOOOO!
-	return true;
+	Vector vectorLOS = targetPos - _MBot->GetEarPos();
+	vectorLOS /= vectorLOS.Length();
+
+	float dot = DotProduct(vectorLOS, vectorForward);
+	return dot > 0.1f;
 }
 
 bool BotVisibles::_HasClearLineToTarget(IServerEntity* targetEntity, Vector targetPos) const

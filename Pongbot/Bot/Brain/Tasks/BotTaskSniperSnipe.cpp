@@ -44,7 +44,7 @@ bool BotTaskSniperSnipe::_OnThink()
 		float engineTime = Engine->Time();
 		if (engineTime > _ShootTime)
 		{
-			_ShootTime = engineTime + Util::RandomFloat(3.f, 10.f);
+			_ShootTime = engineTime + Util::RandomFloat(20.f, 40.f);
 			_AddBotPressedButton(IN_ATTACK);
 		}
 	}

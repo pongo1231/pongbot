@@ -9,6 +9,12 @@ void BotBrainSniper::_OnThink()
 {
 	Bot* bot = _GetBot();
 
+	if (!_IsCurrentBotTaskOfType(typeid(BotTaskSniperSnipe)) && bot->GetPlayer().IsSniperZoomedIn())
+	{
+		bot->SetPressedButtons(IN_ATTACK2);
+		return;
+	}
+
 	BotVisibleTarget visibleTarget = bot->GetBotVisibles()->GetMostImportantTarget();
 	if (visibleTarget.IsValid()
 		&& Util::DistanceToNoZ(bot->GetPos(), visibleTarget.GetPos()) > _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat()

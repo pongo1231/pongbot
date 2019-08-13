@@ -53,12 +53,7 @@ bool Entity::Exists() const
 
 const char* Entity::GetEdictClassName() const
 {
-	if (!Exists())
-	{
-		return nullptr;
-	}
-
-	return _MEdict->GetClassName();
+	return Exists() ? _MEdict->GetClassName() : nullptr;
 }
 
 IServerEntity* Entity::GetIServerEntity() const
