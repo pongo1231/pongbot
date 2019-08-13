@@ -152,7 +152,7 @@ bool BotVisibles::_IsTargetInSight(Vector targetPos) const
 bool BotVisibles::_HasClearLineToTarget(IServerEntity* targetEntity, Vector targetPos) const
 {
 	trace_t traceResult;
-	Util::TraceLine(_MBot->GetEarPos(), targetPos, MASK_SOLID,
+	Util::TraceLine(_MBot->GetEarPos(), targetPos, MASK_SOLID | MASK_BLOCKLOS,
 		&TraceFilterSimple(_MBot->GetEdict()->GetIServerEntity(), targetEntity), &traceResult);
 	return !traceResult.DidHit();
 }
