@@ -1,6 +1,16 @@
 #include "stdafx.h"
 #include "WaypointNode.h"
 
+unsigned int WaypointNode::GetId() const
+{
+	return _Id;
+}
+
+Vector WaypointNode::GetPos() const
+{
+	return _Pos;
+}
+
 std::vector<WaypointNode*> WaypointNode::GetConnectedNodes() const
 {
 	return _ConnectedNodes;

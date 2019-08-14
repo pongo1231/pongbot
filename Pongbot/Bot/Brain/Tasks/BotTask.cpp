@@ -11,7 +11,12 @@ bool BotTask::OnThink()
 	_IsBotViewAngleOverriden = false;
 	_BotPressedButtons = 0;
 
-	bool taskResult = _OnThink() || _AbortTask;
+	bool taskResult = true;
+	if (!_AbortTask)
+	{
+		taskResult = _OnThink();
+	}
+	
 	if (taskResult)
 	{
 		_OnStop();

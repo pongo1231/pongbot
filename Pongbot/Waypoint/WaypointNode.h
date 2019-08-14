@@ -8,14 +8,14 @@ class WaypointNode
 {
 public:
 	WaypointNode(unsigned int id, Vector pos, unsigned int flags, float range, QAngle optimalViewAngle = QAngle(0.f, 0.f, 0.f))
-		: Id(id), Pos(pos), Flags(flags), _Range(range), OptimalViewAngle(optimalViewAngle) {}
+		: _Id(id), _Pos(pos), Flags(flags), _Range(range), OptimalViewAngle(optimalViewAngle) {}
 
 public:
-	const unsigned int Id;
-	const Vector Pos;
 	unsigned int Flags;
 	QAngle OptimalViewAngle;
 
+	unsigned int GetId() const;
+	Vector GetPos() const;
 	std::vector<WaypointNode*> GetConnectedNodes() const;
 	bool ConnectToNode(WaypointNode* node, bool bidirectional = false);
 	bool IsConnectedToNode(WaypointNode* node, bool directly = true);
@@ -25,6 +25,8 @@ public:
 	float GetRange() const;
 
 private:
+	unsigned int _Id;
+	Vector _Pos;
 	std::vector<WaypointNode*> _ConnectedNodes;
 	float _Range;
 };

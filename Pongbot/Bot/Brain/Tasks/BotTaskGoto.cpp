@@ -23,46 +23,44 @@ void BotTaskGoto::_NewTargetNodeStack()
 	Bot* bot = _GetBot();
 	Vector currentPos = bot->GetPos();
 	WaypointNode* closestNode = _WaypointManager->GetClosestWaypointNode(currentPos);
-	if (closestNode)
+	if (!closestNode)
 	{
-		WaypointNode* targetNode = _WaypointManager->GetClosestWaypointNode(_TargetPos);
-		int nodeFlagBlacklist = _WaypointNodeFlagsProvider->GetInaccessibleNodeFlagsForBot(bot);
-
-		if (!targetNode)
-		{
-			targetNode = _WaypointManager->GetRandomWaypointNode();
-		}
-
-		std::stack<WaypointNode*> _WaypointNodeStack;
-		if (_ShortestWay)
-		{
-			_WaypointManager->GetShortestWaypointNodeRouteToTargetNode(closestNode, targetNode,
-				&_WaypointNodeStack, nodeFlagBlacklist | _NodeFlagBlacklist);
-		}
-		else
-		{
-			_WaypointManager->GetRandomWaypointNodeRouteToTargetNode(closestNode, targetNode,
-				&_WaypointNodeStack, nodeFlagBlacklist | _NodeFlagBlacklist);
-		}
-
-		if (_WaypointNodeStack.empty())
-		{
-			// Can't even get there, abort
-			_AbortTask = true;
-			return;
-		}
-		
-		_TargetPosQueue = std::queue<Vector>();
-		while (!_WaypointNodeStack.empty())
-		{
-			WaypointNode* node = _WaypointNodeStack.top();
-			float nodeTouchRadius = node->GetRange();
-			_TargetPosQueue.push(node->Pos + Vector(Util::RandomFloat(-nodeTouchRadius, nodeTouchRadius),
-				Util::RandomFloat(-nodeTouchRadius, nodeTouchRadius), 0.f));
-			_WaypointNodeStack.pop();
-		}
-		_TargetPosQueue.push(_TargetPos);
+		_AbortTask = true;
+		return;
 	}
+
+	WaypointNode* targetNode = _WaypointManager->GetClosestWaypointNode(_TargetPos);
+	int nodeFlagBlacklist = _WaypointNodeFlagsProvider->GetInaccessibleNodeFlagsForBot(bot);
+
+	std::stack<WaypointNode*> _WaypointNodeStack;
+	if (_ShortestWay)
+	{
+		_WaypointManager->GetShortestWaypointNodeRouteToTargetNode(closestNode, targetNode,
+			&_WaypointNodeStack, nodeFlagBlacklist | _NodeFlagBlacklist);
+	}
+	else
+	{
+		_WaypointManager->GetRandomWaypointNodeRouteToTargetNode(closestNode, targetNode,
+			&_WaypointNodeStack, nodeFlagBlacklist | _NodeFlagBlacklist);
+	}
+
+	if (_WaypointNodeStack.empty())
+	{
+		// Can't even get there, abort
+		_AbortTask = true;
+		return;
+	}
+	
+	_TargetPosQueue = std::queue<Vector>();
+	while (!_WaypointNodeStack.empty())
+	{
+		WaypointNode* node = _WaypointNodeStack.top();
+		float nodeTouchRadius = node->GetRange();
+		_TargetPosQueue.push(node->GetPos() + Vector(Util::RandomFloat(-nodeTouchRadius, nodeTouchRadius),
+			Util::RandomFloat(-nodeTouchRadius, nodeTouchRadius), 0.f));
+		_WaypointNodeStack.pop();
+	}
+	_TargetPosQueue.push(_TargetPos);
 }
 
 bool BotTaskGoto::_OnThink()
@@ -77,11 +75,12 @@ bool BotTaskGoto::_OnThink()
 	else
 	{
 		Vector targetPos = _TargetPosQueue.front();
-		if (Util::DistanceToNoZ(currentPos, targetPos) <= 5.f)
+		float distance = Util::DistanceToNoZ(currentPos, targetPos);
+		if (distance <= 5.f)
 		{
 			_TargetPosQueue.pop();
 		}
-		else
+		else if (distance > 20.f)
 		{
 			_BotMoveTo(targetPos);
 			_SetBotLookAt(targetPos + (bot->GetEarPos() - currentPos));
@@ -119,7 +118,7 @@ void BotTaskGoto::_OnBotStuckPanic()
 	Vector& nextTargetPos = _TargetPosQueue.front();
 	WaypointNode* node = _WaypointManager->GetClosestWaypointNode(nextTargetPos);
 	float nodeTouchRadius = node->GetRange();
-	nextTargetPos = Vector(node->Pos + Vector(Util::RandomFloat(-nodeTouchRadius, nodeTouchRadius),
+	nextTargetPos = Vector(node->GetPos() + Vector(Util::RandomFloat(-nodeTouchRadius, nodeTouchRadius),
 		Util::RandomFloat(-nodeTouchRadius, nodeTouchRadius), 0.f));
 }
 

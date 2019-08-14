@@ -107,7 +107,7 @@ void WaypointFileManager::Read()
 			{
 				for (WaypointNode* nodeToConnect : *_WaypointNodes)
 				{
-					if (nodeToConnect->Id == connectedNodeIds[i][j])
+					if (nodeToConnect->GetId() == connectedNodeIds[i][j])
 					{
 						(*_WaypointNodes)[i]->ConnectToNode(nodeToConnect);
 					}
@@ -133,15 +133,15 @@ void WaypointFileManager::Write()
 		// Write all nodes to file
 		for (WaypointNode* node : *_WaypointNodes)
 		{
-			Vector pos = node->Pos;
+			Vector pos = node->GetPos();
 			QAngle angle = node->OptimalViewAngle;
-			file << node->Id << ":" << pos.x << ":" << pos.y << ":" << pos.z << ":" << node->Flags << ":" << node->GetRange()
+			file << node->GetId() << ":" << pos.x << ":" << pos.y << ":" << pos.z << ":" << node->Flags << ":" << node->GetRange()
 				<< ":" << angle.x << ":" << angle.y << ":" << angle.z;
 
 			// Also write IDs of saved nodes to file too
 			for (WaypointNode* connectedNode : node->GetConnectedNodes())
 			{
-				file << ":" << connectedNode->Id;
+				file << ":" << connectedNode->GetId();
 			}
 
 			file << ":\\" << std::endl;

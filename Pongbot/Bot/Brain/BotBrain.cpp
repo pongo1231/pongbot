@@ -89,7 +89,7 @@ void BotBrain::_DefaultThink()
 					WaypointNode* targetNode = _WaypointManager->GetClosestWaypointNode(botPos, -1, bot->GetTeam() == TEAM_RED ? NODE_ITEMFLAG_RED : NODE_ITEMFLAG_BLUE);
 					if (targetNode) // Map doesn't have a ITEMFLAG_RED/ITEMFLAG_BLUE node!
 					{
-						_SetBotTask(new BotTaskGoto(bot, targetNode->Pos, true, true, NODE_SPAWN_RED | NODE_SPAWN_BLUE)); // Don't walk through spawns
+						_SetBotTask(new BotTaskGoto(bot, targetNode->GetPos(), true, true, NODE_SPAWN_RED | NODE_SPAWN_BLUE)); // Don't walk through spawns
 					}
 				}
 			}
@@ -98,7 +98,7 @@ void BotBrain::_DefaultThink()
 			if (!_HasBotTask())
 			{
 				_SetBotTask(new BotTaskGoto(bot, _WaypointManager->GetRandomWaypointNode(
-					_WaypointNodeFlagsProvider->GetInaccessibleNodeFlagsForBot(_ABot))->Pos, false));
+					_WaypointNodeFlagsProvider->GetInaccessibleNodeFlagsForBot(_ABot))->GetPos(), false));
 			}
 		}
 	}
