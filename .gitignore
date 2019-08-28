@@ -1,5 +1,8 @@
 # Linux builds
-build/
+build.linux/
+
+# Windows builds
+build.win/
 
 # VS Code
 .vscode/
