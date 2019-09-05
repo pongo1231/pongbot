@@ -12,6 +12,7 @@
 #include <hlsdk/public/mathlib/mathlib.h>
 #include <hlsdk/public/edict.h>
 #include <hlsdk/public/tier1/convar.h>
+#include <hlsdk/public/server_class.h>
 #include <cstdlib>
 #include <algorithm>
 #include <cmath>

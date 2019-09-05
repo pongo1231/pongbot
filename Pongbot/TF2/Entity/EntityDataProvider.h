@@ -14,7 +14,8 @@ enum EntityDataType
 	DATA_PLAYER_FOV, // CBasePlayer::m_iFOV
 	DATA_PLAYER_CURRENTWEAPON, // CBaseCombatCharacter::m_hActiveWeapon
 	DATA_PLAYER_ANGLE, // CBaseEntity::m_angRotation
-	DATA_ROUND_TIMER_STATE // CTeamRoundTimer::m_nState
+	DATA_ROUND_TIMER_STATE, // CTeamRoundTimer::m_nState
+	_DATA_AMOUNT
 };
 
 class EntityDataProvider
@@ -27,50 +28,70 @@ public:
 	static void Destroy();
 
 	template<typename T>
-	T GetDataFromEntity(Entity entity, EntityDataType dataType)
+	inline T GetDataFromEntity(Entity entity, EntityDataType dataType) const
 	{
 		if (!entity.Exists() || !entity.GetEdict()->GetUnknown())
 		{
 			return (T) 0;
 		}
 
-		return (T) *((char*) entity.GetEdict()->GetUnknown()->GetBaseEntity() + _EntityOffsets.at(dataType));
+		return (T) *((char*) entity.GetEdict()->GetUnknown()->GetBaseEntity() + _EntityOffsets[dataType].Offset);
 	}
 
 	template<typename T>
-	void SetDataOfEntity(Entity entity, EntityDataType dataType, T data)
+	inline void SetDataOfEntity(Entity entity, EntityDataType dataType, T data)
 	{
 		if (entity.Exists() && entity.GetEdict()->GetUnknown())
 		{
-			*((char*) entity.GetEdict()->GetUnknown()->GetBaseEntity() + _EntityOffsets.at(dataType)) = data;
+			*((char*) entity.GetEdict()->GetUnknown()->GetBaseEntity() + _EntityOffsets[dataType].Offset) = data;
 		}
 	}
 
 private:
-	const std::map<EntityDataType, unsigned int> _EntityOffsets =
+	struct EntityData
 	{
-		#ifdef _WIN32
-		{DATA_TEAM, 516},
-		{DATA_FLAG_OWNER, 1648},
-		{DATA_FLAG_STATUS, 1632},
-		{DATA_FLAG_DISABLED, 1624},
-		{DATA_HEALTH, 244},
-		{DATA_PLAYER_FOV, 2876},
-		{DATA_PLAYER_CURRENTWEAPON, 2052},
-		{DATA_PLAYER_ANGLE, 804},
-		{DATA_ROUND_TIMER_STATE, 888}
-		#elif _LINUX
-		{DATA_TEAM, 536},
-		{DATA_FLAG_OWNER, 1668},
-		{DATA_FLAG_STATUS, 1652},
-		{DATA_FLAG_DISABLED, 1644},
-		{DATA_HEALTH, 264},
-		{DATA_PLAYER_FOV, 2896},
-		{DATA_PLAYER_CURRENTWEAPON, 2072},
-		{DATA_PLAYER_ANGLE, 824},
-		{DATA_ROUND_TIMER_STATE, 908}
-		#endif
+	public:
+		EntityData(EntityDataType dataType, const char* entityClass, const char* entityAttr)
+			: DataType(dataType), EntityClass(entityClass), EntityAttr(entityAttr) {}
+	
+	public:
+		int Offset = -1;
+
+		inline EntityDataType GetDataType() const
+		{
+			return DataType;
+		}
+
+		inline const char* GetEntityClass() const
+		{
+			return EntityClass;
+		}
+
+		inline const char* GetEntityAttr() const
+		{
+			return EntityAttr;
+		}
+
+	private:
+		const EntityDataType DataType;
+		const char* EntityClass;
+		const char* EntityAttr;
 	};
+
+	std::vector<EntityData> _EntityOffsets =
+	{
+		{DATA_TEAM, "CBaseEntity", "m_iTeamNum"},
+		{DATA_FLAG_OWNER, "CCaptureFlag", "m_hPrevOwner"},
+		{DATA_FLAG_STATUS, "CCaptureFlag", "m_nFlagStatus"},
+		{DATA_FLAG_DISABLED, "CCaptureFlag", "m_bDisabled"},
+		{DATA_HEALTH, "CBaseObject", "m_iHealth"},
+		{DATA_PLAYER_FOV, "CBasePlayer", "m_iFOV"},
+		{DATA_PLAYER_CURRENTWEAPON, "CBaseCombatCharacter", "m_hActiveWeapon"},
+		{DATA_PLAYER_ANGLE, "CBaseEntity", "m_angRotation"},
+		{DATA_ROUND_TIMER_STATE, "CTeamRoundTimer", "m_nState"}
+	};
+
+	void UpdateOffsets();
 };
 
 extern EntityDataProvider* _EntityDataProvider;

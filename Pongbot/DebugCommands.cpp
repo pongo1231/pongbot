@@ -1,17 +1,17 @@
 #include <stdafx.h>
-#include "../IConVarBase.h"
-#include "../Util.h"
-#include "Entity/EntityProvider.h"
-#include "Entity/CTFFlag.h"
-#include "Entity/Player.h"
-#include "Entity/EntityDataProvider.h"
+#include "IConVarBase.h"
+#include "Util.h"
+#include "TF2/Entity/EntityProvider.h"
+#include "TF2/Entity/CTFFlag.h"
+#include "TF2/Entity/Player.h"
+#include "TF2/Entity/EntityDataProvider.h"
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/edict.h>
 #include <hlsdk/public/server_class.h>
 #include <fstream>
 
-extern IVEngineServer *Engine;
-extern IServerGameDLL *Server;
+extern IVEngineServer* Engine;
+extern IServerGameDLL* Server;
 
 CON_COMMAND(pongbot_debug_dumpoffsets, "Dumps all offsets to addons/pongbot/offsets_dump.txt")
 {
