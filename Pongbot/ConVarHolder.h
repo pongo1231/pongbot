@@ -31,6 +31,7 @@ public:
 	ConVar* CVarBotEnableBrain = nullptr;
 	ConVar* CVarBotMedTargetDistance = nullptr;
 	ConVar* CVarBotMovementIgnoreRadius = nullptr;
+	ConVar* CVarBotSniperCampTime = nullptr;
 };
 
 extern ConVarHolder* _ConVarHolder;

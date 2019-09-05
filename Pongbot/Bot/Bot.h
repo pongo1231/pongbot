@@ -22,27 +22,63 @@ public:
 	const char* Name;
 
 	void Think();
-	Player GetPlayer() const;
-	edict_t* GetEdict() const;
-	bool Exists() const;
-	Vector GetPos() const;
-	Vector GetEarPos() const;
+	inline Player GetPlayer() const
+	{
+		return _Player;
+	}
+	inline edict_t* GetEdict() const
+	{
+		return _Edict;
+	}
+	inline bool Exists() const
+	{
+		return _Player.Exists();
+	}
+	inline Vector GetPos() const
+	{
+		return _Player.GetPos();
+	}
+	inline Vector GetEarPos() const
+	{
+		return _Player.GetHeadPos();
+	}
 	QAngle GetViewAngle() const;
 	void SetViewAngle(QAngle angle);
-	TFClass GetClass() const;
-	TFTeam GetTeam() const;
+	inline TFClass GetClass() const
+	{
+		return _CurrentClass;
+	}
+	inline TFTeam GetTeam() const
+	{
+		return _Player.GetTeam();
+	}
 	void SetMovement(Vector2D movement);
-	Vector2D GetMovement() const;
+	inline Vector2D GetMovement() const
+	{
+		return _Movement;
+	}
 	void SetPressedButtons(int pressedButtons);
-	int GetPressedButtons() const;
-	WeaponSlot GetSelectedWeaponSlot() const;
+	inline int GetPressedButtons() const
+	{
+		return _PressedButtons;
+	}
+	inline WeaponSlot GetSelectedWeaponSlot() const
+	{
+		return _SelectedWeaponSlot;
+	}
 	void SetSelectedWeapon(WeaponSlot weapon);
 	BotVisibles* GetBotVisibles() const;
-	bool IsDead() const;
+	inline bool IsDead() const
+	{
+		return _Player.IsDead();
+	}
 	void ChangeClass(TFClass tfClass);
 	void ExecClientCommand(const char* command, ...) const;
 	WeaponSlot GetIdealWeaponForRange(float range) const;
-	IServerEntity* GetIServerEntity() const;
+	inline IServerEntity* GetIServerEntity() const
+	{
+		return _Edict->GetIServerEntity();
+	}
 
 private:
 	Player _Player;

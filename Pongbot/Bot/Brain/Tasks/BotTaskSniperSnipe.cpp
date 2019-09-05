@@ -4,31 +4,46 @@
 #include "../../../Util.h"
 #include "../../../ConVarHolder.h"
 #include "../../../TF2/Entity/Player.h"
+#include "../../../Waypoint/WaypointManager.h"
 #include <metamod/ISmmAPI.h>
 #include <hlsdk/public/edict.h>
 
-extern IVEngineServer* Engine;
+extern WaypointManager* _WaypointManager;
 
 bool BotTaskSniperSnipe::_OnThink()
 {
 	// TODO: Check for ammo!!!!
 
 	Bot* bot = _GetBot();
+	Vector botPos = bot->GetPos();
 	Player botInfo(bot->GetEdict());
 
 	BotVisibleTarget visibleTarget = bot->GetBotVisibles()->GetMostImportantTarget();
 	Vector visibleTargetPos;
 
+	// Zoom in if not already done so
+	if (!botInfo.IsSniperZoomedIn())
+	{
+		_AddBotPressedButton(IN_ATTACK2);
+	}
+
 	if (!visibleTarget.IsValid())
 	{
-		return true;
+		if (Engine->Time() > _CampTime)
+		{
+			return true;
+		}
+		else if (_PrefAngle != QAngle(0.f, 0.f, 0.f))
+		{
+			_SetBotAngle(_PrefAngle);
+		}
 	}
 	else
 	{
 		visibleTargetPos = visibleTarget.GetPos();
 
 		// Abort if enemy too near
-		if (/*visibleTarget &&*/ Util::DistanceToNoZ(bot->GetPos(), visibleTargetPos) < _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
+		if (Util::DistanceToNoZ(botPos, visibleTargetPos) < _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat())
 		{
 			return true;
 		}
@@ -47,12 +62,6 @@ bool BotTaskSniperSnipe::_OnThink()
 			_ShootTime = engineTime + Util::RandomFloat(20.f, 40.f);
 			_AddBotPressedButton(IN_ATTACK);
 		}
-	}
-
-	// Zoom in if not already done so
-	if (!botInfo.IsSniperZoomedIn())
-	{
-		_AddBotPressedButton(IN_ATTACK2);
 	}
 
 	_OverrideBotViewAngle();

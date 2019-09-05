@@ -61,7 +61,7 @@ bool Main::Load(PluginId id, ISmmAPI* ismm, char* error, size_t maxlen, bool lat
 	WaypointManager::Init();
 	BotManager::Init();
 
-	Util::Log("Initialization done! (Took %.2f seconds)", Engine->Time() - initStartTime);
+	Util::Log("Initialization done! (Took %.0f ms)", (Engine->Time() - initStartTime) * 1000);
 	Util::Log("!!! Don't forget to set sv_quota_stringcmdspersecond to some high value (e.g. 999999) to prevent crashes !!!");
 
 	return true;
@@ -82,7 +82,7 @@ bool Main::Unload(char* error, size_t len)
 
 	SH_REMOVE_HOOK(IServerGameDLL, GameFrame, Server, SH_MEMBER(this, &Main::_OnGameFrame), true);
 
-	Util::Log("Shutdown successful! (Took %.2f seconds)", Engine->Time() - destroyStartTime);
+	Util::Log("Shutdown successful! (Took %.0f ms)", (Engine->Time() - destroyStartTime) * 1000);
 
 	return true;
 }

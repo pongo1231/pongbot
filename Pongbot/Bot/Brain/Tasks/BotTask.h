@@ -17,17 +17,42 @@ protected:
 	bool _AbortTask;
 	bool _DoStuckPosPanicHandling;
 
-	void _BotMoveTo(Vector pos);
-	void _SetBotLookAt(Vector pos);
-	void _OverrideBotViewAngle();
-	void _AddBotPressedButton(int button);
-	void _SetBotWeaponSlot(WeaponSlot weaponSlot);
-	Bot* _GetBot() const;
+	inline void _BotMoveTo(Vector pos)
+	{
+		_BotTargetPos = pos;
+	}
+	inline void _SetBotLookAt(Vector pos)
+	{
+		_BotTargetAngle = {0.f, 0.f, 0.f};
+		_BotTargetLookAt = pos;
+	}
+	inline void _SetBotAngle(QAngle angle)
+	{
+		_BotTargetLookAt = {0.f, 0.f, 0.f};
+		_BotTargetAngle = angle;
+	}
+	inline void _OverrideBotViewAngle()
+	{
+		_IsBotViewAngleOverriden = true;
+	}
+	inline void _AddBotPressedButton(int button)
+	{
+		_BotPressedButtons |= button;
+	}
+	inline void _SetBotWeaponSlot(WeaponSlot weaponSlot)
+	{
+		_WeaponSlot = weaponSlot;
+	}
+	inline Bot* _GetBot() const
+	{
+		return _Bot;
+	}
 
 private:
 	Bot* _Bot;
 	Vector _BotTargetPos;
 	Vector _BotTargetLookAt;
+	QAngle _BotTargetAngle;
 	bool _IsBotViewAngleOverriden;
 	int _BotPressedButtons;
 	WeaponSlot _WeaponSlot;

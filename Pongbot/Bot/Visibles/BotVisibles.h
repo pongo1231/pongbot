@@ -37,22 +37,22 @@ struct BotVisibleTarget
 		_Valid = target.IsValid();
 	}
 
-	Vector GetPos() const
+	inline Vector GetPos() const
 	{
 		return _Pos;
 	}
 
-	BotTargetPriority GetPriority() const
+	inline BotTargetPriority GetPriority() const
 	{
 		return _Priority;
 	}
 
-	Entity GetEntity() const
+	inline Entity GetEntity() const
 	{
 		return _Entity;
 	}
 
-	bool IsValid() const
+	inline bool IsValid() const
 	{
 		return _Valid;
 	}

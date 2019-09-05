@@ -4,10 +4,17 @@
 #include "../../ConVarHolder.h"
 #include "Tasks/BotTaskSniperSnipe.h"
 #include "../../Util.h"
+#include "../../Waypoint/WaypointManager.h"
+#include "../../Waypoint/WaypointNodeFlagTypes.h"
+#include "Tasks/BotTaskGoto.h"
+
+extern WaypointManager* _WaypointManager;
 
 void BotBrainSniper::_OnThink()
 {
 	Bot* bot = _GetBot();
+	Vector botPos = bot->GetPos();
+	TFTeam botTeam = bot->GetTeam();
 
 	if (!_IsCurrentBotTaskOfType(typeid(BotTaskSniperSnipe)) && bot->GetPlayer().IsSniperZoomedIn())
 	{
@@ -17,9 +24,27 @@ void BotBrainSniper::_OnThink()
 
 	BotVisibleTarget visibleTarget = bot->GetBotVisibles()->GetMostImportantTarget();
 	if (visibleTarget.IsValid()
-		&& Util::DistanceToNoZ(bot->GetPos(), visibleTarget.GetPos()) > _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat()
+		&& Util::DistanceToNoZ(botPos, visibleTarget.GetPos()) > _ConVarHolder->CVarBotWeaponLongRangeDist->GetFloat()
 		&& !_IsCurrentBotTaskOfType(typeid(BotTaskSniperSnipe)))
 	{
 		_SetBotTask(new BotTaskSniperSnipe(bot));
+	}
+
+	if (!_HasBotTask())
+	{
+		WaypointNode* node = _WaypointManager->GetClosestWaypointNode(botPos, -1, botTeam == TEAM_RED ? NODE_SNIPER_CAMP_RED
+			: NODE_SNIPER_CAMP_BLUE);
+		if (node)
+		{
+			_SetBotTask(new BotTaskSniperSnipe(bot, _ConVarHolder->CVarBotSniperCampTime->GetInt(), node->OptimalViewAngle));
+		}
+		else
+		{
+			node = _WaypointManager->GetRandomWaypointNode(botTeam == TEAM_RED ? ~NODE_SNIPER_CAMP_RED : ~NODE_SNIPER_CAMP_BLUE);
+			if (node)
+			{
+				_SetBotTask(new BotTaskGoto(bot, node->GetPos()));
+			}
+		}
 	}
 }

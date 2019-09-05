@@ -120,11 +120,6 @@ void BotBrain::OnObjectiveUpdate()
 	_ClearTask();
 }
 
-Bot *BotBrain::_GetBot() const
-{
-	return _ABot;
-}
-
 void BotBrain::_SetBotTask(BotTask* task)
 {
 	_ClearTask();

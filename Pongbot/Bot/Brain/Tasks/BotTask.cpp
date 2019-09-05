@@ -8,6 +8,7 @@
 bool BotTask::OnThink()
 {
 	_BotTargetPos.Zero();
+	_BotTargetAngle = {0.f, 0.f, 0.f};
 	_IsBotViewAngleOverriden = false;
 	_BotPressedButtons = 0;
 
@@ -41,7 +42,20 @@ bool BotTask::OnThink()
 	{
 		_Bot->SetMovement(Util::GetIdealMoveSpeedsToPos(_Bot, _BotTargetPos));
 	}
-	_Bot->SetViewAngle(Util::GetLookAtAngleForPos(_Bot, _BotTargetLookAt));
+
+	if (!_BotTargetLookAt.IsZero())
+	{
+		_Bot->SetViewAngle(Util::GetLookAtAngleForPos(_Bot, _BotTargetLookAt));
+	}
+	else if (_BotTargetAngle != QAngle(0.f, 0.f, 0.f))
+	{
+		_Bot->SetViewAngle(_BotTargetAngle);
+	}
+	else
+	{
+		_Bot->SetViewAngle({0.f, 0.f, 0.f});
+	}
+	
 	_Bot->SetPressedButtons(_BotPressedButtons);
 	_Bot->SetSelectedWeapon(_WeaponSlot);
 
@@ -99,34 +113,4 @@ void BotTask::_CheckIfStuckInPos()
 		_PosStuckTries = 0;
 		_LastPos = currentPos;
 	}
-}
-
-void BotTask::_BotMoveTo(Vector pos)
-{
-	_BotTargetPos = pos;
-}
-
-void BotTask::_SetBotLookAt(Vector pos)
-{
-	_BotTargetLookAt = pos;
-}
-
-void BotTask::_OverrideBotViewAngle()
-{
-	_IsBotViewAngleOverriden = true;
-}
-
-void BotTask::_AddBotPressedButton(int button)
-{
-	_BotPressedButtons |= button;
-}
-
-void BotTask::_SetBotWeaponSlot(WeaponSlot weaponSlot)
-{
-	_WeaponSlot = weaponSlot;
-}
-
-Bot* BotTask::_GetBot() const
-{
-	return _Bot;
 }

@@ -22,7 +22,10 @@ public:
 	virtual void OnObjectiveUpdate();
 
 protected:
-	Bot* _GetBot() const;
+	inline Bot* _GetBot() const
+	{
+		return _ABot;
+	}
 	void _SetBotTask(BotTask* task);
 	bool _HasBotTask() const;
 	bool _IsCurrentBotTaskOfType(const std::type_info& type) const;

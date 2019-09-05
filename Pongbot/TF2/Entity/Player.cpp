@@ -12,32 +12,17 @@ Player::Player(Entity entity) : Entity(entity), _IIPlayerInfo(IIPlayerInfoManage
 
 float Player::GetHealth() const
 {
-	if (!Exists())
-	{
-		return -1;
-	}
-
-	return _IIPlayerInfo->GetHealth();
+	return Exists() ? _IIPlayerInfo->GetHealth() : -1;
 }
 
 float Player::GetFOV() const
 {
-	if (!Exists())
-	{
-		return -1;
-	}
-
-	return _EntityDataProvider->GetDataFromEntity<float>(*this, DATA_PLAYER_FOV);
+	return Exists() ? _EntityDataProvider->GetDataFromEntity<float>(*this, DATA_PLAYER_FOV) : -1;
 }
 
 bool Player::IsSniperZoomedIn() const
 {
-	if (!Exists())
-	{
-		return false;
-	}
-
-	return GetFOV() == 20.f;
+	return Exists() ? GetFOV() <= 21.f : false;
 }
 
 Vector Player::GetHeadPos() const

@@ -75,31 +75,6 @@ void Bot::Think()
 	_IBotController->RunPlayerMove(&cmd);
 }
 
-Player Bot::GetPlayer() const
-{
-	return _Player;
-}
-
-edict_t *Bot::GetEdict() const
-{
-	return _Edict;
-}
-
-bool Bot::Exists() const
-{
-	return _Player.Exists();
-}
-
-Vector Bot::GetPos() const
-{
-	return _Player.GetPos();
-}
-
-Vector Bot::GetEarPos() const
-{
-	return _Player.GetHeadPos();
-}
-
 QAngle Bot::GetViewAngle() const
 {
 	return _IBotController->GetLocalAngles();
@@ -114,16 +89,6 @@ void Bot::SetViewAngle(QAngle angle)
 	}
 
 	_TargetViewAngle = angle;
-}
-
-TFClass Bot::GetClass() const
-{
-	return _CurrentClass;
-}
-
-TFTeam Bot::GetTeam() const
-{
-	return _Player.GetTeam();
 }
 
 BotVisibles* Bot::GetBotVisibles() const
@@ -142,24 +107,9 @@ void Bot::SetMovement(Vector2D movement)
 	_Movement = movement;
 }
 
-Vector2D Bot::GetMovement() const
-{
-	return _Movement;
-}
-
 void Bot::SetPressedButtons(int pressedButtons)
 {
 	_PressedButtons = pressedButtons;
-}
-
-int Bot::GetPressedButtons() const
-{
-	return _PressedButtons;
-}
-
-WeaponSlot Bot::GetSelectedWeaponSlot() const
-{
-	return _SelectedWeaponSlot;
 }
 
 void Bot::SetSelectedWeapon(WeaponSlot weapon)
@@ -183,11 +133,6 @@ void Bot::SetSelectedWeapon(WeaponSlot weapon)
 		_SelectedWeaponSlot = weapon;
 		ExecClientCommand("use %s", weaponName);
 	}
-}
-
-bool Bot::IsDead() const
-{
-	return _Player.IsDead();
 }
 
 void Bot::ChangeClass(TFClass tfClass)
@@ -252,11 +197,6 @@ WeaponSlot Bot::GetIdealWeaponForRange(float range) const
 	{
 		return longRangeWeaponSlot;
 	}
-}
-
-IServerEntity* Bot::GetIServerEntity() const
-{
-	return _Edict->GetIServerEntity();
 }
 
 void Bot::_SwitchToFittingTeam()
