@@ -2,7 +2,7 @@ CXX ?= gcc
 
 # path #
 SRC_PATH = Pongbot
-BUILD_PATH = build
+BUILD_PATH = build.linux
 BIN_PATH = $(BUILD_PATH)/bin
 
 # executable # 

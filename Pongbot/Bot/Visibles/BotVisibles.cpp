@@ -141,11 +141,17 @@ void BotVisibles::_AddEntity(Entity entity, Vector edictPos, uint8_t insertIndex
 bool BotVisibles::_IsTargetInSight(Vector targetPos) const
 {
 	/* Thanks to rcbot2 */
+	Vector vectorLOS = targetPos - _MBot->GetEarPos();
+	float vectorLOSlen = vectorLOS.Length();
+	if (vectorLOSlen == 0.f)
+	{
+		// Whatever
+		return false;
+	}
+	vectorLOS /= vectorLOSlen;
+	
 	Vector vectorForward;
 	AngleVectors(_MBot->GetViewAngle(), &vectorForward);
-
-	Vector vectorLOS = targetPos - _MBot->GetEarPos();
-	vectorLOS /= vectorLOS.Length();
 
 	float dot = DotProduct(vectorLOS, vectorForward);
 	return dot > 0.1f;
