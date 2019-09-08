@@ -33,7 +33,7 @@ bool BotTaskSniperSnipe::_OnThink()
 		{
 			return true;
 		}
-		else if (_PrefAngle != QAngle(0.f, 0.f, 0.f))
+		else if (_PrefAngle.Length() > 0.f)
 		{
 			_SetBotAngle(_PrefAngle);
 		}

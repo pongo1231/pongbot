@@ -1,21 +1,6 @@
 #include "stdafx.h"
 #include "WaypointNode.h"
 
-unsigned int WaypointNode::GetId() const
-{
-	return _Id;
-}
-
-Vector WaypointNode::GetPos() const
-{
-	return _Pos;
-}
-
-std::vector<WaypointNode*> WaypointNode::GetConnectedNodes() const
-{
-	return _ConnectedNodes;
-}
-
 bool WaypointNode::ConnectToNode(WaypointNode* node, bool bidirectional)
 {
 	if (!node || node == this)
@@ -99,9 +84,4 @@ bool WaypointNode::SetRange(float range)
 	}
 
 	return false;
-}
-
-float WaypointNode::GetRange() const
-{
-	return _Range;
 }

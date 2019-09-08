@@ -14,15 +14,27 @@ public:
 	unsigned int Flags;
 	QAngle OptimalViewAngle;
 
-	unsigned int GetId() const;
-	Vector GetPos() const;
-	std::vector<WaypointNode*> GetConnectedNodes() const;
+	inline unsigned int GetId() const
+	{
+		return _Id;
+	}
+	inline Vector GetPos() const
+	{
+		return _Pos;
+	}
+	inline std::vector<WaypointNode*> GetConnectedNodes() const
+	{
+		return _ConnectedNodes;
+	}
 	bool ConnectToNode(WaypointNode* node, bool bidirectional = false);
 	bool IsConnectedToNode(WaypointNode* node, bool directly = true);
 	void UnconnectNode(WaypointNode* node, bool bidirectional = false);
 	void UnconnectAllNodes(bool bidirectional = false);
 	bool SetRange(float range);
-	float GetRange() const;
+	inline float GetRange() const
+	{
+		return _Range;
+	}
 
 private:
 	unsigned int _Id;

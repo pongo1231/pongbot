@@ -47,7 +47,7 @@ bool BotTask::OnThink()
 	{
 		_Bot->SetViewAngle(Util::GetLookAtAngleForPos(_Bot, _BotTargetLookAt));
 	}
-	else if (_BotTargetAngle != QAngle(0.f, 0.f, 0.f))
+	else if (_BotTargetAngle.Length() > 0.f)
 	{
 		_Bot->SetViewAngle(_BotTargetAngle);
 	}

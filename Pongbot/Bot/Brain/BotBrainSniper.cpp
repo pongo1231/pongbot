@@ -32,9 +32,9 @@ void BotBrainSniper::_OnThink()
 
 	if (!_HasBotTask())
 	{
-		WaypointNode* node = _WaypointManager->GetClosestWaypointNode(botPos, -1, botTeam == TEAM_RED ? NODE_SNIPER_CAMP_RED
-			: NODE_SNIPER_CAMP_BLUE);
-		if (node)
+		WaypointNode* node = _WaypointManager->GetClosestWaypointNode(botPos);
+		if (node && node->Flags & (botTeam == TEAM_RED ? NODE_SNIPER_CAMP_RED : NODE_SNIPER_CAMP_BLUE)
+			&& botPos.DistTo(node->GetPos()) < node->GetRange())
 		{
 			_SetBotTask(new BotTaskSniperSnipe(bot, _ConVarHolder->CVarBotSniperCampTime->GetInt(), node->OptimalViewAngle));
 		}

@@ -246,7 +246,7 @@ static Player _CheckCommandTargetPlayerExists(bool log = true)
 	Player foundPlayer;
 	for (Player player : Util::GetAllPlayers())
 	{
-		if (player.Exists())
+		if (player.Exists() && !player.IsBot())
 		{
 			foundPlayer = player;
 			break;

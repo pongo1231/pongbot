@@ -15,14 +15,9 @@ float Player::GetHealth() const
 	return Exists() ? _IIPlayerInfo->GetHealth() : -1;
 }
 
-float Player::GetFOV() const
-{
-	return Exists() ? _EntityDataProvider->GetDataFromEntity<float>(*this, DATA_PLAYER_FOV) : -1;
-}
-
 bool Player::IsSniperZoomedIn() const
 {
-	return Exists() ? GetFOV() <= 21.f : false;
+	return Exists() ? _EntityDataProvider->GetDataFromEntity<float>(*this, DATA_PLAYER_FOV) == 20.f : false;
 }
 
 Vector Player::GetHeadPos() const

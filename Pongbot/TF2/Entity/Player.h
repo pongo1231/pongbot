@@ -12,7 +12,6 @@ public:
 
 public:
 	float GetHealth() const;
-	float GetFOV() const;
 	bool IsSniperZoomedIn() const;
 	Vector GetHeadPos() const;
 	bool IsReloading() const;

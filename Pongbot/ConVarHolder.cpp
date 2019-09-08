@@ -32,7 +32,7 @@ void ConVarHolder::Init()
 		_ConVarHolder->CVarBotEnableBrain = new ConVar("pongbot_bot_brain_enabled", "1", 0, "Bots should be able to think");
 		_ConVarHolder->CVarBotMedTargetDistance = new ConVar("pongbot_bot_med_targetdistance", "100.0", 0, "Distance med bots should have to heal target");
 		_ConVarHolder->CVarBotMovementIgnoreRadius = new ConVar("pongbot_bot_movement_ignoreradius", "5.0", 0, "Radius around bot where movement tasks should be ignored");
-		_ConVarHolder->CVarBotSniperCampTime = new ConVar("pongbot_bot_sniper_camp_time", "60", 0, "Time in seconds after which snipers might consider moving to another camping spot (if one exists)");		
+		_ConVarHolder->CVarBotSniperCampTime = new ConVar("pongbot_bot_sniper_camp_time", "60", 0, "Time in seconds after which snipers might consider moving to another camping spot (if one exists)");			
 	}
 }
 
